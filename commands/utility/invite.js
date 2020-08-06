@@ -1,4 +1,4 @@
-const utils = require('../../utilss');
+const utils = require('../../utils');
 
 module.exports.run = async (client, message, args) => {  
 
