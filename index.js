@@ -1,46 +1,30 @@
-const { Client, Collection } = require("discord.js");
-const economy = require("./economy.js");
+const Sentry = require('@sentry/node')
+Sentry.init({ dsn: process.env.SENTRY_DSN })
 
-const config = require("./config.json");
-const fs = require("fs");
-const client = new Client({
-    disableEveryone: true
-});
+const { readFileSync } = require('fs')
 
-client.commands = new Collection();
-client.aliases = new Collection();
+require('moment')
+require('moment-duration-format')
 
-client.categories = fs.readdirSync("./commands/");
+// Initialize Canvas
+let canvasLoaded = false
+try {
+  require('canvas')
+  require('./src/utils/CanvasUtils.js').initializeHelpers()
+  canvasLoaded = true
+} catch (e) {}
 
-["command"].forEach(handler => {
-    require(`./handlers/${handler}`)(client);
-});
+// Initialize client
+const CLIENT_OPTIONS = {
+  fetchAllMembers: false,
+  enableEveryone: false,
+  canvasLoaded
+}
 
-client.on("ready", () => {
-    console.log(`Hi, ${client.user.username} is now online!`);
-    
-client.user.setActivity('-help', { type: 'WATCHING' });
+console.log(readFileSync('bigtitle.txt', 'utf8').toString())
 
-});
-
-client.on("message", async message => {
-    const prefix = "-";
-
-    if (message.author.bot) return;
-    if (!message.guild) return;
-    if (!message.content.startsWith(prefix)) return;
-    if (!message.member) message.member = await message.guild.fetchMember(message);
-
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const cmd = args.shift().toLowerCase();
-    
-    if (cmd.length === 0) return;
-    
-    let command = client.commands.get(cmd);
-    if (!command) command = client.commands.get(client.aliases.get(cmd));
-
-    if (command) 
-        command.run(client, message, args);
-});
-
-client.login(process.env.token);
+const Switchblade = require('./src/Switchblade.js')
+const client = new Switchblade(CLIENT_OPTIONS)
+client.on('debug', (...args) => console.log('debug', ...args))
+client.on('rateLimit', (...args) => console.log('rateLimit', ...args))
+client.initialize()
