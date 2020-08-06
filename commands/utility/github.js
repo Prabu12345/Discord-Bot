@@ -1,5 +1,5 @@
 const got = require('got');
-const utils = require('../utils');
+const utils = require('../../utils');
 
 module.exports.run = async (client, message, args) => {
   
