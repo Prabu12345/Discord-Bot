@@ -1,1 +1,0 @@
-exports.release = process.env.token;
