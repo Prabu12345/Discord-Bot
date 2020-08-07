@@ -1,3 +1,0 @@
-[submodule "src/web/HTTPS-Proxy"]
-	path = src/web/HTTPS-Proxy
-	url = https://github.com/CampbellCrowley/HTTPS-Proxy.git
