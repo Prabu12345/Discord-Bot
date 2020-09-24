@@ -5,7 +5,7 @@ module.exports = class QueueCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'queue',
-      aliases: ['song-list', 'next-songs'],
+      aliases: ['song-list', 'q'],
       group: 'music',
       memberName: 'queue',
       guildOnly: true,
@@ -18,6 +18,7 @@ module.exports = class QueueCommand extends Command {
       return message.say('Try again after the trivia has ended');
     if (message.guild.musicData.queue.length == 0)
       return message.say('There are no songs in queue!');
+    const video = message.guild.musicData.nowPlaying;
     const titleArray = [];
     /* eslint-disable */
     // display only first 10 items in queue
@@ -27,9 +28,10 @@ module.exports = class QueueCommand extends Command {
     /* eslint-enable */
     var queueEmbed = new MessageEmbed()
       .setColor('#ff7373')
-      .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
+      .setTitle(`Now Playing : ${video.title}`)
+      .setDescription(`**Music Queue - ${message.guild.musicData.queue.length} items**`);
     for (let i = 0; i < titleArray.length; i++) {
-      queueEmbed.addField(`${i + 1}:`, `${titleArray[i]}`);
+      queueEmbed.addField(`${i + 1}. ${titleArray[i]}`);
     }
     return message.say(queueEmbed);
   }

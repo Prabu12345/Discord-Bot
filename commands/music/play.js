@@ -9,7 +9,7 @@ module.exports = class PlayCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'play',
-      aliases: ['play-song', 'add'],
+      aliases: ['p', 'add'],
       memberName: 'play',
       group: 'music',
       description: 'Play any song or playlist from youtube',
@@ -167,12 +167,12 @@ module.exports = class PlayCommand extends Command {
     const embed = new MessageEmbed()
       .setColor('#e9f931')
       .setTitle('Choose a song by commenting a number between 1 and 5')
-      .addField('Song 1', vidNameArr[0])
-      .addField('Song 2', vidNameArr[1])
-      .addField('Song 3', vidNameArr[2])
-      .addField('Song 4', vidNameArr[3])
-      .addField('Song 5', vidNameArr[4])
-      .addField('Exit', 'exit');
+      .addField(vidNameArr[0])
+      .addField(vidNameArr[1])
+      .addField(vidNameArr[2])
+      .addField(vidNameArr[3])
+      .addField(vidNameArr[4])
+      .addField('Exit', 'Write "exit" to cancel music');
     var songEmbed = await message.channel.send({ embed });
     message.channel
       .awaitMessages(

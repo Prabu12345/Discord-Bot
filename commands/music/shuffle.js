@@ -40,9 +40,9 @@ module.exports = class ShuffleQueueCommand extends Command {
     if (titleArray.length < 10) numOfEmbedFields = titleArray.length;
     var queueEmbed = new MessageEmbed()
       .setColor('#ff7373')
-      .setTitle('New Music Queue');
+      .setDescription('**New Music Queue**');
     for (let i = 0; i < numOfEmbedFields; i++) {
-      queueEmbed.addField(`${i + 1}:`, `${titleArray[i]}`);
+      queueEmbed.addField(`${i + 1}. ${titleArray[i]}`);
     }
     return message.say(queueEmbed);
   }
