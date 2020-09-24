@@ -13,7 +13,7 @@ module.exports = class NowPlayingCommand extends Command {
     });
   }
 
-  run(message) {
+  run(message, queue) {
     if (
       (!message.guild.musicData.isPlaying &&
         !message.guild.musicData.nowPlaying) ||
@@ -22,7 +22,6 @@ module.exports = class NowPlayingCommand extends Command {
       return message.say('There is no song playing right now!');
     }
 
-    const video = message.guild.musicData.nowPlaying;
     let description;
     if (video.duration == 'Live Stream') {
       description = 'Live Stream';
@@ -35,6 +34,10 @@ module.exports = class NowPlayingCommand extends Command {
       .setColor('#e9f931')
       .setTitle(video.title)
       .setDescription(description);
+      videoEmbed.setFooter(
+        `Request by ${queue[0].memberDisplayName}`,
+        queue[0].memberAvatar
+      );
     message.channel.send(videoEmbed);
     return;
   }
