@@ -167,12 +167,10 @@ module.exports = class PlayCommand extends Command {
     const embed = new MessageEmbed()
       .setColor('#e9f931')
       .setTitle('Choose a song by commenting a number between 1 and 5')
-      .addField(vidNameArr[0])
-      .addField(vidNameArr[1])
-      .addField(vidNameArr[2])
-      .addField(vidNameArr[3])
-      .addField(vidNameArr[4])
-      .addField('Exit', 'Write "exit" to cancel music');
+      for (let i = 0; i < vidNameArr.length; i++) {
+        embed.setDescription(`${i + 1}: ${vidNameArr[i]}`);
+      }
+      embed.addFooter('Type "exit" to cancel music');
     var songEmbed = await message.channel.send({ embed });
     message.channel
       .awaitMessages(

@@ -28,10 +28,10 @@ module.exports = class QueueCommand extends Command {
     /* eslint-enable */
     var queueEmbed = new MessageEmbed()
       .setColor('#ff7373')
-      .setTitle(`Now Playing : ${video.title}`)
-      .setDescription(`**Music Queue - ${message.guild.musicData.queue.length} items**`);
+      .setTitle(`**Music Queue - ${message.guild.musicData.queue.length} items**`)
+      queueEmbed.setFooter(`Now Playing : **${video.title}**`)
     for (let i = 0; i < titleArray.length; i++) {
-      queueEmbed.addField(`${i + 1}. ${titleArray[i]}`);
+      queueEmbed.setDescription(`${i + 1}. ${titleArray[i]}`);
     }
     return message.say(queueEmbed);
   }
