@@ -284,8 +284,9 @@ module.exports = class PlayCommand extends Command {
             queue.shift();
             return;
           })
-          .on('finish', function() {
+          .on('finish', function(videoEmbed) {
             queue = message.guild.musicData.queue;
+            videoEmbed.delete({ timeout: 3000 }).catch(console.error);
             if (queue.length >= 1) {
               classThis.playSong(queue, message);
               return;
