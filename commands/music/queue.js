@@ -31,7 +31,7 @@ module.exports = class QueueCommand extends Command {
       .setTitle(`**Music Queue - ${message.guild.musicData.queue.length} items**`)
       queueEmbed.setFooter(`Now Playing : **${video.title}**`)
     for (let i = 0; i < titleArray.length; i++) {
-      queueEmbed.setDescription(`${i + 1}. ${titleArray[i]}`);
+      queueEmbed.setDescription(`${i + 1}. ${titleArray[i]}`).join("/n");
     }
     return message.say(queueEmbed);
   }

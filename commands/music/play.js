@@ -170,7 +170,7 @@ module.exports = class PlayCommand extends Command {
       for (let i = 0; i < vidNameArr.length; i++) {
         embed.setDescription(`${i + 1}: ${vidNameArr[i]}`);
       }
-      embed.addFooter('Type "exit" to cancel music');
+      embed.setFooter('Type "exit" to cancel music');
     var songEmbed = await message.channel.send({ embed });
     message.channel
       .awaitMessages(
