@@ -5,9 +5,7 @@ const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
 const db = require("quick.db");
 
-prf.cl = new discords.Message
-
-let sprefix = db.get(`prefix_${prf.cl.guild.id}`)
+let sprefix = db.get(`prefix_${discords.Message.guild.id}`)
   if(sprefix === null) sprefix = prefix;
 
 Structures.extend('Guild', function(Guild) {
