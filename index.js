@@ -2,6 +2,10 @@ const { CommandoClient } = require('discord.js-commando');
 const { Structures } = require('discord.js');
 const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
+const db = require("quick.db");
+
+let sprefix = db.get(`prefix_${message.guild.id}`)
+  if(sprefix === null) sprefix = prefix;
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
@@ -12,7 +16,7 @@ Structures.extend('Guild', function(Guild) {
         isPlaying: false,
         nowPlaying: null,
         songDispatcher: null,
-        volume: 1
+        volume: 0.5
       };
       this.triviaData = {
         isTriviaRunning: false,
@@ -26,7 +30,7 @@ Structures.extend('Guild', function(Guild) {
 });
 
 const client = new CommandoClient({
-  commandPrefix: prefix,
+  commandPrefix: sprefix,
   owner: discord_owner_id // value comes from config.json
 });
 
@@ -48,7 +52,7 @@ client.registry
 
 client.once('ready', () => {
   console.log('Ready!');
-  client.user.setActivity(`${prefix}help`, {
+  client.user.setActivity(`${sprefix}help`, {
     type: 'WATCHING',
     url: 'https://discord.gg/n5yFCYSkQn'
   });
