@@ -1,11 +1,11 @@
 const { CommandoClient } = require('discord.js-commando');
 const { Structures } = require('discord.js');
-const { message } = require('discord.js')
+const { Message } = require('discord.js')
 const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
 const db = require("quick.db");
 
-let sprefix = db.get(`prefix_${message.guild.id}`)
+let sprefix = db.get(`prefix_${Message.guild.id}`)
   if(sprefix === null) sprefix = prefix;
 
 Structures.extend('Guild', function(Guild) {
