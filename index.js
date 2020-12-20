@@ -1,12 +1,17 @@
 const { CommandoClient } = require('discord.js-commando');
 const { Structures } = require('discord.js');
 const discords = require('discord.js')
+const clientt = new discords.client
 const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
 const db = require("quick.db");
 
-let sprefix = db.get(`prefix_${discords.Message.guild.id}`)
+client.login(process.env.token);
+
+clientt.on('message', async (message) => {
+  let sprefix = db.get(`prefix_${message.guild.id}`)
   if(sprefix === null) sprefix = prefix;
+});
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
@@ -80,4 +85,4 @@ client.on('voiceStateUpdate', async (___, newState) => {
   }
 });
 
-client.login(process.env.token);
+
