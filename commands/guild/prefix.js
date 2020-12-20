@@ -1,5 +1,6 @@
 const db = require("quick.db")
 const { prefix } = require("../../config.json")
+const { Command } = require('discord.js-commando');
 
 module.exports = class PrefixCommand extends Command {
   constructor(client) {
