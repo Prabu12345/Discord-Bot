@@ -47,7 +47,7 @@ module.exports = class PlayCommand extends Command {
     if (
       // if the user entered a youtube playlist url
       query.match(
-        /^(?!.*\?.*\bv=)https:\/\/www\.youtube\.com\/.*\?.*\blist=.*$/
+        /^.*(youtu.be\/|list=)([^#\&\?]*).*/gi
       )
     ) {
       const playlist = await youtube.getPlaylist(query).catch(function() {
@@ -117,7 +117,7 @@ module.exports = class PlayCommand extends Command {
         message.say('There was a problem getting the video you provided!');
         return;
       });
-      // // can be uncommented if you don't want the bot to play live streams
+      // can be uncommented if you don't want the bot to play live streams
       // if (video.raw.snippet.liveBroadcastContent === 'live') {
       //   return message.say("I don't support live streams!");
       // }
@@ -332,7 +332,7 @@ module.exports = class PlayCommand extends Command {
     let duration = this.formatDuration(video.duration);
     if (duration == '00:00') duration = 'Live Stream';
     return {
-      url: `https://www.youtube.com/watch?v=${video.raw.id}`,
+      url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
       rawDuration: video.duration,
       duration,
