@@ -1,17 +1,7 @@
 const { CommandoClient } = require('discord.js-commando');
 const { Structures } = require('discord.js');
-const discords = require('discord.js')
-const clientt = new discords.client
 const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
-const db = require("quick.db");
-
-client.login(process.env.token);
-
-clientt.on('message', async (message) => {
-  let sprefix = db.get(`prefix_${message.guild.id}`)
-  if(sprefix === null) sprefix = prefix;
-});
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
@@ -36,7 +26,7 @@ Structures.extend('Guild', function(Guild) {
 });
 
 const client = new CommandoClient({
-  commandPrefix: sprefix,
+  commandPrefix: prefix,
   owner: discord_owner_id // value comes from config.json
 });
 
@@ -58,7 +48,7 @@ client.registry
 
 client.once('ready', () => {
   console.log('Ready!');
-  client.user.setActivity(`${sprefix}help`, {
+  client.user.setActivity(`${prefix}help`, {
     type: 'WATCHING',
     url: 'https://discord.gg/n5yFCYSkQn'
   });
@@ -85,4 +75,4 @@ client.on('voiceStateUpdate', async (___, newState) => {
   }
 });
 
-
+client.login(process.env.token);
