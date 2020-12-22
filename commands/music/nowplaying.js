@@ -35,11 +35,11 @@ module.exports = class NowPlayingCommand extends Command {
       .setThumbnail(video.thumbnail)
       .setColor('#e9f931')
       .setTitle(video.title)
-      .setDescription(description);
-      videoEmbed.setFooter(
-        `Requested by ${queue[0].memberDisplayName}`,
-        queue[0].memberAvatar
-      );
+      .setDescription(description)
+      //.setFooter(
+        //`Requested by ${queue[0].memberDisplayName}`,
+        //queue[0].memberAvatar
+      //);
     message.channel.send(videoEmbed);
     return;
   }
