@@ -13,8 +13,9 @@ module.exports = class NowPlayingCommand extends Command {
     });
   }
 
-  run(message, queue) {
+  run(message) {
     const video = message.guild.musicData.nowPlaying;
+    const queue = message.guild.musicData.queue;
 
     if (
       (!message.guild.musicData.isPlaying &&
@@ -36,10 +37,10 @@ module.exports = class NowPlayingCommand extends Command {
       .setColor('#e9f931')
       .setTitle(video.title)
       .setDescription(description);
-      videoEmbed.setFooter(
-        `Requested by ${message.guild.musicData.queue[0].memberDisplayName}`,
-        message.guild.musicData.queue[0].memberAvatar
-      );
+      //videoEmbed.setFooter(
+        //`Requested by ${queue[0].memberDisplayName}`,
+        //queue[0].memberAvatar
+      //);
     message.channel.send(videoEmbed);
     return;
   }
