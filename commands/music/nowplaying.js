@@ -14,6 +14,8 @@ module.exports = class NowPlayingCommand extends Command {
   }
 
   run(message, queue) {
+    const video = message.guild.musicData.nowPlaying;
+
     if (
       (!message.guild.musicData.isPlaying &&
         !message.guild.musicData.nowPlaying) ||
