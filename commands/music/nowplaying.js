@@ -13,9 +13,8 @@ module.exports = class NowPlayingCommand extends Command {
     });
   }
 
-  run(message) {
+  run(message, queue) {
     const video = message.guild.musicData.nowPlaying;
-    const queue = message.guild.musicData.queue;
 
     if (
       (!message.guild.musicData.isPlaying &&
