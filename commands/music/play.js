@@ -327,7 +327,6 @@ module.exports = class PlayCommand extends Command {
         `Requested by ${queue[0].memberDisplayName}`,
         queue[0].memberAvatar
       );
-
     if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
     var playingMessage = await queue.textChannel.send(videoEmbed);
 
