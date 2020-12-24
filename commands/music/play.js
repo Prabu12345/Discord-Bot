@@ -252,9 +252,9 @@ module.exports = class PlayCommand extends Command {
           'Please try again and enter a number between 1 and 5 or exit'
         );
         return;
-      });
+      });  
   }
-  static playSong(queue, message) {
+  static playSong(video, queue, message) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
     queue[0].voiceChannel
       .join()
@@ -279,12 +279,13 @@ module.exports = class PlayCommand extends Command {
                 queue[0].memberAvatar
               );
             if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
-            message.say(videoEmbed);
+            var playingMessage = await queue.textChannel.send(videoEmbed);
             message.guild.musicData.nowPlaying = queue[0];
             queue.shift();
             return;
           })  
           .on('finish', function() {
+            if (collector && !collector.end) collector.stop();
             queue = message.guild.musicData.queue;
             if (queue.length >= 1) {
               classThis.playSong(queue, message);
@@ -326,7 +327,28 @@ module.exports = class PlayCommand extends Command {
           message.guild.me.voice.channel.leave();
         }
         return;
-      });
+      }); 
+    
+      const videoEmbed = new MessageEmbed()
+      .setThumbnail(queue[0].thumbnail)
+      .setColor('#e9f931')
+      .addField('Now Playing:', queue[0].title)
+      .addField('Duration:', queue[0].duration)
+      .setFooter(
+        `Requested by ${queue[0].memberDisplayName}`,
+        queue[0].memberAvatar
+      );
+    if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
+    var playingMessage = await queue.textChannel.send(videoEmbed);
+
+    var collector = playingMessage.createReactionCollector(filter, {
+      time: video.duration > 0 ? video.duration * 1000 : 600000
+    });
+
+    collector.on("end", () => { 
+      playingMessage.reactions.removeAll().catch(console.error);
+      playingMessage.delete({ timeout: 3000 }).catch(console.error);
+    });
   }
   static constructSongObj(video, voiceChannel, user) {
     let duration = this.formatDuration(video.duration);
@@ -355,4 +377,6 @@ module.exports = class PlayCommand extends Command {
     }`;
     return duration;
   }
+
+  static 
 };
