@@ -253,6 +253,7 @@ module.exports = class PlayCommand extends Command {
         );
         return;
       });  
+  
   }
   static async playSong(queue, message, video) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
@@ -318,6 +319,7 @@ module.exports = class PlayCommand extends Command {
         return;
 
       }); 
+
       const videoEmbed = new MessageEmbed()
       .setThumbnail(queue[0].thumbnail)
       .setColor('#e9f931')
@@ -328,7 +330,7 @@ module.exports = class PlayCommand extends Command {
         queue[0].memberAvatar
       );
     if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
-    var playingMessage = await queue.textChannel.send(videoEmbed);
+    var playingMessage = await message.channel.send(videoEmbed);
 
     var collector = playingMessage.createReactionCollector(filter, {
       time: video.duration > 0 ? video.duration * 1000 : 600000
@@ -366,5 +368,4 @@ module.exports = class PlayCommand extends Command {
     return duration;
   }
 
-  static 
 };
