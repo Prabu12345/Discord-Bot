@@ -81,6 +81,7 @@ module.exports = class PlayCommand extends Command {
             //
             message.guild.musicData.queue.push(
               PlayCommand.constructSongObj(
+                rawDuration,
                 video,
                 voiceChannel,
                 message.member.user
@@ -255,7 +256,7 @@ module.exports = class PlayCommand extends Command {
       });  
   
   }
-  static async playSong(queue, message, video) {
+  static async playSong(queue, message) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
     queue[0].voiceChannel
       .join()
@@ -331,11 +332,11 @@ module.exports = class PlayCommand extends Command {
       );
     if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
     var playingMessage = await message.channel.send(videoEmbed);
-
-    const videos = message.guild.musicData.nowPlaying;
+    
+        
     const filter = (user) => user.id !== message.client.user.id;
     var collector = playingMessage.createReactionCollector(filter, {
-      time: videos.duration > 0 ? videos.duration * 1000 : 600000
+      time: queue[0].rawDuration > 0 ? queue[0].rawDuration * 1000 : 600000
     });
 
     collector.on("end", () => { 
