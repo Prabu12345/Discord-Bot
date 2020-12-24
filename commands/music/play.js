@@ -254,7 +254,7 @@ module.exports = class PlayCommand extends Command {
         return;
       });  
   }
-  static playSong(queue, message, video) {
+  static async playSong(queue, message, video) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
     queue[0].voiceChannel
       .join()
