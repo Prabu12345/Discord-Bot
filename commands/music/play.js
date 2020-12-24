@@ -332,9 +332,10 @@ module.exports = class PlayCommand extends Command {
     if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
     var playingMessage = await message.channel.send(videoEmbed);
 
+    const videos = message.guild.musicData.nowPlaying;
     const filter = (user) => user.id !== message.client.user.id;
     var collector = playingMessage.createReactionCollector(filter, {
-      time: video.duration > 0 ? video.duration * 1000 : 600000
+      time: videos.duration > 0 ? videos.duration * 1000 : 600000
     });
 
     collector.on("end", () => { 
