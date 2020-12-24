@@ -254,7 +254,7 @@ module.exports = class PlayCommand extends Command {
         return;
       });  
   }
-  static async playSong(video, queue, message) {
+  static playSong(queue, message, video) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
     queue[0].voiceChannel
       .join()
@@ -316,8 +316,8 @@ module.exports = class PlayCommand extends Command {
           message.guild.me.voice.channel.leave();
         }
         return;
+
       }); 
-    
       const videoEmbed = new MessageEmbed()
       .setThumbnail(queue[0].thumbnail)
       .setColor('#e9f931')
