@@ -14,7 +14,7 @@ module.exports = class NowPlayingCommand extends Command {
   }
 
   run(message, queue) {
-    const videoo = message.guild.musicData.nowPlaying;
+    const video = message.guild.musicData.nowPlaying;
 
     if (
       (!message.guild.musicData.isPlaying &&
@@ -25,19 +25,20 @@ module.exports = class NowPlayingCommand extends Command {
     }
 
     let description;
-    if (videoo.duration == 'Live Stream') {
+    if (video.duration == 'Live Stream') {
       description = 'Live Stream';
     } else {
       description = NowPlayingCommand.playbackBar(message, video);
     }
+
     const videoEmbed = new MessageEmbed()
-      .setThumbnail(videoo.thumbnail)
+      .setThumbnail(video.thumbnail)
       .setColor('#e9f931')
-      .setTitle(videoo.title)
+      .setTitle(video.title)
       .setDescription(description)
       //.setFooter(
-        //`Requested by ${queue[0].user.username}`,
-        //queue[0].user.avatarURL('webp', false, 16)
+        //`Requested by ${queue[0].memberDisplayName}`,
+        //queue[0].memberAvatar
       //);
     message.channel.send(videoEmbed);
     return;
