@@ -269,17 +269,6 @@ module.exports = class PlayCommand extends Command {
           .on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             dispatcher.setVolume(message.guild.musicData.volume);
-            const videoEmbed = new MessageEmbed()
-              .setThumbnail(queue[0].thumbnail)
-              .setColor('#e9f931')
-              .addField('Now Playing:', queue[0].title)
-              .addField('Duration:', queue[0].duration)
-              .setFooter(
-                `Requested by ${queue[0].memberDisplayName}`,
-                queue[0].memberAvatar
-              );
-            if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
-            var playingMessage = await queue.textChannel.send(videoEmbed);
             message.guild.musicData.nowPlaying = queue[0];
             queue.shift();
             return;
@@ -338,6 +327,7 @@ module.exports = class PlayCommand extends Command {
         `Requested by ${queue[0].memberDisplayName}`,
         queue[0].memberAvatar
       );
+
     if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
     var playingMessage = await queue.textChannel.send(videoEmbed);
 
@@ -346,8 +336,7 @@ module.exports = class PlayCommand extends Command {
     });
 
     collector.on("end", () => { 
-      playingMessage.reactions.removeAll().catch(console.error);
-      playingMessage.delete({ timeout: 3000 }).catch(console.error);
+      playingMessage.delete({ timeout: 2000 }).catch(console.error);
     });
   }
   static constructSongObj(video, voiceChannel, user) {
