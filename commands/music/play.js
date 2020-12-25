@@ -84,8 +84,8 @@ module.exports = class PlayCommand extends Command {
                 video,
                 voiceChannel,
                 rawDuration,
-                memberAvatar,
                 memberDisplayName,
+                memberAvatar,
                 message.member.user
               )
             );
@@ -221,8 +221,8 @@ module.exports = class PlayCommand extends Command {
                 video,
                 voiceChannel,
                 rawDuration,
-                memberAvatar,
                 memberDisplayName,
+                memberAvatar,
                 message.member.user
               )
             );
