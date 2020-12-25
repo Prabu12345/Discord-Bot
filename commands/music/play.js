@@ -84,6 +84,8 @@ module.exports = class PlayCommand extends Command {
                 rawDuration,
                 video,
                 voiceChannel,
+                memberDisplayName,
+                memberAvatar,
                 message.member.user
               )
             );
@@ -133,7 +135,7 @@ module.exports = class PlayCommand extends Command {
       //   );
       // }
       message.guild.musicData.queue.push(
-        PlayCommand.constructSongObj(video, voiceChannel, message.member.user)
+        PlayCommand.constructSongObj(rawDuration, video, memberDisplayName, memberAvatar, voiceChannel, message.member.user)
       );
       if (
         message.guild.musicData.isPlaying == false ||
