@@ -112,7 +112,7 @@ module.exports = class PlayCommand extends Command {
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor('#e9f931')
-        .setDescription(`Playlist - :musical_note:  ${playlist.title} :musical_note: has been added to queue`)
+        .setDescription(`Playlist - :musical_note:  **${playlist.title}** :musical_note: has been added to queue`)
         message.say(addvideoEmbed);
         return;
       }
@@ -157,7 +157,7 @@ module.exports = class PlayCommand extends Command {
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor('#e9f931')
-        .setDescription(`${video.title} added to queue`)
+        .setDescription(`**${video.title}** added to queue`)
         message.say(addvideoEmbed);
         return;
       }
@@ -251,7 +251,7 @@ module.exports = class PlayCommand extends Command {
               }
               const addvideoEmbed = new MessageEmbed()
               .setColor('#e9f931')
-              .setDescription(`${video.title} added to queue`)
+              .setDescription(`**${video.title}** added to queue`)
               message.say(addvideoEmbed);
               return;
             }
