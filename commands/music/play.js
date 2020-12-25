@@ -81,11 +81,9 @@ module.exports = class PlayCommand extends Command {
             //
             message.guild.musicData.queue.push(
               PlayCommand.constructSongObj(
+                rawDuration,
                 video,
                 voiceChannel,
-                rawDuration,
-                memberDisplayName,
-                memberAvatar,
                 message.member.user
               )
             );
@@ -218,11 +216,9 @@ module.exports = class PlayCommand extends Command {
             // }
             message.guild.musicData.queue.push(
               PlayCommand.constructSongObj(
+                rawDuration,
                 video,
                 voiceChannel,
-                rawDuration,
-                memberDisplayName,
-                memberAvatar,
                 message.member.user
               )
             );
