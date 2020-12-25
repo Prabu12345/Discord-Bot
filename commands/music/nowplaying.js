@@ -13,7 +13,7 @@ module.exports = class NowPlayingCommand extends Command {
     });
   }
 
-  run(message, queue) {
+  run(message) {
     const video = message.guild.musicData.nowPlaying;
 
     if (
@@ -36,10 +36,10 @@ module.exports = class NowPlayingCommand extends Command {
       .setColor('#e9f931')
       .setTitle(video.title)
       .setDescription(description)
-      //.setFooter(
-        //`Requested by ${video.message.member.user.username}`,
-        //video.message.member.user.avatarURL('webp', false, 16)
-      //);
+      .setFooter(
+        `Requested by ${queue[0].memberDisplayName}`,
+        queue[0].memberAvatar
+      );
     message.channel.send(videoEmbed);
     return;
   }
