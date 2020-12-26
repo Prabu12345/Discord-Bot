@@ -48,7 +48,7 @@ client.registry
 
 client.once('ready', () => {
   console.log('Ready!');
-  client.user.setActivity(`${prefix}help`, {
+  client.user.setActivity(`Hehee | ${prefix}help`, {
     type: 'LISTENING',
     url: 'https://discord.gg/n5yFCYSkQn'
   });

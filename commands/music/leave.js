@@ -37,10 +37,12 @@ module.exports = class LeaveCommand extends Command {
       setTimeout(() => {
         message.guild.musicData.songDispatcher.end();
       }, 100);
+      message.react('👌')
       return;
     } else {
       message.guild.musicData.queue.length = 0;
       message.guild.musicData.songDispatcher.end();
+      message.react('👌')
       return;
     }
   }

@@ -347,7 +347,7 @@ module.exports = class PlayCommand extends Command {
       const videoEmbed = new MessageEmbed()
       .setThumbnail(queue[0].thumbnail)
       .setColor('#e9f931')
-      .addField('Now Playing:', queue[0].title)
+      .addField('Now Playing:', `[${queue[0].title}](${queue[0].url}`)
       .addField('Duration:', queue[0].duration)
       .setFooter(
         `Requested by ${queue[0].memberDisplayName}`,
@@ -363,7 +363,7 @@ module.exports = class PlayCommand extends Command {
     });
 
     collector.on("end", () => { 
-      playingMessage.delete({ timeout: 2000 }).catch(console.error);
+      playingMessage.delete({ timeout: 1000 }).catch(console.error);
     });
   }
   static constructSongObj(video, voiceChannel, user) {
