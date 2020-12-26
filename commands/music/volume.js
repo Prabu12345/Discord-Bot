@@ -16,10 +16,10 @@ module.exports = class VolumeCommand extends Command {
       args: [
         {
           key: 'wantedVolume',
-          prompt: 'What volume would you like to set? from 1 to 200',
+          prompt: 'What volume would you like to set? from 1 to 100',
           type: 'integer',
           validate: function(wantedVolume) {
-            return wantedVolume >= 1 && wantedVolume <= 200;
+            return wantedVolume >= 1 && wantedVolume <= 100;
           }
         }
       ]
@@ -28,22 +28,32 @@ module.exports = class VolumeCommand extends Command {
 
   run(message, { wantedVolume }) {
     const voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) return message.reply('Join a channel and try again');
+    const errvolumeEmbed = new MessageEmbed()
+    .setColor('#e9f931')
+    .setDescription('Join a channel and try again')
+    if (!voiceChannel) return message.reply(errvolumeEmbed);
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      return message.reply('There is no song playing right now!');
+      const errvolumeEmbed = new MessageEmbed()
+      .setColor('#e9f931')
+      .setDescription('There is no song playing right now!')
+      return message.reply(errvolumeEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      const errvolumeEmbed = new MessageEmbed()
+      .setColor('#e9f931')
+      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.reply(errvolumeEmbed);
       return;
     }
     const volume = wantedVolume / 100;
     message.guild.musicData.volume = volume;
     message.guild.musicData.songDispatcher.setVolume(volume);
-    message.say(`I set the volume to: ${wantedVolume}%`);
+    const volumeEmbed = new MessageEmbed()
+      .setColor('#e9f931')
+      .setDescription(`I set the volume to: **${wantedVolume}%**`)
+    message.say(volumeEmbed);
   }
 };
