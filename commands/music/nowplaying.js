@@ -38,7 +38,7 @@ module.exports = class NowPlayingCommand extends Command {
       .setDescription(description)
       .setFooter(
         `Requested by ${video.memberDisplayName}`,
-        video.memberAvatar('webp', false, 16)
+        video.memberAvatar
       );
     message.channel.send(videoEmbed);
     return;
