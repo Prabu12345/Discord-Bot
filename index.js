@@ -12,7 +12,7 @@ Structures.extend('Guild', function(Guild) {
         isPlaying: false,
         nowPlaying: null,
         songDispatcher: null,
-        volume: 0.5
+        volume: 50
       };
       this.triviaData = {
         isTriviaRunning: false,

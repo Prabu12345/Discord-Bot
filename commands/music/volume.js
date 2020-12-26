@@ -49,7 +49,7 @@ module.exports = class VolumeCommand extends Command {
       message.reply(errvolumeEmbed);
       return;
     }
-    const volume = wantedVolume / 100;
+    const volume = wantedVolume;
     message.guild.musicData.volume = volume;
     message.guild.musicData.songDispatcher.setVolume(volume);
     const volumeEmbed = new MessageEmbed()

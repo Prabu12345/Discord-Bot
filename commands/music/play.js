@@ -293,7 +293,7 @@ module.exports = class PlayCommand extends Command {
           )
           .on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
-            dispatcher.setVolume(message.guild.musicData.volume);
+            dispatcher.setVolume(message.guild.musicData.volume / 100);
             message.guild.musicData.nowPlaying = queue[0];
             queue.shift();
             return;
