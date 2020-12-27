@@ -20,7 +20,7 @@ module.exports = class QueueCommand extends Command {
       const video = message.guild.musicData.nowPlaying;
       var errqueueembed = new MessageEmbed()
         .setColor('#ff7373')
-        .setTitle(`Music Queue - ${message.guild.musicData.queue.length - 1} items`)
+        .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`)
         .setDescription('There are no songs in queue!')
         .setFooter(`Now Playing : ${video.title}`);
       return message.say(errqueueembed);

@@ -27,12 +27,12 @@ module.exports = class ShuffleQueueCommand extends Command {
       return;
     }
 
-    if (message.guild.musicData.queue.length < 1)
+    if (message.guild.musicData.queue.length < 1) {
       return message.say('There are no songs in queue');
-
+    }
     shuffleQueue(message.guild.musicData.queue);
-
-    return message.react('🔀');
+    message.react('🔀');
+    return;
   }
 };
 
