@@ -30,5 +30,6 @@ module.exports = class SkipCommand extends Command {
       return message.reply(`You can't skip a trivia! Use end-trivia`);
     }
     message.guild.musicData.songDispatcher.end();
+    message.react('⏭️');
   }
 };
