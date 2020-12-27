@@ -20,7 +20,7 @@ module.exports = class VolumeCommand extends Command {
           prompt: 'What volume would you like to set? from 1 to 100',
           type: 'integer',
           validate: function(wantedVolume) {
-            return wantedVolume >= 1 && wantedVolume <= 100;
+            return wantedVolume >= 1 && wantedVolume <= 200;
           }
         }
       ]
@@ -47,6 +47,12 @@ module.exports = class VolumeCommand extends Command {
       .setColor('#e9f931')
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
       message.reply(errvolumeEmbed);
+      return;
+    } else if (wantedVolume >= 100) {
+      const errvolumeEmbed = new MessageEmbed()
+      .setColor('#e9f931')
+      .setDescription('You cant set the volume above 100%')
+      message.reply(errvolumeEmbed)
       return;
     }
     const volume = wantedVolume;
