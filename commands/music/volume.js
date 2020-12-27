@@ -49,9 +49,9 @@ module.exports = class VolumeCommand extends Command {
       message.reply(errvolumeEmbed);
       return;
     }
-    const volume = wantedVolume / 100;
+    const volume = wantedVolume;
     message.guild.musicData.volume = volume;
-    message.guild.musicData.songDispatcher.setVolume(volume);
+    message.guild.musicData.songDispatcher.setVolume(volume / 100);
     const volumeEmbed = new MessageEmbed()
       .setColor('#e9f931')
       .setDescription(`I set the volume to: **${wantedVolume}%**`)
