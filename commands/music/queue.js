@@ -16,8 +16,15 @@ module.exports = class QueueCommand extends Command {
   run(message) {
     if (message.guild.triviaData.isTriviaRunning)
       return message.say('Try again after the trivia has ended');
-    if (message.guild.musicData.queue.length == 0)
-      return message.say('There are no songs in queue!');
+    if (message.guild.musicData.queue.length == 0) {
+      const video = message.guild.musicData.nowPlaying;
+      var errqueueembed = new MessageEmbed()
+        .setColor('#ff7373')
+        .setTitle(`Music Queue - ${message.guild.musicData.queue.length - 1} items`)
+        .setDescription('There are no songs in queue!')
+        .setFooter(`Now Playing : ${video.title}`);
+      return message.say(errqueueembed);
+    }
     const titleArray = [];
     const video = message.guild.musicData.nowPlaying;
     /* eslint-disable */
