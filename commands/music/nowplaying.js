@@ -35,7 +35,7 @@ module.exports = class NowPlayingCommand extends Command {
       .setThumbnail(video.thumbnail)
       .setColor('#e9f931')
       .setTitle(video.title)
-      .setDescription(`Volume ${message.guild.musicData.volume}%`)
+      .setDescription(`Volume ${message.guild.musicData.volume}% | Loop ${message.guild.musicData.loop}`)
       .addField('Duration', description)
       .setFooter(
         `Requested by ${video.memberDisplayName}`,
