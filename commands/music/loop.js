@@ -12,7 +12,7 @@ module.exports = class LoopCommand extends Command {
         {
           key: 'numOfTimesToLoop',
           type: 'string',
-          prompt: 'How many times do you want to loop the song?'
+          prompt: 'Loop **one** for looped current song, loop **all** for loopied all queue'
         }
       ]
     });
@@ -34,14 +34,16 @@ module.exports = class LoopCommand extends Command {
       );
       return;
     }
-    message.guild.musicData.loop = numOfTimesToLoop
 
-    if (message.guild.musicData.loop == 'one') {
-      message.say('Looped One track')
-    } else if (message.guild.musicData.loop == 'all') {
-      message.say('Looped All Track')
-    } else if (message.guild.musicData.loop == 'off') {
+    if (numOfTimesToLoop == 'one') {
+      message.say('Looped **One track**, **loop off** if you want to stop looping')
+      message.guild.musicData.loop = numOfTimesToLoop
+    } else if (numOfTimesToLoop == 'all') {
+      message.say('Looped **All track**, **loop off** if you want to stop looping')
+      message.guild.musicData.loop = numOfTimesToLoop
+    } else if (numOfTimesToLoop == 'off') {
       message.say('Loop off')
+      message.guild.musicData.loop = numOfTimesToLoop
     };
     return;
   }
