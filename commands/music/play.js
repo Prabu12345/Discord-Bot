@@ -209,14 +209,8 @@ module.exports = class PlayCommand extends Command {
         );
         if (message.guild.musicData.isPlaying == false) {
           message.guild.musicData.isPlaying = true;
-          if (songEmbed) {
-            songEmbed.delete();
-          }
           PlayCommand.playSong(message.guild.musicData.queue, message);
         } else if (message.guild.musicData.isPlaying == true) {
-          if (songEmbed) {
-            songEmbed.delete();
-          }
           const addvideoEmbed = new MessageEmbed()
           .setColor('#e9f931')
           .setDescription(`**${video.title}** added to queue`)
@@ -225,9 +219,6 @@ module.exports = class PlayCommand extends Command {
         }
       })
       .catch(function() {
-        if (songEmbed) {
-          songEmbed.delete();
-        }
         const errvideoEmbed = new MessageEmbed()
         .setColor('#e9f931')
         .setDescription('An error has occured when trying to get the video ID from youtube')
