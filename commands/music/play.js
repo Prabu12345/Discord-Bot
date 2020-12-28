@@ -172,7 +172,7 @@ module.exports = class PlayCommand extends Command {
       await message.say(errvideoEmbed);
       return;
     });
-    console.log(`I got ${videos.length} videos`);
+    console.log(`I got ${videos.id} videos`);
     if (videos.length < 1 || !videos) {
       const errvideoEmbed = new MessageEmbed()
       .setColor('#e9f931')
