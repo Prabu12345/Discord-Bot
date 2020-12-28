@@ -179,7 +179,7 @@ module.exports = class PlayCommand extends Command {
       return;
     }
         youtube
-          .getVideoByID(videos[1].id)
+          .getVideoByID(videos.id)
           .then(video => {
             // // can be uncommented if you don't want the bot to play live streams
             // if (video.raw.snippet.liveBroadcastContent === 'live') {
