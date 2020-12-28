@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Youtube = require('simple-youtube-api');
 const { youtubeAPI } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
-const { playSong } = require('./play')
+const { playSong, constructSongObj } = require('./play')
 
 module.exports = class searchCommand extends Command {
   constructor(client) {
@@ -31,7 +31,7 @@ module.exports = class searchCommand extends Command {
       ]
     });
   }
-  
+
   async run(message, { query }) {
     const voiceChannel = message.member.voice.channel;
     const videos = await youtube.searchVideos(query, 5).catch(async function() {
@@ -80,7 +80,9 @@ module.exports = class searchCommand extends Command {
           songEmbed.delete();
           return;
         }
-        youtube.getVideoByID(videos[videoIndex - 1].id).then(function(video) {
+        youtube
+          .getVideoByID(videos[videoIndex - 1].id)
+          .then(function(video) {
             // // can be uncommented if you don't want the bot to play live streams
             // if (video.raw.snippet.liveBroadcastContent === 'live') {
             //   songEmbed.delete();
@@ -101,7 +103,7 @@ module.exports = class searchCommand extends Command {
             //   );
             // }
             message.guild.musicData.queue.push(
-              searchCommand.constructSongObj(
+              constructSongObj(
                 video,
                 voiceChannel,
                 message.member.user
@@ -145,20 +147,5 @@ module.exports = class searchCommand extends Command {
         message.say(errvideoEmbed);
         return;
       });  
-  }
-
-  static constructSongObj(video, voiceChannel, user) {
-    let duration = this.formatDuration(video.duration);
-    if (duration == '00:00') duration = 'Live Stream';
-    return {
-      url: `https://youtube.com/watch?v=${video.raw.id}`,
-      title: video.title,
-      rawDuration: video.duration,
-      duration,
-      thumbnail: video.thumbnails.high.url,
-      voiceChannel,
-      memberDisplayName: user.username,
-      memberAvatar: user.avatarURL('webp', false, 16)
-    };
   }
 }
