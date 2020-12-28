@@ -32,7 +32,9 @@ const client = new CommandoClient({
 });
 
 client.registry
-  .registerDefaultTypes()
+  .registerDefaultTypes({
+    unknownCommand: false,
+  })
   .registerGroups([
     ['music', 'Music Command Group'],
     ['gifs', 'Gif Command Group'],
