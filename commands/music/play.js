@@ -164,21 +164,55 @@ module.exports = class PlayCommand extends Command {
     }
 
     // if user provided a song/video name
-    const videos = await youtube.searchVideos(query, 1).catch(async function() {
+    const videos = await youtube.searchVideos(query, 5).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor('#e9f931')
       .setDescription('There was a problem searching the video you requested :(')
       await message.say(errvideoEmbed);
       return;
     });
-    if (videos.length < 1 || !videos) {
+    if (videos.length < 5 || !videos) {
       const errvideoEmbed = new MessageEmbed()
       .setColor('#e9f931')
       .setDescription('I had some trouble finding what you were looking for, please try again or be more specific')
       message.say(errvideoEmbed);
       return;
     }
-    youtube.getVideoByID(videos.id).then(function(video) {
+    const vidNameArr = [];
+    for (let i = 0; i < videos.length; i++) {
+      vidNameArr.push(`${i + 1}: ${videos[i].title}`);
+    }
+    vidNameArr.push('exit');
+    const embed = new MessageEmbed()
+      .setColor('#e9f931')
+      .setTitle('Choose a song by commenting a number between 1 and 5')
+      .addField('Song 1', vidNameArr[0])
+      .addField('Song 2', vidNameArr[1])
+      .addField('Song 3', vidNameArr[2])
+      .addField('Song 4', vidNameArr[3])
+      .addField('Song 5', vidNameArr[4])
+      .addField('Exit', 'Write "exit" to cancel');
+    var songEmbed = await message.channel.send({ embed });
+    message.channel
+      .awaitMessages(
+        function(msg) {
+          return (msg.content > 0 && msg.content < 6) || msg.content === 'exit';
+        },
+        {
+          max: 1,
+          time: 60000,
+          errors: ['time']
+        }
+      )
+      .then(function(response) {
+        const videoIndex = parseInt(response.first().content);
+        if (response.first().content === 'exit') {
+          songEmbed.delete();
+          return;
+        }
+        youtube
+          .getVideoByID(videos[videoIndex - 1].id)
+          .then(function(video) {
             // // can be uncommented if you don't want the bot to play live streams
             // if (video.raw.snippet.liveBroadcastContent === 'live') {
             //   songEmbed.delete();
@@ -198,31 +232,52 @@ module.exports = class PlayCommand extends Command {
             //     'There are too many songs in the queue already, skip or wait a bit'
             //   );
             // }
-        message.guild.musicData.queue.push(
-          PlayCommand.constructSongObj(
-            video,
-            voiceChannel,
-            message.member.user
-          )
-        );
-        if (message.guild.musicData.isPlaying == false) {
-          message.guild.musicData.isPlaying = true;
-          PlayCommand.playSong(message.guild.musicData.queue, message);
-        } else if (message.guild.musicData.isPlaying == true) {
-          const addvideoEmbed = new MessageEmbed()
-          .setColor('#e9f931')
-          .setDescription(`**${video.title}** added to queue`)
-          message.say(addvideoEmbed);
-          return;
-        }
+            message.guild.musicData.queue.push(
+              PlayCommand.constructSongObj(
+                video,
+                voiceChannel,
+                message.member.user
+              )
+            );
+            if (message.guild.musicData.isPlaying == false) {
+              message.guild.musicData.isPlaying = true;
+              if (songEmbed) {
+                songEmbed.delete();
+              }
+              PlayCommand.playSong(message.guild.musicData.queue, message);
+            } else if (message.guild.musicData.isPlaying == true) {
+              if (songEmbed) {
+                songEmbed.delete();
+              }
+              const addvideoEmbed = new MessageEmbed()
+              .setColor('#e9f931')
+              .setDescription(`**${video.title}** added to queue`)
+              message.say(addvideoEmbed);
+              return;
+            }
+          })
+          .catch(function() {
+            if (songEmbed) {
+              songEmbed.delete();
+            }
+            const errvideoEmbed = new MessageEmbed()
+            .setColor('#e9f931')
+            .setDescription('An error has occured when trying to get the video ID from youtube')
+            message.say(errvideoEmbed);
+            return;
+          });
       })
       .catch(function() {
+        if (songEmbed) {
+          songEmbed.delete();
+        }
         const errvideoEmbed = new MessageEmbed()
         .setColor('#e9f931')
-        .setDescription('An error has occured when trying to get the video ID from youtube')
+        .setDescription('Please try again and enter a number between 1 and 5 or exit')
         message.say(errvideoEmbed);
         return;
-      });
+      });  
+  
   }
   static async playSong(queue, message) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
