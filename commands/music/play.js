@@ -178,9 +178,7 @@ module.exports = class PlayCommand extends Command {
       message.say(errvideoEmbed);
       return;
     }
-    youtube
-      .getVideoByID(videos.id)
-      .then(function(video) {
+    youtube.getVideoByID(videos.id).then(function(video) {
             // // can be uncommented if you don't want the bot to play live streams
             // if (video.raw.snippet.liveBroadcastContent === 'live') {
             //   songEmbed.delete();

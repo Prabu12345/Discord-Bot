@@ -1,7 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const Youtube = require('simple-youtube-api');
-const ytdl = require('ytdl-core');
 const { youtubeAPI } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 const { playSong } = require('./play')
@@ -32,8 +31,8 @@ module.exports = class searchCommand extends Command {
       ]
     });
   }
-
-  async run (message, { query } ) {
+  
+  async run(message, { query }) {
     const voiceChannel = message.member.voice.channel;
     const videos = await youtube.searchVideos(query, 5).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
@@ -81,9 +80,7 @@ module.exports = class searchCommand extends Command {
           songEmbed.delete();
           return;
         }
-        youtube
-          .getVideoByID(videos[videoIndex - 1].id)
-          .then(function(video) {
+        youtube.getVideoByID(videos[videoIndex - 1].id).then(function(video) {
             // // can be uncommented if you don't want the bot to play live streams
             // if (video.raw.snippet.liveBroadcastContent === 'live') {
             //   songEmbed.delete();
