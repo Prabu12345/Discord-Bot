@@ -33,16 +33,20 @@ module.exports = class LeaveCommand extends Command {
       return;
     } else if (message.guild.musicData.songDispatcher.paused) {
       message.guild.musicData.songDispatcher.resume();
+      message.guild.musicData.loop = 'off';
       message.guild.musicData.queue.length = 0;
       setTimeout(() => {
         message.guild.musicData.songDispatcher.end();
       }, 100);
       message.react('👌')
+      message.guild.me.voice.channel.leave();
       return;
     } else {
       message.guild.musicData.queue.length = 0;
+      message.guild.musicData.loop = 'off';
       message.guild.musicData.songDispatcher.end();
       message.react('👌')
+      message.guild.me.voice.channel.leave();
       return;
     }
   }

@@ -301,24 +301,71 @@ module.exports = class PlayCommand extends Command {
           .on('finish', function() {
             if (collector && !collector.end) collector.stop();
             queue = message.guild.musicData.queue;
-            if (queue.length >= 1) {
-              classThis.playSong(queue, message);
-              return;
-            } else {
-              message.guild.musicData.isPlaying = false;
-              message.guild.musicData.nowPlaying = null;
-              message.guild.musicData.songDispatcher = null;
-              if (message.guild.me.voice.channel) {
-                setTimeout(function onTimeOut() {
-                  if (
-                    message.guild.musicData.isPlaying == false &&
-                    message.guild.me.voice.channel
-                  ) {
-                    message.guild.me.voice.channel.leave();
-                  }
-                }, 90000);
+            if (message.guild.musicData.loop == 'one') {
+              for (let i = 0; i < 1; i++) {
+                message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
               }
-            }
+              if (queue.length >= 1) {
+                classThis.playSong(queue, message);
+                return;
+              } else {
+                message.guild.musicData.isPlaying = false;
+                message.guild.musicData.nowPlaying = null;
+                message.guild.musicData.songDispatcher = null;
+                if (message.guild.me.voice.channel) {
+                  setTimeout(function onTimeOut() {
+                    if (
+                      message.guild.musicData.isPlaying == false &&
+                      message.guild.me.voice.channel
+                    ) {
+                      message.guild.musicData.loop = 'off';
+                      message.guild.me.voice.channel.leave();
+                    }
+                  }, 90000);
+                }
+              }
+            } else if (message.guild.musicData.loop == 'all') {
+              message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
+              if (queue.length >= 1) {
+                classThis.playSong(queue, message);
+                return;
+              } else {
+                message.guild.musicData.isPlaying = false;
+                message.guild.musicData.nowPlaying = null;
+                message.guild.musicData.songDispatcher = null;
+                if (message.guild.me.voice.channel) {
+                  setTimeout(function onTimeOut() {
+                    if (
+                      message.guild.musicData.isPlaying == false &&
+                      message.guild.me.voice.channel
+                    ) {
+                      message.guild.musicData.loop = 'off';
+                      message.guild.me.voice.channel.leave();
+                    }
+                  }, 90000);
+                }
+              }
+            } else if (message.guild.musicData.loop == 'off') {
+              if (queue.length >= 1) {
+                classThis.playSong(queue, message);
+                return;
+              } else {
+                message.guild.musicData.isPlaying = false;
+                message.guild.musicData.nowPlaying = null;
+                message.guild.musicData.songDispatcher = null;
+                if (message.guild.me.voice.channel) {
+                  setTimeout(function onTimeOut() {
+                    if (
+                      message.guild.musicData.isPlaying == false &&
+                      message.guild.me.voice.channel
+                    ) {
+                      message.guild.musicData.loop = 'off';
+                      message.guild.me.voice.channel.leave();
+                    }
+                  }, 90000);
+                }
+              }
+            };  
           })
           .on('error', function(e) {
             message.say('Cannot play song');

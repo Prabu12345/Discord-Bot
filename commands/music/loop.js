@@ -11,8 +11,7 @@ module.exports = class LoopCommand extends Command {
       args: [
         {
           key: 'numOfTimesToLoop',
-          default: 1,
-          type: 'integer',
+          type: 'string',
           prompt: 'How many times do you want to loop the song?'
         }
       ]
@@ -35,17 +34,15 @@ module.exports = class LoopCommand extends Command {
       );
       return;
     }
+    message.guild.musicData.loop = numOfTimesToLoop
 
-    for (let i = 0; i < numOfTimesToLoop; i++) {
-      message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
-    }
-
-    // prettier-ignore
-    message.channel.send(
-      `${message.guild.musicData.nowPlaying.title} looped ${numOfTimesToLoop} ${
-        (numOfTimesToLoop == 1) ? 'time' : 'times'
-      }`
-    );
+    if (message.guild.musicData.loop == 'one') {
+      message.say('Looped One track')
+    } else if (message.guild.musicData.loop == 'all') {
+      message.say('Looped All Track')
+    } else if (message.guild.musicData.loop == 'off') {
+      message.say('Loop off')
+    };
     return;
   }
 };
