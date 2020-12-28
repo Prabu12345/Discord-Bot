@@ -164,7 +164,7 @@ module.exports = class PlayCommand extends Command {
     }
 
     // if user provided a song/video name
-    const videos = await youtube.searchVideos(query, 5).catch(async function() {
+    const videos = await youtube.searchVideos(query, 1).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor('#e9f931')
       .setDescription('There was a problem searching the video you requested :(')
@@ -179,8 +179,8 @@ module.exports = class PlayCommand extends Command {
       return;
     }
         youtube
-          .getVideoByID(videos.id)
-          .then(function(video) {
+          .getVideoByID(videos[1].id)
+          .then(video => {
             // // can be uncommented if you don't want the bot to play live streams
             // if (video.raw.snippet.liveBroadcastContent === 'live') {
             //   songEmbed.delete();
