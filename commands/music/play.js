@@ -171,7 +171,6 @@ module.exports = class PlayCommand extends Command {
       await message.say(errvideoEmbed);
       return;
     });
-    console.log(`I got ${videos.raw.id} videos`);
     if (videos.length < 1 || !videos) {
       const errvideoEmbed = new MessageEmbed()
       .setColor('#e9f931')
@@ -180,7 +179,7 @@ module.exports = class PlayCommand extends Command {
       return;
     }
         youtube
-          .getVideo(videos.url)
+          .getVideo(videos[0].id)
           .then(video => {
             // // can be uncommented if you don't want the bot to play live streams
             // if (video.raw.snippet.liveBroadcastContent === 'live') {
