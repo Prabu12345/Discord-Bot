@@ -33,6 +33,22 @@ module.exports = class searchCommand extends Command {
 
   async run(message, { query }) {
     const voiceChannel = message.member.voice.channel;
+    if (!voiceChannel) {
+      const errvideoEmbed = new MessageEmbed()
+      .setColor('#e9f931')
+      .setDescription('Join a channel and try again')
+      message.say(errvideoEmbed);
+      return;
+    }
+
+    if (message.guild.triviaData.isTriviaRunning == true) {
+      const errvideoEmbed = new MessageEmbed()
+      .setColor('#e9f931')
+      .setDescription('Please try after the trivia has ended')
+      message.say(errvideoEmbed);
+      return;
+    }
+
     const videos = await youtube.searchVideos(query, 5).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor('#e9f931')
@@ -146,6 +162,7 @@ module.exports = class searchCommand extends Command {
         message.say(errvideoEmbed);
         return;
       });  
+  
   }
   static async playSong(queue, message) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
@@ -308,4 +325,5 @@ module.exports = class searchCommand extends Command {
     }`;
     return duration;
   }
+
 }
