@@ -325,7 +325,7 @@ module.exports = class PlayCommand extends Command {
                 }
               }
             } else if (message.guild.musicData.loop == 'all') {
-              message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
+              message.guild.musicData.queue.push(message.guild.musicData.nowPlaying);
               if (queue.length >= 1) {
                 classThis.playSong(queue, message);
                 return;
