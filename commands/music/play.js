@@ -262,9 +262,6 @@ module.exports = class PlayCommand extends Command {
                 message.guild.musicData.isPlaying = false;
                 message.guild.musicData.nowPlaying = null;
                 message.guild.musicData.songDispatcher = null;
-                if (!message.guild.me.voice.channel) {
-                  message.guild.musicData.loop = 'off';
-                }
                 if (message.guild.me.voice.channel) {
                   setTimeout(function onTimeOut() {
                     if (
@@ -286,9 +283,6 @@ module.exports = class PlayCommand extends Command {
                 message.guild.musicData.isPlaying = false;
                 message.guild.musicData.nowPlaying = null;
                 message.guild.musicData.songDispatcher = null;
-                if (!message.guild.me.voice.channel) {
-                  message.guild.musicData.loop = 'off';
-                }
                 if (message.guild.me.voice.channel) {
                   setTimeout(function onTimeOut() {
                     if (
