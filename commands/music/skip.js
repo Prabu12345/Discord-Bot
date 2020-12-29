@@ -14,21 +14,27 @@ module.exports = class SkipCommand extends Command {
   }
 
   run(message) {
+    const errskipEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     const voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) return message.reply('Join a channel and try again');
+    if (!voiceChannel) {
+      errskipEmbed.setDescription('Join a channel and try again')
+      return message.say(errskipEmbed)
+    };
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      return message.reply('There is no song playing right now!');
+      errskipEmbed.setDescription('There is no song playing right now!')
+      return message.say(errskipEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      errskipEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.say(errskipEmbed);
       return;
     } else if (message.guild.triviaData.isTriviaRunning) {
-      return message.reply(`You can't skip a trivia! Use end-trivia`);
+      errskipEmbed.setDescription(`You can't skip a trivia! Use end-trivia`)
+      return message.say(errskipEmbed);
     }
     message.guild.musicData.sloop = message.guild.musicData.loop;
     message.guild.musicData.loop = 'off';

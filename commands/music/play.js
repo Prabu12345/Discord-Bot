@@ -54,7 +54,7 @@ module.exports = class PlayCommand extends Command {
     if (
       // if the user entered a youtube playlist url
       query.match(
-        /^.*(youtu.be\/|list=)([^#\&\?]*).*/gi
+        /^(?!.*\?.*\bv=)https:\/\/www\.youtube\.com\/.*\?.*\blist=.*$/
       )
     ) {
       const playlist = await youtube.getPlaylist(query).catch(function() {

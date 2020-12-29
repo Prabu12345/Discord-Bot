@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const Youtube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
-const { youtubeAPI } = require('../../config.json');
+const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 
 module.exports = class searchCommand extends Command {
@@ -36,7 +36,7 @@ module.exports = class searchCommand extends Command {
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(errorcolor)
       .setDescription('Join a channel and try again')
       message.say(errvideoEmbed);
       return;
@@ -44,7 +44,7 @@ module.exports = class searchCommand extends Command {
 
     if (message.guild.triviaData.isTriviaRunning == true) {
       const errvideoEmbed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(errorcolor)
       .setDescription('Please try after the trivia has ended')
       message.say(errvideoEmbed);
       return;
@@ -52,14 +52,14 @@ module.exports = class searchCommand extends Command {
 
     const videos = await youtube.searchVideos(query, 5).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(errorcolor)
       .setDescription('There was a problem searching the video you requested :(')
       await message.say(errvideoEmbed);
       return;
     });
     if (videos.length < 5 || !videos) {
       const errvideoEmbed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(errorcolor)
       .setDescription('I had some trouble finding what you were looking for, please try again or be more specific')
       message.say(errvideoEmbed);
       return;
@@ -70,7 +70,7 @@ module.exports = class searchCommand extends Command {
     }
     vidNameArr.push('exit');
     const embed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(normalcolor)
       .setTitle('Choose a song by commenting a number between 1 and 5')
       .addField('Song 1', vidNameArr[0])
       .addField('Song 2', vidNameArr[1])
@@ -136,7 +136,7 @@ module.exports = class searchCommand extends Command {
                 songEmbed.delete();
               }
               const addvideoEmbed = new MessageEmbed()
-              .setColor('#e9f931')
+              .setColor(normalcolor)
               .setDescription(`**${video.title}** added to queue`)
               message.say(addvideoEmbed);
               return;
@@ -147,7 +147,7 @@ module.exports = class searchCommand extends Command {
               songEmbed.delete();
             }
             const errvideoEmbed = new MessageEmbed()
-            .setColor('#e9f931')
+            .setColor(errorcolor)
             .setDescription('An error has occured when trying to get the video ID from youtube')
             message.say(errvideoEmbed);
             return;
@@ -158,7 +158,7 @@ module.exports = class searchCommand extends Command {
           songEmbed.delete();
         }
         const errvideoEmbed = new MessageEmbed()
-        .setColor('#e9f931')
+        .setColor(errorcolor)
         .setDescription('Please try again and enter a number between 1 and 5 or exit')
         message.say(errvideoEmbed);
         return;

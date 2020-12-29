@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class ShuffleQueueCommand extends Command {
   constructor(client) {
@@ -12,23 +13,29 @@ module.exports = class ShuffleQueueCommand extends Command {
     });
   }
   run(message) {
+    const errshuffleEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) return message.reply('Join a channel and try again');
+    if (!voiceChannel) {
+      errshuffleEmbed.setDescription('Join a channel and try again')
+      return message.say(errshuffleEmbed)
+    };
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      return message.reply('There is no song playing right now!');
+      errshuffleEmbed.setDescription('There is no song playing right now!')
+      return message.say(errshuffleEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      errshuffleEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.say(errshuffleEmbed);
       return;
     }
 
     if (message.guild.musicData.queue.length < 1) {
-      return message.say('There are no songs in queue');
+      errshuffleEmbed.setDescription('There are no songs in queue')
+      return message.say(errshuffleEmbed);
     }
     shuffleQueue(message.guild.musicData.queue);
     message.react('🔀');

@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class SkipToCommand extends Command {
   constructor(client) {
@@ -21,26 +22,33 @@ module.exports = class SkipToCommand extends Command {
   }
 
   run(message, { songNumber }) {
+    const errskiptoEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     if (songNumber < 1 && songNumber >= message.guild.musicData.queue.length) {
-      return message.reply('Please enter a valid song number');
+      errskiptoEmbed.setDescription('Please enter a valid song number')
+      return message.say(errskiptoEmbed);
     }
     var voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) return message.reply('Join a channel and try again');
+    if (!voiceChannel) {
+      errskiptoEmbed.setDescription('Join a channel and try again')
+      return message.say(errskiptoEmbed)
+    };
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      return message.reply('There is no song playing right now!');
+      errskiptoEmbed.setDescription('There is no song playing right now!')
+      return message.say(errskiptoEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      errskiptoEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.say(errskiptoEmbed);
       return;
     }
-
-    if (message.guild.musicData.queue < 1)
-      return message.say('There are no songs in queue');
+    if (message.guild.musicData.queue < 1){
+      errskiptoEmbed.setDescription('There are no songs in queue')
+      return message.say(errskiptoEmbed)
+    };
 
     message.guild.musicData.queue.splice(0, songNumber - 1);
     message.guild.musicData.songDispatcher.end();

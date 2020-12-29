@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class ResumeCommand extends Command {
   constructor(client) {
@@ -13,22 +14,29 @@ module.exports = class ResumeCommand extends Command {
   }
 
   run(message) {
+    const errresumeEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) return message.reply('Join a channel and try again');
+    if (!voiceChannel) {
+      errresumeEmbed.setDescription('Join a channel and try again')
+      return message.say(errresumeEmbed)
+    };
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher === null
     ) {
-      return message.reply('There is no song playing right now!');
+      errresumeEmbed.setDescription('There is no song playing right now!')
+      return message.say(errresumeEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      errresumeEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.say(errresumeEmbed);
       return;
     }
-
-    message.say('Song resumed :play_pause:');
+    const resumeEmbed = new MessageEmbed()
+    .setColor(normalcolor)
+    .setDescription('Song resumed :play_pause:')
+    message.say(resumeEmbed);
 
     message.guild.musicData.songDispatcher.resume();
   }

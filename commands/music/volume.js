@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class VolumeCommand extends Command {
   constructor(client) {
@@ -30,36 +31,36 @@ module.exports = class VolumeCommand extends Command {
   run(message, { wantedVolume }) {
     const voiceChannel = message.member.voice.channel;
     const errvolumeEmbed = new MessageEmbed()
-    .setColor('#e9f931')
+    .setColor(errorcolor)
     .setDescription('Join a channel and try again')
-    if (!voiceChannel) return message.reply(errvolumeEmbed);
+    if (!voiceChannel) return message.say(errvolumeEmbed);
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
       const errvolumeEmbed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(errorcolor)
       .setDescription('There is no song playing right now!')
-      return message.reply(errvolumeEmbed);
+      return message.say(errvolumeEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
       const errvolumeEmbed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(errorcolor)
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
-      message.reply(errvolumeEmbed);
+      message.say(errvolumeEmbed);
       return;
     } else if (wantedVolume >= 100) {
       const errvolumeEmbed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(errorcolor)
       .setDescription('You cant set the volume above 100%')
-      message.reply(errvolumeEmbed)
+      message.say(errvolumeEmbed)
       return;
     }
     const volume = wantedVolume;
     message.guild.musicData.volume = volume;
     message.guild.musicData.songDispatcher.setVolume(volume / 100);
     const volumeEmbed = new MessageEmbed()
-      .setColor('#e9f931')
+      .setColor(normalcolor)
       .setDescription(`I set the volume to: **${wantedVolume}%**`)
     message.say(volumeEmbed);
   }

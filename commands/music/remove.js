@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class RemoveSongCommand extends Command {
   constructor(client) {
@@ -18,12 +19,16 @@ module.exports = class RemoveSongCommand extends Command {
     });
   }
   run(message, { songNumber }) {
+    const errremoveEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     if (songNumber < 1 || songNumber > message.guild.musicData.queue.length) {
-      return message.reply('Please enter a valid song number');
+      errremoveEmbed.setDescription('Please enter a valid song number')
+      return message.say(errremoveEmbed);
     }
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      message.reply('Join a channel and try again');
+      errremoveEmbed.setDescription('Join a channel and try again')
+      message.say(errremoveEmbed);
       return;
     }
 
@@ -31,16 +36,18 @@ module.exports = class RemoveSongCommand extends Command {
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      message.reply('There is no song playing right now!');
+      errremoveEmbed.setDescription('There is no song playing right now!')
+      message.say(errremoveEmbed);
       return;
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      errremoveEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.reply(errremoveEmbed);
       return;
     }
-
+    const removeEmbed = new MessageEmbed()
+    .setColor(normalcolor)
+    .setDescription(`Removed song number ${songNumber} from queue`)
     message.guild.musicData.queue.splice(songNumber - 1, 1);
-    message.say(`Removed song number ${songNumber} from queue`);
+    message.say(removeEmbed);
   }
 };
