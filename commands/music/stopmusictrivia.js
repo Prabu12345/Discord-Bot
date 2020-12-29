@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { MessageEmbed } = require('discord.js');
 const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class StopMusicTriviaCommand extends Command {
