@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class SkipCommand extends Command {
   constructor(client) {
@@ -29,7 +30,10 @@ module.exports = class SkipCommand extends Command {
     } else if (message.guild.triviaData.isTriviaRunning) {
       return message.reply(`You can't skip a trivia! Use end-trivia`);
     }
+    message.guild.musicData.sloop = message.guild.musicData.loop;
+    message.guild.musicData.loop = 'off';
     message.guild.musicData.songDispatcher.end();
     message.react('⏭️');
+    setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 700);
   }
 };
