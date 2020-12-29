@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class QueueCommand extends Command {
   constructor(client) {
@@ -19,10 +20,14 @@ module.exports = class QueueCommand extends Command {
     if (message.guild.musicData.queue.length == 0) {
       const video = message.guild.musicData.nowPlaying;
       var errqueueembed = new MessageEmbed()
-        .setColor('#ff7373')
         .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`)
         .setDescription('There are no songs in queue!')
-        if (video) errqueueembed.setFooter(`Now Playing : ${video.title}`);
+        if (video) {
+          errqueueembed.setColor(normalcolor)
+          errqueueembed.setFooter(`Now Playing : ${video.title}`)
+        } else {
+          errqueueembed.setColor(errorcolor)
+        };
       return message.say(errqueueembed);
     }
     const titleArray = [];
@@ -34,7 +39,7 @@ module.exports = class QueueCommand extends Command {
     });
     /* eslint-enable */
     var queueEmbed = new MessageEmbed()
-      .setColor('#ff7373')
+      .setColor(normalcolor)
       .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
     for (let i = 0; i < titleArray.length; i++) {
       queueEmbed.addField(`${i + 1}:`, `${titleArray[i]}`);

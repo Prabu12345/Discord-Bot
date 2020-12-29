@@ -57,7 +57,7 @@ module.exports = class MusicTriviaCommand extends Command {
     ); // get x random urls
     // create and send info embed
     const infoEmbed = new MessageEmbed()
-      .setColor('#ff7373')
+      .setColor(normalcolor)
       .setTitle('Starting Music Quiz')
       .setDescription(
         `Get ready! There are ${numberOfSongs} songs, you have 30 seconds to guess either the singer/band or the name of the song. Good luck!
@@ -220,7 +220,7 @@ module.exports = class MusicTriviaCommand extends Command {
             )}: ${classThis.capitalize_Words(queue[0].title)}`;
 
             const embed = new MessageEmbed()
-              .setColor('#ff7373')
+              .setColor(normalcolor)
               .setTitle(`The song was:  ${song}`)
               .setDescription(
                 classThis.getLeaderBoard(Array.from(sortedScoreMap.entries()))
