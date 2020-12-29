@@ -262,6 +262,9 @@ module.exports = class PlayCommand extends Command {
                 message.guild.musicData.isPlaying = false;
                 message.guild.musicData.nowPlaying = null;
                 message.guild.musicData.songDispatcher = null;
+                if (!message.guild.me.voice.channel) {
+                  message.guild.musicData.loop = 'off';
+                }
                 if (message.guild.me.voice.channel) {
                   setTimeout(function onTimeOut() {
                     if (
@@ -283,6 +286,9 @@ module.exports = class PlayCommand extends Command {
                 message.guild.musicData.isPlaying = false;
                 message.guild.musicData.nowPlaying = null;
                 message.guild.musicData.songDispatcher = null;
+                if (!message.guild.me.voice.channel) {
+                  message.guild.musicData.loop = 'off';
+                }
                 if (message.guild.me.voice.channel) {
                   setTimeout(function onTimeOut() {
                     if (
@@ -320,6 +326,7 @@ module.exports = class PlayCommand extends Command {
           .on('error', function(e) {
             message.say('Cannot play song');
             console.error(e);
+            message.guild.musicData.loop = 'off';
             message.guild.musicData.queue.length = 0;
             message.guild.musicData.isPlaying = false;
             message.guild.musicData.nowPlaying = null;
@@ -330,6 +337,7 @@ module.exports = class PlayCommand extends Command {
       })
       .catch(function() {
         message.say('I have no permission to join your channel!');
+        message.guild.musicData.loop = 'off';
         message.guild.musicData.queue.length = 0;
         message.guild.musicData.isPlaying = false;
         message.guild.musicData.nowPlaying = null;

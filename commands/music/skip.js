@@ -41,6 +41,6 @@ module.exports = class SkipCommand extends Command {
     message.guild.musicData.loop = 'off';
     message.guild.musicData.songDispatcher.end();
     message.react('⏭️');
-    setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 700);
+    setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
   }
 };

@@ -25,7 +25,7 @@ module.exports = class SkipToCommand extends Command {
   run(message, { songNumber }) {
     const errskiptoEmbed = new MessageEmbed()
     .setColor(errorcolor)
-    if (songNumber < 1 && songNumber >= message.guild.musicData.queue.length) {
+    if (songNumber < 1 && songNumber > message.guild.musicData.queue.length) {
       errskiptoEmbed.setDescription('Please enter a valid song number')
       return message.say(errskiptoEmbed);
     }
@@ -50,9 +50,11 @@ module.exports = class SkipToCommand extends Command {
       errskiptoEmbed.setDescription('There are no songs in queue')
       return message.say(errskiptoEmbed)
     };
-
+    message.guild.musicData.sloop = message.guild.musicData.loop;
+    message.guild.musicData.loop = 'off';
     message.guild.musicData.queue.splice(0, songNumber - 1);
     message.guild.musicData.songDispatcher.end();
+    setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
     return;
   }
 };

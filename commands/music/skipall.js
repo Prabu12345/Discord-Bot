@@ -37,10 +37,10 @@ module.exports = class SkipAllCommand extends Command {
       errskipallEmbed.setDescription('There are no songs in queue')
       return message.say(errskipallEmbed)
     };
+    message.guild.musicData.loop = 'off';
     message.guild.musicData.queue.length = 0; // clear queue
     message.guild.musicData.songDispatcher.end();
     message.react('⏭️');
-    message.guild.musicData.loop = 'off';
     return;
   }
 };
