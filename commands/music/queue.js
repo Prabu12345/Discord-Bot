@@ -22,7 +22,7 @@ module.exports = class QueueCommand extends Command {
         .setColor('#ff7373')
         .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`)
         .setDescription('There are no songs in queue!')
-        .setFooter(`Now Playing : ${video.title}`);
+        if (video) errqueueembed.setFooter(`Now Playing : ${video.title}`);
       return message.say(errqueueembed);
     }
     const titleArray = [];
@@ -38,7 +38,7 @@ module.exports = class QueueCommand extends Command {
       .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
     for (let i = 0; i < titleArray.length; i++) {
       queueEmbed.addField(`${i + 1}:`, `${titleArray[i]}`);
-    }
+    } 
       queueEmbed.setFooter(`Now Playing : ${video.title}`)
     return message.say(queueEmbed);
   }
