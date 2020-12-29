@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
-const { geniusLyricsAPI } = require('../../config.json');
+const { geniusLyricsAPI, normalcolor, errorcolor } = require('../../config.json');
 
 module.exports = class LyricsCommand extends Command {
   constructor(client) {
@@ -28,6 +28,8 @@ module.exports = class LyricsCommand extends Command {
     });
   }
   async run(message, { songName }) {
+    const errlyricsEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     if (
       songName == '' &&
       message.guild.musicData.isPlaying &&
@@ -35,11 +37,11 @@ module.exports = class LyricsCommand extends Command {
     ) {
       songName = message.guild.musicData.nowPlaying.title;
     } else if (songName == '' && message.guild.triviaData.isTriviaRunning) {
-      return message.say('Please try again after the trivia has ended');
+      errlyricsEmbed.setDescription('Please try again after the trivia has ended')
+      return message.say(errlyricsEmbed);
     } else if (songName == '' && !message.guild.musicData.isPlaying) {
-      return message.say(
-        'There is no song playing right now, please try again with a song name or play a song first'
-      );
+      errlyricsEmbed.setDescription('There is no song playing right now, please try again with a song name or play a song first')
+      return message.say(errlyricsEmbed);
     }
     const sentMessage = await message.channel.send(
       '👀 Searching for lyrics 👀'

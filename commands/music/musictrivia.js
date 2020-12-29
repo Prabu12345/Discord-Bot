@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const ytdl = require('ytdl-core');
 const fs = require('fs');
-const { prefix } = require('../../config.json');
+const { prefix, normalcolor, errorcolor } = require('../../config.json');
 
 module.exports = class MusicTriviaCommand extends Command {
   constructor(client) {
@@ -31,11 +31,17 @@ module.exports = class MusicTriviaCommand extends Command {
   }
   async run(message, { numberOfSongs }) {
     // check if user is in a voice channel
+    const errtrivaEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
-    if (!voiceChannel)
-      return message.say('Please join a voice channel and try again');
-    if (message.guild.musicData.isPlaying === true)
-      return message.channel.send('A quiz or a song is already running');
+    if (!voiceChannel) {
+      errtrivaEmbed.setDescription('Please join a voice channel and try again')
+      return message.say(errtrivaEmbed);
+    }    
+    if (message.guild.musicData.isPlaying === true) {
+      errtrivaEmbed.setDescription('A quiz or a song is already running')
+      return message.channel.send(errtrivaEmbed);
+    }
     message.guild.musicData.isPlaying = true;
     message.guild.triviaData.isTriviaRunning = true;
     // fetch link array from txt file

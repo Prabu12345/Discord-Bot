@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class PauseCommand extends Command {
   constructor(client) {
@@ -13,22 +14,30 @@ module.exports = class PauseCommand extends Command {
   }
 
   run(message) {
+    const errpauseEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) return message.reply('Join a channel and try again');
+    if (!voiceChannel) {
+      errpauseEmbed.setDescription('Join a channel and try again')
+      return message.reply(errpauseEmbed);
+    }
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      return message.say('There is no song playing right now!');
+      errpauseEmbed.setDescription('There is no song playing right now!')
+      return message.say(errpauseEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      errpauseEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.reply(errpauseEmbed);
       return;
     }
 
-    message.say('Song paused :pause_button:');
+    const pauseEmbed = new MessageEmbed()
+    .setColor(normalcolor)
+    .setDescription('Song paused :pause_button:')
+    message.say(pauseEmbed);
 
     message.guild.musicData.songDispatcher.pause();
   }

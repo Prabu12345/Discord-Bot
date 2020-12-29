@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class LeaveCommand extends Command {
   constructor(client) {
@@ -15,21 +16,31 @@ module.exports = class LeaveCommand extends Command {
   run(message) {
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      message.reply('Join a channel and try again');
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription('Join a channel and try again')
+      message.reply(errleaveEmbed);
       return;
     } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      message.reply('There is no song playing right now!');
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription('There is no song playing right now!')
+      message.reply(errleaveEmbed);
       return;
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.reply(errleaveEmbed);
       return;
     } else if (!message.guild.musicData.queue) {
-      message.reply('There are no songs in queue');
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription('There are no songs in queue')
+      message.reply(errleaveEmbed);
       return;
     } else if (message.guild.musicData.songDispatcher.paused) {
       message.guild.musicData.songDispatcher.resume();

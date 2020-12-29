@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class NowPlayingCommand extends Command {
   constructor(client) {
@@ -15,13 +16,15 @@ module.exports = class NowPlayingCommand extends Command {
 
   run(message) {
     const video = message.guild.musicData.nowPlaying;
-
+    const errnpEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     if (
       (!message.guild.musicData.isPlaying &&
         !message.guild.musicData.nowPlaying) ||
       message.guild.triviaData.isTriviaRunning
     ) {
-      return message.say('There is no song playing right now!');
+      errnpEmbed.setDescription('There is no song playing right now!')
+      return message.say(errnpEmbed);
     }
 
     let description;
@@ -33,7 +36,7 @@ module.exports = class NowPlayingCommand extends Command {
 
     const videoEmbed = new MessageEmbed()
       .setThumbnail(video.thumbnail)
-      .setColor('#e9f931')
+      .setColor(normalcolor)
       .setTitle(video.title)
       .setDescription(`Volume ${message.guild.musicData.volume}% | Loop ${message.guild.musicData.loop}`)
       .addField('Duration', description)

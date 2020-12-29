@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class LoopCommand extends Command {
   constructor(client) {
@@ -20,29 +21,42 @@ module.exports = class LoopCommand extends Command {
 
   run(message, { numOfTimesToLoop }) {
     if (!message.guild.musicData.isPlaying) {
-      return message.say('There is no song playing right now!');
+      const errloopEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription('There is no song playing right now!')
+      return message.say(errloopEmbed);
     } else if (
       message.guild.musicData.isPlaying &&
       message.guild.triviaData.isTriviaRunning
     ) {
-      return message.say('You cannot loop over a trivia!');
+      const errloopEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription('You cannot loop over a trivia!')
+      return message.say(errloopEmbed);
     } else if (
       message.member.voice.channel.id !== message.guild.me.voice.channel.id
     ) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      const errloopEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.reply(errloopEmbed);
       return;
     }
 
+    const loopEmbed = new MessageEmbed()
+    .setColor(normalcolor)
+
     if (numOfTimesToLoop == 'one') {
-      message.say('Looped **One track**, **loop off** if you want to stop looping')
+      loopEmbed.setDescription('Looped **One track**, **loop off** if you want to stop looping!')
+      message.say(loopEmbed)
       message.guild.musicData.loop = numOfTimesToLoop
     } else if (numOfTimesToLoop == 'all') {
-      message.say('Looped **All track**, **loop off** if you want to stop looping')
+      loopEmbed.setDescription('Looped **All track**, **loop off** if you want to stop looping!')
+      message.say(loopEmbed)
       message.guild.musicData.loop = numOfTimesToLoop
     } else if (numOfTimesToLoop == 'off') {
-      message.say('Loop off')
+      loopEmbed.setDescription('Loop **off**!')
+      message.say(loopEmbed)
       message.guild.musicData.loop = numOfTimesToLoop
     };
     return;

@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class MoveSongCommand extends Command {
   constructor(client) {
@@ -27,6 +28,8 @@ module.exports = class MoveSongCommand extends Command {
     });
   }
   async run(message, { oldPosition, newPosition }) {
+    const errmoveEmbed = new MessageEmbed()
+    .setColor(errorcolor)
     if (
       oldPosition < 1 ||
       oldPosition > message.guild.musicData.queue.length ||
@@ -34,12 +37,14 @@ module.exports = class MoveSongCommand extends Command {
       newPosition > message.guild.musicData.queue.length ||
       oldPosition == newPosition
     ) {
-      message.reply('Try again and enter a valid song position number');
+      errmoveEmbed.setDescription('Try again and enter a valid song position number')
+      message.reply(errmoveEmbed);
       return;
     }
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      message.reply('Join a channel and try again');
+      errmoveEmbed.setDescription('Join a channel and try again')
+      message.reply(errmoveEmbed);
       return;
     }
     if (
@@ -48,9 +53,8 @@ module.exports = class MoveSongCommand extends Command {
     ) {
       return message.reply('There is no song playing right now!');
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.reply(
-        `You must be in the same voice channel as the bot's in order to use that!`
-      );
+      errmoveEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.reply(errmoveEmbed);
       return;
     }
 
@@ -61,8 +65,10 @@ module.exports = class MoveSongCommand extends Command {
       oldPosition - 1,
       newPosition - 1
     );
-
-    message.channel.send(`**${songName}** moved to position ${newPosition}`);
+    const moveEmbed = new MessageEmbed()
+    .setColor(errorcolor)
+    .setDescription(`**${songName}** moved to position ${newPosition}`)
+    message.channel.send(moveEmbed);
   }
   // https://stackoverflow.com/a/5306832/9421002
   static array_move(arr, old_index, new_index) {
