@@ -1,5 +1,5 @@
 const { CommandoClient } = require('discord.js-commando');
-const { Structures } = require('discord.js');
+const { Structures, VoiceChannel } = require('discord.js');
 const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
 
@@ -79,8 +79,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
   }
   if (
-    !newState.member.user.id &&
-    client.user.id
+    !VoiceChannel.members
   ) {
     newState.guild.musicData.loop = 'off';
     if (newState.guild.musicData.queue > 0) {
