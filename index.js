@@ -79,9 +79,9 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
   }
   if (
-    !newState.member.user.id == !client.user.id
+    !newState.member.user.id
   ) {
-    newState.guild.me.voice.channel.leave();
+    guild.me.voice.channel.leave();
   }
 });
 
