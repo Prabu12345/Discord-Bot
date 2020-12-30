@@ -84,7 +84,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.guild.musicData.loop = 'off';
     newState.guild.musicData.queue.length = 0;
     newState.guild.musicData.songDispatcher.end();
-    guild.me.voice.channel.leave();
+    newState.guild.me.voice.channel.leave();
   }
 });
 
