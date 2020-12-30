@@ -32,13 +32,10 @@ module.exports = class LeaveCommand extends Command {
       message.say(errleaveEmbed);
       return;
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      message.guild.musicData.queue.length = 0;
-      message.guild.musicData.loop = 'off';
-      setTimeout(() => {
-        message.guild.musicData.songDispatcher.end();
-      }, 100);
-      message.react('👌')
-      message.guild.me.voice.channel.leave();
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.say(errleaveEmbed);
       return;
     } else if (!message.guild.musicData.queue) {
       const errleaveEmbed = new MessageEmbed()
@@ -50,20 +47,21 @@ module.exports = class LeaveCommand extends Command {
       message.guild.musicData.songDispatcher.resume();
       message.guild.musicData.loop = 'off';
       message.guild.musicData.queue.length = 0;
-      setTimeout(() => {
-        message.guild.musicData.songDispatcher.end();
-      }, 100);
-      message.react('👌')
-      message.guild.me.voice.channel.leave();
-      return;
-    } else {
-      message.guild.musicData.queue.length = 0;
-      message.guild.musicData.loop = 'off';
       message.guild.musicData.songDispatcher.end();
       setTimeout(() => {
         message.guild.me.voice.channel.leave();
       }, 100);
       message.react('👌')
+      
+      return;
+    } else {
+      message.guild.musicData.queue.length = 0;
+      message.guild.musicData.loop = 'off';
+      message.guild.musicData.songDispatcher.end();
+      message.react('👌')
+      setTimeout(() => {
+        message.guild.me.voice.channel.leave();
+      }, 100);
       return;
     }
   }
