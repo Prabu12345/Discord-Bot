@@ -59,11 +59,11 @@ module.exports = class LeaveCommand extends Command {
     } else {
       message.guild.musicData.queue.length = 0;
       message.guild.musicData.loop = 'off';
+      message.guild.musicData.songDispatcher.end();
       setTimeout(() => {
-        message.guild.musicData.songDispatcher.end();
+        message.guild.me.voice.channel.leave();
       }, 100);
       message.react('👌')
-      message.guild.me.voice.channel.leave();
       return;
     }
   }
