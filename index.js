@@ -66,7 +66,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.member.user.id == client.user.id
   ) {
     newState.guild.musicData.loop = 'off';
-    if (newState.guild.musicData.queue > 0 && newState.guild.musicData.nowPlaying) {
+    if (newState.guild.musicData.nowPlaying) {
       newState.guild.musicData.queue.length = 0;
       newState.guild.musicData.songDispatcher.end();
     }
@@ -84,7 +84,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     VoiceChannel.members == 0 
   ) {
     newState.guild.musicData.loop = 'off';
-    if (newState.guild.musicData.queue > 0 && newState.guild.musicData.nowPlaying) {
+    if (newState.guild.musicData.nowPlaying) {
       newState.guild.musicData.queue.length = 0;
       newState.guild.musicData.songDispatcher.end();
     }
