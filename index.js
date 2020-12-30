@@ -78,20 +78,20 @@ client.on('voiceStateUpdate', async (___, newState) => {
   ) {
     newState.setSelfDeaf(true);
   }
-  if (
-    !VoiceChannel.members
-  ) {
-    newState.guild.musicData.loop = 'off';
-    if (typeof newState.guild.musicData.songDispatcher == 'undefined' ||
-    newState.guild.musicData.songDispatcher == null) {
-      return;
-    }
-    newState.guild.musicData.queue.length = 0;
-    newState.guild.musicData.songDispatcher.end();
-    setTimeout(function onTimeOut() { 
-      newState.guild.me.voice.channel.leave(); 
-    }, 500);
-  }
+  //if (
+    //!VoiceChannel.members
+  //) {
+    //newState.guild.musicData.loop = 'off';
+    //if (typeof newState.guild.musicData.songDispatcher == 'undefined' ||
+    //newState.guild.musicData.songDispatcher == null) {
+      //return;
+    //}
+    //newState.guild.musicData.queue.length = 0;
+    //newState.guild.musicData.songDispatcher.end();
+    //setTimeout(function onTimeOut() { 
+      //newState.guild.me.voice.channel.leave(); 
+    //}, 500);
+  //}
 });
 
 client.login(process.env.token);
