@@ -66,8 +66,10 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.member.user.id == client.user.id
   ) {
     newState.guild.musicData.loop = 'off';
-    newState.guild.musicData.queue.length = 0;
-    newState.guild.musicData.songDispatcher.end();
+    if (newState.guild.musicData.queue > 0 && !newState.guild.musicData.nowPlaying) {
+      newState.guild.musicData.queue.length = 0;
+      newState.guild.musicData.songDispatcher.end();
+    }
     return;
   }
   if (
@@ -79,13 +81,13 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
   }
   if (
-    !VoiceChannel.members
+    !VoiceChannel.members < 1
   ) {
     newState.guild.musicData.loop = 'off';
-    if (newState.guild.musicData.queue > 0) {
+    if (newState.guild.musicData.queue > 0 && !newState.guild.musicData.nowPlaying) {
       newState.guild.musicData.queue.length = 0;
+      newState.guild.musicData.songDispatcher.end();
     }
-    newState.guild.musicData.songDispatcher.end();
     setTimeout(function onTimeOut() { 
       newState.guild.me.voice.channel.leave(); 
     }, 500);
