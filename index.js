@@ -65,7 +65,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.guild.musicData.songDispatcher &&
     newState.member.user.id == client.user.id
   ) {
-    message.guild.musicData.loop = 'off';
+    newState.guild.musicData.loop = 'off';
     newState.guild.musicData.queue.length = 0;
     newState.guild.musicData.songDispatcher.end();
     return;
