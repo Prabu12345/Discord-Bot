@@ -26,10 +26,11 @@ module.exports = class LeaveCommand extends Command {
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription('There is no song playing right now!')
-      message.say(errleaveEmbed);
+      message.guild.musicData.loop = 'off';
+      message.react('👌')
+      setTimeout(() => {
+        message.guild.me.voice.channel.leave();
+      }, 100);
       return;
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
       const errleaveEmbed = new MessageEmbed()
