@@ -86,7 +86,6 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.guild.musicData.songDispatcher.end();
     setTimeout(function onTimeOut() { 
       newState.guild.me.voice.channel.leave(); 
-      newState.say('gw keluar gara gara ga ada orang di room')
     }, 500);
   }
 });
