@@ -79,9 +79,13 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
   }
   if (
-    VoiceChannel.members < 1
+    VoiceChannel.members < 2
   ) {
     newState.guild.musicData.loop = 'off';
+    if (typeof newState.guild.musicData.songDispatcher == 'undefined' ||
+    newState.guild.musicData.songDispatcher == null) {
+      return;
+    }
     newState.guild.musicData.queue.length = 0;
     newState.guild.musicData.songDispatcher.end();
     setTimeout(function onTimeOut() { 
