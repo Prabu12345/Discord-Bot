@@ -79,7 +79,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
   }
   if (
-    !VoiceChannel.members
+    VoiceChannel.members < 1
   ) {
     newState.guild.musicData.loop = 'off';
     newState.guild.musicData.queue.length = 0;
