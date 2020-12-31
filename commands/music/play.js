@@ -52,9 +52,20 @@ module.exports = class PlayCommand extends Command {
     }
 
     if (
+      query.match(
+        /^(http(s)?:\/\/)?((w){3}.)?spotify\.com\/.+/
+      )
+    ) {
+      const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription('I cant play the music from Spotify')
+        message.say(errvideoEmbed);
+    }
+
+    if (
       // if the user entered a youtube playlist url
       query.match(
-        /^(?!.*\?.*\bv=)https:\/\/www\.youtube\.com\/.*\?.*\blist=.*$/
+        /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/
       )
     ) {
       const playlist = await youtube.getPlaylist(query).catch(function() {
