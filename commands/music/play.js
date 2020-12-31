@@ -53,7 +53,7 @@ module.exports = class PlayCommand extends Command {
 
     if (
       query.match(
-        /^(http(s)?:\/\/)?((w){3}.)?open.\spotify\.com\/.+/
+        /^(http(s)?:\/\/)?((w){3}.)?open\.spotify\.com\/.+/
       )
     ) {
       const errvideoEmbed = new MessageEmbed()
