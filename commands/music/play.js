@@ -60,6 +60,7 @@ module.exports = class PlayCommand extends Command {
         .setColor(errorcolor)
         .setDescription('I cant play the music from Spotify')
         message.say(errvideoEmbed);
+        return;
     }
 
     if (
