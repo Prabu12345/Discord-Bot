@@ -17,7 +17,7 @@ module.exports = class PlayCommand extends Command {
       guildOnly: true,
       clientPermissions: ['SPEAK', 'CONNECT'],
       throttling: {
-        usages: 2,
+        usages: 1,
         duration: 5
       },
       args: [
@@ -58,7 +58,7 @@ module.exports = class PlayCommand extends Command {
     ) {
       const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription('I cant play the music from Spotify')
+        .setDescription('I cant play music from Spotify')
         message.say(errvideoEmbed);
         return;
     }

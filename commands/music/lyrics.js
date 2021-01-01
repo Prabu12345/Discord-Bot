@@ -56,6 +56,8 @@ module.exports = class LyricsCommand extends Command {
       ''
     );
 
+    message.say(`${songName}`)
+
     LyricsCommand.searchSong(songName)
       .then(function(url) {
         LyricsCommand.getSongPageURL(url)

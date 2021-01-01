@@ -39,13 +39,13 @@ module.exports = class MoveSongCommand extends Command {
       oldPosition == newPosition
     ) {
       errmoveEmbed.setDescription('Try again and enter a valid song position number')
-      message.reply(errmoveEmbed);
+      message.say(errmoveEmbed);
       return;
     }
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       errmoveEmbed.setDescription('Join a channel and try again')
-      message.reply(errmoveEmbed);
+      message.say(errmoveEmbed);
       return;
     }
     if (
@@ -55,7 +55,7 @@ module.exports = class MoveSongCommand extends Command {
       return message.reply('There is no song playing right now!');
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
       errmoveEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
-      message.reply(errmoveEmbed);
+      message.say(errmoveEmbed);
       return;
     }
 
