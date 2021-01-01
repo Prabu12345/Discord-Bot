@@ -56,10 +56,12 @@ module.exports = class LeaveCommand extends Command {
       message.guild.musicData.songDispatcher.resume();
       message.guild.musicData.loop = 'off';
       message.guild.musicData.queue.length = 0;
-      message.guild.musicData.songDispatcher.end();
+      setTimeout(() => {
+        message.guild.musicData.songDispatcher.end();
+      }, 100);
       setTimeout(() => {
         message.guild.me.voice.channel.leave();
-      }, 100);
+      }, 200);
       message.react('👌')
       
       return;
