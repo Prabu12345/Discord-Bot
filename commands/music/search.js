@@ -97,7 +97,7 @@ module.exports = class searchCommand extends Command {
             // if (message.guild.musicData.queue.length < 10) {
             //
             message.guild.musicData.queue.push(
-              PlayCommand.constructSongObj(
+              searchCommand.constructSongObj(
                 video,
                 voiceChannel,
                 message.member.user
@@ -115,7 +115,7 @@ module.exports = class searchCommand extends Command {
       }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
-        return PlayCommand.playSong(message.guild.musicData.queue, message);
+        return searchCommand.playSong(message.guild.musicData.queue, message);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
@@ -152,14 +152,14 @@ module.exports = class searchCommand extends Command {
     //   );
     // }
     message.guild.musicData.queue.push(
-      PlayCommand.constructSongObj(video, voiceChannel, message.member.user)
+      searchCommand.constructSongObj(video, voiceChannel, message.member.user)
     );
     if (
       message.guild.musicData.isPlaying == false ||
       typeof message.guild.musicData.isPlaying == 'undefined'
     ) {
       message.guild.musicData.isPlaying = true;
-      return PlayCommand.playSong(message.guild.musicData.queue, message);
+      return searchCommand.playSong(message.guild.musicData.queue, message);
     } else if (message.guild.musicData.isPlaying == true) {
       const addvideoEmbed = new MessageEmbed()
       .setColor(normalcolor)
