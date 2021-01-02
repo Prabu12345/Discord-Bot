@@ -14,7 +14,7 @@ module.exports = class LoopCommand extends Command {
         {
           key: 'numOfTimesToLoop',
           type: 'string',
-          prompt: 'Loop **one** for looped current song, loop **all** for loopied all queue'
+          prompt: 'Loop **one** for looped current song, loop **all** for looped queue'
         }
       ]
     });

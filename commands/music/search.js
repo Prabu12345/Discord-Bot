@@ -50,6 +50,28 @@ module.exports = class searchCommand extends Command {
       return;
     }
 
+    if (
+      query.match(
+        /^(http(s)?:\/\/)?((w){3}.)?open\.spotify\.com\/.+/
+      )
+    ) {
+      const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription('I cant play music from Spotify')
+        message.say(errvideoEmbed);
+        return;
+    }
+
+    if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/)) {
+      message.client.commands.get("play").execute(message, query);
+      return;
+    }
+
+    if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
+      message.client.commands.get("play").execute(message, query);
+      return;
+    }
+
     const videos = await youtube.searchVideos(query, 5).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
