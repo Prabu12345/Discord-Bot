@@ -61,7 +61,7 @@ module.exports = class QueueCommand extends Command {
       });
   
       collector.on("collect", (reaction, user) => {
-        if (!queue) return;
+        if (!message.guild.musicData.queue) return;
   
         switch (reaction.emoji.name) {
           case "⬅️":
