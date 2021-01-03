@@ -86,7 +86,7 @@ module.exports = class QueueCommand extends Command {
 
             queueEmbed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
             for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-            queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish[i].title})}`);
+            queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.title})}`);
             } 
             queueEmbed.setFooter(`Now Playing : ${video.title}`) 
             playingMessage.edit(queueEmbed)
@@ -94,8 +94,9 @@ module.exports = class QueueCommand extends Command {
   
           case "🗑️":
             reaction.users.remove(user).catch(console.error);
-            playingMessage.reactions.removeAll().catch(console.error);
-            playingMessage.delete({ timeout: 1000 }).catch(console.error);
+            setTimeout(() => {
+              collector.stop();
+            }, 100);
             break;
   
           default:
