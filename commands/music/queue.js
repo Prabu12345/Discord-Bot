@@ -57,7 +57,7 @@ module.exports = class QueueCommand extends Command {
 
       const filter = (reaction, user) => user.id !== message.client.user.id;
       var collector = playingMessage.createReactionCollector(filter, {
-        time: 120000
+        time: 220000
       });
   
       collector.on("collect", (reaction, user) => {
