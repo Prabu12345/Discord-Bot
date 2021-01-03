@@ -30,89 +30,70 @@ module.exports = class QueueCommand extends Command {
         };
       return message.say(errqueueembed);
     }
-    const titleArray = [];
-    const video = message.guild.musicData.nowPlaying;
-    /* eslint-disable */
-    // display only first 10 items in queue
-    message.guild.musicData.queue.slice(0, 10).forEach(obj => {
-      titleArray.push(obj.title)
-    })
-    /* eslint-enable */
-    var queueEmbed = new MessageEmbed()
-      .setColor(normalcolor)
-      .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
-    for (let i = 0; i < titleArray.length; i++) {
-      queueEmbed.addField(`${i + 1}:`, `${titleArray[i]}`);
-    } 
-      queueEmbed.setFooter(`Now Playing : ${video.title}`) 
-    var playingMessage = await message.say(queueEmbed);  
 
-    if (message.guild.musicData.queue.length > 10 ) {
-      await playingMessage.react("⬅️");
-      await playingMessage.react("➡️");
-      await playingMessage.react("🗑️");
+    let currentPage = 0;
+    const embeds = generateQueueEmbed(message, queue.songs);
 
-      let fi = 0;
-      let sc = 10;
+    const queueEmbed = await message.channel.send(
+      `**\`${currentPage + 1}\`**/**${embeds.length}**`,
+      embeds[currentPage]
+    );
 
-      const filter = (reaction, user) => user.id !== message.client.user.id;
-      var collector = playingMessage.createReactionCollector(filter, {
-        time: 220000
-      });
-  
-      collector.on("collect", (reaction, user) => {
-        if (!message.guild.musicData.queue) return;
-  
-        switch (reaction.emoji.name) {
-          case "⬅️":
-            reaction.users.remove(user).catch(console.error);
-
-            fi -= 10;
-            sc -= 10;
-            var queue1Embed = new MessageEmbed()
-            .setColor(normalcolor)
-            queue1Embed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
-            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).map(ish => {ish.length}); i++) {
-            queue1Embed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).map(ish => {ish.title})}`);
-            } 
-            queue1Embed.setFooter(`Now Playing : ${video.title}`) 
-            playingMessage.edit(queue1Embed)
-            break;
-
-          case "➡️":
-            reaction.users.remove(user).catch(console.error);
-
-            fi += 10;
-            sc += 10;
-
-            var queue2Embed = new MessageEmbed()
-            .setColor(normalcolor)
-            queue2Embed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
-            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).map(ish => {ish.length}); i++) {
-            queue2Embed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).map(ish => {ish.title})}`);
-            } 
-            queue2Embed.setFooter(`Now Playing : ${video.title}`) 
-            playingMessage.edit(queue2Embed)
-            break;
-  
-          case "🗑️":
-            reaction.users.remove(user).catch(console.error);
-            setTimeout(() => {
-              collector.stop();
-            }, 100);
-            break;
-  
-          default:
-            reaction.users.remove(user).catch(console.error);
-            break;
-        }
-      });
-  
-      collector.on("end", () => { 
-        playingMessage.reactions.removeAll().catch(console.error);
-        playingMessage.delete({ timeout: 1000 }).catch(console.error);
-      });
+    try {
+      await queueEmbed.react("⬅️");
+      await queueEmbed.react("🛑");
+      await queueEmbed.react("➡️");
+    } catch (error) {
+      console.error(error);
+      message.channel.send(error.message).catch(console.error);
     }
 
+    const filter = (reaction, user) =>
+      ["⬅️", "🛑", "➡️"].includes(reaction.emoji.name) && message.author.id === user.id;
+    const collector = queueEmbed.createReactionCollector(filter, { time: 60000 });
+
+    collector.on("collect", async (reaction, user) => {
+      try {
+        if (reaction.emoji.name === "➡️") {
+          if (currentPage < embeds.length - 1) {
+            currentPage++;
+            queueEmbed.edit(`**\`${currentPage + 1}\`**/**${embeds.length}**`, embeds[currentPage]);
+          }
+        } else if (reaction.emoji.name === "⬅️") {
+          if (currentPage !== 0) {
+            --currentPage;
+            queueEmbed.edit(`**\`${currentPage + 1}\`**/**${embeds.length}**`, embeds[currentPage]);
+          }
+        } else {
+          collector.stop();
+          reaction.message.reactions.removeAll();
+        }
+        await reaction.users.remove(message.author.id);
+      } catch (error) {
+        console.error(error);
+        return message.channel.send(error.message).catch(console.error);
+      }
+    });
+  }
+};
+
+function generateQueueEmbed(message) {
+  let embeds = [];
+  let k = 10;
+
+  for (let i = 0; i < message.guild.musicData.queue.length; i += 10) {
+    const current = message.guild.musicData.queue.slice(i, k);
+    let j = i;
+    k += 10;
+
+    const info = current.map((track) => `**\`${++j}\`** | [\`${track.title}\`](${track.url})`).join("\n");
+  
+    const embed = new MessageEmbed()
+    .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`)
+    .setColor(normalcolor)
+    .setDescription(`${info}`)
+    .setFooter(`Now Playing : ${video.title}`)
+
+    embeds.push(embed);
   }
 };
