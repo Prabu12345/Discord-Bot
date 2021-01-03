@@ -42,7 +42,7 @@ module.exports = class QueueCommand extends Command {
       .setColor(normalcolor)
       .setTitle(`Music Queue - ${obj.length} items`);
     for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-      queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish.title})}`);
+      queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish[i].title})}`);
     } 
       queueEmbed.setFooter(`Now Playing : ${video.title}`) 
     var playingMessage = await message.say(queueEmbed);  
@@ -69,18 +69,12 @@ module.exports = class QueueCommand extends Command {
             fi -= 10;
             sc -= 10;
 
-            if (obj.length < 11) {
-              break;
-            } else if (obj.length > 10) {
-              queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
-              for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-              queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi - 10, sc - 10).forEach(ish => {ish.title})}`);
-              } 
-              queueEmbed.setFooter(`Now Playing : ${video.title}`) 
-              playingMessage.edit(queueEmbed)
-            }
-            break;
-  
+            queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
+            for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
+            queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish[i].title})}`);
+            } 
+            queueEmbed.setFooter(`Now Playing : ${video.title}`) 
+            playingMessage.edit(queueEmbed)
           case "➡️":
             reaction.users.remove(user).catch(console.error);
 
@@ -89,7 +83,7 @@ module.exports = class QueueCommand extends Command {
 
             queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
             for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-            queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish.title})}`);
+            queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish[i].title})}`);
             } 
             queueEmbed.setFooter(`Now Playing : ${video.title}`) 
             playingMessage.edit(queueEmbed)
