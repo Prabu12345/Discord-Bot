@@ -72,8 +72,8 @@ module.exports = class QueueCommand extends Command {
             var queue1Embed = new MessageEmbed()
             .setColor(normalcolor)
             queue1Embed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
-            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-            queue1Embed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.title})}`);
+            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).map(ish => {ish.length}); i++) {
+            queue1Embed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).map(ish => {ish.title})}`);
             } 
             queue1Embed.setFooter(`Now Playing : ${video.title}`) 
             playingMessage.edit(queue1Embed)
@@ -88,8 +88,8 @@ module.exports = class QueueCommand extends Command {
             var queue2Embed = new MessageEmbed()
             .setColor(normalcolor)
             queue2Embed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
-            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-            queue2Embed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.title})}`);
+            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).map(ish => {ish.length}); i++) {
+            queue2Embed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).map(ish => {ish.title})}`);
             } 
             queue2Embed.setFooter(`Now Playing : ${video.title}`) 
             playingMessage.edit(queue2Embed)
