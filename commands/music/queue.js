@@ -67,12 +67,9 @@ module.exports = class QueueCommand extends Command {
           case "⬅️":
             reaction.users.remove(user).catch(console.error);
 
-            fi -= 10;
-            sc -= 10;
-
             queueEmbed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
-            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-            queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.title})}`);
+            for (let i = 0; i < message.guild.musicData.queue.slice(fi -= 10, sc -= 10).forEach(ish => {ish.length}); i++) {
+            queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi -= 10, sc -= 10).forEach(ish => {ish.title})}`);
             } 
             queueEmbed.setFooter(`Now Playing : ${video.title}`) 
             playingMessage.edit(queueEmbed)
@@ -81,12 +78,9 @@ module.exports = class QueueCommand extends Command {
           case "➡️":
             reaction.users.remove(user).catch(console.error);
 
-            fi += 10;
-            sc += 10;
-
             queueEmbed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
-            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-            queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.title})}`);
+            for (let i = 0; i < message.guild.musicData.queue.slice(fi += 10, sc += 10).forEach(ish => {ish.length}); i++) {
+            queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi += 10, sc += 10).forEach(ish => {ish.title})}`);
             } 
             queueEmbed.setFooter(`Now Playing : ${video.title}`) 
             playingMessage.edit(queueEmbed)
