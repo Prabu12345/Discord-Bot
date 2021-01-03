@@ -70,7 +70,7 @@ module.exports = class QueueCommand extends Command {
             fi -= 10;
             sc -= 10;
 
-            queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
+            queueEmbed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
             for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
             queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.title})}`);
             } 
@@ -84,7 +84,7 @@ module.exports = class QueueCommand extends Command {
             fi += 10;
             sc += 10;
 
-            queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
+            queueEmbed.setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
             for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
             queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish[i].title})}`);
             } 
