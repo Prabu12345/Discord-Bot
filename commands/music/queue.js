@@ -34,25 +34,26 @@ module.exports = class QueueCommand extends Command {
     const video = message.guild.musicData.nowPlaying;
     /* eslint-disable */
     // display only first 10 items in queue
-    const obj = message.guild.musicData.queue
-    let fi = 0;
-    let sc = 10;
+    message.guild.musicData.queue.slice(0, 10).forEach(obj => {
+      titleArray.push(obj.title)
+    })
     /* eslint-enable */
     var queueEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setTitle(`Music Queue - ${obj.length} items`);
-    for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-      queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish[i].title})}`);
+      .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
+    for (let i = 0; i < titleArray.length; i++) {
+      queueEmbed.addField(`${i + 1}:`, `${titleArray[i]}`);
     } 
       queueEmbed.setFooter(`Now Playing : ${video.title}`) 
     var playingMessage = await message.say(queueEmbed);  
-      if (obj.length > 10) {
-        await playingMessage.react("⬅️");
-        await playingMessage.react("➡️");
-        await playingMessage.react("🗑️");
-      } else {
-        await playingMessage.react("🗑️");
-      }
+
+    if (message.guild.musicData.queue > 10 ) {
+      await playingMessage.react("⬅️");
+      await playingMessage.react("➡️");
+      await playingMessage.react("🗑️");
+
+      let fi = 0;
+      let sc = 10;
 
       const filter = (reaction, user) => user.id !== message.client.user.id;
       var collector = playingMessage.createReactionCollector(filter, {
@@ -70,11 +71,13 @@ module.exports = class QueueCommand extends Command {
             sc -= 10;
 
             queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
-            for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-            queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish[i].title})}`);
+            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
+            queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.title})}`);
             } 
             queueEmbed.setFooter(`Now Playing : ${video.title}`) 
             playingMessage.edit(queueEmbed)
+            break;
+
           case "➡️":
             reaction.users.remove(user).catch(console.error);
 
@@ -82,8 +85,8 @@ module.exports = class QueueCommand extends Command {
             sc += 10;
 
             queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
-            for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
-            queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish[i].title})}`);
+            for (let i = 0; i < message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish.length}); i++) {
+            queueEmbed.addField(`${i + 1}:`, `${message.guild.musicData.queue.slice(fi, sc).forEach(ish => {ish[i].title})}`);
             } 
             queueEmbed.setFooter(`Now Playing : ${video.title}`) 
             playingMessage.edit(queueEmbed)
@@ -91,7 +94,8 @@ module.exports = class QueueCommand extends Command {
   
           case "🗑️":
             reaction.users.remove(user).catch(console.error);
-            collector.stop()
+            playingMessage.reactions.removeAll().catch(console.error);
+            playingMessage.delete({ timeout: 1000 }).catch(console.error);
             break;
   
           default:
@@ -104,5 +108,7 @@ module.exports = class QueueCommand extends Command {
         playingMessage.reactions.removeAll().catch(console.error);
         playingMessage.delete({ timeout: 1000 }).catch(console.error);
       });
+    }
+
   }
 };
