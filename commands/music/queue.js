@@ -47,7 +47,7 @@ module.exports = class QueueCommand extends Command {
       queueEmbed.setFooter(`Now Playing : ${video.title}`) 
     var playingMessage = await message.say(queueEmbed);  
 
-    if (message.guild.musicData.queue > 10 ) {
+    if (message.guild.musicData.queue.length > 10 ) {
       await playingMessage.react("⬅️");
       await playingMessage.react("➡️");
       await playingMessage.react("🗑️");
