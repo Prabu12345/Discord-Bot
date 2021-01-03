@@ -32,7 +32,7 @@ module.exports = class QueueCommand extends Command {
     }
 
     let currentPage = 0;
-    const embeds = generateQueueEmbed(message);
+    const embeds = generateQueueEmbed(message, message.guild.musicData.queue);
 
     const queueEmbed = await message.channel.send(
       `**\`${currentPage + 1}\`**/**${embeds.length}**`,
@@ -77,19 +77,19 @@ module.exports = class QueueCommand extends Command {
   }
 };
 
-function generateQueueEmbed(message) {
+function generateQueueEmbed(message, queue) {
   let embeds = [];
   let k = 10;
 
-  for (let i = 0; i < message.guild.musicData.queue.length; i += 10) {
-    const current = message.guild.musicData.queue.slice(i, k);
+  for (let i = 0; i < queue.length; i += 10) {
+    const current = queue.slice(i, k);
     let j = i;
     k += 10;
 
     const info = current.map((track) => `**\`${++j}\`** | [\`${track.title}\`](${track.url})`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
-    .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`)
+    .setTitle(`Music Queue - ${queue.length} items`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
     .setFooter(`Now Playing : ${video.title}`)
