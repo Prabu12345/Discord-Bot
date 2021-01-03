@@ -62,7 +62,7 @@ module.exports = class PlayCommand extends Command {
         message.say(errvideoEmbed);
         return;
     }
-
+    
     if (
       // if the user entered a youtube playlist url
       query.match(
@@ -73,8 +73,7 @@ module.exports = class PlayCommand extends Command {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription('Playlist is either private or it does not exist!')
-        message.say(errvideoEmbed);
-        return;
+        return message.say(errvideoEmbed);
       });
       // add 10 as an argument in getVideos() if you choose to limit the queue
       const videosArr = await playlist.getVideos().catch(function() {

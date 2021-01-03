@@ -14,7 +14,7 @@ module.exports = class QueueCommand extends Command {
     });
   }
 
-  run(message) {
+  async run(message) {
     if (message.guild.triviaData.isTriviaRunning)
       return message.say('Try again after the trivia has ended');
     if (message.guild.musicData.queue.length == 0) {
@@ -34,17 +34,81 @@ module.exports = class QueueCommand extends Command {
     const video = message.guild.musicData.nowPlaying;
     /* eslint-disable */
     // display only first 10 items in queue
-    message.guild.musicData.queue.slice(0, 10).forEach(obj => {
-      titleArray.push(obj.title);
-    });
+    const obj = message.guild.musicData.queue
+    let fi = 0;
+    let sc = 10;
     /* eslint-enable */
     var queueEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`);
-    for (let i = 0; i < titleArray.length; i++) {
-      queueEmbed.addField(`${i + 1}:`, `${titleArray[i]}`);
+      .setTitle(`Music Queue - ${obj.length} items`);
+    for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
+      queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish.title})}`);
     } 
-      queueEmbed.setFooter(`Now Playing : ${video.title}`)
-    return message.say(queueEmbed);
+      queueEmbed.setFooter(`Now Playing : ${video.title}`) 
+    var playingMessage = await message.say(queueEmbed);  
+      if (obj.length > 10) {
+        await playingMessage.react("⬅️");
+        await playingMessage.react("➡️");
+        await playingMessage.react("🗑️");
+      } else {
+        await playingMessage.react("🗑️");
+      }
+
+      const filter = (reaction, user) => user.id !== message.client.user.id;
+      var collector = playingMessage.createReactionCollector(filter, {
+        time: 120000
+      });
+  
+      collector.on("collect", (reaction, user) => {
+        if (!queue) return;
+  
+        switch (reaction.emoji.name) {
+          case "⬅️":
+            reaction.users.remove(user).catch(console.error);
+
+            fi -= 10;
+            sc -= 10;
+
+            if (obj.length < 11) {
+              break;
+            } else if (obj.length > 10) {
+              queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
+              for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
+              queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi - 10, sc - 10).forEach(ish => {ish.title})}`);
+              } 
+              queueEmbed.setFooter(`Now Playing : ${video.title}`) 
+              playingMessage.edit(queueEmbed)
+            }
+            break;
+  
+          case "➡️":
+            reaction.users.remove(user).catch(console.error);
+
+            fi += 10;
+            sc += 10;
+
+            queueEmbed.setTitle(`Music Queue - ${obj.length} items`);
+            for (let i = 0; i < obj.slice(fi, sc).forEach(ish => {ish.length}); i++) {
+            queueEmbed.addField(`${i + 1}:`, `${obj.slice(fi, sc).forEach(ish => {ish.title})}`);
+            } 
+            queueEmbed.setFooter(`Now Playing : ${video.title}`) 
+            playingMessage.edit(queueEmbed)
+            break;
+  
+          case "🗑️":
+            reaction.users.remove(user).catch(console.error);
+            collector.stop()
+            break;
+  
+          default:
+            reaction.users.remove(user).catch(console.error);
+            break;
+        }
+      });
+  
+      collector.on("end", () => { 
+        playingMessage.reactions.removeAll().catch(console.error);
+        playingMessage.delete({ timeout: 1000 }).catch(console.error);
+      });
   }
 };
