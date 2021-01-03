@@ -87,7 +87,7 @@ function generateQueueEmbed(message) {
     k += 10;
 
     const info = current.map((track) => `**\`${++j}\`** | [\`${track.title}\`](${track.url})`).join("\n");
-  
+    const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
     .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`)
     .setColor(normalcolor)
