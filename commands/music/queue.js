@@ -32,7 +32,7 @@ module.exports = class QueueCommand extends Command {
     }
 
     let currentPage = 0;
-    const embeds = generateQueueEmbed(message, queue.songs);
+    const embeds = generateQueueEmbed(message);
 
     const queueEmbed = await message.channel.send(
       `**\`${currentPage + 1}\`**/**${embeds.length}**`,
