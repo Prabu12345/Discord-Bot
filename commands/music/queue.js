@@ -35,13 +35,12 @@ module.exports = class QueueCommand extends Command {
     const embeds = generateQueueEmbed(message, message.guild.musicData.queue);
 
     const queueEmbed = await message.channel.send(
-      `**\`${currentPage + 1}\`**/**${embeds.length}**`,
       embeds[currentPage]
     );
 
     try {
       await queueEmbed.react("⬅️");
-      await queueEmbed.react("🛑");
+      await queueEmbed.react("🗑️");
       await queueEmbed.react("➡️");
     } catch (error) {
       console.error(error);
