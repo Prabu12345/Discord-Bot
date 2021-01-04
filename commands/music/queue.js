@@ -67,6 +67,7 @@ module.exports = class QueueCommand extends Command {
         } else {
           collector.stop();
           reaction.message.reactions.removeAll();
+          reaction.message.delete({ timeout: 1000 }).catch(console.error);
         }
         await reaction.users.remove(message.author.id);
       } catch (error) {
@@ -86,7 +87,7 @@ function generateQueueEmbed(message, queue) {
     let j = i;
     k += 10;
 
-    const info = current.map((track) => `**\`${++j}\`** | [\`${track.title}\`](${track.url})`).join("\n");
+    const info = current.map((track) => `**${++j}** | [${track.title}](${track.url})`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
     .setTitle(`Music Queue - ${queue.length} items`)
