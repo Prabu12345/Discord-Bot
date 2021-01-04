@@ -96,4 +96,6 @@ function generateQueueEmbed(message, queue) {
 
     embeds.push(embed);
   }
+
+  return embeds;
 };
