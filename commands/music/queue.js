@@ -56,12 +56,12 @@ module.exports = class QueueCommand extends Command {
         if (reaction.emoji.name === "➡️") {
           if (currentPage < embeds.length - 1) {
             currentPage++;
-            queueEmbed.edit(`**\`${currentPage + 1}\`**/**${embeds.length}**`, embeds[currentPage]);
+            queueEmbed.edit(embeds[currentPage]);
           }
         } else if (reaction.emoji.name === "⬅️") {
           if (currentPage !== 0) {
             --currentPage;
-            queueEmbed.edit(`**\`${currentPage + 1}\`**/**${embeds.length}**`, embeds[currentPage]);
+            queueEmbed.edit(embeds[currentPage]);
           }
         } else {
           collector.stop();
