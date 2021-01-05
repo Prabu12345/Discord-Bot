@@ -49,7 +49,7 @@ module.exports = class VolumeCommand extends Command {
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errvolumeEmbed);
       return;
-    } else if (wantedVolume >= 100) {
+    } else if (wantedVolume > 100) {
       const errvolumeEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('You cant set the volume above 100%')
