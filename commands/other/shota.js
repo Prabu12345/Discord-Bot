@@ -23,13 +23,13 @@ module.exports = class CatCommand extends Command {
     let lols = await lol1.getSFWShota();
     if (!message.channel.nsfw) {
     let embed = new MessageEmbed()
-    .setTitle('Loli')
+    .setTitle('Shota')
     .setImage(lols.url)
     .setColor(normalcolor);
     message.channel.send(embed);
     } else {
     let embed = new MessageEmbed()
-    .setTitle('Loli')
+    .setTitle('Shota')
     .setImage(lols.url)
     .setColor(normalcolor);
     message.channel.send(embed);

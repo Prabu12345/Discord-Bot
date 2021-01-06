@@ -30,7 +30,7 @@ module.exports = class CatCommand extends Command {
     message.channel.send(embed);
     } else {
     let embed = new MessageEmbed()
-    .setTitle('Loli')
+    .setTitle('Lewd Loli')
     .setImage(lolns.url)
     .setColor(normalcolor);
     message.channel.send(embed);
