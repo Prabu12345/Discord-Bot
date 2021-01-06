@@ -20,14 +20,21 @@ module.exports = class CatCommand extends Command {
 
   async run(message) {
     const lol1 = new Loli();
-    let lol = await lol1.getSFWLoli();
-
+    let lols = await lol1.getSFWLoli();
+    let lolns = await lol1.getNSFWLoli();
+    if (!message.channel.nsfw) {
     let embed = new MessageEmbed()
     .setTitle('Loli')
-    .setImage(lol.url)
+    .setImage(lols.url)
     .setColor(normalcolor);
-
     message.channel.send(embed);
+    } else {
+    let embed = new MessageEmbed()
+    .setTitle('Loli')
+    .setImage(lolns.url)
+    .setColor(normalcolor);
+    message.channel.send(embed);
+    }
   } catch (err) {
     message.channel.send('There was an error!\n' + err).catch();
   }
