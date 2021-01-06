@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const loli = require('lolis.life')
 const { normalcolor, errorcolor } = require('../../config.json')
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class CatCommand extends Command {
   constructor(client) {
@@ -18,7 +19,7 @@ module.exports = class CatCommand extends Command {
   }
 
   run(message) {
-    let embed = new Discord.RichEmbed()
+    let embed = new MessageEmbed()
     .setTitle('Loli')
     .setImage(loli.url)
     .setColor(normalcolor);
