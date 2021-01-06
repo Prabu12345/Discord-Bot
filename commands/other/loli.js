@@ -18,7 +18,7 @@ module.exports = class CatCommand extends Command {
     });
   }
 
-  run(message) {
+  async run(message) {
     let lol = await loli.getSFWLoli();
 
     let embed = new MessageEmbed()
