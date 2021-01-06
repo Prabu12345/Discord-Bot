@@ -8,8 +8,8 @@ module.exports = class CatCommand extends Command {
     super(client, {
       name: 'loli',
       aliases: ['loli-pic', 'notlegal'],
-      group: 'other',
-      memberName: 'anime',
+      group: 'anime',
+      memberName: 'loli',
       description: 'Showing a Lollies picture, if you want NSFW lolies just turn on you NSFW Channel',
       throttling: {
         usages: 2,
