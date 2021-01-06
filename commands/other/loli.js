@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const loli = require('lolis.life')
+const Loli = require('lolis.life')
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 
