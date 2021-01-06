@@ -6,11 +6,11 @@ const { MessageEmbed } = require('discord.js');
 module.exports = class CatCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'loli',
-      aliases: ['loli-pic', 'lolisafe'],
+      name: 'shota',
+      aliases: ['shota-pic', 'shotasafe'],
       group: 'other',
-      memberName: 'loli',
-      description: 'Showing a Lollies picture, if you want NSFW lolies just turn on you NSFW Channel',
+      memberName: 'shota',
+      description: 'Showing a Shota picture',
       throttling: {
         usages: 2,
         duration: 10
@@ -20,8 +20,7 @@ module.exports = class CatCommand extends Command {
 
   async run(message) {
     const lol1 = new Loli();
-    let lols = await lol1.getSFWLoli();
-    let lolns = await lol1.getNSFWLoli();
+    let lols = await lol1.getSFWShota();
     if (!message.channel.nsfw) {
     let embed = new MessageEmbed()
     .setTitle('Loli')
@@ -31,7 +30,7 @@ module.exports = class CatCommand extends Command {
     } else {
     let embed = new MessageEmbed()
     .setTitle('Loli')
-    .setImage(lolns.url)
+    .setImage(lols.url)
     .setColor(normalcolor);
     message.channel.send(embed);
     }
