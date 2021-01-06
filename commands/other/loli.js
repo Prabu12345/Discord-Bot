@@ -19,9 +19,11 @@ module.exports = class CatCommand extends Command {
   }
 
   run(message) {
+    let lol = await loli.getSFWLoli();
+
     let embed = new MessageEmbed()
     .setTitle('Loli')
-    .setImage(loli.url)
+    .setImage(lol.url)
     .setColor(normalcolor);
 
     message.channel.send(embed);
