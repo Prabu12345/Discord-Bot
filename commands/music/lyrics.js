@@ -59,8 +59,6 @@ module.exports = class LyricsCommand extends Command {
       ''
     );
 
-    message.say(`${songName}`)
-
     LyricsCommand.searchSong(songName)
       .then(function(url) {
         LyricsCommand.getSongPageURL(url)
@@ -75,6 +73,7 @@ module.exports = class LyricsCommand extends Command {
                 }
                 if (lyrics.length < 2048) {
                   const lyricsEmbed = new MessageEmbed()
+                    .setTitle(songName)
                     .setColor('#00724E')
                     .setDescription(lyrics.trim())
                     .setFooter('Provided by genius.com');
@@ -82,10 +81,12 @@ module.exports = class LyricsCommand extends Command {
                 } else {
                   // 2048 < lyrics.length < 4096
                   const firstLyricsEmbed = new MessageEmbed()
+                    .setTitle(songName)
                     .setColor('#00724E')
                     .setDescription(lyrics.slice(0, 2048))
                     .setFooter('Provided by genius.com');
                   const secondLyricsEmbed = new MessageEmbed()
+                    .setTitle(songName)
                     .setColor('#00724E')
                     .setDescription(lyrics.slice(2048, lyrics.length))
                     .setFooter('Provided by genius.com');
