@@ -18,7 +18,8 @@
     "ffmpeg-static": "^4.2.7",
     "iso-639-1": "^2.1.5",
     "simple-youtube-api": "^5.2.1",
-    "ytdl-core": "^4.4.0"
+    "ytdl-core": "^4.4.0",
+    "lolis.life": "^4.0.0"
   },
   "devDependencies": {
     "@getify/eslint-plugin-proper-arrows": "^8.0.1",
