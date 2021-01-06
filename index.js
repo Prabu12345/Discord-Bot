@@ -33,26 +33,26 @@ const client = new CommandoClient({
 });
 
 client.registry
-  .registerDefaultTypes({
-    unknownCommand: false,
-  })
-  .registerGroups([
+  .registerDefaultTypes()
+  .registerGroups([ 
+    ['guild', 'guild related commands'],
     ['music', 'Music Command Group'],
     ['gifs', 'Gif Command Group'],
-    ['other', 'random types of commands group'],
-    ['guild', 'guild related commands']
+    ['anime', 'Anime Command Group'],   
+    ['other', 'random types of commands group']
   ])
   .registerDefaultGroups()
   .registerDefaultCommands({
+    unknownCommand: false,
     eval: false,
-    prefix: false,
+    prefix: true,
     commandState: false
   })
   .registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.once('ready', () => {
   console.log('Ready!');
-  client.user.setActivity(`Hehee | ${prefix}help`, {
+  client.user.setActivity(`Temp** | ${prefix}help`, {
     type: 'LISTENING',
     url: 'https://discord.gg/n5yFCYSkQn'
   });

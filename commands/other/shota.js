@@ -7,8 +7,8 @@ module.exports = class CatCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'shota',
-      aliases: ['shota-pic', 'shotasafe'],
-      group: 'other',
+      aliases: ['shota-pic'],
+      group: 'anime',
       memberName: 'shota',
       description: 'Showing a Shota picture',
       throttling: {

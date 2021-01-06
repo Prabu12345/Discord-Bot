@@ -8,7 +8,7 @@ module.exports = class CatCommand extends Command {
     super(client, {
       name: 'neko',
       aliases: ['neko-pic'],
-      group: 'other',
+      group: 'anime',
       memberName: 'neko',
       description: 'Showing a Neko picture, if you want a lewd turn on nsfw',
       throttling: {
