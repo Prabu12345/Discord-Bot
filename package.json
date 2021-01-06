@@ -19,6 +19,7 @@
     "iso-639-1": "^2.1.5",
     "simple-youtube-api": "^5.2.1",
     "ytdl-core": "^4.4.0",
+    "nekos.life": "^2.0.3",
     "lolis.life": "^4.0.0"
   },
   "devDependencies": {
