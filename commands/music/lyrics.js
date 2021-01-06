@@ -74,7 +74,7 @@ module.exports = class LyricsCommand extends Command {
                 if (lyrics.length < 2048) {
                   const lyricsEmbed = new MessageEmbed()
                     .setTitle(songName)
-                    .setColor('#00724E')
+                    .setColor(normalcolor)
                     .setDescription(lyrics.trim())
                     .setFooter('Provided by genius.com');
                   return sentMessage.edit('', lyricsEmbed);
@@ -82,12 +82,12 @@ module.exports = class LyricsCommand extends Command {
                   // 2048 < lyrics.length < 4096
                   const firstLyricsEmbed = new MessageEmbed()
                     .setTitle(songName)
-                    .setColor('#00724E')
+                    .setColor(normalcolor)
                     .setDescription(lyrics.slice(0, 2048))
                     .setFooter('Provided by genius.com');
                   const secondLyricsEmbed = new MessageEmbed()
                     .setTitle(songName)
-                    .setColor('#00724E')
+                    .setColor(normalcolor)
                     .setDescription(lyrics.slice(2048, lyrics.length))
                     .setFooter('Provided by genius.com');
                   sentMessage.edit('', firstLyricsEmbed);
