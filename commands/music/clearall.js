@@ -5,11 +5,11 @@ const { MessageEmbed } = require('discord.js');
 module.exports = class SkipAllCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'skipall',
-      aliases: ['skip-all'],
-      memberName: 'skipall',
+      name: 'clearall',
+      aliases: ['clear-all'],
+      memberName: 'clearall',
       group: 'music',
-      description: 'Skip all songs in queue',
+      description: 'Claer all songs in queue',
       guildOnly: true
     });
   }

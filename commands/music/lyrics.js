@@ -14,7 +14,7 @@ module.exports = class LyricsCommand extends Command {
         'Get lyrics of any song or the lyrics of the currently playing song',
       group: 'music',
       throttling: {
-        usages: 1,
+        usages: 2,
         duration: 10
       },
       args: [
@@ -42,7 +42,10 @@ module.exports = class LyricsCommand extends Command {
     } else if (songName == '' && !message.guild.musicData.isPlaying) {
       errlyricsEmbed.setDescription('There is no song playing right now, please try again with a song name or play a song first')
       return message.say(errlyricsEmbed);
+    } else if (!songName == '') {
+      songName = songName
     }
+
     const sentMessage = await message.channel.send(
       '👀 Searching for lyrics 👀'
     );
