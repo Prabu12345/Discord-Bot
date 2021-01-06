@@ -10,7 +10,7 @@ module.exports = class CatCommand extends Command {
       aliases: ['neko-pic'],
       group: 'other',
       memberName: 'neko',
-      description: 'Showing a Shota picture',
+      description: 'Showing a Neko picture, if you want a lewd turn on nsfw',
       throttling: {
         usages: 2,
         duration: 10
