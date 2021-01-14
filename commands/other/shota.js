@@ -22,12 +22,16 @@ module.exports = class CatCommand extends Command {
     const lol1 = new Loli();
     let lols = await lol1.getSFWShota();
     if (!message.channel.nsfw) {
+      message.channel.send('API Nya Rusak GBLK SBR, Yang buat apinya gblk')
+      return;
     let embed = new MessageEmbed()
     .setTitle('Shota')
     .setImage(lols.url)
     .setColor(normalcolor);
     message.channel.send(embed);
     } else {
+      message.channel.send('API Nya Rusak GBLK SBR, Yang buat apinya gblk')
+      return;
     let embed = new MessageEmbed()
     .setTitle('Shota')
     .setImage(lols.url)
