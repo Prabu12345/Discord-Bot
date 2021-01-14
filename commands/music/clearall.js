@@ -40,7 +40,10 @@ module.exports = class SkipAllCommand extends Command {
     message.guild.musicData.loop = 'off';
     message.guild.musicData.queue.length = 0; // clear queue
     message.guild.musicData.songDispatcher.end();
-    message.react('⏭️');
+    const errleaveEmbed = new MessageEmbed()
+      .setColor(normalcolor)
+      .setDescription('The queue has cleared!')
+    message.say(errleaveEmbed);
     return;
   }
 };
