@@ -1,5 +1,4 @@
 const { Command } = require('discord.js-commando');
-const { prefix } = require('../../config.json')
 
 module.exports = class CatCommand extends Command {
   constructor(client) {
@@ -44,3 +43,12 @@ module.exports = class CatCommand extends Command {
     }
   }
 };
+
+function getSubstringIndex(str, substring, n) {
+    var times = 0, index = null;
+    while (times < n && index !== -1) {
+        index = str.indexOf(substring, index+substring.length);
+        times++;
+    }
+    return index;
+}
