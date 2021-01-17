@@ -47,9 +47,9 @@ module.exports = class LoopCommand extends Command {
     const video = message.guild.musicData.nowPlaying;
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
-      loopEmbed.setDescription('Looped **One track**, **loop off** if you want to stop looping!')
+      loopEmbed.setDescription('seek')
       message.say(loopEmbed)
-      queue.connection.play(video.url, {seek: time / 1000})
+      qqueue.connection.dispatcher.end(video.url, {seek: time / 1000})
     return;
   }
 };
