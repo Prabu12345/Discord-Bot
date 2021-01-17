@@ -24,7 +24,7 @@ module.exports = class QueueCommand extends Command {
         .setDescription('There are no songs in queue!')
         if (video) {
           errqueueembed.setColor(normalcolor)
-          errqueueembed.setFooter(`Now Playing : ${video.title}`)
+          errqueueembed.setFooter(`Now Playing : ${video.title}  | Loop **${message.guild.musicData.loop}** Track`)
         } else {
           errqueueembed.setColor(errorcolor)
         };

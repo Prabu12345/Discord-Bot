@@ -49,7 +49,7 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
       loopEmbed.setDescription('seek')
       message.say(loopEmbed)
-      qqueue.connection.dispatcher.end(video.url, {seek: time / 1000})
+      queue.connection.dispatcher.end(video.url, {seek: time / 1000})
     return;
   }
 };
