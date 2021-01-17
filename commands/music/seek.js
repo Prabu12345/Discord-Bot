@@ -44,6 +44,10 @@ module.exports = class LoopCommand extends Command {
       .setColor(errorcolor)
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
       message.reply(errloopEmbed);
+      message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
+      setTimeout(() => {
+        message.guild.musicData.songDispatcher.end();
+      }, 100);
       return;
     }
     const video = message.guild.musicData.nowPlaying;
