@@ -26,7 +26,7 @@ module.exports = class CatCommand extends Command {
     let splitMessage = whatrd.split(' ');
     var filteredMessage = whatrd.replace(splitMessage[0], '');
     function reminder() {
-      message.reply("\n**REMINDER:**\n" + filteredMessage);
+      message.reply("**REMINDER:**\n" + filteredMessage);
     }
     switch(splitMessage[0].slice(-1)) {
       case 's': {
