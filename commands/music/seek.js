@@ -14,7 +14,7 @@ module.exports = class LoopCommand extends Command {
       args: [
         {
           key: 'time',
-          type: 'time',
+          type: 'string',
           prompt: 'Enter seek time. E.g. 1:30 or 0:30'
         }
       ]
@@ -49,7 +49,7 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
       loopEmbed.setDescription('Looped **One track**, **loop off** if you want to stop looping!')
       message.say(loopEmbed)
-      queue.connection.play(video.url, {seek: time.total.seconds / 1000})
+      queue.connection.play(video.url, {seek: time / 1000})
     return;
   }
 };

@@ -4,7 +4,7 @@ module.exports = class CatCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'remind',
-      aliases: ['rdme', 'remindme'],
+      aliases: ['rm', 'rdme'],
       group: 'other',
       memberName: 'remind',
       description: 'To Remind you.',
