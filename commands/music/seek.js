@@ -23,7 +23,7 @@ module.exports = class LoopCommand extends Command {
     });
   }
 
-  run(message, queue, { time }) {
+  async run(message, queue, { time }) {
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
