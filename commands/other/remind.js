@@ -27,12 +27,8 @@ module.exports = class CatCommand extends Command {
     var reminders = [];
 	
 	var reminderMsg = whatrd
-		if (!reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end)) {
-			message.channel.send("Please Insert want remind to!");
-			return;
-		}	
 		if (reminderMsg == "") {
-      	message.channel.send("There are no reminders right now!");
+      	message.channel.send("Please Insert want remind to!");
 		} else if (reminderMsg.search(/[0-9]+(s|m|h|d){1}/) >= 0) {
 			var time = reminderMsg.substring(0,reminderMsg.search(" ")).toLowerCase();
 			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
