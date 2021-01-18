@@ -6,7 +6,7 @@ module.exports = class CatCommand extends Command {
       name: 'remindcp',
       aliases: ['rmcp', 'rdmecp'],
       group: 'other',
-      memberName: 'remind',
+      memberName: 'remindcp',
       description: 'To Remind you.',
       throttling: {
         usages: 2,
