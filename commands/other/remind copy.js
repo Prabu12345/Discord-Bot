@@ -29,7 +29,16 @@ module.exports = class CatCommand extends Command {
     var reminderMsg = whatrd
 		
 		if (reminderMsg == "") {
-			message.reply('Type !help remind to learn how to remind');
+      if (reminders.length === 0) {
+        msg.channel.send("There are no reminders right now!");
+      } else {
+        var txt = "";
+        var list = reminders.forEach(function(value, index, array){
+          var d = new Date();
+          txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + ")\n";
+        });
+        message.channel.send("Here are your reminders: \n" + list);
+      }
 		} else if (reminderMsg.search(/[0-9]+(s|m|h|d){1}/) >= 0) {
 			var time = reminderMsg.substring(0,reminderMsg.search(" ")).toLowerCase();
 			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
