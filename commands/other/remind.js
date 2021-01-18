@@ -25,11 +25,13 @@ module.exports = class CatCommand extends Command {
 
   run(message, { whatrd }) {
     var reminders = [];
+	
+	var reminderMsg = whatrd
+		if (!reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end)) {
 
-    var reminderMsg = whatrd
-		
+		}	
 		if (reminderMsg == "") {
-      message.channel.send("There are no reminders right now!");
+      	message.channel.send("There are no reminders right now!");
 		} else if (reminderMsg.search(/[0-9]+(s|m|h|d){1}/) >= 0) {
 			var time = reminderMsg.substring(0,reminderMsg.search(" ")).toLowerCase();
 			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
@@ -66,9 +68,9 @@ module.exports = class CatCommand extends Command {
 				reminders.sort(function(a, b){return (a.starttime+a.timetowait) - (b.starttime+b.timetowait)});
 
 				setTimeout(function() 
-					{ console.log('worked');
+					{
 					  reminders.shift();
-					  message.channel.send(`Hey ${message.author}, This is a reminder to ` + outputMsg, {
+					  message.channel.send(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
 						tts: true
 					  });
 					}, actualTime);
