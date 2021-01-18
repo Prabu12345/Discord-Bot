@@ -28,7 +28,8 @@ module.exports = class CatCommand extends Command {
 	
 	var reminderMsg = whatrd
 		if (!reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end)) {
-
+			message.channel.send("Please Insert want remind to!");
+			return;
 		}	
 		if (reminderMsg == "") {
       	message.channel.send("There are no reminders right now!");
