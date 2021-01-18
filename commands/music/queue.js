@@ -92,7 +92,7 @@ function generateQueueEmbed(message, queue) {
     .setTitle(`Music Queue - ${queue.length} items`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
-    .setFooter(`Now Playing : ${video.title} | Loop **${message.guild.musicData.loop}** Track`)
+    .setFooter(`Now Playing : ${video.title} | Loop ${message.guild.musicData.loop} Track`)
 
     embeds.push(embed);
   }

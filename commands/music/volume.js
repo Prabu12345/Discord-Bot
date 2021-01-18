@@ -12,8 +12,8 @@ module.exports = class VolumeCommand extends Command {
       guildOnly: true,
       description: 'Adjust song volume',
       throttling: {
-        usages: 1,
-        duration: 5
+        usages: 2,
+        duration: 10
       },
       args: [
         {
@@ -56,12 +56,18 @@ module.exports = class VolumeCommand extends Command {
       message.say(errvolumeEmbed)
       return;
     }
-    const volume = wantedVolume;
-    message.guild.musicData.volume = volume;
-    message.guild.musicData.songDispatcher.setVolume(volume / 100);
-    const volumeEmbed = new MessageEmbed()
+    if(wantedVolume == ''){
+      const volumeEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`I set the volume to: **${wantedVolume}%**`)
-    message.say(volumeEmbed);
+      .setDescription(`The Volume is now **${message.guild.musicData.volume}%**`)
+    } else {
+      const volume = wantedVolume;
+      message.guild.musicData.volume = volume;
+      message.guild.musicData.songDispatcher.setVolume(volume / 100);
+      const volumeEmbed = new MessageEmbed()
+        .setColor(normalcolor)
+        .setDescription(`I set the volume to **${wantedVolume}%**`)
+      message.say(volumeEmbed);
+    }
   }
 };
