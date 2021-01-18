@@ -26,7 +26,7 @@ module.exports = class CatCommand extends Command {
   run(message, { whatrd }) {
     var reminders = [];
 
-    var reminderMsg = whatrd.substr(8,whatrd.end);
+    var reminderMsg = whatrd
 		
 		if (reminderMsg == "") {
 			message.reply('Type !help remind to learn how to remind');
