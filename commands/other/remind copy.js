@@ -26,7 +26,7 @@ module.exports = class CatCommand extends Command {
   run(message, { whatrd }) {
     var reminders = [];
 
-    var reminderMsg = whatrd.content.substr(8,whatrd.end);
+    var reminderMsg = whatrd.substr(8,whatrd.end);
 		
 		if (reminderMsg == "") {
 			message.reply('Type !help remind to learn how to remind');
@@ -39,7 +39,7 @@ module.exports = class CatCommand extends Command {
 			var typesOfTime = time.split(/[0-9]+/).filter(word => word != "");
 
 			if ((magnitudes.length == typesOfTime.length) && (-1 == time.search(/a|b|c|e|f|g|i|j|k|l|n|o|p|q|r|t|u|v|w|x|y|z/))) {
-				for (i = 0; i < magnitudes.length; i++) {
+				for (let i = 0; i < magnitudes.length; i++) {
 					switch (typesOfTime[i]) {
 						case 's':
 							actualTime += magnitudes[i]*1000;
