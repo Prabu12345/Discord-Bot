@@ -35,6 +35,8 @@ const client = new CommandoClient({
 });
 
 client.mongoose = require('./resources/mongoose');
+client.mongoose.init();
+
 
 client.registry
   .registerDefaultTypes()
@@ -98,5 +100,4 @@ client.on('voiceStateUpdate', async (___, newState) => {
   //}
 });
 
-client.mongoose.init();
 client.login(process.env.token);
