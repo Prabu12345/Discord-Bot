@@ -29,28 +29,8 @@ Structures.extend('Guild', function(Guild) {
   return MusicGuild;
 });
 
-const settings = Guild.findOne({
-  guildID: message.group.id
-}, (err, guild) => {
-  if(err) console.error(err)
-  if(!guild) {
-      const newGuild = new Guild({
-          _id: mongoose.Types.Objectid(),
-          guildID: message.guild.id,
-          guildName: message.guild.name,
-          prefix: prefix
-      })
-
-      newGuild.save()
-      .then(result => console.log(result))
-      .catch(err => console.error(err))
-
-      return message.channel.send('ga ad di database atau databasenya lg ga bisa di aksees sory!');
-  }
-});
-
 const client = new CommandoClient({
-  commandPrefix: settings.prefix,
+  commandPrefix: prefix,
   owner: discord_owner_id // value comes from config.json
 });
 
