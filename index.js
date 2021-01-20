@@ -16,6 +16,7 @@ Structures.extend('Guild', function(Guild) {
         isPlaying: false,
         loop: 'off',
         sloop: 'null',
+        remind: [],
         nowPlaying: null,
         songDispatcher: null,
         volume: 50
@@ -36,25 +37,13 @@ const client = new CommandoClient({
   owner: discord_owner_id // value comes from config.json
 });
 
-const dbOptions = {
-  useNewurlParser: true,
-  useUnifiedTopology: true,
-  autoIndex: false,
-  reconnectTries: Number.MAX_VALUE,
-  reconnectInterval: 500,
-  poolSize: 5, 
-  connectTimeoutMS: 10000,
-  family: 4
-};
-
 client.setProvider(
-  MongoClient.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority', dbOptions)
+  MongoClient.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority')
   .then(client => new MongoDBProvider(client, 'guaa'))
 ).catch(console.error);
 
 client.mongoose = require('./resources/mongoose');
 client.mongoose.init();
-
 
 client.registry
   .registerDefaultTypes()
