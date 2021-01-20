@@ -24,7 +24,7 @@ module.exports = class CatCommand extends Command {
         var txt = "";
         message.guild.musicData.remind.forEach(function(value, index, array){
             var d = new Date();
-            txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + ")\n";
+            txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + "-" + value.author + ")\n";
         });
         message.channel.send("Here are your reminders: \n" + txt);
     }
