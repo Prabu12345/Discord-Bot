@@ -19,14 +19,14 @@ module.exports = class CatCommand extends Command {
 
   async run(message) {
     if (message.guild.musicData.remind.length === 0) {
-        msg.channel.send("There are no reminders right now!");
+        message.channel.send("There are no reminders right now!");
     } else {
         var txt = "";
         message.guild.musicData.remind.forEach(function(value, index, array){
             var d = new Date();
             txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + ")\n";
         });
-        msg.channel.send("Here are your reminders: \n" + txt);
+        message.channel.send("Here are your reminders: \n" + txt);
     }
   }
 };

@@ -33,7 +33,7 @@ module.exports = class CatCommand extends Command {
 			var time = reminderMsg.substring(0,reminderMsg.search(" ")).toLowerCase();
 			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
 			var actualTime = 0;
-			if (!outputMsg) {
+			if (!whatrd[1]) {
 				return message.channel.send('Lu harus masukin buat apa gw ngingetin lu')
 			}
 
