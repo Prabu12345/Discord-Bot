@@ -29,7 +29,7 @@ Structures.extend('Guild', function(Guild) {
   return MusicGuild;
 });
 
-const settings = await Guild.findOne({
+const settings = Guild.findOne({
   guildID: message.group.id
 }, (err, guild) => {
   if(err) console.error(err)
