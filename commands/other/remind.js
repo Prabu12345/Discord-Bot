@@ -60,7 +60,7 @@ module.exports = class CatCommand extends Command {
 
 				message.channel.send(`${message.author}, your reminder has been set for ` + msToTime(actualTime));
 				var d = new Date();
-				var reminder = {author: message.author, remindermsg: outputMsg, starttime: d.getTime(), timetowait: actualTime};
+				var reminder = {author: message.member.user.username, remindermsg: outputMsg, starttime: d.getTime(), timetowait: actualTime};
 				
 				message.guild.musicData.remind.push(reminder);
 				message.guild.musicData.remind.sort(function(a, b){return (a.starttime+a.timetowait) - (b.starttime+b.timetowait)});
