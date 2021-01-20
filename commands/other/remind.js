@@ -24,14 +24,15 @@ module.exports = class CatCommand extends Command {
   }
 
   run(message, { whatrd }) {
-		if (whatrd.length == "") {
+    var reminders = [];
+	
+	var reminderMsg = whatrd
+		if (reminderMsg == "") {
       	message.channel.send("Please Insert want remind to!");
-		} else if (whatrd.search(/[0-9]+(s|m|h|d){1}/) >= 0) {
-			var time = whatrd[0]
-			var outputMsg = whatrd.slice(1).join("")
+		} else if (reminderMsg.search(/[0-9]+(s|m|h|d){1}/) >= 0) {
+			var time = reminderMsg.substring(0,reminderMsg.search(" ")).toLowerCase();
+			var outputMsg = reminderMsg.substring(1,reminderMsg.search(" ").join(" "), reminderMsg.end);
 			var actualTime = 0;
-
-			if(!outputMsg) return message.channel.send('Lu Harus tulis umtuk apa pengingat ini!')
 
 			var magnitudes = time.split(/s|d|m|h/).filter(word => word != "");
 			var typesOfTime = time.split(/[0-9]+/).filter(word => word != "");
@@ -60,12 +61,12 @@ module.exports = class CatCommand extends Command {
 				var d = new Date();
 				var reminder = {author: message.author, remindermsg: outputMsg, starttime: d.getTime(), timetowait: actualTime};
 				
-				message.guild.musicData.remind.push(reminder);
-				message.guild.musicData.remind.sort(function(a, b){return (a.starttime+a.timetowait) - (b.starttime+b.timetowait)});
+				reminders.push(reminder);
+				reminders.sort(function(a, b){return (a.starttime+a.timetowait) - (b.starttime+b.timetowait)});
 
 				setTimeout(function() 
 					{
-						message.guild.musicData.remind.shift();
+					  reminders.shift();
 					  message.channel.send(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
 						tts: true
 					  });
