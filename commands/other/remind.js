@@ -31,8 +31,11 @@ module.exports = class CatCommand extends Command {
       	message.channel.send("Please Insert want remind to!");
 		} else if (reminderMsg.search(/[0-9]+(s|m|h|d){1}/) >= 0) {
 			var time = reminderMsg.substring(0,reminderMsg.search(" ")).toLowerCase();
-			var outputMsg = reminderMsg.substring(1,reminderMsg.search(" ").join(" "), reminderMsg.end);
+			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
 			var actualTime = 0;
+			if (!outputMsg) {
+				return message.channel.send('Lu harus masukin buat apa gw ngingetin lu')
+			}
 
 			var magnitudes = time.split(/s|d|m|h/).filter(word => word != "");
 			var typesOfTime = time.split(/[0-9]+/).filter(word => word != "");
