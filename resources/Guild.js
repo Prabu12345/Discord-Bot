@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+
 
  const guildSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.Objectid,
+    _id: ObjectId,
     guildID: String,
     guildName: String,
     prefix: String
