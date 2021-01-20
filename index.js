@@ -2,6 +2,8 @@ const { CommandoClient } = require('discord.js-commando');
 const { Structures, VoiceChannel } = require('discord.js');
 const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
+const MongoClient = require('mongodb').MongoClient;
+const MongoDBProvider = require('commando-provider-mongo').MongoDBProvider;
 const mongoose = require('mongoose');
 const Guild = require('./resources/Guild')
 
@@ -34,6 +36,22 @@ const client = new CommandoClient({
   owner: discord_owner_id // value comes from config.json
 });
 
+const dbOptions = {
+  useNewurlParser: true,
+  useUnifiedTopology: true,
+  autoIndex: false,
+  reconnectTries: Number.MAX_VALUE,
+  reconnectInterval: 500,
+  poolSize: 5, 
+  connectTimeoutMS: 10000,
+  family: 4
+};
+
+client.setProvider(
+  MongoClient.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority', dbOptions)
+  .then(client => new MongoDBProvider(client, 'guaa'))
+).catch(console.error);
+
 client.mongoose = require('./resources/mongoose');
 client.mongoose.init();
 
@@ -51,7 +69,7 @@ client.registry
   .registerDefaultCommands({
     unknownCommand: false,
     eval: false,
-    prefix: false,
+    prefix: true,
     commandState: false
   })
   .registerCommandsIn(path.join(__dirname, 'commands'));
