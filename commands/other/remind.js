@@ -28,7 +28,7 @@ module.exports = class CatCommand extends Command {
       	message.channel.send("Please Insert want remind to!");
 		} else if (whatrd.search(/[0-9]+(s|m|h|d){1}/) >= 0) {
 			var time = whatrd[0]
-			var outputMsg = whatrd[1].join("")
+			var outputMsg = whatrd.slice(1).join("")
 			var actualTime = 0;
 
 			if(!outputMsg) return message.channel.send('Lu Harus tulis umtuk apa pengingat ini!')
