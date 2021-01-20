@@ -24,8 +24,6 @@ module.exports = class CatCommand extends Command {
   }
 
   run(message, { whatrd }) {
-    var reminders = [];
-	
 	var reminderMsg = whatrd
 		if (reminderMsg == "") {
       	message.channel.send("Please Insert want remind to!");
@@ -64,12 +62,12 @@ module.exports = class CatCommand extends Command {
 				var d = new Date();
 				var reminder = {author: message.author, remindermsg: outputMsg, starttime: d.getTime(), timetowait: actualTime};
 				
-				reminders.push(reminder);
-				reminders.sort(function(a, b){return (a.starttime+a.timetowait) - (b.starttime+b.timetowait)});
+				message.guild.musicData.remind.push(reminder);
+				message.guild.musicData.remind.sort(function(a, b){return (a.starttime+a.timetowait) - (b.starttime+b.timetowait)});
 
 				setTimeout(function() 
 					{
-					  reminders.shift();
+						message.guild.musicData.remind.shift();
 					  message.channel.send(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
 						tts: true
 					  });
