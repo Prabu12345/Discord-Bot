@@ -18,11 +18,15 @@ module.exports = class MoveSongCommand extends Command {
       args: [
         {
           key: 'oldPosition',
-          type: 'integer'
+          type: 'integer',
+          default: '',
+          prompt: 'What is the position of the song you want to move?'
         },
         {
           key: 'newPosition',
-          type: 'integer'
+          type: 'integer',
+          default: '',
+          prompt: 'What position do you want to move the song to?'
         }
       ]
     });

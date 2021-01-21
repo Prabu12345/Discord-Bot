@@ -22,6 +22,8 @@ module.exports = class searchCommand extends Command {
       args: [
         {
           key: 'query',
+          prompt: 'What song would you like to listen to?',
+          default: '',
           type: 'string',
           validate: function(query) {
             return query.length > 0 && query.length < 200;

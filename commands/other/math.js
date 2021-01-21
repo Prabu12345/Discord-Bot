@@ -16,7 +16,8 @@ module.exports = class CatCommand extends Command {
       args: [
         {
           key: 'calNumber',
-          //prompt: 'Mau Ngitung apa lu?',
+          default: '',
+          prompt: 'Mau Ngitung apa lu?',
           type: 'string'
         }
       ]

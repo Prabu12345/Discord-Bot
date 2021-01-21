@@ -17,7 +17,9 @@ module.exports = class CatCommand extends Command {
       },
       args: [
         {
-          key: 'whatrd',
+		  key: 'whatrd',
+		  default: '',
+          prompt: 'mau gw ingetin apa?',
           type: 'string'
         }
       ]
