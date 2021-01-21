@@ -1,4 +1,6 @@
 const { Command } = require('discord.js-commando');
+const { MessageEmbed } = require('discord.js');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class CatCommand extends Command {
   constructor(client) {
@@ -8,7 +10,7 @@ module.exports = class CatCommand extends Command {
       group: 'other',
       memberName: 'remind',
 	  description: 'To Remind you.',
-	  examples: ['1h30m Remindme to working', '1h30m Remindme to working'],
+	  examples: ['remind 1h30m Remindme to working', 'remind 1h30m Remindme to working'],
       throttling: {
         usages: 2,
         duration: 10
@@ -16,7 +18,7 @@ module.exports = class CatCommand extends Command {
       args: [
         {
           key: 'whatrd',
-          prompt: 'mau gw ingetin apa?',
+          //prompt: 'mau gw ingetin apa?',
           type: 'string'
         }
       ]
@@ -24,6 +26,7 @@ module.exports = class CatCommand extends Command {
   }
 
   run(message, { whatrd }) {
+	let embed = new MessageEmbed()
 	var reminderMsg = whatrd
 		if (reminderMsg == "") {
       	message.channel.send("Please Insert want remind to!");
@@ -32,7 +35,9 @@ module.exports = class CatCommand extends Command {
 			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
 			var actualTime = 0;
 			if (!time) {
-				return message.channel.send('Lu harus masukin buat apa gw ngingetin lu')
+				embed.setColor(errorcolor)
+				embed.setDescription('Lu harus masukin buat apa gw ngingetin lu')
+				return message.channel.send(embed)
 			}
 
 			var magnitudes = time.split(/s|d|m|h/).filter(word => word != "");
@@ -58,7 +63,9 @@ module.exports = class CatCommand extends Command {
 					}
 				}
 
-				message.channel.send(`${message.author}, your reminder has been set for ` + msToTime(actualTime));
+				embed.setColor(normalcolor)
+				embed.setDescription(`${message.author}, your reminder has been set for ` + msToTime(actualTime))
+				message.channel.send(embed);
 				var d = new Date();
 				var reminder = {author: message.member.user.username, remindermsg: outputMsg, starttime: d.getTime(), timetowait: actualTime};
 				
@@ -67,10 +74,12 @@ module.exports = class CatCommand extends Command {
 
 				setTimeout(function() 
 					{
+						embed.setColor(normalcolor)
+						embed.setDescription(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
+							tts: true
+						  })
 						message.guild.musicData.remind.shift();
-					  message.channel.send(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
-						tts: true
-					  });
+					  message.channel.send(embed);
 					}, actualTime);
 			} else {
 				message.reply('You formatted the time incorrectly it should only have numbers and the letters s, m, h and d and it should look like: \'4d20h30s\' or \'2h30m\' ');

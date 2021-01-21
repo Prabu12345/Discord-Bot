@@ -13,6 +13,7 @@ module.exports = class LyricsCommand extends Command {
       description:
         'Get lyrics of any song or the lyrics of the currently playing song',
       group: 'music',
+      examples: ['lyrics my hero'],
       throttling: {
         usages: 2,
         duration: 10
@@ -21,8 +22,8 @@ module.exports = class LyricsCommand extends Command {
         {
           key: 'songName',
           default: '',
-          type: 'string',
-          prompt: 'What song lyrics would you like to get?'
+          type: 'string'
+          //prompt: 'What song lyrics would you like to get?'
         }
       ]
     });

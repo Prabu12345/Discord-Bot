@@ -9,18 +9,19 @@ module.exports = class LoopCommand extends Command {
       group: 'music',
       memberName: 'loop',
       guildOnly: true,
+      examples: ['Loop \'all\'', 'Loop \'one\''],
       description: 'Loop the current playing song',
       args: [
         {
-          key: 'numOfTimesToLoop',
-          type: 'string',
-          prompt: 'Loop **one** for looped current song, loop **all** for looped queue'
+          key: 'typeLoop',
+          type: 'string'
+          //prompt: 'Loop **one** for looped current song, loop **all** for looped queue'
         }
       ]
     });
   }
 
-  run(message, { numOfTimesToLoop }) {
+  run(message, { typeLoop }) {
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -47,18 +48,18 @@ module.exports = class LoopCommand extends Command {
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
 
-    if (numOfTimesToLoop == 'one') {
+    if (typeLoop == 'one') {
       loopEmbed.setDescription('Looped **One track**, **loop off** if you want to stop looping!')
       message.say(loopEmbed)
-      message.guild.musicData.loop = numOfTimesToLoop
-    } else if (numOfTimesToLoop == 'all') {
+      message.guild.musicData.loop = typeLoop
+    } else if (typeLoop == 'all') {
       loopEmbed.setDescription('Looped **All track**, **loop off** if you want to stop looping!')
       message.say(loopEmbed)
-      message.guild.musicData.loop = numOfTimesToLoop
-    } else if (numOfTimesToLoop == 'off') {
+      message.guild.musicData.loop = typeLoop
+    } else if (typeLoop == 'off') {
       loopEmbed.setDescription('Loop **off**!')
       message.say(loopEmbed)
-      message.guild.musicData.loop = numOfTimesToLoop
+      message.guild.musicData.loop = typeLoop
     };
     return;
   }

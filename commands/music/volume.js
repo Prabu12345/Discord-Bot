@@ -11,6 +11,7 @@ module.exports = class VolumeCommand extends Command {
       memberName: 'volume',
       guildOnly: true,
       description: 'Adjust song volume',
+      examples: ['volume 20', 'volume 25'],
       throttling: {
         usages: 2,
         duration: 10
@@ -18,7 +19,7 @@ module.exports = class VolumeCommand extends Command {
       args: [
         {
           key: 'wantedVolume',
-          prompt: 'What volume would you like to set? from 1 to 100',
+          //prompt: 'What volume would you like to set? from 1 to 100',
           type: 'integer',
           validate: function(wantedVolume) {
             return wantedVolume >= 1 && wantedVolume <= 200;

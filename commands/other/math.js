@@ -8,6 +8,7 @@ module.exports = class CatCommand extends Command {
       group: 'other',
       memberName: 'math',
       description: 'Calculate a number.',
+      examples: ['math 1250+100', 'math 1250*500/20'],
       throttling: {
         usages: 2,
         duration: 10
@@ -15,7 +16,7 @@ module.exports = class CatCommand extends Command {
       args: [
         {
           key: 'calNumber',
-          prompt: 'Mau Ngitung apa lu?',
+          //prompt: 'Mau Ngitung apa lu?',
           type: 'string'
         }
       ]

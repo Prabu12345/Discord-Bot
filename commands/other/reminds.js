@@ -18,6 +18,7 @@ module.exports = class CatCommand extends Command {
   }
 
   async run(message) {
+    let embed = new MessageEmbed()
     if (message.guild.musicData.remind.length === 0) {
         message.channel.send("There are no reminders right now!");
     } else {
@@ -26,7 +27,9 @@ module.exports = class CatCommand extends Command {
             var d = new Date();
             txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + " - " + value.author + ")\n";
         });
-        message.channel.send("Here are your reminders: \n" + txt);
+        embed.setColor(normalcolor)
+				embed.setDescription("**Reminder list:** \n" + txt)
+        message.channel.send(embed);
     }
   }
 };

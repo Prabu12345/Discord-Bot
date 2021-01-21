@@ -9,6 +9,7 @@ module.exports = class MoveSongCommand extends Command {
       memberName: 'move',
       aliases: ['m', 'movesong'],
       description: 'Move song to a desired position in queue',
+      examples: ['move 9 1', 'move 10 2'],
       group: 'music',
       throttling: {
         usages: 1,
@@ -17,13 +18,13 @@ module.exports = class MoveSongCommand extends Command {
       args: [
         {
           key: 'oldPosition',
-          type: 'integer',
-          prompt: 'What is the position of the song you want to move?'
+          type: 'integer'
+          //prompt: 'What is the position of the song you want to move?'
         },
         {
           key: 'newPosition',
-          type: 'integer',
-          prompt: 'What position do you want to move the song to?'
+          type: 'integer'
+          //prompt: 'What position do you want to move the song to?'
         }
       ]
     });

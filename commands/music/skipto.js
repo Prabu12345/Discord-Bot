@@ -10,12 +10,13 @@ module.exports = class SkipToCommand extends Command {
       group: 'music',
       description:
         'Skip to a specific song in the queue, provide the song number as an argument',
+      examples: ['skipto 9', 'skipto 18'],
       guildOnly: true,
       args: [
         {
           key: 'songNumber',
-          prompt:
-            'What is the number in queue of the song you want to skip to?, it needs to be greater than 1',
+          //prompt:
+            //'What is the number in queue of the song you want to skip to?, it needs to be greater than 1',
           type: 'integer'
         }
       ]
