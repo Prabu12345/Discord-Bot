@@ -13,7 +13,6 @@ module.exports = class RemoveSongCommand extends Command {
       args: [
         {
           key: 'songNumber',
-          //prompt: 'What song number do you want to remove from queue?',
           type: 'integer'
         }
       ]

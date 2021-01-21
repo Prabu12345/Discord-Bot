@@ -23,7 +23,6 @@ module.exports = class PlayCommand extends Command {
       args: [
         {
           key: 'query',
-          //prompt: 'What song or playlist would you like to listen to?',
           type: 'string',
           validate: function(query) {
             return query.length > 0 && query.length < 200;

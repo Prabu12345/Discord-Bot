@@ -19,12 +19,10 @@ module.exports = class MoveSongCommand extends Command {
         {
           key: 'oldPosition',
           type: 'integer'
-          //prompt: 'What is the position of the song you want to move?'
         },
         {
           key: 'newPosition',
           type: 'integer'
-          //prompt: 'What position do you want to move the song to?'
         }
       ]
     });

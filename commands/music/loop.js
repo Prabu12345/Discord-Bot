@@ -15,7 +15,6 @@ module.exports = class LoopCommand extends Command {
         {
           key: 'typeLoop',
           type: 'string'
-          //prompt: 'Loop **one** for looped current song, loop **all** for looped queue'
         }
       ]
     });

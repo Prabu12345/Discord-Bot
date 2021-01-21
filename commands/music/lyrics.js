@@ -23,7 +23,6 @@ module.exports = class LyricsCommand extends Command {
           key: 'songName',
           default: '',
           type: 'string'
-          //prompt: 'What song lyrics would you like to get?'
         }
       ]
     });

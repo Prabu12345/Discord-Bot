@@ -15,8 +15,6 @@ module.exports = class SkipToCommand extends Command {
       args: [
         {
           key: 'songNumber',
-          //prompt:
-            //'What is the number in queue of the song you want to skip to?, it needs to be greater than 1',
           type: 'integer'
         }
       ]
