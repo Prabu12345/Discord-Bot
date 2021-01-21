@@ -75,12 +75,10 @@ module.exports = class CatCommand extends Command {
 
 				setTimeout(function() 
 					{
-						embed.setColor(normalcolor)
-						embed.setDescription(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
-							tts: true
-						  })
 						message.guild.musicData.remind.shift();
-					  message.channel.send(embed);
+					  message.channel.send(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
+						tts: true
+					  });
 					}, actualTime);
 			} else {
 				message.reply('You formatted the time incorrectly it should only have numbers and the letters s, m, h and d and it should look like: \'4d20h30s\' or \'2h30m\' ');
