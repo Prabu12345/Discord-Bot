@@ -21,11 +21,11 @@
     "mongoose": "^5.11.12",
     "mongodb": "^3.6.3",
     "commando-provider-mongo": "^2.0.2",
-    "ytdl-core": "^4.4.3",
+    "ytdl-core": "^4.4.4",
     "nekos.life": "^2.0.7",
     "lolis.life": "^4.0.0"
   },
-  "devDependencies": {
+  "devDependencies": {  
     "@getify/eslint-plugin-proper-arrows": "^8.0.1",
     "@getify/eslint-plugin-proper-ternary": "^3.0.1",
     "babel-eslint": "^10.1.0",
