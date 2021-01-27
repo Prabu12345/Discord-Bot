@@ -20,12 +20,18 @@ module.exports = class CatCommand extends Command {
 		      default: '',
           prompt: 'mau gw ingetin apa?',
           type: 'string'
+        },
+        {
+		      key: 'nurdremove',
+		      default: '',
+          prompt: 'nomor brp yang mau di apus?',
+          type: 'integer'
         }
       ]
     });
   }
 
-  async run(message, {rdremove}) {
+  async run(message, {rdremove}, {nurdremove}) {
     let embed = new MessageEmbed()
     if (rdremove == '') {
       if (message.guild.musicData.remind.length === 0) {
@@ -35,24 +41,23 @@ module.exports = class CatCommand extends Command {
         message.guild.musicData.remind.forEach(function(value, index, array){
             var d = new Date();
             txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + " - " + value.author + ")\n";
-            console.log(message.guild.musicData.remind)
         });   
         embed.setColor(normalcolor)
 				embed.setDescription("**Reminder list:** \n" + txt)
         message.channel.send(embed);
       }
-    } else if (rdremove[0] == 'remove' || rdremove[0] == 'r') {
+    } else if (rdremove == 'remove' || rdremove == 'r') {
       const errremoveEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      if (rdremove[1] < 1 || rdremove[1] > message.guild.musicData.remind.length) {
+      if (nurdremove < 1 || nurdremove > message.guild.musicData.remind.length) {
         errremoveEmbed.setDescription('Please enter a valid reminds number')
         return message.say(errremoveEmbed);
       }
 
       const removeEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`Removed reminds number ${rdremove} from queue`)
-      message.guild.musicData.queue.splice(songNumber - 1, 1);
+      .setDescription(`Removed reminds number ${nurdremove} from queue`)
+      message.guild.musicData.remind.splice(nurdremove - 1, 1);
       message.say(removeEmbed);
     }
   }
