@@ -52,9 +52,12 @@ module.exports = class SkipToCommand extends Command {
       errskiptoEmbed.setDescription('There are no songs in queue')
       return message.say(errskiptoEmbed)
     };
+
+    var newsongNumber = songNumber - 1;
+
     message.guild.musicData.sloop = message.guild.musicData.loop;
     message.guild.musicData.loop = 'off';
-    message.guild.musicData.queue.splice(0, songNumber - 1);
+    message.guild.musicData.queue.splice(0, newsongNumber);
     message.guild.musicData.songDispatcher.end();
     setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
     return;

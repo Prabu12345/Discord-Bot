@@ -61,14 +61,15 @@ module.exports = class VolumeCommand extends Command {
     if(wantedVolume == ''){
       const volumeEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`The Volume is now **${message.guild.musicData.volume}%**`)
+      .setDescription(`The Volume now is**${message.guild.musicData.volume}%**, ${message.author}`)
+      return message.say(volumeEmbed);
     } else {
       const volume = wantedVolume;
       message.guild.musicData.volume = volume;
       message.guild.musicData.songDispatcher.setVolume(volume / 100);
       const volumeEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`I set the volume to **${wantedVolume}%**`)
+        .setDescription(`The volume set to **${wantedVolume}%**, ${message.author}`)
       message.say(volumeEmbed);
     }
   }
