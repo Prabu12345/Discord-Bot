@@ -40,7 +40,7 @@ module.exports = class CatCommand extends Command {
         var txt = "";
         message.guild.musicData.remind.forEach(function(value, index, array){
             var d = new Date();
-            txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + " - " + value.author + ")\n";
+            txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + " - " + value.author + ")\n"; 
         });   
         embed.setColor(normalcolor)
 				embed.setDescription("**Reminder list:** \n" + txt)
@@ -56,8 +56,7 @@ module.exports = class CatCommand extends Command {
 
       const removeEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`Removed reminds number ${nurdremove} from queue`)
-      message.guild.musicData.remind.splice(nurdremove - 1, 1);
+      .setDescription(`Lg ga bisa jangan di coba!`)
       message.say(removeEmbed);
     }
   }
