@@ -62,7 +62,7 @@ module.exports = class LoopCommand extends Command {
             ytdl(video.url, {
               quality: 'highestaudio',
               highWaterMark: 1 << 25,
-              seek: time / 1000
+              begin: time
             })
           )
           .on('start', function() {
