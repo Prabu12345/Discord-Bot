@@ -37,12 +37,12 @@ module.exports = class NowPlayingCommand extends Command {
     const videoEmbed = new MessageEmbed()
       .setThumbnail(video.thumbnail)
       .setColor(normalcolor)
-      .setTitle(video.title)
-      .setDescription(`Volume ${message.guild.musicData.volume}% | Loop ${message.guild.musicData.loop}`)
+      .setTitle(`Now Playing ${video.memberDisplayName}`, video.memberAvatar)
+      .setDescription(`[${track.title}](${track.url})`)
+      .addField('Music Settings' ,`Volume ${message.guild.musicData.volume}% | Loop ${message.guild.musicData.loop}`)
       .addField('Duration', description)
       .setFooter(
-        `Requested by ${video.memberDisplayName}`,
-        video.memberAvatar
+        `Requested by ${video.memberDisplayName}`
       );
     message.channel.send(videoEmbed);
     return;
@@ -79,13 +79,13 @@ module.exports = class NowPlayingCommand extends Command {
     let playBack = '';
     for (let i = 1; i < 21; i++) {
       if (playBackBarLocation == 0) {
-        playBack = ':musical_note:▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬';
+        playBack = '🔘▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬';
         break;
       } else if (playBackBarLocation == 10) {
-        playBack = '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬:musical_note:';
+        playBack = '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬🔘';
         break;
       } else if (i == playBackBarLocation * 2) {
-        playBack = playBack + ':musical_note:';
+        playBack = playBack + '🔘';
       } else {
         playBack = playBack + '▬';
       }

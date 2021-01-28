@@ -10,7 +10,8 @@ module.exports = class QueueCommand extends Command {
       group: 'music',
       memberName: 'queue',
       guildOnly: true,
-      description: 'Display the song queue'
+      description: 'Display the song queue',
+      clientPermissions: ['ADD_REACTIONS']
     });
   }
 
@@ -71,7 +72,7 @@ module.exports = class QueueCommand extends Command {
         await reaction.users.remove(message.author.id);
       } catch (error) {
         console.error(error);
-        return message.channel.send(error.message).catch(console.error);
+        return message.channel.send(error.message + ', Please give me Permission to access **ADD_REACTIONS**').catch(console.error);
       }
     });
   }
@@ -92,9 +93,13 @@ function generateQueueEmbed(message, queue) {
     .setTitle(`Music Queue - ${queue.length} items`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
-    .setFooter(`Now Playing : ${video.title} | Loop ${message.guild.musicData.loop} Track`)
-
+    if (message.guild.musicData.loop == off) {
+      embed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} | Volume : ${message.guild.musicData.volume}%`)
     embeds.push(embed);
+    } else {
+      embed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} Track | Volume : ${message.guild.musicData.volume}%`)
+    embeds.push(embed);
+    }
   }
 
   return embeds;
