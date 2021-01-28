@@ -69,8 +69,8 @@ module.exports = class LoopCommand extends Command {
           .on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             dispatcher.setVolume(message.guild.musicData.volume / 100);
-            /*message.guild.musicData.nowPlaying = queue[0];
-            queue.shift();*/
+            message.guild.musicData.nowPlaying = message.guild.musicData.queue.queue[0];
+            message.guild.musicData.queue.shift();
             return;
           })  
           .on('finish', function() {
