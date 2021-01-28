@@ -62,6 +62,7 @@ module.exports = class LoopCommand extends Command {
           .play(
             ytdl(video.url, {
               filter: "audioonly",
+              opusEncoded: true,
               seek: time,
               quality: 'highestaudio',
               highWaterMark: 1 << 25
