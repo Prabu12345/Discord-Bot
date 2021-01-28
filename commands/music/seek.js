@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
-const ytdl = require('ytdl-core');
+const ytdl = require('discord-ytdl-core');
 const { playSong } = require('./play')
 
 module.exports = class LoopCommand extends Command {
@@ -17,7 +17,7 @@ module.exports = class LoopCommand extends Command {
         {
           key: 'time',
           default: '',
-          type: 'string',
+          type: 'integer',
           prompt: 'Enter seek time. E.g. 1:30 or 0:30'
         }
       ]
@@ -25,6 +25,7 @@ module.exports = class LoopCommand extends Command {
   }
 
   async run(message, queue, { time }) {
+    let seekTime = time / 1000;
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -60,7 +61,8 @@ module.exports = class LoopCommand extends Command {
       const dispatcher = connection
           .play(
             ytdl(video.url, {
-              begin: time,
+              filter: "audioonly",
+              seek: time,
               quality: 'highestaudio',
               highWaterMark: 1 << 25
             })
