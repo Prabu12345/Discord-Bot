@@ -65,7 +65,7 @@ module.exports = class LoopCommand extends Command {
               filter: "audioonly",
               opusEncoded: true,
               bitrate: 320,
-              seek: time / 1000,
+              seek: time,
               quality: 'highestaudio',
               highWaterMark: 1 << 25,
             })
