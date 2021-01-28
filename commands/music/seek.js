@@ -60,9 +60,9 @@ module.exports = class LoopCommand extends Command {
       const dispatcher = connection
           .play(
             ytdl(video.url, {
+              begin: time,
               quality: 'highestaudio',
-              highWaterMark: 1 << 25,
-              begin: time
+              highWaterMark: 1 << 25
             })
           )
           .on('start', function() {
