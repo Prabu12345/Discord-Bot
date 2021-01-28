@@ -54,6 +54,7 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
     .setDescription('seek')
     message.say(loopEmbed)
+    return;
     message.guild.musicData.songDispatcher.end();
     message.guild.musicData.isPlaying = true
 
