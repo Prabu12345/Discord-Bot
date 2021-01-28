@@ -65,12 +65,12 @@ module.exports = class LoopCommand extends Command {
               highWaterMark: 1 << 25,
               begin: time
             })
-          )
+          ) 
           .on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             dispatcher.setVolume(message.guild.musicData.volume / 100);
-            message.guild.musicData.nowPlaying = queue[0];
-            queue.shift();
+            /*message.guild.musicData.nowPlaying = queue[0];
+            queue.shift();*/
             return;
           })  
           .on('finish', function() {
