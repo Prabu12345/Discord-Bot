@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
-const ytdl = require('discord-ytdl-core');
+const ytdl = require('ytdl-core');
 const { playSong } = require('./play')
 
 module.exports = class LoopCommand extends Command {
@@ -17,7 +17,7 @@ module.exports = class LoopCommand extends Command {
         {
           key: 'time',
           default: '',
-          type: 'integer',
+          type: 'string',
           prompt: 'Enter seek time. E.g. 1:30 or 0:30'
         }
       ]
@@ -25,7 +25,6 @@ module.exports = class LoopCommand extends Command {
   }
 
   async run(message, queue, { time }) {
-    let seekTime = time / 1000;
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -48,24 +47,23 @@ module.exports = class LoopCommand extends Command {
       message.reply(errloopEmbed);
       return;
     }
+    var seekplaying = null;
     const video = message.guild.musicData.nowPlaying;
+    seekplaying = video
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
     .setDescription('seek')
     message.say(loopEmbed)
-    message.guild.musicData.queue.unshift(video);
     message.guild.musicData.songDispatcher.end();
 
-    video.voiceChannel.join()
+    seekplaying.voiceChannel.join()
     .then(connection => {
       const dispatcher = connection
           .play(
-            ytdl(video.url, {
-              filter: "audioonly",
-              opusEncoded: true,
-              seek: time,
+            ytdl(seekplaying.url, {
               quality: 'highestaudio',
-              highWaterMark: 1 << 25
+              highWaterMark: 1 << 25,
+              begin: time
             })
           )
           .on('start', function() {
