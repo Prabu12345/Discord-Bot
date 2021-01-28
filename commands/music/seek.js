@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
-const ytdl = require('discord-ytdl-core');
+const ytdl = require('ytdl-core');
 const { playSong } = require('./play')
 
 module.exports = class LoopCommand extends Command {
@@ -55,25 +55,23 @@ module.exports = class LoopCommand extends Command {
     .setDescription('seek')
     message.say(loopEmbed)
     message.guild.musicData.songDispatcher.end();
-    message.guild.musicData.isPlaying = true;
+    message.guild.musicData.isPlaying = true
 
     seekplaying.voiceChannel.join()
     .then(connection => {
       const dispatcher = connection
           .play(
             ytdl(seekplaying.url, {
-              filter: "audioonly",
-              opusEncoded: true,
-              bitrate: 320,
-              seek: time,
+              filter: 'audioonly',
+              begin: time,
               quality: 'highestaudio',
-              highWaterMark: 1 << 25,
+              highWaterMark: 1 << 25
             })
           ) 
           .on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             dispatcher.setVolume(message.guild.musicData.volume / 100);
-            message.guild.musicData.nowPlaying = seekplaying;
+            message.guild.musicData.queue[0] = seekplaying;
             message.guild.musicData.queue.shift();
             return;
           })  
