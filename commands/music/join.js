@@ -36,7 +36,6 @@ module.exports = class LeaveCommand extends Command {
       message.say(errleaveEmbed);
       return;
     }
-      const voiceChannel = message.member.voice.channel;
       voiceChannel.join().then(connection => {
         // Yay, it worked!
         message.react('👌')
