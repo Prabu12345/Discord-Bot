@@ -25,7 +25,11 @@ module.exports = class QueueCommand extends Command {
         .setDescription('There are no songs in queue!')
         if (video) {
           errqueueembed.setColor(normalcolor)
-          errqueueembed.setFooter(`Now Playing : ${video.title}  | Loop ${message.guild.musicData.loop} Track | Volume : ${message.guild.musicData.volume}%`)
+          if (message.guild.musicData.loop == 'off') {
+			errqueueembed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} | Volume : ${message.guild.musicData.volume}%`)
+		} else if (message.guild.musicData.loop == 'one' || message.guild.musicData.loop == 'queue') {
+			errqueueembed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} Track | Volume : ${message.guild.musicData.volume}%`)
+			}		
         } else {
           errqueueembed.setColor(errorcolor)
         };
