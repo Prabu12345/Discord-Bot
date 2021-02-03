@@ -23,6 +23,8 @@ module.exports = class LoopCommand extends Command {
   }
 
   run(message, { typeLoop }) {
+    var totypeloop = typeLoop
+    const totypelooplower = totypeloop.substring(totypeloop.search(" ") + 1, totypeloop.end).toLowerCase();
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -49,18 +51,18 @@ module.exports = class LoopCommand extends Command {
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
 
-    if (typeLoop == 'one') {
+    if (totypelooplower == 'one') {
       loopEmbed.setDescription('Looped **One track**, **loop off** if you want to stop looping!')
       message.say(loopEmbed)
-      message.guild.musicData.loop = typeLoop
-    } else if (typeLoop == 'all') {
+      message.guild.musicData.loop = totypelooplower
+    } else if (totypelooplower == 'all') {
       loopEmbed.setDescription('Looped **All track**, **loop off** if you want to stop looping!')
       message.say(loopEmbed)
-      message.guild.musicData.loop = typeLoop
-    } else if (typeLoop == 'off') {
+      message.guild.musicData.loop = totypelooplower
+    } else if (totypelooplower == 'off') {
       loopEmbed.setDescription('Loop **off**!')
       message.say(loopEmbed)
-      message.guild.musicData.loop = typeLoop
+      message.guild.musicData.loop = totypelooplower
     };
     return;
   }

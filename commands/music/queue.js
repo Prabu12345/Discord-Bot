@@ -93,10 +93,10 @@ function generateQueueEmbed(message, queue) {
     .setTitle(`Music Queue - ${queue.length} items`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
-    if (message.guild.musicData.loop == off) {
+    if (message.guild.musicData.loop == 'off') {
       embed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} | Volume : ${message.guild.musicData.volume}%`)
     embeds.push(embed);
-    } else {
+  } else if (message.guild.musicData.loop == 'one' || message.guild.musicData.loop == 'queue') {
       embed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} Track | Volume : ${message.guild.musicData.volume}%`)
     embeds.push(embed);
     }
