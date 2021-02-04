@@ -54,26 +54,19 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
     .setDescription('seek')
     message.say(loopEmbed)
-    return;
     message.guild.musicData.songDispatcher.end();
     message.guild.musicData.isPlaying = true
-
+    const vol = message.guild.musicData.volume / 100
+    const streamOptions = { seek: time, volume: vol };
     seekplaying.voiceChannel.join()
     .then(connection => {
+      const stream = ytdl(seekplaying.url, { filter : 'audioonly', quality: 'highestaudio', highWaterMark: 1 << 25 });
       const dispatcher = connection
-          .play(
-            ytdl(seekplaying.url, {
-              filter: 'audioonly',
-              begin: time,
-              quality: 'highestaudio',
-              highWaterMark: 1 << 25
-            })
-          ) 
+          .playStream(stream, streamOptions) 
           .on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             dispatcher.setVolume(message.guild.musicData.volume / 100);
             message.guild.musicData.queue[0] = seekplaying;
-            message.guild.musicData.queue.shift();
             return;
           })  
           .on('finish', function() {
