@@ -9,7 +9,7 @@ module.exports = class SkipAllCommand extends Command {
       aliases: ['clearall'],
       memberName: 'clear',
       group: 'music',
-      description: 'Claer all songs in queue',
+      description: 'Remove all songs in queue',
       guildOnly: true
     });
   }
