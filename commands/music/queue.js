@@ -1,7 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { normalcolor, errorcolor } = require('../../config.json')
-const ytdl = require('ytdl-core')
 
 module.exports = class QueueCommand extends Command {
   constructor(client) {
@@ -86,8 +85,8 @@ module.exports = class QueueCommand extends Command {
 function generateQueueEmbed(message, queue) {
   let embeds = [];
   let k = 10;
-  var sum = 0;
-  for (let i = 0; i < queue.length; i +=1 ) {
+  let sum = 0, i;
+  for (i = 0; i < queue.length; i +=1 ) {
     sum += (+queue[i].srawDuration);
   }
   const allduration = sum
@@ -100,7 +99,7 @@ function generateQueueEmbed(message, queue) {
     const info = current.map((track) => `**${++j}** | [${track.title}](${track.url}) - **${track.memberDisplayName}**`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
-    .setTitle(`Music Queue - ${queue.length} items (${queue[0].srawDuration})`)
+    .setTitle(`Music Queue - ${queue.length} items (${queue[0].srawDuration} - ${allduration})`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
     if (message.guild.musicData.loop == 'off') {
@@ -114,20 +113,3 @@ function generateQueueEmbed(message, queue) {
 
   return embeds;
 };
-
-function msToTime(duration) {
-  var milliseconds = parseInt((duration % 1000) / 100),
-    seconds = parseInt((duration / 1000) % 60),
-    minutes = parseInt((duration / (1000 * 60)) % 60),
-    hours = parseInt((duration / (1000 * 60 * 60)) % 24);
-    days = parseInt((duration / (1000 * 60 * 60 * 24)) % 365);
-
-  hours = (hours < 10) ? "0" + hours : hours;
-  minutes = (minutes < 10) ? "0" + minutes : minutes;
-  seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-  if (days !== 0)
-      return days + " days " + hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-  else
-      return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-}

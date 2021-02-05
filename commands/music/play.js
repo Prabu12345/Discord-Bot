@@ -377,14 +377,28 @@ module.exports = class PlayCommand extends Command {
       playingMessage.delete({ timeout: 1000 }).catch(console.error);
     });
   }
+
   static constructSongObj(video, voiceChannel, user) {
+    const totalDurationObj = video.duration;
+
+    let totalDurationInMS = 0;
+    Object.keys(totalDurationObj).forEach(function(key) {
+      if (key == 'hours') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 3600000;
+      } else if (key == 'minutes') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 60000;
+      } else if (key == 'seconds') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 100;
+      }
+    });
+
     let duration = this.formatDuration(video.duration);
     if (duration == '00:00') duration = 'Live Stream';
     return {
       url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
       rawDuration: video.duration,
-      srawDuration: video.duration.lengthSeconds,
+      srawDuration: totalDurationInMS,
       duration,
       thumbnail: video.thumbnails.high.url,
       voiceChannel,
