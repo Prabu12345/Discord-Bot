@@ -384,6 +384,7 @@ module.exports = class PlayCommand extends Command {
       url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
       rawDuration: video.duration,
+      srawDuration: video.duration.lengthSeconds,
       duration,
       thumbnail: video.thumbnails.high.url,
       voiceChannel,

@@ -16,7 +16,6 @@ module.exports = class QueueCommand extends Command {
   }
 
   async run(message) {
-    console.log(message.guild.musicData.queue[0].rawDuration)
     if (message.guild.triviaData.isTriviaRunning)
       return message.say('Try again after the trivia has ended');
     if (message.guild.musicData.queue.length == 0) {
@@ -88,7 +87,7 @@ function generateQueueEmbed(message, queue) {
   let k = 10;
   let sum = 0, i;
   for (i = 0; i < queue.length; i +=1 ) {
-    sum += (+queue[i].rawDuration);
+    sum += (+queue[i].srawDuration);
   }
   const allduration = sum
 
@@ -100,7 +99,7 @@ function generateQueueEmbed(message, queue) {
     const info = current.map((track) => `**${++j}** | [${track.title}](${track.url}) - **${track.memberDisplayName}**`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
-    .setTitle(`Music Queue - ${queue.length} items (${allduration})`)
+    .setTitle(`Music Queue - ${queue.length} items (${msToTime(allduration)})`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
     if (message.guild.musicData.loop == 'off') {
