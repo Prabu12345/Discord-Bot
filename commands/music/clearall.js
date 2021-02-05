@@ -5,9 +5,9 @@ const { MessageEmbed } = require('discord.js');
 module.exports = class SkipAllCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'clearall',
-      aliases: ['clear-all'],
-      memberName: 'clearall',
+      name: 'clear',
+      aliases: ['clearall'],
+      memberName: 'clear',
       group: 'music',
       description: 'Claer all songs in queue',
       guildOnly: true
