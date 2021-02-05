@@ -16,7 +16,7 @@ module.exports = class QueueCommand extends Command {
   }
 
   async run(message) {
-    console.log(message.guild.musicData.queue.rawDuration)
+    console.log(message.guild.musicData.queue[0].rawDuration)
     if (message.guild.triviaData.isTriviaRunning)
       return message.say('Try again after the trivia has ended');
     if (message.guild.musicData.queue.length == 0) {
