@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { normalcolor, errorcolor } = require('../../config.json')
+const ytdl = require('ytdl-core')
 
 module.exports = class QueueCommand extends Command {
   constructor(client) {
@@ -16,6 +17,8 @@ module.exports = class QueueCommand extends Command {
   }
 
   async run(message) {
+    const info = ytdl.getInfo(queue[0].url);
+    console.log(info)
     if (message.guild.triviaData.isTriviaRunning)
       return message.say('Try again after the trivia has ended');
     if (message.guild.musicData.queue.length == 0) {
