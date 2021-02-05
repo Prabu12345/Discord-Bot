@@ -17,7 +17,7 @@ module.exports = class QueueCommand extends Command {
   }
 
   async run(message) {
-    const info = ytdl.getInfo(queue[0].url);
+    const info = ytdl.getInfo(message.guild.musicData.queue[0].url);
     console.log(info)
     if (message.guild.triviaData.isTriviaRunning)
       return message.say('Try again after the trivia has ended');
