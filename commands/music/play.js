@@ -388,7 +388,7 @@ module.exports = class PlayCommand extends Command {
       } else if (key == 'minutes') {
         totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 60000;
       } else if (key == 'seconds') {
-        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 100;
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 1000;
       }
     });
 
