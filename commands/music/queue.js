@@ -18,6 +18,14 @@ module.exports = class QueueCommand extends Command {
   async run(message) {
     if (message.guild.triviaData.isTriviaRunning)
       return message.say('Try again after the trivia has ended');
+
+    if (!message.guild.musicData.isPlaying) {
+      const errloopEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription('There is no song playing right now!')
+      return message.say(errloopEmbed);
+    }
+    
     if (message.guild.musicData.queue.length == 0) {
       const video = message.guild.musicData.nowPlaying;
       var errqueueembed = new MessageEmbed()
