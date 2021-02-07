@@ -19,7 +19,10 @@ module.exports = class QueueCommand extends Command {
     if (message.guild.triviaData.isTriviaRunning)
       return message.say('Try again after the trivia has ended');
 
-    if (!message.guild.musicData.isPlaying) {
+    if (
+      typeof message.guild.musicData.songDispatcher == 'undefined' ||
+      message.guild.musicData.songDispatcher == null
+    ) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('There is no song playing right now!')
