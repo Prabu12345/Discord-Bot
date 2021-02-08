@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
-const ytdl = require('ytdl-core-discord');
+const ytdl = require('discord-ytdl-core');
 const { playSong } = require('./play')
 
 module.exports = class LoopCommand extends Command {
