@@ -110,12 +110,14 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.guild.musicData.songDispatcher == null) {
       return;
     }
-    newState.guild.musicData.loop = 'off';
-    newState.guild.musicData.queue.length = 0;
-    newState.guild.musicData.songDispatcher.end();
-    setTimeout(function onTimeOut() { 
+    setTimeout(function onTimeOut() {
+      newState.guild.musicData.loop = 'off';
+      newState.guild.musicData.queue.length = 0;
+      newState.guild.musicData.songDispatcher.end();
+      setTimeout(function onTimeOut() { 
       newState.guild.me.voice.channel.leave(); 
     }, 500);
+    }, 15000)
   }
 });
 
