@@ -24,6 +24,8 @@ module.exports = class LoopCommand extends Command {
   }
 
   async run(message, { time }) {
+    const choiceDur = time.join(" ").split(":");
+    const optDurr = (parseInt(choiceDur[0], 10) * 60000) + ((parseInt(choiceDur[1], 10) % 60000) * 1000);
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -58,7 +60,7 @@ module.exports = class LoopCommand extends Command {
     message.say(loopEmbed)
     message.guild.musicData.queue.unshift(video);
     message.guild.musicData.songDispatcher.destroy();
-    let seekAmount = Math.ceil(parseInt(time) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+    let seekAmount = Math.ceil(parseInt(optDurr) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
     playSong(message.guild.musicData.queue, message, seekAmount);
     message.guild.musicData.seek = seekAmount
   }
