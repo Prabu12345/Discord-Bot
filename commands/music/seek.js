@@ -45,6 +45,9 @@ module.exports = class LoopCommand extends Command {
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
       message.reply(errloopEmbed);
       return;
+    } else if (video.duration == 'Live Stream') {
+      message.channel.send('Video Live stream ga bisa di seek goblok')
+      return; 
     }
     var seekplaying = null;
     const video = message.guild.musicData.nowPlaying;
