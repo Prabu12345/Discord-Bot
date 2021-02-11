@@ -53,8 +53,7 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
     .setDescription('seek')
     message.say(loopEmbed)
-
-    const voiceChannel = message.member.voice.channel;
+    message.guild.musicData.queue.unshift(video);
     message.guild.musicData.songDispatcher.destroy();
     let seekAmount = Math.ceil(parseInt(time) + (message.guild.musicData.songDispatcher.streamTime / 1000) + time);
     playSong(message.guild.musicData.queue, message, seekAmount);

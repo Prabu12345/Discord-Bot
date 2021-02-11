@@ -243,7 +243,6 @@ module.exports = class PlayCommand extends Command {
   }
   static async playSong(queue, message, seekAmount) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
-    const voiceChannel = message.member.voice.channel;
     queue[0].voiceChannel
       .join()
       .then(function(connection) {
