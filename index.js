@@ -117,7 +117,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
       setTimeout(function onTimeOut() { 
       newState.guild.me.voice.channel.leave(); 
     }, 500);
-    }, 15000)
+    }, 5000)
   }
 });
 
