@@ -24,7 +24,7 @@ module.exports = class LoopCommand extends Command {
   }
 
   async run(message, { time }) {
-    const choiceDur = time.join(" ").split(":");
+    const choiceDur = time.split(":");
     const optDurr = (parseInt(choiceDur[0], 10) * 60000) + ((parseInt(choiceDur[1], 10) % 60000) * 1000);
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
