@@ -57,5 +57,6 @@ module.exports = class LoopCommand extends Command {
     message.guild.musicData.songDispatcher.destroy();
     let seekAmount = Math.ceil(parseInt(time) + (message.guild.musicData.songDispatcher.streamTime / 1000) + time);
     playSong(message.guild.musicData.queue, message, seekAmount);
+    message.guild.musicData.seek = seekAmount
   }
 };
