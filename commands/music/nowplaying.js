@@ -48,7 +48,7 @@ module.exports = class NowPlayingCommand extends Command {
     return;
   }
   static playbackBar(message, video) {
-    const passedTimeInMS = message.guild.musicData.songDispatcher.streamTime;
+    const passedTimeInMS = (message.guild.musicData.songDispatcher.streamTime + (message.guild.musicData.seek * 1000)).toFixed(0);
     const passedTimeInMSObj = {
       seconds: Math.floor((passedTimeInMS / 1000) % 60),
       minutes: Math.floor((passedTimeInMS / (1000 * 60)) % 60),
