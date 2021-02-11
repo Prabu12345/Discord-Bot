@@ -54,43 +54,8 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
     .setDescription('seek')
     message.say(loopEmbed)
-    message.guild.musicData.songDispatcher.end();
-    message.guild.musicData.isPlaying = true
-    const vol = message.guild.musicData.volume / 100
-    const streamOptions = { seek: time, volume: vol };
-    seekplaying.voiceChannel.join()
-    .then(connection => {
-      const stream = ytdl(seekplaying.url, { filter : 'audioonly', quality: 'highestaudio', highWaterMark: 1 << 25 });
-      const dispatcher = connection
-      .play(stream, streamOptions) 
-        dispatcher.on('start', function() {
-            message.guild.musicData.songDispatcher = dispatcher;
-            dispatcher.setVolume(message.guild.musicData.volume / 100);
-            message.guild.musicData.queue[0] = seekplaying;
-            return;
-          })  
-        dispatcher.on('finish', function() {
-            if (queue.length >= 1) {
-              return playSong(queue, message);
-            } else {
-              message.guild.musicData.isPlaying = false;
-              message.guild.musicData.nowPlaying = null;
-              message.guild.musicData.songDispatcher = null;
-              if (message.guild.me.voice.channel) {
-                setTimeout(function onTimeOut() {
-                  if (
-                    message.guild.musicData.isPlaying == false &&
-                    message.guild.me.voice.channel
-                  ) {
-                    message.guild.musicData.loop = 'off';
-                    message.guild.me.voice.channel.leave();
-                  }
-                }, 90000);
-              }
-            }
-          });
-    }).catch(err => {
-      console.error(err)
-    })
-  }   
+
+    let seekAmount = Math.ceil(parseInt(time) + (message.guild.musicData.songDispatcher.streamTime / 1000) + time);
+    playSong(queue, message, seekAmount);
+  }
 };

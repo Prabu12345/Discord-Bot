@@ -121,7 +121,7 @@ module.exports = class PlayCommand extends Command {
       }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
-        return PlayCommand.playSong(message.guild.musicData.queue, message);
+        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
@@ -166,7 +166,7 @@ module.exports = class PlayCommand extends Command {
         typeof message.guild.musicData.isPlaying == 'undefined'
       ) {
         message.guild.musicData.isPlaying = true;
-        return PlayCommand.playSong(message.guild.musicData.queue, message);
+        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
@@ -222,7 +222,7 @@ module.exports = class PlayCommand extends Command {
             );
             if (message.guild.musicData.isPlaying == false) {
               message.guild.musicData.isPlaying = true;
-              PlayCommand.playSong(message.guild.musicData.queue, message);
+              PlayCommand.playSong(message.guild.musicData.queue, message, 0);
             } else if (message.guild.musicData.isPlaying == true) {
               const addvideoEmbed = new MessageEmbed()
               .setColor(normalcolor)
@@ -241,26 +241,21 @@ module.exports = class PlayCommand extends Command {
           });
   
   }
-  static async playSong(queue, message) {
+  static async playSong(queue, message, seekAmount) {
     const classThis = this; // use classThis instead of 'this' because of lexical scope below
     queue[0].voiceChannel
       .join()
       .then(function(connection) {
+        const vol = message.guild.musicData.volume / 100;
         const dispatcher = connection
-          .play(
-            ytdl(queue[0].url, {
-              quality: 'highestaudio',
-              highWaterMark: 1 << 25
-            })
-          )
-          .on('start', function() {
+          .play(ytdl(queue[0].url, { quality: `highestaudio`, filter: () => ['251'], highWaterMark: 1 << 25 }), { volume: vol, seek: seekAmount })
+          dispatcher.on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
-            dispatcher.setVolume(message.guild.musicData.volume / 100);
             message.guild.musicData.nowPlaying = queue[0];
             queue.shift();
             return;
           })  
-          .on('finish', function() {
+          dispatcher.on('finish', function() {
             if (collector && !collector.end) collector.stop();
             queue = message.guild.musicData.queue;
             if (message.guild.musicData.loop == 'one') {
@@ -268,7 +263,7 @@ module.exports = class PlayCommand extends Command {
                 message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
               }
               if (queue.length >= 1) {
-                classThis.playSong(queue, message);
+                classThis.playSong(queue, message, 0);
                 return;
               } else {
                 message.guild.musicData.isPlaying = false;
@@ -289,7 +284,7 @@ module.exports = class PlayCommand extends Command {
             } else if (message.guild.musicData.loop == 'all') {
               message.guild.musicData.queue.push(message.guild.musicData.nowPlaying);
               if (queue.length >= 1) {
-                classThis.playSong(queue, message);
+                classThis.playSong(queue, message, 0);
                 return;
               } else {
                 message.guild.musicData.isPlaying = false;
@@ -309,7 +304,7 @@ module.exports = class PlayCommand extends Command {
               }
             } else if (message.guild.musicData.loop == 'off') {
               if (queue.length >= 1) {
-                classThis.playSong(queue, message);
+                classThis.playSong(queue, message, 0);
                 return;
               } else {
                 message.guild.musicData.isPlaying = false;
