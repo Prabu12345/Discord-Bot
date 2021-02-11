@@ -18,6 +18,7 @@ Structures.extend('Guild', function(Guild) {
         loop: 'off',
         sloop: 'null',
         remind: [],
+        seek: 0,
         nowPlaying: null,
         songDispatcher: null,
         volume: 50

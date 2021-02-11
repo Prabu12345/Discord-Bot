@@ -51,11 +51,11 @@ module.exports = class LoopCommand extends Command {
     seekplaying = video
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    .setDescription('seek')
+    .setDescription(`Seeked ${parseInt(time)} seconds.`)
     message.say(loopEmbed)
     message.guild.musicData.queue.unshift(video);
     message.guild.musicData.songDispatcher.destroy();
-    let seekAmount = Math.ceil(parseInt(time) + (message.guild.musicData.songDispatcher.streamTime / 1000) + time);
+    let seekAmount = Math.ceil(parseInt(time) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
     playSong(message.guild.musicData.queue, message, seekAmount);
     message.guild.musicData.seek = seekAmount
   }

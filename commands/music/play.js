@@ -256,8 +256,11 @@ module.exports = class PlayCommand extends Command {
             return;
           })  
           dispatcher.on('finish', function() {
-            if (collector && !collector.end) collector.stop();
+            if (message.guild.musicData.seek == 0) {
+              if (collector && !collector.end) collector.stop();
+            }
             queue = message.guild.musicData.queue;
+            message.guild.musicData.seek = 0;
             if (message.guild.musicData.loop == 'one') {
               for (let i = 0; i < 1; i++) {
                 message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
@@ -360,17 +363,18 @@ module.exports = class PlayCommand extends Command {
         queue[0].memberAvatar
       );
     if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
-    var playingMessage = await message.channel.send(videoEmbed);
+    if (message.guild.musicData.seek == 0) {
+      var playingMessage = await message.channel.send(videoEmbed);
     
-        
-    const filter = (user) => user.id !== message.client.user.id;
-    var collector = playingMessage.createReactionCollector(filter, {
-      time: queue[0].rawDuration > 0 ? queue[0].rawDuration * 1000 : 600000
-    });
+      const filter = (user) => user.id !== message.client.user.id;
+      var collector = playingMessage.createReactionCollector(filter, {
+        time: queue[0].srawDuration > 0 ? queue[0].srawDuration * 1000 : 600000
+      });
 
-    collector.on("end", () => { 
-      playingMessage.delete({ timeout: 1000 }).catch(console.error);
-    });
+      collector.on("end", () => { 
+        playingMessage.delete({ timeout: 1000 }).catch(console.error);
+      });
+    } 
   }
 
   static constructSongObj(video, voiceChannel, user) {
