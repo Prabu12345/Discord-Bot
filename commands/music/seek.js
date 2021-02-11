@@ -1,7 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
-const ytdl = require('discord-ytdl-core');
 const { playSong } = require('./play')
 
 module.exports = class LoopCommand extends Command {
@@ -55,6 +54,7 @@ module.exports = class LoopCommand extends Command {
     .setDescription('seek')
     message.say(loopEmbed)
 
+    const voiceChannel = message.member.voice.channel;
     message.guild.musicData.songDispatcher.destroy();
     let seekAmount = Math.ceil(parseInt(time) + (message.guild.musicData.songDispatcher.streamTime / 1000) + time);
     playSong(message.guild.musicData.queue, message, seekAmount);
