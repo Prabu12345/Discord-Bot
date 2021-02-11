@@ -24,6 +24,7 @@ module.exports = class LoopCommand extends Command {
   }
 
   async run(message, { time }) {
+    const video = message.guild.musicData.nowPlaying; 
     const choiceDur = time.split(":");
     const optDurr = (parseInt(choiceDur[0], 10) * 60000) + ((parseInt(choiceDur[1], 10) % 60000) * 1000);
     if (!message.guild.musicData.isPlaying) {
@@ -52,7 +53,6 @@ module.exports = class LoopCommand extends Command {
       return; 
     }
     var seekplaying = null;
-    const video = message.guild.musicData.nowPlaying;
     seekplaying = video
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
