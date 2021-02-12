@@ -368,7 +368,7 @@ module.exports = class PlayCommand extends Command {
     
       const filter = (user) => user.id !== message.client.user.id;
       var collector = playingMessage.createReactionCollector(filter, {
-        time: queue[0].srawDuration > 0 ? queue[0].srawDuration * 1000 : 600000
+        time: queue[0].rawDuration > 0 ? queue[0].rawDuration * 1000 : 600000
       });
 
       collector.on("end", () => { 
