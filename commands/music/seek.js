@@ -28,10 +28,10 @@ module.exports = class LoopCommand extends Command {
     var timevar = time;
     if (timevar.search(/[:]/) >= 0) { 
       var waktu1 = time.split(':'); 
-      var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu[1]);
+      var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
     } else if (timevar.search(/[.]/) >=0) {
       var waktu2 = time.split('.');
-      var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu[1]);
+      var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
     } else {
       var allwaktu = time
     }
