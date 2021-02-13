@@ -105,13 +105,12 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
   }
   if (
-    newState.guild.me.voice.channel.members.size == 1 || newState.guild.me.voice.channel.members.size < 2
+    newState.guild.me.voice.channel.members.size < 2 && newState.guild.me.voice.channel
   ) {
     if (typeof newState.guild.musicData.songDispatcher == 'undefined' ||
     newState.guild.musicData.songDispatcher == null) {
       return;
     }
-    if (!newState.guild.me.voice.channel) return;
     setTimeout(function onTimeOut() {
       newState.guild.musicData.loop = 'off';
       newState.guild.musicData.queue.length = 0;
