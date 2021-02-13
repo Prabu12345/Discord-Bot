@@ -33,13 +33,13 @@ module.exports = class SeekCommand extends Command {
       var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
       let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
       let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-      loopEmbed.setDescription(`Seeking by ${msToTime(beforeseek)} to ${msToTime(afterseek)}.`)
+      loopEmbed.setDescription(`Seeking by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
     } else if (timevar.search(/[.]/) >=0) {
       var waktu2 = time.split('.');
       var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
       let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
       let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-      loopEmbed.setDescription(`Seeking by ${msToTime(beforeseek)} to ${msToTime(afterseek)}.`)
+      loopEmbed.setDescription(`Seeking by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
     } else {
       var allwaktu = time
       loopEmbed.setDescription(`Seeked ${time} Second.`)
