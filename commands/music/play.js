@@ -329,6 +329,7 @@ module.exports = class PlayCommand extends Command {
           })
           .on('error', function(e) {
             message.say(`Cannot play ${queue[0].title} song`);
+            queue.shift();
             console.error(e);
             classThis.playSong(queue, message, 0);
             return;
