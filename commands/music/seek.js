@@ -3,7 +3,7 @@ const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 const { playSong } = require('./play')
 
-module.exports = class LoopCommand extends Command {
+module.exports = class SeekCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'seek',
@@ -26,14 +26,23 @@ module.exports = class LoopCommand extends Command {
   async run(message, { time }) {
     const video = message.guild.musicData.nowPlaying;
     var timevar = time;
+    const loopEmbed = new MessageEmbed()
+    .setColor(normalcolor)
     if (timevar.search(/[:]/) >= 0) { 
       var waktu1 = time.split(':'); 
       var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
+      let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+      let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+      loopEmbed.setDescription(`Seeking by ${msToTime(beforeseek)} to ${msToTime(afterseek)}.`)
     } else if (timevar.search(/[.]/) >=0) {
       var waktu2 = time.split('.');
       var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
+      let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+      let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+      loopEmbed.setDescription(`Seeking by ${msToTime(beforeseek)} to ${msToTime(afterseek)}.`)
     } else {
       var allwaktu = time
+      loopEmbed.setDescription(`Seeked ${time} Second.`)
     }
     let seekAmount = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
     let videotime = (video.srawDuration / 1000);
@@ -66,9 +75,6 @@ module.exports = class LoopCommand extends Command {
     }
     var seekplaying = null;
     seekplaying = video
-    const loopEmbed = new MessageEmbed()
-    .setColor(normalcolor)
-    .setDescription(`Seeked ${time}.`)
     message.say(loopEmbed)
     message.guild.musicData.queue.unshift(video);
     message.guild.musicData.songDispatcher.destroy();
@@ -76,3 +82,18 @@ module.exports = class LoopCommand extends Command {
     message.guild.musicData.seek = seekAmount
   }
 };
+
+function msToTime(duration) {
+  var seconds = parseInt((duration / 1000) % 60),
+      minutes = parseInt((duration / (1000 * 60)) % 60),
+      hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  if (hours !== 0)
+  	return hours + ":" + minutes + ":" + seconds;
+  else
+  	return minutes + ":" + seconds;
+}
