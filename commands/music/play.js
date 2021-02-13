@@ -328,14 +328,9 @@ module.exports = class PlayCommand extends Command {
             };  
           })
           .on('error', function(e) {
-            message.say('Cannot play song');
+            message.say(`Cannot play ${queue[0].title} song`);
             console.error(e);
-            message.guild.musicData.loop = 'off';
-            message.guild.musicData.queue.length = 0;
-            message.guild.musicData.isPlaying = false;
-            message.guild.musicData.nowPlaying = null;
-            message.guild.musicData.songDispatcher = null;
-            message.guild.me.voice.channel.leave();
+            classThis.playSong(queue, message, 0);
             return;
           });
       })
