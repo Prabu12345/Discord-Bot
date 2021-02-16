@@ -105,20 +105,26 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
   }
   if (
-    newState.guild.me.voice.channel.members.size < 2 && newState.guild.me.voice.channel
+    newState.guild.me.voice.channel.members.size < 2 && 
+    newState.guild.me.voice.channel && 
+    newState.guild.musicData.songDispatcher
   ) {
     if (typeof newState.guild.musicData.songDispatcher == 'undefined' ||
     newState.guild.musicData.songDispatcher == null) {
       return;
     }
-    setTimeout(function onTimeOut() {
+    var timeout = setTimeout(function onTimeOut() {
       newState.guild.musicData.loop = 'off';
       newState.guild.musicData.queue.length = 0;
       newState.guild.musicData.songDispatcher.end();
-      setTimeout(function onTimeOut() { 
-      newState.guild.me.voice.channel.leave(); 
-    }, 500);
-    }, 5000)
+      setTimeout(function onTimeOut() {
+        newState.guild.me.voice.channel.leave();
+      }, 500);
+    }, 10000)
+    if ( newState.guild.me.voice.channel.members.size > 1 ) {
+      clearTimeout(timeout) 
+      newState.channel.send('we udh kelar ngapain masuk')
+    }
   }
 });
 
