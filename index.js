@@ -125,7 +125,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
   if ( 
     timeout
   ) {
-    if (newState.guild.me.voice.channel.members.size > 2){
+    if (newState.guild.me.voice.channel.members.size > 1){
       clearTimeout(timeout) 
       console.log('Ayam Goyeng')
     } else {
