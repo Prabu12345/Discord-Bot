@@ -53,7 +53,7 @@ module.exports = class PlayCommand extends Command {
       return;
     }
 
-    if (message.guild.musicData.songDispatcher.pause) {
+    if (message.guild.musicData.songDispatcher.pause()) {
     const resumeEmbed = new MessageEmbed()
     .setColor(normalcolor)
     .setDescription('Song resumed :play_pause:')
