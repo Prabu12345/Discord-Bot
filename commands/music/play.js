@@ -60,6 +60,8 @@ module.exports = class PlayCommand extends Command {
     message.say(resumeEmbed);
     message.guild.musicData.songDispatcher.resume();
     return;
+    } else {
+      return;
     }
 
     if (
