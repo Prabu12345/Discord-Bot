@@ -123,7 +123,6 @@ client.on('voiceStateUpdate', async (___, newState) => {
     }, 10000)
   }
   if ( 
-    newState.guild.me.voice.channel.members.size > 1 &&
     timeout
   ) {
     clearTimeout(timeout) 
