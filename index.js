@@ -121,10 +121,13 @@ client.on('voiceStateUpdate', async (___, newState) => {
         newState.guild.me.voice.channel.leave();
       }, 500);
     }, 10000)
-    if ( newState.guild.me.voice.channel.members.size > 1 ) {
-      clearTimeout(timeout) 
-      newState.channel.send('we udh kelar ngapain masuk')
-    }
+  }
+  if ( 
+    newState.guild.me.voice.channel.members.size > 1 &&
+    timeout
+  ) {
+    clearTimeout(timeout) 
+    newState.channel.send('we udh kelar ngapain masuk')
   }
 });
 
