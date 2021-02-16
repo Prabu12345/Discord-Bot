@@ -4,7 +4,7 @@ const Youtube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 const { youtubeAPI } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, prefix } = require('../../config.json')
 const { run } = require('../../commands/music/resume')
 
 module.exports = class PlayCommand extends Command {
@@ -61,6 +61,10 @@ module.exports = class PlayCommand extends Command {
     message.guild.musicData.pause = false;
     message.guild.musicData.songDispatcher.resume();
     return;
+    }
+
+    if (query.length == 0){
+      return message.reply(`Usage: ${prefix}play <YouTube URL | Video Name>`);
     }
 
     if (
