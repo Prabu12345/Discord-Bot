@@ -125,8 +125,12 @@ client.on('voiceStateUpdate', async (___, newState) => {
   if ( 
     timeout
   ) {
-    clearTimeout(timeout) 
-    newState.channel.send('we udh kelar ngapain masuk')
+    if (newState.guild.me.voice.channel.members.size > 2){
+      clearTimeout(timeout) 
+      console.log('Ayam Goyeng')
+    } else {
+      return;
+    }
   }
 });
 
