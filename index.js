@@ -15,6 +15,7 @@ Structures.extend('Guild', function(Guild) {
       this.musicData = {
         queue: [],
         isPlaying: false,
+        pause: false,
         loop: 'off',
         sloop: 'null',
         remind: [],

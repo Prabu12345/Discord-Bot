@@ -38,7 +38,7 @@ module.exports = class ResumeCommand extends Command {
     .setColor(normalcolor)
     .setDescription('Song resumed :play_pause:')
     message.say(resumeEmbed);
-
+    message.guild.musicData.pause = false;
     message.guild.musicData.songDispatcher.resume();
   }
 };
