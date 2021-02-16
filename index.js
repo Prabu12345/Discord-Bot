@@ -104,7 +104,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
   ) {
     newState.setSelfDeaf(true);
   }
-  if (
+  /*if (
     newState.guild.me.voice.channel.members.size < 2 && 
     newState.guild.me.voice.channel && 
     newState.guild.musicData.songDispatcher
@@ -121,7 +121,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
         newState.guild.me.voice.channel.leave();
       }, 500);
     }, 10000)
-  }
+  } 
   if ( 
     timeout
   ) {
@@ -131,7 +131,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     } else {
       return;
     }
-  }
+  }*/
 });
 
 client.login(process.env.token);
