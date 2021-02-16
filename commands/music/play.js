@@ -5,6 +5,7 @@ const ytdl = require('ytdl-core');
 const { youtubeAPI } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 const { normalcolor, errorcolor } = require('../../config.json')
+const { run } = require('../../commands/music/resume')
 
 module.exports = class PlayCommand extends Command {
   constructor(client) {
@@ -50,6 +51,15 @@ module.exports = class PlayCommand extends Command {
       .setDescription('Please try after the trivia has ended')
       message.say(errvideoEmbed);
       return;
+    }
+
+    if (message.guild.musicData.songDispatcher.pause) {
+    const resumeEmbed = new MessageEmbed()
+    .setColor(normalcolor)
+    .setDescription('Song resumed :play_pause:')
+    message.say(resumeEmbed);
+    message.guild.musicData.songDispatcher.resume();
+    return;
     }
 
     if (
