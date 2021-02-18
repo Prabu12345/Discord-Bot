@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Youtube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
+const { playSong } = require('../music/play')
 const youtube = new Youtube(youtubeAPI);
 
 module.exports = class searchCommand extends Command {
@@ -116,7 +117,7 @@ module.exports = class searchCommand extends Command {
       }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
-        return searchCommand.playSong(message.guild.musicData.queue, message, 0);
+        return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
@@ -160,7 +161,7 @@ module.exports = class searchCommand extends Command {
       typeof message.guild.musicData.isPlaying == 'undefined'
     ) {
       message.guild.musicData.isPlaying = true;
-      return searchCommand.playSong(message.guild.musicData.queue, message, 0);
+      return playSong(message.guild.musicData.queue, message, 0);
     } else if (message.guild.musicData.isPlaying == true) {
       const addvideoEmbed = new MessageEmbed()
       .setColor(normalcolor)
@@ -250,7 +251,7 @@ module.exports = class searchCommand extends Command {
               if (songEmbed) {
                 songEmbed.delete();
               }
-              searchCommand.playSong(message.guild.musicData.queue, message, 0);
+              playSong(message.guild.musicData.queue, message, 0);
             } else if (message.guild.musicData.isPlaying == true) {
               if (songEmbed) {
                 songEmbed.delete();
@@ -284,136 +285,6 @@ module.exports = class searchCommand extends Command {
         return;
       });  
   
-  }
-  static async playSong(queue, message, seekAmount) {
-    const classThis = this; // use classThis instead of 'this' because of lexical scope below
-    queue[0].voiceChannel
-      .join()
-      .then(function(connection) {
-        const vol = message.guild.musicData.volume / 100;
-        const dispatcher = connection
-        .play(ytdl(queue[0].url, { quality: `highestaudio`, filter: () => ['251'], highWaterMark: 1 << 25 }), { volume: vol, seek: seekAmount })
-          .on('start', function() {
-            message.guild.musicData.songDispatcher = dispatcher;
-            message.guild.musicData.nowPlaying = queue[0];
-            queue.shift();
-            return;
-          })  
-          .on('finish', function() {
-            if (collector && !collector.end) collector.stop();
-            queue = message.guild.musicData.queue;
-            message.guild.musicData.seek = 0;
-            if (message.guild.musicData.loop == 'one') {
-              for (let i = 0; i < 1; i++) {
-                message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
-              }
-              if (queue.length >= 1) {
-                classThis.playSong(queue, message, 0);
-                return;
-              } else {
-                message.guild.musicData.isPlaying = false;
-                message.guild.musicData.nowPlaying = null;
-                message.guild.musicData.songDispatcher = null;
-                if (message.guild.me.voice.channel) {
-                  setTimeout(function onTimeOut() {
-                    if (
-                      message.guild.musicData.isPlaying == false &&
-                      message.guild.me.voice.channel
-                    ) {
-                      message.guild.musicData.loop = 'off';
-                      message.guild.me.voice.channel.leave();
-                    }
-                  }, 90000);
-                }
-              }
-            } else if (message.guild.musicData.loop == 'all') {
-              message.guild.musicData.queue.push(message.guild.musicData.nowPlaying);
-              if (queue.length >= 1) {
-                classThis.playSong(queue, message, 0);
-                return;
-              } else {
-                message.guild.musicData.isPlaying = false;
-                message.guild.musicData.nowPlaying = null;
-                message.guild.musicData.songDispatcher = null;
-                if (message.guild.me.voice.channel) {
-                  setTimeout(function onTimeOut() {
-                    if (
-                      message.guild.musicData.isPlaying == false &&
-                      message.guild.me.voice.channel
-                    ) {
-                      message.guild.musicData.loop = 'off';
-                      message.guild.me.voice.channel.leave();
-                    }
-                  }, 90000);
-                }
-              }
-            } else if (message.guild.musicData.loop == 'off') {
-              if (queue.length >= 1) {
-                classThis.playSong(queue, message, 0);
-                return;
-              } else {
-                message.guild.musicData.isPlaying = false;
-                message.guild.musicData.nowPlaying = null;
-                message.guild.musicData.songDispatcher = null;
-                if (message.guild.me.voice.channel) {
-                  setTimeout(function onTimeOut() {
-                    if (
-                      message.guild.musicData.isPlaying == false &&
-                      message.guild.me.voice.channel
-                    ) {
-                      message.guild.musicData.loop = 'off';
-                      message.guild.me.voice.channel.leave();
-                    }
-                  }, 90000);
-                }
-              }
-            };  
-          })
-          .on('error', function(e) {
-            message.say('Cannot play song');
-            console.error(e);
-            message.guild.musicData.queue.length = 0;
-            message.guild.musicData.isPlaying = false;
-            message.guild.musicData.nowPlaying = null;
-            message.guild.musicData.songDispatcher = null;
-            message.guild.me.voice.channel.leave();
-            return;
-          });
-      })
-      .catch(function() {
-        message.say('I have no permission to join your channel!');
-        message.guild.musicData.queue.length = 0;
-        message.guild.musicData.isPlaying = false;
-        message.guild.musicData.nowPlaying = null;
-        message.guild.musicData.songDispatcher = null;
-        if (message.guild.me.voice.channel) {
-          message.guild.me.voice.channel.leave();
-        }
-        return;
-
-      }); 
-
-      const videoEmbed = new MessageEmbed()
-      .setThumbnail(queue[0].thumbnail)
-      .setColor('#e9f931')
-      .addField('Now Playing:', `[${queue[0].title}](${queue[0].url})`)
-      .addField('Duration:', queue[0].duration)
-      .setFooter(
-        `Requested by ${queue[0].memberDisplayName}`,
-        queue[0].memberAvatar
-      );
-    if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
-    var playingMessage = await message.channel.send(videoEmbed);
-    
-        
-    const filter = (user) => user.id !== message.client.user.id;
-    var collector = playingMessage.createReactionCollector(filter, {
-      time: queue[0].rawDuration > 0 ? queue[0].rawDuration * 1000 : 600000
-    });
-
-    collector.on("end", () => { 
-      playingMessage.delete({ timeout: 1000 }).catch(console.error);
-    });
   }
   static constructSongObj(video, voiceChannel, user) {
     let duration = this.formatDuration(video.duration);

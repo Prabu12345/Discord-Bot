@@ -5,7 +5,6 @@ const ytdl = require('ytdl-core');
 const { youtubeAPI } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 const { normalcolor, errorcolor, prefix } = require('../../config.json')
-const { run } = require('../../commands/music/resume')
 
 module.exports = class PlayCommand extends Command {
   constructor(client) {
@@ -260,7 +259,6 @@ module.exports = class PlayCommand extends Command {
   
   }
   static async playSong(queue, message, seekAmount) {
-    const classThis = this; // use classThis instead of 'this' because of lexical scope below
     queue[0].voiceChannel
       .join()
       .then(function(connection) {
@@ -284,7 +282,7 @@ module.exports = class PlayCommand extends Command {
                 message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
               }
               if (queue.length >= 1) {
-                classThis.playSong(queue, message, 0);
+                PlayCommand.playSong(queue, message, 0);
                 return;
               } else {
                 message.guild.musicData.isPlaying = false;
@@ -305,7 +303,7 @@ module.exports = class PlayCommand extends Command {
             } else if (message.guild.musicData.loop == 'all') {
               message.guild.musicData.queue.push(message.guild.musicData.nowPlaying);
               if (queue.length >= 1) {
-                classThis.playSong(queue, message, 0);
+                PlayCommand.playSong(queue, message, 0);
                 return;
               } else {
                 message.guild.musicData.isPlaying = false;
@@ -325,7 +323,7 @@ module.exports = class PlayCommand extends Command {
               }
             } else if (message.guild.musicData.loop == 'off') {
               if (queue.length >= 1) {
-                classThis.playSong(queue, message, 0);
+                PlayCommand.playSong(queue, message, 0);
                 return;
               } else {
                 message.guild.musicData.isPlaying = false;
@@ -349,7 +347,7 @@ module.exports = class PlayCommand extends Command {
             message.say(`Cannot play ${queue[0].title} song`);
             queue.shift();
             console.error(e);
-            classThis.playSong(queue, message, 0);
+            PlayCommand.playSong(queue, message, 0);
             return;
           });
       })
