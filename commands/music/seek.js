@@ -73,13 +73,11 @@ module.exports = class SeekCommand extends Command {
     } else if (seekAmount >= videotime) {
       return message.channel.send('seeknya kelebihan coy, ga sesuai ama durasi lagunya');
     }
-    var seekplaying = null;
-    seekplaying = video
+    message.guild.musicData.seek = seekAmount
     message.say(loopEmbed)
     message.guild.musicData.queue.unshift(video);
     message.guild.musicData.songDispatcher.destroy();
     playSong(message.guild.musicData.queue, message, seekAmount);
-    message.guild.musicData.seek = seekAmount
   }
 };
 
@@ -92,7 +90,7 @@ function msToTime(duration) {
   minutes = (minutes < 10) ? "0" + minutes : minutes;
   seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-  if (hours !== 0)
+  if (hours !== 00)
   	return hours + ":" + minutes + ":" + seconds;
   else
   	return minutes + ":" + seconds;

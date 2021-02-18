@@ -64,7 +64,10 @@ module.exports = class PlayCommand extends Command {
     }
 
     if (query.length == 0){
-      return message.reply(`Usage: ${prefix}play <YouTube URL | Video Name>`);
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`Usage: ${prefix}play <YouTube URL | Video Name>`)
+      return message.say(errvideoEmbed);
     }
 
     if (
