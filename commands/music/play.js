@@ -272,9 +272,7 @@ module.exports = class PlayCommand extends Command {
             return;
           })  
           dispatcher.on('finish', function() {
-            if (message.guild.musicData.seek == 0) {
-              if (collector && !collector.end) collector.stop();
-            }
+            if (collector && !collector.end) collector.stop();
             queue = message.guild.musicData.queue;
             message.guild.musicData.seek = 0;
             if (message.guild.musicData.loop == 'one') {
