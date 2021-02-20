@@ -52,7 +52,7 @@ module.exports = class LeaveCommand extends Command {
           message.channel
             .awaitMessages(
               async function(msg) {
-                return (msg.content > 0 && msg.content < 101)
+                return (msg.content > 0 && msg.content < 101) || msg.content === 'exit';
               },
               {
                 max: 1,
@@ -61,7 +61,7 @@ module.exports = class LeaveCommand extends Command {
               }
             )
             .then(async function(response) {
-              const vIndex = parseInt(response.content);
+              const vIndex = parseInt(response.first().content);
               if (vIndex > 0 && vIndex < 101) {
                 if (vm) {
                   vm.delete();
@@ -91,7 +91,7 @@ module.exports = class LeaveCommand extends Command {
           message.channel
             .awaitMessages(
               async function(msg) {
-                return (msg.content > 0 && msg.content < 101)
+                return (msg.content > 0 && msg.content < 101) || msg.content === 'exit';
               },
               {
                 max: 1,
@@ -100,7 +100,7 @@ module.exports = class LeaveCommand extends Command {
               }
             )
             .then(async function(response) {
-              const tIndex = parseInt(response.content);
+              const tIndex = parseInt(response.first().content);
               if (tIndex > 0 && tIndex < 101) {
                 if (tm) {
                   tm.delete();
