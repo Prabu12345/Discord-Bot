@@ -106,7 +106,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
   ) {
     newState.setSelfDeaf(true);
   }
-  if (
+  /*if (
     newState.guild.me.voice.channel && 
     newState.guild.musicData.songDispatcher
   ) {
@@ -123,10 +123,10 @@ client.on('voiceStateUpdate', async (___, newState) => {
   } 
   if ( 
     timeout && newState.guild.me.voice.channel.members.array().length > 1
-  ) {
+  ) { 
     clearTimeout(timeout) 
     console.log('Ayam Goyeng')
-  }
+  }*/
 });
 
 client.login(process.env.token);
