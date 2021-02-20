@@ -61,7 +61,7 @@ module.exports = class LeaveCommand extends Command {
               }
             )
             .then(async function(response) {
-              const vIndex = parseInt(response.first().content);
+              const vIndex = parseInt(response.content);
               if (vIndex > 0 && vIndex < 101) {
                 if (vm) {
                   vm.delete();
@@ -101,7 +101,7 @@ module.exports = class LeaveCommand extends Command {
               }
             )
             .then(async function(response) {
-              const tIndex = parseInt(response.first().content);
+              const tIndex = parseInt(response.content);
               if (tIndex > 0 && tIndex < 101) {
                 if (tm) {
                   tm.delete();
