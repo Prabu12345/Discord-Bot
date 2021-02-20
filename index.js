@@ -121,7 +121,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
       }, newState.guild.musicData.timeout)
     }
     if ( 
-      timeout && newState.guild.me.voice.channel.members.array().length > 1
+      newState.guild.me.voice.channel.members.array().length > 1
     ) { 
       clearTimeout(timeout) 
       console.log('Ayam Goyeng')
