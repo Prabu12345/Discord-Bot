@@ -14,7 +14,7 @@ module.exports = class LeaveCommand extends Command {
     });
   }
 
-  run(message) {
+  async run(message) {
     const embed = new MessageEmbed()
       .setColor(normalcolor)
       .setTitle('Choose a song by commenting a number between 1 and 5')
