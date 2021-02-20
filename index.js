@@ -106,7 +106,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
   ) {
     newState.setSelfDeaf(true);
   }
-  let timeout
+  var timeout
   if (
     newState.guild.me.voice.channel && 
     newState.guild.musicData.songDispatcher
@@ -115,7 +115,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
       if (timeout) {
         return;
       } else {
-        var timeout = setTimeout(function onTimeOut() {
+        timeout = setTimeout(function onTimeOut() {
           newState.guild.musicData.loop = 'off';
           newState.guild.musicData.queue.length = 0;
           newState.guild.musicData.songDispatcher.end();
