@@ -16,7 +16,7 @@ Structures.extend('Guild', function(Guild) {
         queue: [],
         isPlaying: false,
         pause: false,
-        timeout: 10000,
+        timeout: 60000,
         loop: 'off',
         sloop: 'null',
         remind: [],
