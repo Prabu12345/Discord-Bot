@@ -107,7 +107,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
   }
   if (
-    newState.guild.me.voice.channel.members.array().length == 2 && 
+    newState.guild.me.voice.channel.members.array().length < 2 && 
     newState.guild.me.voice.channel && 
     newState.guild.musicData.songDispatcher
   ) {
