@@ -113,8 +113,6 @@ client.on('voiceStateUpdate', async (___, newState) => {
   ) {
     if (newState.guild.me.voice.channel.members.array().length == 1) {
       if (timeout) {
-        return;
-      } else {
         timeout = setTimeout(function onTimeOut() {
           newState.guild.musicData.loop = 'off';
           newState.guild.musicData.queue.length = 0;
@@ -123,12 +121,14 @@ client.on('voiceStateUpdate', async (___, newState) => {
             newState.guild.me.voice.channel.leave();
           }, 500);
         }, newState.guild.musicData.timeout)
+      } else {
+        return;
       }
     }
     if ( 
       newState.guild.me.voice.channel.members.array().length > 1
     ) { 
-      clearTimeout(timeout) 
+      clearInterval(timeout) 
       console.log('Ayam Goyeng')
     }
   } 
