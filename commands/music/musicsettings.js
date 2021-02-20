@@ -21,8 +21,8 @@ module.exports = class LeaveCommand extends Command {
   async run(message) {
     const embed = new MessageEmbed()
       .setColor(normalcolor)
-      .setTitle('Choose a song by commenting a number between 1 and 5')
-      .setDescription(`1. Update max volume - **${message.guild.musicData.volume}% (1 - 100)**\n\n
+      .setTitle('Choose a music settings by commenting a number between 1 and 2')
+      .setDescription(`1. Update max volume - **${message.guild.musicData.volume}% (1 - 100)**\n
       2. Automatically leave the channel if empty - **${message.guild.musicData.timeout / 60000} minutes (1 - 100)**`
       )
       .addField('Exit', 'Write "exit" to cancel or will cancel automaticly in 1 minute');
@@ -51,7 +51,7 @@ module.exports = class LeaveCommand extends Command {
           var vm = await message.channel.send('What do you want to set the volume to?');
           message.channel
             .awaitMessages(
-              function(msg) {
+              async function(msg) {
                 return (msg.content > 0 && msg.content < 101)
               },
               {
@@ -60,9 +60,9 @@ module.exports = class LeaveCommand extends Command {
                 errors: ['time']
               }
             )
-            .then(function(response) {
+            .then(async function(response) {
               const vIndex = parseInt(response.first().content);
-              if (msg.content > 0 && msg.content < 101) {
+              if (vIndex > 0 && vIndex < 101) {
                 if (vm) {
                   vm.delete();
                 }
@@ -74,7 +74,7 @@ module.exports = class LeaveCommand extends Command {
                 message.say(volumeEmbed);
               }
             })
-            .catch(function() {
+            .catch(async function() {
               if (vm) {
                 vm.delete();
               }
@@ -91,7 +91,7 @@ module.exports = class LeaveCommand extends Command {
           var tm = await message.channel.send('What do you want to set the timeout to?');
           message.channel
             .awaitMessages(
-              function(msg) {
+              async function(msg) {
                 return (msg.content > 0 && msg.content < 101)
               },
               {
@@ -100,9 +100,9 @@ module.exports = class LeaveCommand extends Command {
                 errors: ['time']
               }
             )
-            .then(function(response) {
+            .then(async function(response) {
               const tIndex = parseInt(response.first().content);
-              if (msg.content > 0 && msg.content < 101) {
+              if (tIndex > 0 && tIndex < 101) {
                 if (tm) {
                   tm.delete();
                 }
@@ -113,7 +113,7 @@ module.exports = class LeaveCommand extends Command {
                 message.say(timeoutEmbed);
               }
             })
-            .catch(function() {
+            .catch(async function() {
               if (tm) {
                 tm.delete();
               }
@@ -125,7 +125,7 @@ module.exports = class LeaveCommand extends Command {
             });
         }
       })
-      .catch(function() {
+      .catch(async function() {
         if (songEmbed) {
           songEmbed.delete();
         }
