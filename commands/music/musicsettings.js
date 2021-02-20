@@ -25,7 +25,7 @@ module.exports = class LeaveCommand extends Command {
       .setDescription(`1. Update max volume - **${message.guild.musicData.volume}% (1 - 100)**\n
       2. Automatically leave the channel if empty - **${message.guild.musicData.timeout / 60000} minutes (1 - 100)**`
       )
-      .addField('Exit', 'Write "exit" to cancel or will cancel automaticly in 1 minute');
+      .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
     message.channel
       .awaitMessages(
@@ -105,7 +105,7 @@ module.exports = class LeaveCommand extends Command {
                 if (tm) {
                   tm.delete();
                 }
-                message.guild.musicData.timeout == (tIndex * 60000)
+                message.guild.musicData.timeout = (tIndex * 60000)
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The timeout set to **${tIndex} Minutes**, ${message.author}`)
