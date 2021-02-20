@@ -16,6 +16,7 @@ Structures.extend('Guild', function(Guild) {
         queue: [],
         isPlaying: false,
         pause: false,
+        timeout: 10000,
         loop: 'off',
         sloop: 'null',
         remind: [],
@@ -105,8 +106,8 @@ client.on('voiceStateUpdate', async (___, newState) => {
   ) {
     newState.setSelfDeaf(true);
   }
-  /*if (
-    newState.guild.me.voice.channel.members.size < 2 && 
+  if (
+    newState.guild.me.voice.channel.members.array().length == 2 && 
     newState.guild.me.voice.channel && 
     newState.guild.musicData.songDispatcher
   ) {
@@ -121,10 +122,10 @@ client.on('voiceStateUpdate', async (___, newState) => {
       setTimeout(function onTimeOut() {
         newState.guild.me.voice.channel.leave();
       }, 500);
-    }, 10000)
+    }, newState.guild.musicData.timeout)
   } 
   if ( 
-    timeout
+    timeout && newState.guild.me.voice.channel.members.array().length == 2
   ) {
     if (newState.guild.me.voice.channel.members.size > 1){
       clearTimeout(timeout) 
@@ -132,7 +133,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     } else {
       return;
     }
-  }*/
+  }
 });
 
 client.login(process.env.token);
