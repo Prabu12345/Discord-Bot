@@ -67,7 +67,6 @@ module.exports = class LeaveCommand extends Command {
                   vm.delete();
                 }
                 message.guild.musicData.volume = vIndex
-                message.guild.musicData.songDispatcher.setVolume(vIndex / 100);
                 const volumeEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The volume set to **${vIndex}%**, ${message.author}`)
