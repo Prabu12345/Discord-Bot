@@ -107,26 +107,28 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.setSelfDeaf(true);
     return;
   }
-  var timeout
   if (
     newState.guild.me.voice.channel && 
     newState.guild.musicData.songDispatcher
   ) {
+    let timeout
     if (newState.guild.me.voice.channel.members.array().length == 1) {
-      timeout = setTimeout(function onTimeOut() {
-        newState.guild.musicData.loop = 'off';
-        newState.guild.musicData.queue.length = 0;
-        newState.guild.musicData.songDispatcher.end();
-        setTimeout(function onTimeOut() {
-          newState.guild.me.voice.channel.leave();
-        }, 500);
-      }, newState.guild.musicData.timeout)
-      return;
+      setTimeout(() => {
+        timeout = setTimeout(() => {
+          newState.guild.musicData.loop = 'off';
+          newState.guild.musicData.queue.length = 0;
+          newState.guild.musicData.songDispatcher.end();
+          setTimeout(function onTimeOut() {
+            newState.guild.me.voice.channel.leave();
+          }, 500);
+        }, newState.guild.musicData.timeout)
+        return timeout
+      }, 1000)
     }
     if ( 
       newState.guild.me.voice.channel.members.array().length > 1
     ) { 
-      clearInterval(timeout) 
+      clearTimeout(timeout) 
       console.log('Ayam Goyeng')
     }
   } 
