@@ -10,7 +10,11 @@ module.exports = class LeaveCommand extends Command {
       group: 'music',
       memberName: 'musicsettings',
       guildOnly: true,
-      description: 'To settings music'
+      description: 'To settings music',
+      throttling: {
+        usages: 1,
+        duration: 30
+      }
     });
   }
 
@@ -34,7 +38,7 @@ module.exports = class LeaveCommand extends Command {
           errors: ['time']
         }
       )
-      .then(function(response) {
+      .then(async function(response) {
         const mIndex = parseInt(response.first().content);
         if (response.first().content === 'exit') {
           songEmbed.delete();
