@@ -31,12 +31,12 @@ module.exports = class SeekCommand extends Command {
     });
   }
 
-  async run(message, { type1 }, { time }) {
+  async run(message, { type }, { time }) {
     const video = message.guild.musicData.nowPlaying;
     var timevar = time;
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    if (timevar.length == 0) {
+    if (time.length == 0 || type.length == 0) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`Usage: -seek <forward | backward> <time(2:00)> or -seek <duration(2:00)>`)
