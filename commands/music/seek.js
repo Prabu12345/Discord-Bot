@@ -11,7 +11,15 @@ module.exports = class SeekCommand extends Command {
       memberName: 'seek',
       guildOnly: true,
       description: 'Loop the current playing song',
-      examples: ['seek 1:30', 'seek 0:30'],
+      examples: ['seek f 1:30', 'seek b 0:30', 'seek 1:30', 'seek 100'],
+      args: [
+        {
+          key: 'type1',
+          default: '',
+          type: 'string',
+          prompt: 'Enter seek time. E.g. 1:30 or 0:30'
+        }
+      ],
       args: [
         {
           key: 'time',
@@ -23,30 +31,17 @@ module.exports = class SeekCommand extends Command {
     });
   }
 
-  async run(message, { time }) {
+  async run(message, { type1 }, { time }) {
     const video = message.guild.musicData.nowPlaying;
     var timevar = time;
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    if (timevar.search(/[:]/) >= 0) { 
-      var waktu1 = time.split(':'); 
-      var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
-      let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-      let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-      loopEmbed.setDescription(`Seeking by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
-    } else if (timevar.search(/[.]/) >=0) {
-      var waktu2 = time.split('.');
-      var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
-      let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-      let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-      loopEmbed.setDescription(`Seeking by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
-    } else {
-      var allwaktu = time
-      loopEmbed.setDescription(`Seeked ${time} Second.`)
-    }
-    let seekAmount = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-    let videotime = (video.srawDuration / 1000);
-    if (!message.guild.musicData.isPlaying) {
+    if (timevar.search(/[;',|`~!@#$%^&*()]/) || timevar.length == 0) {
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`Usage: -seek <forward | backward> <time(2:00)> or -seek <duration(2:00)>`)
+      return message.say(errvideoEmbed);
+    } else if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('There is no song playing right now!')
@@ -68,16 +63,91 @@ module.exports = class SeekCommand extends Command {
       message.reply(errloopEmbed);
       return;
     } else if (video.duration == 'Live Stream') {
-      message.channel.send('Video Live stream ga bisa di seek goblok')
+      message.channel.send('you can\'t Seek Live Stream video')
       return; 
-    } else if (seekAmount >= videotime) {
-      return message.channel.send('seeknya kelebihan coy, ga sesuai ama durasi lagunya');
     }
-    message.guild.musicData.seek = seekAmount
+    if (type == time) {
+      if (timevar.search(/[:]/) >= 0) { 
+        var waktu1 = time.split(':'); 
+        var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
+        loopEmbed.setDescription(`Seeking to ${msToTime(parseInt(allwaktu) * 1000)}.`)
+      } else if (timevar.search(/[.]/) >= 0) {
+        var waktu2 = time.split('.');
+        var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
+        loopEmbed.setDescription(`Seeking to ${msToTime(parseInt(allwaktu) * 1000)}.`)
+      } else {
+        return;
+      }
+    } else {
+      if (type == 'forward' || type == 'f') {
+        if (timevar.search(/[:]/) >= 0) { 
+          var waktu1 = time.split(':'); 
+          var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
+          let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          loopEmbed.setDescription(`Seeking forward by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
+        } else if (timevar.search(/[.]/) >= 0) {
+          var waktu2 = time.split('.');
+          var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
+          let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          loopEmbed.setDescription(`Seeking forward by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
+        } else {
+          var allwaktu = time
+          loopEmbed.setDescription(`Seeked ${time} Second.`)
+        }
+      } else if (type == 'backward' || type == 'b') {
+        if (timevar.search(/[:]/) >= 0) { 
+          var waktu1 = time.split(':'); 
+          var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
+          let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          loopEmbed.setDescription(`Seeking backward by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
+        } else if (timevar.search(/[.]/) >= 0) {
+          var waktu2 = time.split('.');
+          var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
+          let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          loopEmbed.setDescription(`Seeking backward by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
+        } else {
+          var allwaktu = time
+          loopEmbed.setDescription(`Seeked ${time} Second.`)
+        }
+      } else {
+        return;
+      }
+    }
+    let seekAmount = Math.ceil(parseInt(allwaktu));
+    let seekAmountf = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+    let seekAmountb = Math.ceil(message.guild.musicData.seek + (message.guild.musicData.songDispatcher.streamTime / 1000) - parseInt(allwaktu));
+    let completed = Math.ceil(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek);
+    let videotime = (video.srawDuration / 1000);
+    if (seekAmount >= videotime) {
+      return message.channel.send('Seek duration is more than video duration!');
+    } else if (seekAmountb <= 0) {
+      return message.channel.send(`You can't backward that much. Currently on \`${msToTime(completed)} / ${msToTime(videotime*1000)}\`!`);
+    }
+    if (type == time) {
+      message.guild.musicData.seek = seekAmount
+    } else {
+      if (type == 'forward' || type == 'f') {
+        message.guild.musicData.seek = seekAmountf
+      } else if (type == 'backward' || type == 'b') {
+        message.guild.musicData.seek = seekAmountb
+      }
+    }
     message.say(loopEmbed)
     message.guild.musicData.queue.unshift(video);
     message.guild.musicData.songDispatcher.destroy();
-    playSong(message.guild.musicData.queue, message, seekAmount);
+    if (type == time) {
+      playSong(message.guild.musicData.queue, message, seekAmount);
+    } else {
+      if (type == 'forward' || type == 'f') {
+        playSong(message.guild.musicData.queue, message, seekAmountf);
+      } else if (type == 'backward' || type == 'b') {
+        playSong(message.guild.musicData.queue, message, seekAmountb);
+      }
+    }
   }
 };
 

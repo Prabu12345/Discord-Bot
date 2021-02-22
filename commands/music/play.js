@@ -259,6 +259,9 @@ module.exports = class PlayCommand extends Command {
   
   }
   static async playSong(queue, message, seekAmount) {
+    if (message.guild.musicData.seek > 0) {
+      if (collector && !collector.end) collector.stop();
+    }
     queue[0].voiceChannel
       .join()
       .then(function(connection) {
@@ -372,7 +375,6 @@ module.exports = class PlayCommand extends Command {
         `Requested by ${queue[0].memberDisplayName}`,
         queue[0].memberAvatar
       );
-    if (queue[1]) videoEmbed.addField('Next Song:', queue[1].title);
     if (message.guild.musicData.seek == 0) {
       var playingMessage = await message.channel.send(videoEmbed);
     

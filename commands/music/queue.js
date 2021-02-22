@@ -32,14 +32,14 @@ module.exports = class QueueCommand extends Command {
     if (message.guild.musicData.queue.length == 0) {
       const video = message.guild.musicData.nowPlaying;
       var errqueueembed = new MessageEmbed()
-        .setTitle(`Music Queue - ${message.guild.musicData.queue.length} items`)
+        .setTitle(`:notes:Queue for ${message.guild.name} (${message.guild.musicData.queue.length})`)
         .setDescription('There are no songs in queue!')
         if (video) {
           errqueueembed.setColor(normalcolor)
           if (message.guild.musicData.loop == 'off') {
-			errqueueembed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} | Volume : ${message.guild.musicData.volume}%`)
+			errqueueembed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop}`)
 		} else if (message.guild.musicData.loop == 'one' || message.guild.musicData.loop == 'queue') {
-			errqueueembed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} Track | Volume : ${message.guild.musicData.volume}%`)
+			errqueueembed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} Track`)
 			}		
         } else {
           errqueueembed.setColor(errorcolor)
@@ -110,14 +110,14 @@ function generateQueueEmbed(message, queue) {
     const info = current.map((track) => `**${++j}** | [${track.title}](${track.url}) (${msToTime(track.srawDuration)}) - **${track.memberDisplayName}**`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
-    .setTitle(`Music Queue - ${queue.length} items (${msToTime(allduration)})`)
+    .setTitle(`:notes:Queue for ${message.guild.name} (${queue.length})`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
     if (message.guild.musicData.loop == 'off') {
-      embed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} | Volume : ${message.guild.musicData.volume}%`)
+      embed.setFooter(`Now Playing: ${video.title} | Loop: ${message.guild.musicData.loop} | Total Queue Time: ${msToTime(allduration)}`)
     embeds.push(embed);
-  } else if (message.guild.musicData.loop == 'one' || message.guild.musicData.loop == 'queue') {
-      embed.setFooter(`Now Playing : ${video.title} | Loop : ${message.guild.musicData.loop} Track | Volume : ${message.guild.musicData.volume}%`)
+  } else if (message.guild.musicData.loop == 'one' || message.guild.musicData.loop == 'all') {
+      embed.setFooter(`Now Playing: ${video.title} | Loop: ${message.guild.musicData.loop} Track | Total Queue Time: ${msToTime(allduration)}`)
     embeds.push(embed);
     }
   }

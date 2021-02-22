@@ -73,8 +73,11 @@ function msToTime(duration) {
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;
   
-    if (days !== 0)
-        return days + " days " + hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-    else
-        return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+    if (days !== 0) {
+      return days + " days " + hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+    } else if (hours !== '00') {
+      return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+    } else {
+      return minutes + ":" + seconds + "." + milliseconds;
+    }   
   }

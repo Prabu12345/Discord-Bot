@@ -22,7 +22,7 @@ module.exports = class LeaveCommand extends Command {
     const embed = new MessageEmbed()
       .setColor(normalcolor)
       .setTitle('Choose a music settings by commenting a number between 1 and 2')
-      .setDescription(`1. Update max volume - **${message.guild.musicData.volume}% (1 - 100)**\n
+      .setDescription(`1. Update max volume - **${message.guild.musicData.volume}% (0 - 50)**\n
       2. Automatically leave the channel if empty - **${message.guild.musicData.timeout / 60000} minutes (1 - 100)**`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
@@ -91,7 +91,7 @@ module.exports = class LeaveCommand extends Command {
           message.channel
             .awaitMessages(
               async function(msg) {
-                return (msg.content > 0 && msg.content < 101) || msg.content === 'exit';
+                return (msg.content > 0 && msg.content < 101) || msg.content === 0;
               },
               {
                 max: 1,
@@ -101,14 +101,18 @@ module.exports = class LeaveCommand extends Command {
             )
             .then(async function(response) {
               const tIndex = parseInt(response.first().content);
-              if (tIndex > 0 && tIndex < 101) {
+              if (tIndex > 0 && tIndex < 51 || response.first().content === 0) {
                 if (tm) {
                   tm.delete();
                 }
-                message.guild.musicData.timeout = (tIndex * 60000)
+                message.guild.musicData.timeout = (tIndex * 60000);
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The timeout set to **${tIndex} Minutes**, ${message.author}`)
+                if (response.first().content === 0) {
+                  message.guild.musicData.timeout = 0;
+                  timeoutEmbed.setDescription(`The timeout set to **${response.first().content} Minutes**, ${message.author}`)
+                }
                 message.say(timeoutEmbed);
               }
             })
@@ -118,7 +122,7 @@ module.exports = class LeaveCommand extends Command {
               }
               const errvideoEmbed = new MessageEmbed()
               .setColor(errorcolor)
-              .setDescription('Please try again and enter a number between 1 and 100')
+              .setDescription('Please try again and enter a number between 0 and 50')
               message.say(errvideoEmbed);
               return;
             });

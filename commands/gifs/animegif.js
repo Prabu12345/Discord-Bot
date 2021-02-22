@@ -6,7 +6,7 @@ module.exports = class AnimegifCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'animegif',
-      group: 'gifs',
+      group: 'anime',
       aliases: ['anime-gif', 'anime-gifs'],
       memberName: 'animegif',
       description:
