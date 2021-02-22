@@ -23,11 +23,11 @@ module.exports = class SeekCommand extends Command {
     });
   }
 
-  async run(message, { type }, { time1 }) {
+  async run(message, { time1 }) {
     const video = message.guild.musicData.nowPlaying;
     var timevar = time1;
-    var type = timevar.substring(0,reminderMsg.search(" ")).toLowerCase();
-    var time = timevar.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
+    var type = timevar.substring(0,timevar.search(" ")).toLowerCase();
+    var time = timevar.substring(timevar.search(" ") + 1, reminderMsg.end);
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
     if (time.search(/[;',|`~!@#$%^&*()]/) || timevar.length == 0) {
