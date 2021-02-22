@@ -27,7 +27,7 @@ module.exports = class SeekCommand extends Command {
     const video = message.guild.musicData.nowPlaying;
     var timevar = time1;
     var type = timevar.substring(0,timevar.search(" ")).toLowerCase();
-    var time = timevar.substring(timevar.search(" ") + 1, reminderMsg.end);
+    var time = timevar.substring(timevar.search(" ") + 1, timevar.end);
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
     if (time.search(/[;',|`~!@#$%^&*()]/) || timevar.length == 0) {
