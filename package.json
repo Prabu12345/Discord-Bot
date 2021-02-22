@@ -21,7 +21,7 @@
     "mongoose": "^5.11.12",
     "mongodb": "^3.6.3",
     "commando-provider-mongo": "^2.0.2",
-    "ytdl-core": "^4.4.5",
+    "ytdl-core": "^4.5.0",
     "nekos.life": "^2.0.7",
     "fs": "^0.0.1-security",
     "discord-ytdl-core": "^4.1.3",
