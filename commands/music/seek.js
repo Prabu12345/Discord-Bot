@@ -118,8 +118,6 @@ module.exports = class SeekCommand extends Command {
     let videotime = (video.srawDuration / 1000);
     if (seekAmount >= videotime) {
       return message.channel.send('Seek duration is more than video duration!');
-    } else if (seekAmountb <= 0) {
-      return message.channel.send(`You can't backward that much. Currently on \`${msToTime(completed)} / ${msToTime(videotime*1000)}\`!`);
     }
     if (!type) {
       message.guild.musicData.seek = seekAmount
@@ -127,6 +125,9 @@ module.exports = class SeekCommand extends Command {
       if (type == 'forward' || type == 'f') {
         message.guild.musicData.seek = seekAmountf
       } else if (type == 'backward' || type == 'b') {
+        if (seekAmountb <= 0) {
+          return message.channel.send(`You can't backward that much. Currently on \`${msToTime(completed)} / ${msToTime(videotime*1000)}\`!`);
+        }
         message.guild.musicData.seek = seekAmountb
       }
     }
