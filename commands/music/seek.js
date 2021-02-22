@@ -23,7 +23,7 @@ module.exports = class SeekCommand extends Command {
     });
   }
 
-  async run(message, { type }, { time }) {
+  async run(message, { type }, { time1 }) {
     const video = message.guild.musicData.nowPlaying;
     var timevar = time1;
     var type = timevar.substring(0,reminderMsg.search(" ")).toLowerCase();
