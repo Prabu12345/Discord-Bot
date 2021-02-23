@@ -53,7 +53,7 @@ module.exports = class SkipToCommand extends Command {
       return message.say(errskiptoEmbed)
     };
 
-    var newsongNumber = songNumber - 1;
+    var newsongNumber = (songNumber - 1);
 
     message.guild.musicData.sloop = message.guild.musicData.loop;
     message.guild.musicData.loop = 'off';

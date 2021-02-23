@@ -11,7 +11,7 @@ module.exports = class SeekCommand extends Command {
       memberName: 'seek',
       guildOnly: true,
       description: 'Loop the current playing song',
-      examples: ['seek f 1:30', 'seek b 0:30', 'seek 1:30', 'seek 100'],
+      examples: ['seek f \`1:30\`', 'seek b \`0:30\`', 'seek \`1:30\`', 'seek \`100\`'],
       args: [
         {
           key: 'time1',

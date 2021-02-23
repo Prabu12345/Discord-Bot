@@ -9,6 +9,7 @@ module.exports = class RemoveSongCommand extends Command {
       memberName: 'remove',
       group: 'music',
       description: 'Remove a specific song from queue',
+      examples: ['remove \`5\`', 'remove \`1\`'],
       guildOnly: true,
       args: [
         {
