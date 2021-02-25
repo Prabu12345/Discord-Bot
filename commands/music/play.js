@@ -72,7 +72,7 @@ module.exports = class PlayCommand extends Command {
 
     if (
       query.match(
-        /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
+        /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
       )
     ) {
       var updatedQuery;
@@ -218,6 +218,7 @@ module.exports = class PlayCommand extends Command {
         .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
       const id = query[2].split(/[^0-9a-z_\-]/i)[0];
       const video = await youtube.getVideoByID(id).catch(function() {
+        if (query.match(/^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/)) return;
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription('There was a problem getting the video you provided!')
@@ -258,7 +259,6 @@ module.exports = class PlayCommand extends Command {
 
     // if user provided a song/video name
     const videos = await youtube.searchVideos(query, 1).catch(async function() {
-      if (query.match(/https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/)) return;
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('There was a problem searching the video you requested :(')
