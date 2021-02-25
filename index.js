@@ -139,6 +139,6 @@ function rrun(newState) {
 } 
 
 function stop() { 
-  clearTimeout(t); 
+  if (t) clearTimeout(t); 
   console.log('Ayam Goyeng')
 } 

@@ -75,7 +75,7 @@ module.exports = class PlayCommand extends Command {
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:album\/|\?uri=spotify:album:)((\w|-){22})/
         )
     ) {
-      const album = await spotify.getData(query)
+      const album = await spotify.getTracks(query)
       if (!album) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -127,7 +127,7 @@ module.exports = class PlayCommand extends Command {
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`Playlist - :musical_note:  **${nameOfalbum}** :musical_note: has been added to queue`)
+        .setDescription(`Album - :musical_note:  **${nameOfalbum}** :musical_note: has been added to queue`)
         message.say(addvideoEmbed);
         return;
       }
@@ -147,7 +147,7 @@ module.exports = class PlayCommand extends Command {
       )
     ) {
       var updatedQuery;
-      const spotifyData = await spotify.getPreview(query).catch(() => {})
+      const spotifyData = await spotify.getTracks(query).catch(() => {})
       if (spotifyData) {
         updatedQuery = `${spotifyData.artist} - ${spotifyData.title}`
       }
