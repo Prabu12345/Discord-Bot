@@ -490,13 +490,13 @@ module.exports = class PlayCommand extends Command {
     } 
   }
 
-  static constructSongObj(video, voiceChannel, user) {
+  static constructSongObj(query, video, voiceChannel, user) {
     return {
       url: `https://youtube.com/watch?v=${video.id}`,
       title: video.title,
       rawDuration: video.duration,
       duration: video.durationFormatted,
-      thumbnail: video.thumbnails.url,
+      thumbnail: video.thumbnails,
       voiceChannel,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
