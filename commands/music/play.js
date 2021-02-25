@@ -72,10 +72,10 @@ module.exports = class PlayCommand extends Command {
 
     if (
       query.match(
-        /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:album\/|\?uri=spotify:album:)((\w|-){22})/
+        /^(http(s)?:\/\/)?((w){3}.)?open\.spotify\.com\/album.+/
         )
     ) {
-      const album = await spotify.getTracks(query)
+      const album = await spotify.getData(query)
       if (!album) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -143,11 +143,11 @@ module.exports = class PlayCommand extends Command {
 
     if (
       query.match(
-        /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
+        /^(http(s)?:\/\/)?((w){3}.)?open\.spotify\.com\/track.+/
       )
     ) {
       var updatedQuery;
-      const spotifyData = await spotify.getTracks(query).catch(() => {})
+      const spotifyData = await spotify.getPreview(query).catch(() => {})
       if (spotifyData) {
         updatedQuery = `${spotifyData.artist} - ${spotifyData.title}`
       }
