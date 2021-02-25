@@ -138,7 +138,7 @@ module.exports = class PlayCommand extends Command {
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/
       )
     ) {
-      const playlist = await spotify.getTracks(query)
+      const playlist = await spotify.getData(query)
       if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -148,7 +148,7 @@ module.exports = class PlayCommand extends Command {
       const tracks = []
       var nameOfplaylist = playlist.name
       for (let i = 0; i < playlist.tracks.track.length; i++) {
-        const updatequery = `${playlist.tracks.track[i].artists.name} - ${playlist.tracks.track[i].name}`
+        const updatequery = `${playlist.tracks.items[i].track.artists.name} - ${playlist.tracks.items[i].track.name}`
         const results = await youtube.searchVideos(updatequery, 1).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
