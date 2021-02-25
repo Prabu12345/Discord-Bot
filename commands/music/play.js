@@ -72,7 +72,78 @@ module.exports = class PlayCommand extends Command {
 
     if (
       query.match(
-        /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
+        /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:album\/|\?uri=spotify:album:)((\w|-){22})/
+        )
+    ) {
+      const album = await spotify.getData(query)
+      if (!album) {
+        const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`Album not found`)
+      return message.say(errvideoEmbed);
+      }
+      const tracks = []
+      var nameOfalbum = album.name
+      for (let i = 0; i < album.tracks.items.length; i++) {
+        const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
+        const results = await youtube.searchVideos(updatequery, 1).catch(async function() {
+          const errvideoEmbed = new MessageEmbed()
+          .setColor(errorcolor)
+          .setDescription('There was a problem searching the video you requested :(')
+          await message.say(errvideoEmbed);
+          return;
+        });
+        if (results.length < 1) {
+            continue
+        }
+        tracks.push(results[0])
+      }
+
+      for (let i = 0; i < tracks.length; i++) {
+        try {
+          const video = await tracks[i].fetch();
+          // this can be uncommented if you choose to limit the queue
+          // if (message.guild.musicData.queue.length < 10) {
+          //
+          message.guild.musicData.queue.push(
+            PlayCommand.constructSongObj(
+              video,
+              voiceChannel,
+              message.member.user
+            )
+          );
+          // } else {
+          //   return message.say(
+          //     `I can't play the full playlist because there will be more than 10 songs in queue`
+          //   );
+          // }
+        } catch (err) {
+          return console.error(err);
+        }
+      }
+      if (message.guild.musicData.isPlaying == false) {
+        message.guild.musicData.isPlaying = true;
+        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
+      } else if (message.guild.musicData.isPlaying == true) {
+        const addvideoEmbed = new MessageEmbed()
+        .setColor(normalcolor)
+        .setDescription(`Playlist - :musical_note:  **${nameOfalbum}** :musical_note: has been added to queue`)
+        message.say(addvideoEmbed);
+        return;
+      }
+    }
+
+    if (
+      query.match(
+        /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/
+        )
+      ) {
+        
+    }
+
+    if (
+      query.match(
+        /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
       )
     ) {
       var updatedQuery;
@@ -142,132 +213,6 @@ module.exports = class PlayCommand extends Command {
               message.say(errvideoEmbed);
               return;
             });
-    }
-
-    if (
-      query.match(
-        /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/
-      )
-    ) {
-      const playlist = await spotify.getData(query)
-      if (!playlist) {
-        const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`playlist not found`)
-      return message.say(errvideoEmbed);
-      }
-      const tracks = []
-      var nameOfplaylist = playlist.name
-      for (let i = 0; i < playlist.tracks.items.length; i++) {
-        const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
-        const results = await youtube.searchVideos(updatequery, 1).catch(async function() {
-          const errvideoEmbed = new MessageEmbed()
-          .setColor(errorcolor)
-          .setDescription('There was a problem searching the video you requested :(')
-          await message.say(errvideoEmbed);
-          return;
-        });
-        if (results.length < 1) {
-            continue
-        }
-        tracks.push(results[0])
-      }
-
-      for (let i = 0; i < tracks.length; i++) {
-        try {
-          const video = await tracks[i].fetch();
-          // this can be uncommented if you choose to limit the queue
-          // if (message.guild.musicData.queue.length < 10) {
-          //
-          message.guild.musicData.queue.push(
-            PlayCommand.constructSongObj(
-              video,
-              voiceChannel,
-              message.member.user
-            )
-          );
-          // } else {
-          //   return message.say(
-          //     `I can't play the full playlist because there will be more than 10 songs in queue`
-          //   );
-          // }
-        } catch (err) {
-          return console.error(err);
-        }
-      }
-      if (message.guild.musicData.isPlaying == false) {
-        message.guild.musicData.isPlaying = true;
-        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
-      } else if (message.guild.musicData.isPlaying == true) {
-        const addvideoEmbed = new MessageEmbed()
-        .setColor(normalcolor)
-        .setDescription(`Playlist - :musical_note:  **${nameOfplaylist}** :musical_note: has been added to queue`)
-        message.say(addvideoEmbed);
-        return;
-      }
-    }
-
-    if (
-      query.match(
-        /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:album\/|\?uri=spotify:album:)((\w|-){22})/
-        )
-    ) {
-      const album = await spotify.getData(query)
-      if (!album) {
-        const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`Album not found`)
-      return message.say(errvideoEmbed);
-      }
-      const tracks = []
-      var nameOfalbum = album.name
-      for (let i = 0; i < album.tracks.items.length; i++) {
-        const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
-        const results = await youtube.searchVideos(updatequery, 1).catch(async function() {
-          const errvideoEmbed = new MessageEmbed()
-          .setColor(errorcolor)
-          .setDescription('There was a problem searching the video you requested :(')
-          await message.say(errvideoEmbed);
-          return;
-        });
-        if (results.length < 1) {
-            continue
-        }
-        tracks.push(results[0])
-      }
-
-      for (let i = 0; i < tracks.length; i++) {
-        try {
-          const video = await tracks[i].fetch();
-          // this can be uncommented if you choose to limit the queue
-          // if (message.guild.musicData.queue.length < 10) {
-          //
-          message.guild.musicData.queue.push(
-            PlayCommand.constructSongObj(
-              video,
-              voiceChannel,
-              message.member.user
-            )
-          );
-          // } else {
-          //   return message.say(
-          //     `I can't play the full playlist because there will be more than 10 songs in queue`
-          //   );
-          // }
-        } catch (err) {
-          return console.error(err);
-        }
-      }
-      if (message.guild.musicData.isPlaying == false) {
-        message.guild.musicData.isPlaying = true;
-        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
-      } else if (message.guild.musicData.isPlaying == true) {
-        const addvideoEmbed = new MessageEmbed()
-        .setColor(normalcolor)
-        .setDescription(`Album - :musical_note:  **${nameOfalbum}** :musical_note: has been added to queue`)
-        message.say(addvideoEmbed);
-        return;
-      }
     }
     
     if (
