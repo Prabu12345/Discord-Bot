@@ -90,7 +90,7 @@ module.exports = class PlayCommand extends Command {
       }
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj(
-          videos,
+          videos[0],
           voiceChannel,
           message.member.user
         )
