@@ -95,34 +95,13 @@ module.exports = class PlayCommand extends Command {
         if (results.length < 1) {
             continue
         }
-        tracks.push(results[0])
-      }
-
-      for (let i = 0; i < tracks.length; i++) {
-        if (tracks[i].raw.status.privacyStatus == 'private') {
-          continue;
-        } else {
-          try {
-            const video = await tracks[i].fetch();
-            // this can be uncommented if you choose to limit the queue
-            // if (message.guild.musicData.queue.length < 10) {
-            //
-            message.guild.musicData.queue.push(
-              PlayCommand.constructSongObj(
-                video,
-                voiceChannel,
-                message.member.user
-              )
-            );
-            // } else {
-            //   return message.say(
-            //     `I can't play the full playlist because there will be more than 10 songs in queue`
-            //   );
-            // }
-          } catch (err) {
-            return console.error(err);
-          }
-        }
+        message.guild.musicData.queue.push(
+          PlayCommand.constructSongObj(
+            results[0],
+            voiceChannel,
+            message.member.user
+          )
+        )
       }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
