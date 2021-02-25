@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const youtube = require('youtube-sr');
+const youtube = require('youtube-sr').default;
 const ytdl = require('ytdl-core');
 const spotify = require('spotify-url-info')
 const { youtubeAPI } = require('../../config.json');
@@ -35,6 +35,7 @@ module.exports = class PlayCommand extends Command {
   }
 
   async run(message, { query }) {
+    YouTube.set("api", youtubeAPI);
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()
