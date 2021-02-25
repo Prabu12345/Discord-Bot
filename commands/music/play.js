@@ -79,7 +79,7 @@ module.exports = class PlayCommand extends Command {
       if (spotifyData) {
         updatedQuery = `${spotifyData.artist} - ${spotifyData.title}`
       }
-      const videos = await youtube.search(updatedQuery, {limit: 1})
+      const videos = await youtube.search(updatedQuery, { type: 'video', limit: 1 })
       if (videos.length < 1 || !videos) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
