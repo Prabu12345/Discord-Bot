@@ -85,7 +85,7 @@ module.exports = class PlayCommand extends Command {
       const tracks = []
       for (let i = 0; i < album.tracks.items.length; i++) {
         const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
-        const results = await youtube.searchVideos(updatequery).catch(async function() {
+        const results = await youtube.searchVideos(updatequery, 1).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
           .setDescription('There was a problem searching the video you requested :(')
@@ -95,13 +95,30 @@ module.exports = class PlayCommand extends Command {
         if (results.length < 1) {
             continue
         }
-        message.guild.musicData.queue.push(
-          PlayCommand.constructSongObj(
-            results[0],
-            voiceChannel,
-            message.member.user
-          )
-        )
+        tracks.push(results[0])
+      }
+
+      for (let i = 0; i < tracks.length; i++) {
+        try {
+          const video = await tracks[i].fetch();
+          // this can be uncommented if you choose to limit the queue
+          // if (message.guild.musicData.queue.length < 10) {
+          //
+          message.guild.musicData.queue.push(
+            PlayCommand.constructSongObj(
+              video,
+              voiceChannel,
+              message.member.user
+            )
+          );
+          // } else {
+          //   return message.say(
+          //     `I can't play the full playlist because there will be more than 10 songs in queue`
+          //   );
+          // }
+        } catch (err) {
+          return console.error(err);
+        }
       }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
