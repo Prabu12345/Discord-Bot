@@ -125,7 +125,7 @@ module.exports = class PlayCommand extends Command {
               );
               if (message.guild.musicData.isPlaying == false) {
                 message.guild.musicData.isPlaying = true;
-                PlayCommand.playSong(message.guild.musicData.queue, message, 0);
+                return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
               } else if (message.guild.musicData.isPlaying == true) {
                 const addvideoEmbed = new MessageEmbed()
                 .setColor(normalcolor)

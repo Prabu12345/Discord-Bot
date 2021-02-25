@@ -94,7 +94,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.member.user.id == client.user.id
   ) {
     newState.guild.musicData.loop = 'off';
-    message.guild.musicData.seek = 0;
+    newState.guild.musicData.seek = 0;
     newState.guild.musicData.queue.length = 0;
     newState.guild.musicData.songDispatcher.end();
     return;
@@ -129,7 +129,7 @@ var t;
 function rrun(newState) { 
   t = setTimeout(() => {
     newState.guild.musicData.loop = 'off';
-    message.guild.musicData.seek = 0;
+    newState.guild.musicData.seek = 0;
     newState.guild.musicData.queue.length = 0;
     newState.guild.musicData.songDispatcher.end();
     setTimeout(function onTimeOut() {

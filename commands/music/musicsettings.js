@@ -22,8 +22,8 @@ module.exports = class LeaveCommand extends Command {
     const embed = new MessageEmbed()
       .setColor(normalcolor)
       .setTitle('Choose a music settings by commenting a number between 1 and 2')
-      .setDescription(`1. Update max volume - **${message.guild.musicData.volume}% (0 - 50)**\n
-      2. Automatically leave the channel if empty - **${message.guild.musicData.timeout / 60000} minutes (1 - 100)**`
+      .setDescription(`1. Update max volume - **${message.guild.musicData.volume}% (1 - 100)**\n
+      2. Automatically leave the channel if empty - **${message.guild.musicData.timeout / 60000} minutes (0 - 50)**`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });

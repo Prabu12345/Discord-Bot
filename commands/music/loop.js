@@ -9,7 +9,7 @@ module.exports = class LoopCommand extends Command {
       group: 'music',
       memberName: 'loop',
       guildOnly: true,
-      examples: ['Loop \'all\'', 'Loop \'one\''],
+      examples: ['Loop \`all\`', 'Loop \`one\`'],
       description: 'Loop the current playing song',
       args: [
         {
