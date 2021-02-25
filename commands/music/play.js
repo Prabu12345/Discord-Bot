@@ -143,7 +143,7 @@ module.exports = class PlayCommand extends Command {
               return;
             });
     }
-
+/*
     if (
       query.match(
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:album\/|\?uri=spotify:album:)((\w|-){22})/
@@ -205,7 +205,7 @@ module.exports = class PlayCommand extends Command {
         return;
       }
     }
-
+*/
     if (
       // if the user entered a youtube playlist url
       query.match(
