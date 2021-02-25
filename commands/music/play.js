@@ -75,7 +75,7 @@ module.exports = class PlayCommand extends Command {
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:album\/|\?uri=spotify:album:)((\w|-){22})/
         )
     ) {
-      /*const album = await spotify.getTracks(query)
+      const album = await spotify.getData(query)
       if (!album) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -130,7 +130,7 @@ module.exports = class PlayCommand extends Command {
         .setDescription(`Album - :musical_note:  **${nameOfalbum}** :musical_note: has been added to queue`)
         message.say(addvideoEmbed);
         return;
-      }*/
+      }
     }
 
     if (
@@ -143,7 +143,7 @@ module.exports = class PlayCommand extends Command {
 
     if (
       query.match(
-        /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})(?:(?=\?)(?:[?&]foo=(\d*)(?=[&#]|$)|(?![?&]foo=)[^#])+)?(?=#|$)/
+        /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})(?:(?=\?)(?:[?&]foo=(\d*)(?=[&#]|$)|(?![?&]foo=)[^#])+)?(?=#|$)/
       )
     ) {
       var updatedQuery;
