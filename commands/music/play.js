@@ -147,7 +147,7 @@ module.exports = class PlayCommand extends Command {
       }
       const tracks = []
       var nameOfplaylist = playlist.name
-      for (let i = 0; i < playlist.tracks.track.length; i++) {
+      for (let i = 0; i < playlist.tracks.items.length; i++) {
         const updatequery = `${playlist.tracks.items[i].track.artists.name} - ${playlist.tracks.items[i].track.name}`
         const results = await youtube.searchVideos(updatequery, 1).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
