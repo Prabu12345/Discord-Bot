@@ -17,7 +17,7 @@
     "discord.js-commando": "github:discordjs/Commando",
     "ffmpeg-static": "^4.2.7",
     "iso-639-1": "^2.1.5",
-    "simple-youtube-api": "^5.2.1",
+    "youtube-sr": "^4.0.2",
     "mongoose": "^5.11.12",
     "mongodb": "^3.6.3",
     "commando-provider-mongo": "^2.0.2",
