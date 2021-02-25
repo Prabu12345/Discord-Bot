@@ -259,6 +259,7 @@ module.exports = class PlayCommand extends Command {
 
     // if user provided a song/video name
     const videos = await youtube.searchVideos(query, 1).catch(async function() {
+      if (query.match(/^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/)) return;
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('There was a problem searching the video you requested :(')
