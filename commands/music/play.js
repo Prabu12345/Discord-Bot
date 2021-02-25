@@ -136,7 +136,7 @@ module.exports = class PlayCommand extends Command {
 
       for (let i = 0; i < tracks.length; i++) {
         try {
-          const video = await tracks[i].fetch();
+          const video = await tracks[i];
           // this can be uncommented if you choose to limit the queue
           // if (message.guild.musicData.queue.length < 10) {
           //
@@ -196,9 +196,9 @@ module.exports = class PlayCommand extends Command {
         tracks.push(results[0])
       }
 
-      for (let i = 0; i < tracks.videos.length; i++) {
+      for (let i = 0; i < tracks.length; i++) {
         try {
-          const video = await tracks[i].videos.fetch();
+          const video = await tracks[i];
           // this can be uncommented if you choose to limit the queue
           // if (message.guild.musicData.queue.length < 10) {
           //
@@ -253,7 +253,7 @@ module.exports = class PlayCommand extends Command {
 
       for (let i = 0; i < playlist.videos.length; i++) {
         try {
-          const video = await playlist.videos[i].fetch();
+          const video = await playlist.videos[i];
           // this can be uncommented if you choose to limit the queue
           // if (message.guild.musicData.queue.length < 10) {
           //
@@ -331,7 +331,7 @@ module.exports = class PlayCommand extends Command {
     }
 
     // if user provided a song/video name
-    const videos = await youtube.search(query, { type: 'video' }).catch(async function() {
+    const videos = await youtube.search(query, { type: 'video', limit: 1 }).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('There was a problem searching the video you requested :(')
@@ -348,7 +348,7 @@ module.exports = class PlayCommand extends Command {
     }
     message.guild.musicData.queue.push(
       PlayCommand.constructSongObj(
-        video,
+        videos[0],
         voiceChannel,
         message.member.user
       )
