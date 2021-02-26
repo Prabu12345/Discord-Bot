@@ -6,6 +6,8 @@ const ObjectId = Schema.ObjectId;
     _id: ObjectId,
     guildID: String,
     guildName: String,
+    messageId: { type: String, required: true },
+    emojiRoleMappings: { type: mongoose.Schema.Types.Mixed }
  })
 
- module.exports = mongoose.model('Guild', guildSchema, 'guild');
+ const MessageModel = module.exports = mongoose.model('Guild', guildSchema, 'guild');
