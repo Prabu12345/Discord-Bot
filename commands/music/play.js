@@ -122,6 +122,7 @@ module.exports = class PlayCommand extends Command {
         )
     ) {
       const playlist = await spotify.getData(query)
+      console.log(playlist)
       if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
