@@ -116,7 +116,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
 client.login(process.env.token);
 
 (async () => {
-  await eventreg(client)
+  await eventreg(client);
 })();
 
 var t;

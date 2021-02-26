@@ -12,7 +12,4 @@ async function eventreg(client) {
         });
       });
 }
-
-module.exports = { 
-    eventreg
-};
+module.exports = eventreg
