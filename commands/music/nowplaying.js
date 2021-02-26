@@ -58,8 +58,14 @@ module.exports = class NowPlayingCommand extends Command {
       passedTimeInMSObj
     );
 
-    const totalDurationObj = video.rawDuration;
-    const totalDurationFormatted = totalDurationObj
+    const totalDurationObj = {
+      seconds: Math.floor((video.rawDuration / 1000) % 60),
+      minutes: Math.floor((video.rawDuration / (1000 * 60)) % 60),
+      hours: Math.floor((video.rawDuration / (1000 * 60 * 60)) % 24)
+    };
+    const totalDurationFormatted = NowPlayingCommand.formatDuration(
+      totalDurationObj
+    );
 
     let totalDurationInMS = 0;
     Object.keys(totalDurationObj).forEach(function(key) {
