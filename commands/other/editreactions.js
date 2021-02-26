@@ -25,7 +25,7 @@ module.exports = class CatCommand extends Command {
     });
   }
 
-  async run(client, message, { reaction }) {
+  async run(message, client, { reaction }) {
     if(reaction == '') return;
         // Check if the message exists.
         const { channel, author } = message;
