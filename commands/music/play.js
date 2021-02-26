@@ -6,6 +6,7 @@ const ytdl = require('ytdl-core');
 const spotify = require('spotify-url-info')
 const { youtubeAPI } = require('../../config.json');
 const gch = new syoutube(youtubeAPI);
+const spt = require('spotify-info.js');
 const { normalcolor, errorcolor, prefix } = require('../../config.json');
 
 module.exports = class PlayCommand extends Command {
@@ -38,6 +39,8 @@ module.exports = class PlayCommand extends Command {
 
   async run(message, { query }) {
     youtube.set("api", youtubeAPI);
+    var king = await spt.getPlaylistByURL(query);
+    console.log(king)
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()

@@ -25,7 +25,8 @@
     "nekos.life": "^2.0.7",
     "fs": "^0.0.1-security",
     "discord-ytdl-core": "^4.1.3",
-    "spotify-url-info": "^2.2.0"
+    "spotify-url-info": "^2.2.0",
+    "spotify-info.js": "^1.0.4"
   },
   "devDependencies": {  
     "@getify/eslint-plugin-proper-arrows": "^8.0.1",
