@@ -26,7 +26,7 @@ module.exports = class CatCommand extends Command {
     });
   }
 
-  run(message, { reaction }) {
+  async run(message, { reaction }) {
     if(reaction.split(/\s+/).length !== 1) {
         let msg = await message.channel.send("Too many arguments. Must only provide 1 message id");
         await msg.delete({ timeout: 3500 }).catch(err => console.log(err));
