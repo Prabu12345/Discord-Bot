@@ -56,7 +56,7 @@ module.exports = class SeekCommand extends Command {
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
       message.reply(errloopEmbed);
       return;
-    } else if (video.duration == 'Live Stream') {
+    } else if (video.live == true) {
       message.channel.send('you can\'t Seek Live Stream video')
       return; 
     }
@@ -115,7 +115,7 @@ module.exports = class SeekCommand extends Command {
     let seekAmountf = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
     let seekAmountb = Math.ceil(message.guild.musicData.seek + (message.guild.musicData.songDispatcher.streamTime / 1000) - parseInt(allwaktu));
     let completed = Math.ceil(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek);
-    let videotime = (video.srawDuration / 1000);
+    let videotime = (video.rawDuration / 1000);
     if (seekAmount >= videotime) {
       return message.channel.send('Seek duration is more than video duration!');
     }

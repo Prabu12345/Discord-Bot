@@ -98,7 +98,7 @@ function generateQueueEmbed(message, queue) {
   let k = 10;
   let sum = 0, i;
   for (i = 0; i < queue.length; i +=1 ) {
-    sum += (+queue[i].srawDuration);
+    sum += (+queue[i].rawDuration);
   }
   const allduration = sum
 
@@ -107,7 +107,7 @@ function generateQueueEmbed(message, queue) {
     let j = i;
     k += 10;
 
-    const info = current.map((track) => `**${++j}** | [${track.title}](${track.url}) (${msToTime(track.srawDuration)}) - **${track.memberDisplayName}**`).join("\n");
+    const info = current.map((track) => `**${++j}** | [${track.title}](${track.url}) (${msToTime(track.rawDuration)}) - **${track.memberDisplayName}**`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
     .setTitle(`:notes:Queue for ${message.guild.name} (${queue.length})`)

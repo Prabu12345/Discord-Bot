@@ -28,7 +28,7 @@ module.exports = class NowPlayingCommand extends Command {
     }
 
     let description;
-    if (video.duration == 'Live Stream') {
+    if (video.live == true) {
       description = 'Live Stream';
     } else {
       description = NowPlayingCommand.playbackBar(message, video);
@@ -59,9 +59,7 @@ module.exports = class NowPlayingCommand extends Command {
     );
 
     const totalDurationObj = video.rawDuration;
-    const totalDurationFormatted = NowPlayingCommand.formatDuration(
-      totalDurationObj
-    );
+    const totalDurationFormatted = totalDurationObj
 
     let totalDurationInMS = 0;
     Object.keys(totalDurationObj).forEach(function(key) {

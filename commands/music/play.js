@@ -35,6 +35,7 @@ module.exports = class PlayCommand extends Command {
   }
 
   async run(message, { query }) {
+    YouTube.set("api", youtubeAPI);
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()
@@ -120,7 +121,7 @@ module.exports = class PlayCommand extends Command {
       }
       const tracks = []
       for (let i = 0; i < playlist.tracks.items.length; i++) {
-        const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
+        const updatequery = `${playlist.tracks.items[i].track.artists.name} - ${playlist.tracks.items[i].track.name}`
         const results = await youtube.search(updatequery, { type: 'video', limit: 1 }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
@@ -251,6 +252,8 @@ module.exports = class PlayCommand extends Command {
       }
       */
 
+      if (!playlist) return;
+
       for (let i = 0; i < playlist.videos.length; i++) {
         try {
           const video = await playlist.videos[i];
@@ -287,11 +290,7 @@ module.exports = class PlayCommand extends Command {
 
     // This if statement checks if the user entered a youtube url, it can be any kind of youtube url
     if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
-      query = query
-        .replace(/(>|<)/gi, '')
-        .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-      const id = query[2].split(/[^0-9a-z_\-]/i)[0];
-      const video = await youtube.getVideoByID(id).catch(function() {
+      const video = await youtube.getVideo(query).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription('There was a problem getting the video you provided!')
