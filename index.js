@@ -4,9 +4,7 @@ const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
 const MongoClient = require('mongodb').MongoClient;
 const MongoDBProvider = require('commando-provider-mongo').MongoDBProvider;
-const mongoose = require('mongoose');
-const Guild = require('./resources/Guild')
-const fs = require('fs')
+const { eventreg } = require('./resources/event')
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
@@ -41,16 +39,7 @@ const client = new CommandoClient({
   owner: discord_owner_id, // value comes from config.json
 });
 
-fs.readdir('./resources/event/', (err, files) => {
-  if (err) return console.error;
-  files.forEach(file => {
-      if (!file.endsWith('.js')) return;
-      const evt = require(`./resources/event/${file}`);
-      let evtName = file.split('.')[0];
-      console.log(`Loaded event '${evtName}'`);
-      client.on(evtName, evt.bind(null, client));
-  });
-});
+await eventreg(client)
 
 client.setProvider(
   MongoClient.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority')
@@ -123,41 +112,6 @@ client.on('voiceStateUpdate', async (___, newState) => {
       stop()
     }
   } 
-})
-
-const MessageModel = require('./resources/Guild');
-client.on("messageReactionAdd", (reaction, user) => {
-  (async () => {
-    let addMemberRole = (emojiRoleMappings) => {
-      if(emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
-          let roleId = emojiRoleMappings[reaction.emoji.id];
-          let role = reaction.message.guild.roles.cache.get(roleId);
-          let member = reaction.message.guild.members.cache.get(user.id);
-          if(role && member) {
-              member.roles.add(role);
-          }
-      }
-    }
-    if(reaction.message.partial) {
-      await reaction.message.fetch();
-      let { id } = reaction.message;
-      try {
-          let msgDocument = await MessageModel.findOne({ messageId: id });
-          if(msgDocument) {
-              client.cachedMessageReactions.set(id, msgDocument.emojiRoleMappings);
-              let { emojiRoleMappings } = msgDocument;
-              addMemberRole(emojiRoleMappings);
-          }
-      }
-      catch(err) {
-          console.log(err);
-      }
-    }
-    else {
-      let emojiRoleMappings = client.cachedMessageReactions.get(reaction.message.id);
-      addMemberRole(emojiRoleMappings);
-    }
-  })();
 })
 
 client.login(process.env.token);
