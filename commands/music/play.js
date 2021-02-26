@@ -44,7 +44,7 @@ module.exports = class PlayCommand extends Command {
   async run(message, { query }) {
     youtube.set("api", youtubeAPI);
     var king = await spt.getPlaylistByURL(query);
-    console.log(king)
+    console.log(king.tracks.items[0])
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()
@@ -122,7 +122,6 @@ module.exports = class PlayCommand extends Command {
         )
     ) {
       const playlist = await spotify.getData(query)
-      console.log(playlist)
       if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -235,7 +234,7 @@ module.exports = class PlayCommand extends Command {
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`Playlist - :musical_note:  **${album.name}** :musical_note: has been added to queue`)
+        .setDescription(`Album - :musical_note:  **${album.name}** :musical_note: has been added to queue`)
         message.say(addvideoEmbed);
         return;
       }
