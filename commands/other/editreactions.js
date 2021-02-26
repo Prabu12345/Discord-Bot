@@ -25,7 +25,7 @@ module.exports = class CatCommand extends Command {
     });
   }
 
-  async run(message,  { reaction }, client) {
+  async run(message, { reaction }) {
     if(reaction == '') return;
         // Check if the message exists.
         const { channel, author } = message;
@@ -37,7 +37,6 @@ module.exports = class CatCommand extends Command {
                 // Check if the message exists in the DB.
                 let msgModel = await MessageModel.findOne({ messageId: reaction });
                 if(msgModel) {
-                    client.emit('msgDocFetched', msgModel);
                     // Prompt the user for configurations.
                     let filter = m => m.author.id === author.id && (m.content.toLowerCase() === 'add' || m.content.toLowerCase() === 'remove');
                     let tempMsg = channel.send("Do you want to add or remove from the reaction configuration? Type add or remove");
