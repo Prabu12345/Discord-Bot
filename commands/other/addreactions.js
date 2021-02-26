@@ -76,7 +76,7 @@ module.exports = class CatCommand extends Command {
                     }
                     else {
                         let dbMsgModel = new MessageModel({
-                            _id: Mongoose.Types.ObjectId(),
+                            _id: mongoose.Types.ObjectId(),
                             guildID: guild.id,
                             guildName: guild.name,
                             messageId: fetchedMessage.id,
