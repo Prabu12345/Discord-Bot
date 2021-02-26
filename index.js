@@ -38,7 +38,8 @@ Structures.extend('Guild', function(Guild) {
 
 const client = new CommandoClient({
   commandPrefix: prefix,
-  owner: discord_owner_id // value comes from config.json
+  owner: discord_owner_id, // value comes from config.json
+  partials: ['MESSAGE', 'REACTION']
 });
 
 fs.readdir('./resources/event/', (err, files) => {
@@ -59,6 +60,8 @@ client.setProvider(
 
 client.mongoose = require('./resources/mongoose');
 client.mongoose.init();
+
+client.cachedMessageReactions = new Map();
 
 client.registry
   .registerDefaultTypes()
