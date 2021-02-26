@@ -35,7 +35,7 @@ module.exports = class PlayCommand extends Command {
   }
 
   async run(message, { query }) {
-    YouTube.set("api", youtubeAPI);
+    youtube.set("api", youtubeAPI);
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()
