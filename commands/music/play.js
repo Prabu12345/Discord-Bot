@@ -1,9 +1,11 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const youtube = require('youtube-sr').default;
+const syoutube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 const spotify = require('spotify-url-info')
 const { youtubeAPI } = require('../../config.json');
+const gch = new syoutube(youtubeAPI);
 const { normalcolor, errorcolor, prefix } = require('../../config.json');
 
 module.exports = class PlayCommand extends Command {
@@ -237,11 +239,19 @@ module.exports = class PlayCommand extends Command {
         /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/
       )
     ) {
-      const playlist = await youtube.getPlaylist(query).catch(function() {
+      const playlist = await gch.getPlaylist(query).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription('Playlist is either private or it does not exist!')
         return message.say(errvideoEmbed);
+      });
+      // add 10 as an argument in getVideos() if you choose to limit the queue
+      const videosArr = await playlist.getVideos().catch(function() {
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription('There was a problem getting one of the videos in the playlist!')
+        message.say(errvideoEmbed);
+        return;
       });
 
       // this for loop can be uncommented if you want to shuffle the playlist
@@ -252,28 +262,30 @@ module.exports = class PlayCommand extends Command {
       }
       */
 
-      if (!playlist) return;
-
-      for (let i = 0; i < playlist.videos.length; i++) {
-        try {
-          const video = await playlist.videos[i];
-          // this can be uncommented if you choose to limit the queue
-          // if (message.guild.musicData.queue.length < 10) {
-          //
-          message.guild.musicData.queue.push(
-            PlayCommand.constructSongObj(
-              video,
-              voiceChannel,
-              message.member.user
-            )
-          );
-          // } else {
-          //   return message.say(
-          //     `I can't play the full playlist because there will be more than 10 songs in queue`
-          //   );
-          // }
-        } catch (err) {
-          return console.error(err);
+      for (let i = 0; i < videosArr.length; i++) {
+        if (videosArr[i].raw.status.privacyStatus == 'private') {
+          continue;
+        } else {
+          try {
+            const video = await videosArr[i].fetch();
+            // this can be uncommented if you choose to limit the queue
+            // if (message.guild.musicData.queue.length < 10) {
+            //
+            message.guild.musicData.queue.push(
+              PlayCommand.constructSongObj(
+                video,
+                voiceChannel,
+                message.member.user
+              )
+            );
+            // } else {
+            //   return message.say(
+            //     `I can't play the full playlist because there will be more than 10 songs in queue`
+            //   );
+            // }
+          } catch (err) {
+            return console.error(err);
+          }
         }
       }
       if (message.guild.musicData.isPlaying == false) {
@@ -518,5 +530,46 @@ module.exports = class PlayCommand extends Command {
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
+  }
+
+  static constructSongObj1(video, voiceChannel, user) {
+    const totalDurationObj = video.duration;
+
+    let totalDurationInMS = 0;
+    Object.keys(totalDurationObj).forEach(function(key) {
+      if (key == 'hours') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 3600000;
+      } else if (key == 'minutes') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 60000;
+      } else if (key == 'seconds') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 1000;
+      }
+    });
+
+    let duration = this.formatDuration(video.duration);
+    if (duration == '00:00') duration = 'Live Stream';
+    return {
+      url: `https://youtube.com/watch?v=${video.raw.id}`,
+      title: video.title,
+      rawDuration: totalDurationInMS,
+      duration,
+      thumbnail: video.thumbnails.high.url,
+      voiceChannel,
+      memberDisplayName: user.username,
+      memberAvatar: user.avatarURL('webp', false, 16)
+    };
+  }
+
+  static formatDuration(durationObj) {
+    const duration = `${durationObj.hours ? (durationObj.hours + ':') : ''}${
+      durationObj.minutes ? durationObj.minutes : '00'
+    }:${
+      (durationObj.seconds < 10)
+        ? ('0' + durationObj.seconds)
+        : (durationObj.seconds
+        ? durationObj.seconds
+        : '00')
+    }`;
+    return duration;
   }
 };
