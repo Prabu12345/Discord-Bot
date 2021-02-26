@@ -42,9 +42,6 @@ module.exports = class PlayCommand extends Command {
   }
 
   async run(message, { query }) {
-    youtube.set("api", youtubeAPI);
-    var king = await spt.getPlaylistByURL(query);
-    console.log(king.tracks.items[0])
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()
@@ -121,7 +118,7 @@ module.exports = class PlayCommand extends Command {
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/
         )
     ) {
-      const playlist = await spotify.getData(query)
+      const playlist = await spotify.getPlaylistByURL(query)
       if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
