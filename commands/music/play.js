@@ -272,7 +272,7 @@ module.exports = class PlayCommand extends Command {
             // if (message.guild.musicData.queue.length < 10) {
             //
             message.guild.musicData.queue.push(
-              PlayCommand.constructSongObj(
+              PlayCommand.constructSongObj1(
                 video,
                 voiceChannel,
                 message.member.user
