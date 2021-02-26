@@ -36,10 +36,9 @@ Structures.extend('Guild', function(Guild) {
 
 const client = new CommandoClient({
   commandPrefix: prefix,
-  owner: discord_owner_id, // value comes from config.json
+  owner: discord_owner_id // value comes from config.json
 });
 
-await eventreg(client)
 
 client.setProvider(
   MongoClient.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority')
@@ -115,6 +114,10 @@ client.on('voiceStateUpdate', async (___, newState) => {
 })
 
 client.login(process.env.token);
+
+(async () => {
+  await eventreg(client)
+})();
 
 var t;
 function rrun(newState) { 
