@@ -125,7 +125,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
   } 
 })
 
-const MessageModel = require('../Guild');
+const MessageModel = require('./resources/Guild');
 client.on("messageReactionAdd", (reaction, user) => {
   (async () => {
     let addMemberRole = (emojiRoleMappings) => {
