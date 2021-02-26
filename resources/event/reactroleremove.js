@@ -1,5 +1,4 @@
-const cachedMessageReactions = new Map();
-const MessageModel = require('../../database/models/message');
+const MessageModel = require('../Guild');
 
 module.exports = async (client, reaction, user) => {
     let removeMemberRole = (emojiRoleMappings) => {
