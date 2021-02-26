@@ -4,7 +4,7 @@ const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
 const MongoClient = require('mongodb').MongoClient;
 const MongoDBProvider = require('commando-provider-mongo').MongoDBProvider;
-const { eventreg } = require('./resources/event')
+const eventreg = require('./resources/event')
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
