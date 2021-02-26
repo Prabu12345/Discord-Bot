@@ -118,7 +118,7 @@ module.exports = class PlayCommand extends Command {
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/
         )
     ) {
-      const playlist = await spotify.getPlaylistByURL(query)
+      const playlist = await spt.getPlaylistByURL(query)
       if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
