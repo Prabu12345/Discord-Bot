@@ -78,7 +78,7 @@ module.exports = class CatCommand extends Command {
                         const Schema = mongoose.Schema;
                         const ObjectId = Schema.ObjectId;
                         let dbMsgModel = new MessageModel({
-                            _id: ObjectId,
+                            _id: ObjectId(),
                             guildID: guild.id,
                             guildName: guild.name,
                             messageId: fetchedMessage.id,
