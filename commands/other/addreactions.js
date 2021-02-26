@@ -75,10 +75,8 @@ module.exports = class CatCommand extends Command {
                         message.channel.send("A role reaction set up exists for this message already...");
                     }
                     else {
-                        const Schema = mongoose.Schema;
-                        const ObjectId = Schema.ObjectId;
                         let dbMsgModel = new MessageModel({
-                            _id: ObjectId(),
+                            _id: mongoose.Schema.ObjectId,
                             guildID: guild.id,
                             guildName: guild.name,
                             messageId: fetchedMessage.id,
