@@ -6,7 +6,11 @@ const ytdl = require('ytdl-core');
 const spotify = require('spotify-url-info')
 const { youtubeAPI } = require('../../config.json');
 const gch = new syoutube(youtubeAPI);
-const spt = require('spotify-info.js');
+const { Spotify } = require('spotify-info.js');
+const spt = new Spotify({
+  clientID: "540def33c9bb4c94b7d3b5bb51615624",
+  clientSecret: "89c15cd0add944c6bef3be863b964d9f",
+  });
 const { normalcolor, errorcolor, prefix } = require('../../config.json');
 
 module.exports = class PlayCommand extends Command {
