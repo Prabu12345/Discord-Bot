@@ -4,7 +4,7 @@ const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
 const MongoClient = require('mongodb').MongoClient;
 const MongoDBProvider = require('commando-provider-mongo').MongoDBProvider;
-const eventreg = require('./resources/event')
+const fs = require('fs')
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
@@ -36,9 +36,20 @@ Structures.extend('Guild', function(Guild) {
 
 const client = new CommandoClient({
   commandPrefix: prefix,
-  owner: discord_owner_id // value comes from config.json
+  owner: discord_owner_id, // value comes from config.json
+  partials: ['REACTION']
 });
 
+fs.readdir('./resources/event/', (err, files) => {
+  if (err) return console.error;
+  files.forEach(file => {
+      if (!file.endsWith('.js')) return;
+      const evt = require(`./resources/event/${file}`);
+      let evtName = file.split('.')[0];
+      console.log(`Loaded event '${evtName}'`);
+      client.on(evtName, evt.bind(null, client));
+  });
+});
 
 client.setProvider(
   MongoClient.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority')
@@ -114,10 +125,6 @@ client.on('voiceStateUpdate', async (___, newState) => {
 })
 
 client.login(process.env.token);
-
-(async () => {
-  await eventreg(client);
-})();
 
 var t;
 function rrun(newState) { 
