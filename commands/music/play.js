@@ -127,8 +127,8 @@ module.exports = class PlayCommand extends Command {
       }
       const tracks = []
       for (let i = 0; i < playlist.tracks.items.length; i++) {
-        const updatequery = `${playlist.tracks.items[i].track.artists.name} - ${playlist.tracks.items[i].track.name}`
-        const results = await youtube.search(updatequery, { limit: 1, safeSearch: true }).catch(async function() {
+        const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
+        const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
           .setDescription('There was a problem searching the video you requested :(')
@@ -190,7 +190,7 @@ module.exports = class PlayCommand extends Command {
       const tracks = []
       for (let i = 0; i < album.tracks.items.length; i++) {
         const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
-        const results = await youtube.search(updatequery, { limit: 1, safeSearch: true }).catch(async function() {
+        const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
           .setDescription('There was a problem searching the video you requested :(')
