@@ -5,12 +5,6 @@ module.exports = {
         const dbOptions = {
             useNewurlParser: true,
             useUnifiedTopology: true,
-            autoIndex: false,
-            reconnectTries: Number.MAX_VALUE,
-            reconnectInterval: 500,
-            poolSize: 5, 
-            connectTimeoutMS: 10000,
-            family: 4
         };
 
         mongoose.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority', dbOptions);

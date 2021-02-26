@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const Guild = require('../Guild');
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
 
 module.exports = async (client, guild) => {
     guild = new Guild({
-        _id: mongoose.Types.ObjectId(),
+        _id: ObjectId,
         guildID: guild.id,
         guildName: guild.name,
     });
