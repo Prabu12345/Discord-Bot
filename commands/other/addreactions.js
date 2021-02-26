@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageCollector } = require('discord.js');
 const MessageModel = require('../../resources/Guild');
+const mongoose = require('mongoose');
 
 let msgCollectorFilter = (newMsg, originalMsg) => newMsg.author.id === originalMsg.author.id;
 module.exports = class CatCommand extends Command {
@@ -26,7 +27,7 @@ module.exports = class CatCommand extends Command {
     });
   }
 
-  async run(message, { reaction }) {
+  async run(message, { reaction }, guild) {
     if(reaction.split(/\s+/).length !== 1) {
         let msg = await message.channel.send("Too many arguments. Must only provide 1 message id");
         await msg.delete({ timeout: 3500 }).catch(err => console.log(err));
@@ -74,7 +75,12 @@ module.exports = class CatCommand extends Command {
                         message.channel.send("A role reaction set up exists for this message already...");
                     }
                     else {
+                        const Schema = mongoose.Schema;
+                        const ObjectId = Schema.ObjectId;
                         let dbMsgModel = new MessageModel({
+                            _id: ObjectId,
+                            guildID: guild.id,
+                            guildName: guild.name,
                             messageId: fetchedMessage.id,
                             emojiRoleMappings: emojiRoleMappings
                         });
