@@ -19,6 +19,7 @@
     "iso-639-1": "^2.1.5",
     "youtube-sr": "^4.0.2",
     "mongoose": "^5.11.12",
+    "discord-paginationembed": "^2.1.0",
     "mongodb": "^3.6.3",
     "commando-provider-mongo": "^2.0.2",
     "ytdl-core": "^4.5.0",
