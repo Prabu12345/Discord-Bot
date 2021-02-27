@@ -142,12 +142,26 @@ module.exports = class SaveToPlaylistCommand extends Command {
     }
     return SaveToPlaylistCommand.constructSongObj(video, message.member.user);
   }
-  static constructSongObj(video, user) {
+  static constructSongObj1(video, user) {
+    const totalDurationObj = video.duration;
+
+    let totalDurationInMS = 0;
+    Object.keys(totalDurationObj).forEach(function(key) {
+      if (key == 'hours') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 3600000;
+      } else if (key == 'minutes') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 60000;
+      } else if (key == 'seconds') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 1000;
+      }
+    });
+
     let duration = this.formatDuration(video.duration);
+    if (duration == '00:00') duration = 'Live Stream';
     return {
-      url: `https://www.youtube.com/watch?v=${video.raw.id}`,
+      url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
-      rawDuration: video.duration,
+      rawDuration: totalDurationInMS,
       duration,
       thumbnail: video.thumbnails.high.url,
       memberDisplayName: user.username,
