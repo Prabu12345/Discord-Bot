@@ -22,26 +22,29 @@ module.exports = class CreatePlaylistCommand extends Command {
 
   async run(message, { playlistName }) {
     // check if the user exists in the db
-    let giaaa = await db.get('savedPlaylists')
-    if (!giaaa){
-        db.createModel('savedPlaylists')
-    }
-    if (giaaa.userid !== message.member.id) {
-      db.set("savedPlaylists", { name: playlistName, userid: message.member.id, urls: [] })
+    let new1 = await db.get(message.member.id)
+    if (!new1) {
+      db.createModel(message.member.id)
+      db.set(message.member.id, { savedPlaylist: [] })
+      let new2 = await db.get(message.member.id)
+      db.push(new2.savedPlaylist, { name: playlistName, userid: message.member.id, urls: [] })
       message.reply(`Created a new playlist named **${playlistName}**`);
       return;
     }
+    let new2 = await db.get(message.member.id)
     // make sure the playlist name isn't a duplicate
-    if (
-        giaaa.name == playlistName && giaaa.userid == message.member.id
-    ) {
-      message.reply(
-        `There is already a playlist named **${playlistName}** in your saved playlists!`
-      );
-      return;
+    for (let i = 0; i < new2.savedPlaylist.length; i++) {
+        if (
+            new2.savedPlaylist[i].name == playlistName
+        ) {
+          message.reply(
+            `There is already a playlist named **${playlistName}** in your saved playlists!`
+          );
+          return;
+        }
     }
     // create and save the playlist in the db
-    db.push(`savedPlaylists`, { name: playlistName, userid: message.member.id, urls: [] });
+    db.push(new2.savedPlaylist, { name: playlistName, userid: message.member.id, urls: [] });
     message.reply(`Created a new playlist named **${playlistName}**`);
   }
 };
