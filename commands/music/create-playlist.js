@@ -31,8 +31,9 @@ module.exports = class CreatePlaylistCommand extends Command {
     }
     // make sure the playlist name isn't a duplicate
     var savedPlaylistsClone = db.get(message.member.id).savedPlaylists;
+    console.log(savedPlaylistsClone)
     if (
-        savedPlaylistsClone.name == playlistName
+        playlistName
     ) {
       message.reply(
         `There is already a playlist named **${playlistName}** in your saved playlists!`
