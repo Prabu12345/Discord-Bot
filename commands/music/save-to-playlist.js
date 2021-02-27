@@ -142,7 +142,7 @@ module.exports = class SaveToPlaylistCommand extends Command {
     }
     return SaveToPlaylistCommand.constructSongObj(video, message.member.user);
   }
-  static constructSongObj1(video, user) {
+  static constructSongObj(video, user) {
     const totalDurationObj = video.duration;
 
     let totalDurationInMS = 0;
