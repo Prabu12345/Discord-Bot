@@ -89,7 +89,7 @@ module.exports = class SaveToPlaylistCommand extends Command {
           }** to **${playlist}**`
         );
       }
-      db.set(message.member.id, { savedPlaylists: savedPlaylistsClone });
+      db.set(message.member.id, { savedPlaylist: savedPlaylistsClone });
     } else {
       message.reply(`You have no playlist named ${playlist}`);
       return;
