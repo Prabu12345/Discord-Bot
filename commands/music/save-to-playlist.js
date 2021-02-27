@@ -28,10 +28,13 @@ module.exports = class SaveToPlaylistCommand extends Command {
           validate: function validateURL(url) {
             return (
               url.match(
-                /^(?!.*\?.*\bv=)https:\/\/www\.youtube\.com\/.*\?.*\blist=.*$/
+                /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/
               ) ||
               url.match(
                 /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/
+              ) ||
+              url.match(
+                /^(?!.*\?.*\bv=)https:\/\/www\.youtube\.com\/.*\?.*\blist=.*$/ 
               ) ||
               url.match(
                 /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
@@ -97,7 +100,7 @@ module.exports = class SaveToPlaylistCommand extends Command {
   }
 
   static async processURL(url, message) {
-    if (url.match(/^(?!.*\?.*\bv=)https:\/\/www\.youtube\.com\/.*\?.*\blist=.*$/)) {
+    if (url.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/)) {
       const playlist = await youtube.getPlaylist(url).catch(function() {
         message.reply(':x: Playlist is either private or it does not exist!');
         return;
