@@ -34,7 +34,7 @@ module.exports = class CreatePlaylistCommand extends Command {
     // make sure the playlist name isn't a duplicate
     for (let i = 0; i < new2.length; i++) {
         if (
-            new2.savedPlaylist[i].name == playlistName
+            new2[i].name == playlistName
         ) {
           message.reply(
             `There is already a playlist named **${playlistName}** in your saved playlists!`
