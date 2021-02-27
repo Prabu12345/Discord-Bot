@@ -8,7 +8,7 @@ module.exports = class DisplayPlaylistCommand extends Command {
     super(client, {
       name: 'play-playlist',
       group: 'music',
-      aliases: ['playsavesong'],
+      aliases: ['play-saved-songs'],
       memberName: 'play-playlist',
       guildOnly: true,
       description: 'Play a saved Playlists',
@@ -24,12 +24,12 @@ module.exports = class DisplayPlaylistCommand extends Command {
 
   async run(message, { playlistName }) {
     const userPlaylists = await db.get(`${message.member.id}.savedPlaylist`);
-    const found = userPlaylists.find(element => element.name == query);
+    const found = userPlaylists.find(element => element.name == playlistName);
     if (found) {
         const urlsArray = userPlaylists[userPlaylists.indexOf(found)].urls;
         if (!urlsArray.length) {
             message.reply(
-              `'${query}' playlist is empty, add songs to it before attempting to play it`
+              `'${playlistName}' playlist is empty, add songs to it before attempting to play it`
             );
             return;
         }
