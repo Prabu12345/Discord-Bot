@@ -23,6 +23,9 @@ module.exports = class CreatePlaylistCommand extends Command {
   run(message, { playlistName }) {
     // check if the user exists in the db
     let giaaa = db.get('savedPlaylists')
+    if (!giaaa){
+        db.createModel('savedPlaylists')
+    }
     if (giaaa.userid !== message.member.id) {
       db.set("savedPlaylists", { name: playlistName, userid: message.member.id, urls: [] })
       message.reply(`Created a new playlist named **${playlistName}**`);
