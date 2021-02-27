@@ -32,7 +32,6 @@ module.exports = class CreatePlaylistCommand extends Command {
       return;
     }
     // make sure the playlist name isn't a duplicate
-    console.log(savedPlaylistsClone)
     if (
         giaaa.name == playlistName && giaaa.userid == message.member.id
     ) {
