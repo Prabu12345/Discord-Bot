@@ -23,17 +23,15 @@ module.exports = class CreatePlaylistCommand extends Command {
   run(message, { playlistName }) {
     // check if the user exists in the db
     if (!db.get(message.member.id)) {
-      db.set(message.member.id, {
-        savedPlaylists: [{ name: playlistName, urls: [] }]
-      });
+      db.set("savedPlaylists", { name: playlistName, userid: message.member.id, urls: [] })
       message.reply(`Created a new playlist named **${playlistName}**`);
       return;
     }
     // make sure the playlist name isn't a duplicate
-    var savedPlaylistsClone = db.get(message.member.id).savedPlaylists;
+    var savedPlaylistsClone = db.get("savedPlaylists");
     console.log(savedPlaylistsClone)
     if (
-        playlistName
+        savedPlaylistsClone.name == playlistName && savedPlaylistsClone.userid == message.member.id
     ) {
       message.reply(
         `There is already a playlist named **${playlistName}** in your saved playlists!`
@@ -41,8 +39,8 @@ module.exports = class CreatePlaylistCommand extends Command {
       return;
     }
     // create and save the playlist in the db
-    savedPlaylistsClone.push({ name: playlistName, urls: [] });
-    db.set(`${message.member.id}.savedPlaylists`, savedPlaylistsClone);
+    savedPlaylistsClone.push({ name: playlistName, userid: message.member.id,urls: [] });
+    db.set(`savedPlaylists`, savedPlaylistsClone);
     message.reply(`Created a new playlist named **${playlistName}**`);
   }
 };
