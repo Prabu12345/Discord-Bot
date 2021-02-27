@@ -26,14 +26,13 @@ module.exports = class CreatePlaylistCommand extends Command {
     if (!new1) {
       db.createModel(message.member.id)
       db.set(message.member.id, { savedPlaylist: [] })
-      let new2 = await db.get(message.member.id)
-      db.push(`${message.member.id}.savedPlaylist`, { name: playlistName, userid: message.member.id, urls: [] })
+      new.push(`${message.member.id}.savedPlaylist`, { name: playlistName, userid: message.member.id, urls: [] })
       message.reply(`Created a new playlist named **${playlistName}**`);
       return;
     }
-    let new2 = await db.get(message.member.id)
+    let new2 = await db.get(`${message.member.id}.savedPlaylist`)
     // make sure the playlist name isn't a duplicate
-    for (let i = 0; i < new2.savedPlaylist.length; i++) {
+    for (let i = 0; i < new2.length; i++) {
         if (
             new2.savedPlaylist[i].name == playlistName
         ) {
@@ -44,7 +43,7 @@ module.exports = class CreatePlaylistCommand extends Command {
         }
     }
     // create and save the playlist in the db
-    db.push(new2.savedPlaylist, { name: playlistName, userid: message.member.id, urls: [] });
+    db.push(${message.member.id}.savedPlaylist, { name: playlistName, userid: message.member.id, urls: [] });
     message.reply(`Created a new playlist named **${playlistName}**`);
   }
 };
