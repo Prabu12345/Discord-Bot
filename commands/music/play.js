@@ -380,6 +380,10 @@ module.exports = class PlayCommand extends Command {
     }
   }
   static async playSong(queue, message, seekAmount) {
+    if (queue[0].voiceChannel == undefined) {
+      // happens when loading a saved playlist
+      queue[0].voiceChannel = message.member.voice.channel;
+    }
     if (message.guild.musicData.seek > 0) {
       if (collector && !collector.end) collector.stop();
     }
