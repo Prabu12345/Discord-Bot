@@ -22,7 +22,8 @@ module.exports = class CreatePlaylistCommand extends Command {
 
   run(message, { playlistName }) {
     // check if the user exists in the db
-    if (!db.get('savedPlaylists')) {
+    let giaaa = db.get('savedPlaylists')
+    if (giaaa.userid !== message.member.id) {
       db.set("savedPlaylists", { name: playlistName, userid: message.member.id, urls: [] })
       message.reply(`Created a new playlist named **${playlistName}**`);
       return;
@@ -39,7 +40,7 @@ module.exports = class CreatePlaylistCommand extends Command {
       return;
     }
     // create and save the playlist in the db
-    savedPlaylistsClone.push({ name: playlistName, userid: message.member.id, urls: [] });
+    db.push({ name: playlistName, userid: message.member.id, urls: [] });
     db.set(`savedPlaylists`, savedPlaylistsClone);
     message.reply(`Created a new playlist named **${playlistName}**`);
   }
