@@ -36,8 +36,7 @@ Structures.extend('Guild', function(Guild) {
 
 const client = new CommandoClient({
   commandPrefix: prefix,
-  owner: discord_owner_id, // value comes from config.json
-  partials: ['REACTION']
+  owner: discord_owner_id // value comes from config.json
 });
 
 fs.readdir('./resources/event/', (err, files) => {
