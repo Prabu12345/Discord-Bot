@@ -26,7 +26,7 @@ module.exports = class CreatePlaylistCommand extends Command {
     if (!new1) {
       db.createModel(message.member.id)
       db.set(message.member.id, { savedPlaylist: [] })
-      new.push(`${message.member.id}.savedPlaylist`, { name: playlistName, userid: message.member.id, urls: [] })
+      db.push(`${message.member.id}.savedPlaylist`, { name: playlistName, userid: message.member.id, urls: [] })
       message.reply(`Created a new playlist named **${playlistName}**`);
       return;
     }
@@ -43,7 +43,7 @@ module.exports = class CreatePlaylistCommand extends Command {
         }
     }
     // create and save the playlist in the db
-    db.push(${message.member.id}.savedPlaylist, { name: playlistName, userid: message.member.id, urls: [] });
+    db.push(`${message.member.id}.savedPlaylist`, { name: playlistName, userid: message.member.id, urls: [] });
     message.reply(`Created a new playlist named **${playlistName}**`);
   }
 };
