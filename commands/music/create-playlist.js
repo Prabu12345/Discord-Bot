@@ -20,12 +20,9 @@ module.exports = class CreatePlaylistCommand extends Command {
     });
   }
 
-  run(message, { playlistName }) {
+  async run(message, { playlistName }) {
     // check if the user exists in the db
-    db.get('savedPlaylists').then(console.log)
-    return;
-
-    let giaaa = db.get('savedPlaylists')
+    let giaaa = await db.get('savedPlaylists')
     if (!giaaa){
         db.createModel('savedPlaylists')
     }
@@ -35,10 +32,9 @@ module.exports = class CreatePlaylistCommand extends Command {
       return;
     }
     // make sure the playlist name isn't a duplicate
-    var savedPlaylistsClone = db.get("savedPlaylists");
     console.log(savedPlaylistsClone)
     if (
-        savedPlaylistsClone.name == playlistName && savedPlaylistsClone.userid == message.member.id
+        giaaa.name == playlistName && giaaa.userid == message.member.id
     ) {
       message.reply(
         `There is already a playlist named **${playlistName}** in your saved playlists!`
