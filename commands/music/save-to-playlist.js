@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "playlist");
 const Youtube = require('simple-youtube-api');
-const Youtube1 = require('youtube-sr');
+const Youtube1 = require('youtube-sr').default;
 const { Spotify } = require('spotify-info.js')
 const { youtubeAPI } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
@@ -10,7 +10,7 @@ const spotify = new Spotify({
   clientID: "540def33c9bb4c94b7d3b5bb51615624",
   clientSecret: "89c15cd0add944c6bef3be863b964d9f",
   });
-  
+
 module.exports = class SaveToPlaylistCommand extends Command {
   constructor(client) {
     super(client, {
