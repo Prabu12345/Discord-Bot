@@ -131,7 +131,7 @@ module.exports = class SaveToPlaylistCommand extends Command {
       if (!album) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`Album not found`)
+      .setDescription(`playlist not found`)
       return message.say(errvideoEmbed);
       }
       const tracks = []
@@ -152,8 +152,9 @@ module.exports = class SaveToPlaylistCommand extends Command {
       let urlsArr = [];
       for (let i = 0; i < tracks.length; i++) {
         try {
+          const video = await tracks[i];
           urlsArr.push(
-            SaveToPlaylistCommand.constructSongObj1(tracks[i], message.member.user)
+            SaveToPlaylistCommand.constructSongObj1(video, message.member.user)
           );
         } catch (err) {
           return console.error(err);
@@ -264,14 +265,13 @@ module.exports = class SaveToPlaylistCommand extends Command {
       memberAvatar: user.avatarURL('webp', false, 16)
     };
   }
-  static constructSongObj1(video, voiceChannel, user) {
+  static constructSongObj1(video, user) {
     return {
       url: `https://youtube.com/watch?v=${video.id}`,
       title: video.title,
       rawDuration: video.duration,
       duration: video.durationFormatted,
       thumbnail: video.thumbnail.url,
-      voiceChannel,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
