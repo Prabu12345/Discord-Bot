@@ -2,6 +2,12 @@ const { Command } = require('discord.js-commando');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "playlist");
 const Youtube = require('simple-youtube-api');
+const Youtube1 = require('youtube-sr');
+const Spotify = require('spotify-info.js')
+const spotify = new Spotify({
+  clientID: "540def33c9bb4c94b7d3b5bb51615624",
+  clientSecret: "89c15cd0add944c6bef3be863b964d9f",
+  });
 const { youtubeAPI } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 
@@ -100,6 +106,96 @@ module.exports = class SaveToPlaylistCommand extends Command {
   }
 
   static async processURL(url, message) {
+    if (url.match(/^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/)) {
+      var updatedQuery;
+      const spotifyData = await spotify.getTrackByURL(url).catch(() => {})
+      if (spotifyData) {
+        updatedQuery = `${spotifyData.artist} - ${spotifyData.title}`
+      }
+      const videos = await Youtube1.search(updatedQuery, { type: 'video', limit: 1, safeSearch: true })
+      if (videos.length < 1 || !videos) {
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription('I had some trouble finding what you were looking for, please try again or be more specific')
+        message.say(errvideoEmbed);
+        return;
+      }
+      if (video.live === true) {
+        message.reply("I can't save live streams videos!");
+        return false;
+      }
+      return SaveToPlaylistCommand.constructSongObj(video, message.member.user);
+    }
+    if (url.match(/^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/)) {
+      const album = await spotify.getPlaylistByURL(url)
+      if (!album) {
+        const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`Album not found`)
+      return message.say(errvideoEmbed);
+      }
+      const tracks = []
+      for (let i = 0; i < album.tracks.items.length; i++) {
+        const updatequery = `${album.tracks.items[i].track.artists[0].name} - ${album.tracks.items[i].track.name}`
+        const results = await Youtube1.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
+          const errvideoEmbed = new MessageEmbed()
+          .setColor(errorcolor)
+          .setDescription('There was a problem searching the video you requested :(')
+          await message.say(errvideoEmbed);
+          return;
+        });
+        if (results.length < 1) {
+            continue
+        }
+        tracks.push(results[0])
+      }
+      let urlsArr = [];
+      for (let i = 0; i < tracks.length; i++) {
+        try {
+          urlsArr.push(
+            SaveToPlaylistCommand.constructSongObj1(tracks[i], message.member.user)
+          );
+        } catch (err) {
+          return console.error(err);
+        }
+      }
+      return urlsArr;
+    }
+    if (url.match(/^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:album\/|\?uri=spotify:album:)((\w|-){22})/)) {
+      const album = await spotify.getAlbumByURL(url)
+      if (!album) {
+        const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`Album not found`)
+      return message.say(errvideoEmbed);
+      }
+      const tracks = []
+      for (let i = 0; i < album.tracks.items.length; i++) {
+        const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
+        const results = await Youtube1.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
+          const errvideoEmbed = new MessageEmbed()
+          .setColor(errorcolor)
+          .setDescription('There was a problem searching the video you requested :(')
+          await message.say(errvideoEmbed);
+          return;
+        });
+        if (results.length < 1) {
+            continue
+        }
+        tracks.push(results[0])
+      }
+      let urlsArr = [];
+      for (let i = 0; i < tracks.length; i++) {
+        try {
+          urlsArr.push(
+            SaveToPlaylistCommand.constructSongObj1(tracks[i], message.member.user)
+          );
+        } catch (err) {
+          return console.error(err);
+        }
+      }
+      return urlsArr;
+    }
     if (url.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/)) {
       const playlist = await youtube.getPlaylist(url).catch(function() {
         message.reply(':x: Playlist is either private or it does not exist!');
@@ -164,6 +260,18 @@ module.exports = class SaveToPlaylistCommand extends Command {
       rawDuration: totalDurationInMS,
       duration,
       thumbnail: video.thumbnails.high.url,
+      memberDisplayName: user.username,
+      memberAvatar: user.avatarURL('webp', false, 16)
+    };
+  }
+  static constructSongObj1(video, voiceChannel, user) {
+    return {
+      url: `https://youtube.com/watch?v=${video.id}`,
+      title: video.title,
+      rawDuration: video.duration,
+      duration: video.durationFormatted,
+      thumbnail: video.thumbnail.url,
+      voiceChannel,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
