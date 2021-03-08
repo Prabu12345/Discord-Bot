@@ -28,7 +28,7 @@ module.exports = class PruneCommand extends Command {
       .catch(e => {
         console.error(e);
         return message.say(
-          'Something went wrong when trying to delete messages :('
+          'Something went wrong when trying to delete messages :(, try again later'
         );
       });
   }
