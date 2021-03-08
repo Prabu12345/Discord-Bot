@@ -110,7 +110,7 @@ function generateQueueEmbed(message, queue) {
     const info = current.map((track) => `**${++j}** | [${track.title}](${track.url}) (${msToTime(track.rawDuration)}) - **${track.memberDisplayName}**`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
-    .setTitle(`:notes:Queue for ${message.guild.name} (${queue.length})`)
+    .setTitle(`🎶 Queue for ${message.guild.name} (${queue.length})`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
     if (message.guild.musicData.loop == 'off') {

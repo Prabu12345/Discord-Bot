@@ -36,7 +36,7 @@ module.exports = class ResumeCommand extends Command {
     }
     const resumeEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    .setDescription('Song resumed :play_pause:')
+    .setDescription('resumed :play_pause:')
     message.say(resumeEmbed);
     message.guild.musicData.pause = false;
     message.guild.musicData.songDispatcher.resume();

@@ -37,7 +37,7 @@ module.exports = class DisplayPlaylistCommand extends Command {
             message.guild.musicData.queue.push(element)
         );
         if (message.guild.musicData.isPlaying) {
-            message.reply(`:new: **${query}** added ${urlsArray.length} songs to the queue!`);
+            message.reply(`🎵 **${query}** added ${urlsArray.length} songs to the queue!`);
         } else if (!message.guild.musicData.isPlaying) {
             message.guild.musicData.isPlaying = true;
             playSong(message.guild.musicData.queue, message, 0);

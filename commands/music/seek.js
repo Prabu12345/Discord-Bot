@@ -33,7 +33,7 @@ module.exports = class SeekCommand extends Command {
     if (timevar.length == 0) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`Usage: -seek <forward | backward> <time(2:00 / 30)> or -seek <duration(2:00)>`)
+      .setDescription(`**Usage:** -seek <forward | backward> <time(2:00 / 30)> or -seek <duration(2:00)>`)
       return message.say(errvideoEmbed);
     } else if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()

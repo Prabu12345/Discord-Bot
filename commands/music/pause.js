@@ -37,7 +37,7 @@ module.exports = class PauseCommand extends Command {
 
     const pauseEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    .setDescription('Song paused :pause_button:')
+    .setDescription('paused :pause_button:')
     message.say(pauseEmbed);
     message.guild.musicData.pause = true;
     message.guild.musicData.songDispatcher.pause();
