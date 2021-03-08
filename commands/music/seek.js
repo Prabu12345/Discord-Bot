@@ -21,7 +21,7 @@ module.exports = class SeekCommand extends Command {
         },
         {
           key: 'time',
-          defauly: '',
+          default: '',
           type: 'string',
           prompt: 'Enter seek Time. E.g. 01:00 or 00:30'
         }
@@ -31,8 +31,9 @@ module.exports = class SeekCommand extends Command {
 
   async run(message, { type, time }) {
     const video = message.guild.musicData.nowPlaying;
-    /*var type = timevar.substring(0,timevar.search(" ")).toLowerCase();
-    var time1 = timevar.substring(timevar.search(" ") + 1, timevar.end);*/
+    /*
+    var type = timevar.substring(0,timevar.search(" ")).toLowerCase();
+    var time = timevar.substring(timevar.search(" ") + 1, timevar.end);*/
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
     if (time == '') {
