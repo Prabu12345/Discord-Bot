@@ -14,26 +14,31 @@ module.exports = class SeekCommand extends Command {
       examples: ['seek f \`1:30\`', 'seek b \`0:30\`', 'seek \`1:30\`', 'seek \`100\`'],
       args: [
         {
-          key: 'time1',
+          key: 'type',
           default: '',
           type: 'string',
-          prompt: 'Enter seek time. E.g. 1:30 or 0:30'
+          prompt: 'Enter seek Type. E.g. forward or backward'
+        },
+        {
+          key: 'time',
+          defauly: '',
+          type: 'string',
+          prompt: 'Enter seek Time. E.g. 01:00 or 00:30'
         }
       ]
     });
   }
 
-  async run(message, { time1 }) {
+  async run(message, { type, time }) {
     const video = message.guild.musicData.nowPlaying;
-    var timevar = time1;
-    var type = timevar.substring(0,timevar.search(" ")).toLowerCase();
-    var time = timevar.substring(timevar.search(" ") + 1, timevar.end);
+    /*var type = timevar.substring(0,timevar.search(" ")).toLowerCase();
+    var time1 = timevar.substring(timevar.search(" ") + 1, timevar.end);*/
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    if (timevar.length == 0) {
+    if (time == '') {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`Usage: -seek <forward | backward> <time(2:00)> or -seek <duration(2:00)>`)
+      .setDescription(`Usage: -seek <forward | backward> <time(00:30 / 30)> or -seek <duration(2:00)>`)
       return message.say(errvideoEmbed);
     } else if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
@@ -56,7 +61,7 @@ module.exports = class SeekCommand extends Command {
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
       message.reply(errloopEmbed);
       return;
-    } else if (video.live == true) {
+    } else if (video.live == true || video.duration == "Live Stream") {
       message.channel.send('you can\'t Seek Live Stream video')
       return; 
     }
@@ -70,7 +75,10 @@ module.exports = class SeekCommand extends Command {
         var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
         loopEmbed.setDescription(`Seeking to ${msToTime(parseInt(allwaktu) * 1000)}.`)
       } else {
-        return;
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription(`Usage: -seek <forward | backward> <time(00:30 / 30)> or -seek <duration(02:00)>`)
+        return message.say(errvideoEmbed);
       }
     } else {
       if (type == 'forward' || type == 'f') {

@@ -120,10 +120,6 @@ module.exports = class SaveToPlaylistCommand extends Command {
         message.say(errvideoEmbed);
         return;
       }
-      if (video.live === true) {
-        message.reply("I can't save live streams videos!");
-        return false;
-      }
       return SaveToPlaylistCommand.constructSongObj(video, message.member.user);
     }
     if (url.match(/^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/)) {
