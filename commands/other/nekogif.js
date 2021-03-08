@@ -10,7 +10,7 @@ module.exports = class CatCommand extends Command {
       aliases: ['neko-gif'],
       group: 'anime',
       memberName: 'nekogif',
-      description: 'Showing a Neko picture',
+      description: 'Showing a Neko gif',
       throttling: {
         usages: 2,
         duration: 10
