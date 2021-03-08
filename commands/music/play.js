@@ -351,7 +351,7 @@ module.exports = class PlayCommand extends Command {
     }
 
     // if user provided a song/video name
-    const videos = await youtube.search(query, { type: 'video', limit: 1 }).catch(async function() {
+    const videos = await youtube.search(query, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('There was a problem searching the video you requested :(')
