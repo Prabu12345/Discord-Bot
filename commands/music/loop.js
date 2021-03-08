@@ -30,7 +30,7 @@ module.exports = class LoopCommand extends Command {
       .setColor(errorcolor)
       .setDescription('There is no song playing right now!')
       return message.say(errloopEmbed);
-    } else if (typeLoop.length == 0) {
+    } else if (typeLoop == '') {
       if (message.guild.musicData.loop = 'off') {
         totypelooplower = 'all'
       } else if (message.guild.musicData.loop = 'all') {
