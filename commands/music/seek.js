@@ -14,32 +14,26 @@ module.exports = class SeekCommand extends Command {
       examples: ['seek f \`1:30\`', 'seek b \`0:30\`', 'seek \`1:30\`', 'seek \`100\`'],
       args: [
         {
-          key: 'type',
+          key: 'time1',
           default: '',
           type: 'string',
-          prompt: 'Enter seek Type. E.g. forward or backward'
-        },
-        {
-          key: 'time',
-          default: '',
-          type: 'string',
-          prompt: 'Enter seek Time. E.g. 01:00 or 00:30'
+          prompt: 'Enter seek time. E.g. f 1:30 or 0:30'
         }
       ]
     });
   }
 
-  async run(message, { type, time }) {
+  async run(message, { time1 }) {
     const video = message.guild.musicData.nowPlaying;
-    /*
+    var timevar = time1;
     var type = timevar.substring(0,timevar.search(" ")).toLowerCase();
-    var time = timevar.substring(timevar.search(" ") + 1, timevar.end);*/
+    var time = timevar.substring(timevar.search(" ") + 1, timevar.end);
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    if (time == '') {
+    if (timevar.length == 0) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`Usage: -seek <forward | backward> <time(00:30 / 30)> or -seek <duration(2:00)>`)
+      .setDescription(`Usage: -seek <forward | backward> <time(2:00 / 30)> or -seek <duration(2:00)>`)
       return message.say(errvideoEmbed);
     } else if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
@@ -78,7 +72,7 @@ module.exports = class SeekCommand extends Command {
       } else {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription(`Usage: -seek <forward | backward> <time(00:30 / 30)> or -seek <duration(02:00)>`)
+        .setDescription(`Usage: -seek <forward | backward> <time(2:00 / 30)> or -seek <duration(2:00)>`)
         return message.say(errvideoEmbed);
       }
     } else {
