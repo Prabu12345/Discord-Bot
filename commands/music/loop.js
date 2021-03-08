@@ -24,13 +24,13 @@ module.exports = class LoopCommand extends Command {
 
   run(message, { typeLoop }) {
     var totypeloop = typeLoop
-    const totypelooplower = totypeloop.toLowerCase();
+    const totypelooplower = totypeloop.substring(totypeloop.search(" ") + 1, totypeloop.end).toLowerCase();
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('There is no song playing right now!')
       return message.say(errloopEmbed);
-    } else if (typeLoop == '') {
+    } else if (typeLoop.length == 0) {
       if (message.guild.musicData.loop = 'off') {
         totypelooplower = 'all'
       } else if (message.guild.musicData.loop = 'all') {
