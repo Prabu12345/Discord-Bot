@@ -512,9 +512,9 @@ module.exports = class PlayCommand extends Command {
 
       const videoEmbed = new MessageEmbed()
       .setThumbnail(queue[0].thumbnail)
+      .setTitle(`🎵 Now Playing`)
       .setColor(normalcolor)
-      .addField('Now Playing:', `[${queue[0].title}](${queue[0].url})`)
-      .addField('Duration:', queue[0].duration)
+      .setDescription(`[${queue[0].title}](${queue[0].url})\n ${queue[0].duration}`)
       .setFooter(
         `Requested by ${queue[0].memberDisplayName}`,
         queue[0].memberAvatar

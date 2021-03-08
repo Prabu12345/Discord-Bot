@@ -86,7 +86,7 @@ module.exports = class SaveToPlaylistCommand extends Command {
       if (Array.isArray(processedURL)) {
         urlsArrayClone = urlsArrayClone.concat(processedURL);
         savedPlaylistsClone[location].urls = urlsArrayClone;
-        message.reply('The playlist you provided was successfully saved!');
+        message.reply('The playlists was successfully saved!');
       } else {
         urlsArrayClone.push(processedURL);
         savedPlaylistsClone[location].urls = urlsArrayClone;

@@ -59,7 +59,7 @@ module.exports = class DisplayPlaylistCommand extends Command {
         .formatField('# - Title', function(e) {
           return `**${urlsArrayClone.indexOf(e) + 1}**: [${e.title}](${e.url})`;
         });
-      savedSongsEmbed.embed.setColor(normalcolor).setTitle('Saved Songs');
+      savedSongsEmbed.embed.setColor(normalcolor).setTitle(`💾 ${playlistName} Saved Songs`);
       savedSongsEmbed.build();
     } else {
       message.reply(`You have no playlist named ${playlistName}`);
