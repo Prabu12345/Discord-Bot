@@ -20,7 +20,7 @@ module.exports = class PlayCommand extends Command {
       aliases: ['p', 'add'],
       memberName: 'play',
       group: 'music',
-      description: 'Play any song or playlist from youtube',
+      description: 'Play any song or playlist from youtube or spotify',
       guildOnly: true,
       clientPermissions: ['SPEAK', 'CONNECT'],
       throttling: {
@@ -72,7 +72,7 @@ module.exports = class PlayCommand extends Command {
     if (query.length == 0){
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`**Usage:** ${prefix}play <YouTube URL | Video Name>`)
+      .setDescription(`**Usage:** ${prefix}play <YouTube or Spotify URL | Video Name>`)
       return message.say(errvideoEmbed);
     }
 

@@ -10,7 +10,7 @@ module.exports = class SeekCommand extends Command {
       group: 'music',
       memberName: 'seek',
       guildOnly: true,
-      description: 'Loop the current playing song',
+      description: 'seek duration of music',
       examples: ['seek f \`1:30\`', 'seek b \`0:30\`', 'seek \`1:30\`', 'seek \`100\`'],
       args: [
         {

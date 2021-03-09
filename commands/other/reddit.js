@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 const { Command } = require('discord.js-commando');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class RedditCommand extends Command {
   constructor(client) {
@@ -96,7 +97,7 @@ module.exports = class RedditCommand extends Command {
       });
     // returns an embed that is ready to be sent
     function embedPost(data) {
-      let color = '#FE9004';
+      let color = normalcolor;
       if (data.title.length > 255) {
         data.title = data.title.substring(0, 252) + '...'; // discord.js does not allow embed title lengths greater than 256
       }
