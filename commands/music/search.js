@@ -1,9 +1,8 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const Youtube = require('simple-youtube-api');
+const youtube = require('youtube-sr').default;
 const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
 const { playSong } = require('../music/play')
-const youtube = new Youtube(youtubeAPI);
 
 module.exports = class searchCommand extends Command {
   constructor(client) {
@@ -34,7 +33,7 @@ module.exports = class searchCommand extends Command {
   }
 
   async run(message, { query }) {
-    const videos = await youtube.searchVideos(query, 5).catch(async function() {
+    const videos = await youtube.search(query, { type: 'video', limit: 5, safeSearch: true }).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('There was a problem searching the video you requested :(')
@@ -42,12 +41,14 @@ module.exports = class searchCommand extends Command {
       return;
     });
     if (videos.length < 5 || !videos) {
+      if (query.match(/^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/)) return;
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription('I had some trouble finding what you were looking for, please try again or be more specific')
       message.say(errvideoEmbed);
       return;
     }
+
     const vidNameArr = [];
     for (let i = 0; i < videos.length; i++) {
       vidNameArr.push(`${i + 1}| ${videos[i].title}`);
@@ -76,62 +77,48 @@ module.exports = class searchCommand extends Command {
           songEmbed.delete();
           return;
         }
-        youtube
-          .getVideoByID(videos[videoIndex - 1].id)
-          .then(function(video) {
-            // // can be uncommented if you don't want the bot to play live streams
-            // if (video.raw.snippet.liveBroadcastContent === 'live') {
-            //   songEmbed.delete();
-            //   return message.say("I don't support live streams!");
-            // }
+          // // can be uncommented if you don't want the bot to play live streams
+          // if (video.raw.snippet.liveBroadcastContent === 'live') {
+          //   songEmbed.delete();
+          //   return message.say("I don't support live streams!");
+          // }
 
-            // // can be uncommented if you don't want the bot to play videos longer than 1 hour
-            // if (video.duration.hours !== 0) {
-            //   songEmbed.delete();
-            //   return message.say('I cannot play videos longer than 1 hour');
-            // }
+          // // can be uncommented if you don't want the bot to play videos longer than 1 hour
+          // if (video.duration.hours !== 0) {
+          //   songEmbed.delete();
+          //   return message.say('I cannot play videos longer than 1 hour');
+          // }
 
-            // // can be uncommented if you don't want to limit the queue
-            // if (message.guild.musicData.queue.length > 10) {
-            //   songEmbed.delete();
-            //   return message.say(
-            //     'There are too many songs in the queue already, skip or wait a bit'
-            //   );
-            // }
-            message.guild.musicData.queue.push(
-              searchCommand.constructSongObj(
-                video,
-                voiceChannel,
-                message.member.user
-              )
-            );
-            if (message.guild.musicData.isPlaying == false) {
-              message.guild.musicData.isPlaying = true;
-              if (songEmbed) {
-                songEmbed.delete();
-              }
-              playSong(message.guild.musicData.queue, message, 0);
-            } else if (message.guild.musicData.isPlaying == true) {
-              if (songEmbed) {
-                songEmbed.delete();
-              }
-              const addvideoEmbed = new MessageEmbed()
-              .setColor(normalcolor)
-              .setDescription(`**${video.title}** added to queue`)
-              message.say(addvideoEmbed);
-              return;
-            }
-          })
-          .catch(function() {
+          // // can be uncommented if you don't want to limit the queue
+          // if (message.guild.musicData.queue.length > 10) {
+          //   songEmbed.delete();
+          //   return message.say(
+          //     'There are too many songs in the queue already, skip or wait a bit'
+          //   );
+          // }
+          message.guild.musicData.queue.push(
+            searchCommand.constructSongObj(
+              video[videoIndex - 1],
+              voiceChannel,
+              message.member.user
+            )
+          );
+          if (message.guild.musicData.isPlaying == false) {
+            message.guild.musicData.isPlaying = true;
             if (songEmbed) {
               songEmbed.delete();
             }
-            const errvideoEmbed = new MessageEmbed()
-            .setColor(errorcolor)
-            .setDescription('An error has occured when trying to get the video ID from youtube')
-            message.say(errvideoEmbed);
+            playSong(message.guild.musicData.queue, message, 0);
+          } else if (message.guild.musicData.isPlaying == true) {
+            if (songEmbed) {
+              songEmbed.delete();
+            }
+            const addvideoEmbed = new MessageEmbed()
+            .setColor(normalcolor)
+            .setDescription(`**${video.title}** added to queue`)
+            message.say(addvideoEmbed);
             return;
-          });
+          }
       })
       .catch(function() {
         if (songEmbed) {
@@ -146,27 +133,12 @@ module.exports = class searchCommand extends Command {
   
   }
   static constructSongObj(video, voiceChannel, user) {
-    const totalDurationObj = video.duration;
-
-    let totalDurationInMS = 0;
-    Object.keys(totalDurationObj).forEach(function(key) {
-      if (key == 'hours') {
-        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 3600000;
-      } else if (key == 'minutes') {
-        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 60000;
-      } else if (key == 'seconds') {
-        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 1000;
-      }
-    });
-
-    let duration = this.formatDuration(video.duration);
-    if (duration == '00:00') duration = 'Live Stream';
     return {
-      url: `https://youtube.com/watch?v=${video.raw.id}`,
+      url: `https://youtube.com/watch?v=${video.id}`,
       title: video.title,
-      rawDuration: totalDurationInMS,
-      duration,
-      thumbnail: video.thumbnails.high.url,
+      rawDuration: video.duration,
+      duration: video.durationFormatted,
+      thumbnail: video.thumbnail.url,
       voiceChannel,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
