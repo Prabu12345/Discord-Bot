@@ -34,6 +34,29 @@ module.exports = class searchCommand extends Command {
 
   async run(message, { query }) {
     const voiceChannel = message.member.voice.channel;
+    if (!voiceChannel) {
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription('Join a channel and try again')
+      message.say(errvideoEmbed);
+      return;
+    }
+
+    if (message.guild.triviaData.isTriviaRunning == true) {
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription('Please try after the trivia has ended')
+      message.say(errvideoEmbed);
+      return;
+    }
+
+    if (query.length == 0){
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`**Usage:** -search <Video Name>`)
+      return message.say(errvideoEmbed);
+    }
+
     const videos = await youtube.search(query, { type: 'video', limit: 5, safeSearch: true }).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -116,7 +139,7 @@ module.exports = class searchCommand extends Command {
             }
             const addvideoEmbed = new MessageEmbed()
             .setColor(normalcolor)
-            .setDescription(`**${video.title}** added to queue`)
+            .setDescription(`**${videos[videoIndex - 1].title}** added to queue`)
             message.say(addvideoEmbed);
             return;
           }

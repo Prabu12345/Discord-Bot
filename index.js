@@ -80,7 +80,7 @@ client.registry
 
 client.once('ready', () => {
   console.log('Ready!');
-  client.user.setActivity(`Temp** | ${prefix}help`, {
+  client.user.setActivity(`Just Smile | ${prefix}help`, {
     type: 'LISTENING',
     url: 'https://discord.gg/n5yFCYSkQn'
   });
