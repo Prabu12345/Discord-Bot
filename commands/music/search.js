@@ -120,10 +120,11 @@ module.exports = class searchCommand extends Command {
             return;
           }
       })
-      .catch(function() {
+      .catch(function(e) {
         if (songEmbed) {
           songEmbed.delete();
         }
+        console.error(e)
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription('Please try again and enter a number between 1 and 5 or exit')
