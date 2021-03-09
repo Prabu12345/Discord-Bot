@@ -1,7 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const Youtube = require('simple-youtube-api');
-const ytdl = require('ytdl-core');
 const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
 const { playSong } = require('../music/play')
 const youtube = new Youtube(youtubeAPI);
@@ -147,12 +146,25 @@ module.exports = class searchCommand extends Command {
   
   }
   static constructSongObj(video, voiceChannel, user) {
+    const totalDurationObj = video.duration;
+
+    let totalDurationInMS = 0;
+    Object.keys(totalDurationObj).forEach(function(key) {
+      if (key == 'hours') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 3600000;
+      } else if (key == 'minutes') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 60000;
+      } else if (key == 'seconds') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 1000;
+      }
+    });
+
     let duration = this.formatDuration(video.duration);
     if (duration == '00:00') duration = 'Live Stream';
     return {
       url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
-      rawDuration: video.duration,
+      rawDuration: totalDurationInMS,
       duration,
       thumbnail: video.thumbnails.high.url,
       voiceChannel,
