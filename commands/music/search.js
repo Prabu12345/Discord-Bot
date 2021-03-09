@@ -98,7 +98,7 @@ module.exports = class searchCommand extends Command {
           // }
           message.guild.musicData.queue.push(
             searchCommand.constructSongObj(
-              video[videoIndex - 1],
+              videos[videoIndex - 1],
               voiceChannel,
               message.member.user
             )
