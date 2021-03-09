@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
-const { newsAPI } = require('../../config.json');
+const { newsAPI, normalcolor } = require('../../config.json');
 const { Command } = require('discord.js-commando');
 
 module.exports = class GlobalNewsCommand extends Command {
@@ -28,7 +28,7 @@ module.exports = class GlobalNewsCommand extends Command {
       const articleArr = json.articles;
       let processArticle = article => {
         const embed = new MessageEmbed()
-          .setColor('#FF4F00')
+          .setColor(normalcolor)
           .setTitle(article.title)
           .setURL(article.url)
           .setAuthor(article.author)
