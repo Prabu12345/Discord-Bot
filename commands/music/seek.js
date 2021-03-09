@@ -89,7 +89,9 @@ module.exports = class SeekCommand extends Command {
           loopEmbed.setDescription(`**Set forward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         } else {
           var allwaktu = time
-          loopEmbed.setDescription(`**Set to** \`${msToTime(allwaktu * 1000)}\``)
+          let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          loopEmbed.setDescription(`**Set forward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         }
       } else if (type == 'backward' || type == 'b') {
         if (time.search(/[:]/) >= 0) { 
@@ -106,7 +108,9 @@ module.exports = class SeekCommand extends Command {
           loopEmbed.setDescription(`**Set backward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         } else {
           var allwaktu = time
-          loopEmbed.setDescription(`**Set to** \`${msToTime(allwaktu * 1000)}\``)
+          let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
+          let afterseek = Math.ceil(message.guild.musicData.seek + (message.guild.musicData.songDispatcher.streamTime / 1000) - parseInt(allwaktu));
+          loopEmbed.setDescription(`**Set backward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         }
       } else {
         return;
