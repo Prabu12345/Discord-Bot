@@ -33,6 +33,7 @@ module.exports = class searchCommand extends Command {
   }
 
   async run(message, { query }) {
+    const voiceChannel = message.member.voice.channel;
     const videos = await youtube.search(query, { type: 'video', limit: 5, safeSearch: true }).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
