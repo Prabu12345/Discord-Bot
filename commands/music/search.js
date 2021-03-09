@@ -35,142 +35,6 @@ module.exports = class searchCommand extends Command {
   }
 
   async run(message, { query }) {
-    const voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) {
-      const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription('Join a channel and try again')
-      message.say(errvideoEmbed);
-      return;
-    }
-
-    if (message.guild.triviaData.isTriviaRunning == true) {
-      const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription('Please try after the trivia has ended')
-      message.say(errvideoEmbed);
-      return;
-    }
-
-    if (
-      query.match(
-        /^(http(s)?:\/\/)?((w){3}.)?open\.spotify\.com\/.+/
-      )
-    ) {
-      const errvideoEmbed = new MessageEmbed()
-        .setColor(errorcolor)
-        .setDescription('I cant play music from Spotify')
-        message.say(errvideoEmbed);
-        return;
-    }
-
-    if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/)) {
-      const playlist = await youtube.getPlaylist(query).catch(function() {
-        const errvideoEmbed = new MessageEmbed()
-        .setColor(errorcolor)
-        .setDescription('Playlist is either private or it does not exist!')
-        message.say(errvideoEmbed);
-        return;
-      });
-      // add 10 as an argument in getVideos() if you choose to limit the queue
-      const videosArr = await playlist.getVideos().catch(function() {
-        const errvideoEmbed = new MessageEmbed()
-        .setColor(errorcolor)
-        .setDescription('There was a problem getting one of the videos in the playlist!')
-        message.say(errvideoEmbed);
-        return;
-      });
-
-      // this for loop can be uncommented if you want to shuffle the playlist
-
-      /*for (let i = videosArr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [videosArr[i], videosArr[j]] = [videosArr[j], videosArr[i]];
-      }
-      */
-
-      for (let i = 0; i < videosArr.length; i++) {
-        if (videosArr[i].raw.status.privacyStatus == 'private') {
-          continue;
-        } else {
-          try {
-            const video = await videosArr[i].fetch();
-            // this can be uncommented if you choose to limit the queue
-            // if (message.guild.musicData.queue.length < 10) {
-            //
-            message.guild.musicData.queue.push(
-              searchCommand.constructSongObj(
-                video,
-                voiceChannel,
-                message.member.user
-              )
-            );
-            // } else {
-            //   return message.say(
-            //     `I can't play the full playlist because there will be more than 10 songs in queue`
-            //   );
-            // }
-          } catch (err) {
-            return console.error(err);
-          }
-        }
-      }
-      if (message.guild.musicData.isPlaying == false) {
-        message.guild.musicData.isPlaying = true;
-        return playSong(message.guild.musicData.queue, message, 0);
-      } else if (message.guild.musicData.isPlaying == true) {
-        const addvideoEmbed = new MessageEmbed()
-        .setColor(normalcolor)
-        .setDescription(`Playlist - :musical_note:  **${playlist.title}** :musical_note: has been added to queue`)
-        message.say(addvideoEmbed);
-        return;
-      }
-    }
-
-    if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
-      query = query
-      .replace(/(>|<)/gi, '')
-      .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-    const id = query[2].split(/[^0-9a-z_\-]/i)[0];
-    const video = await youtube.getVideoByID(id).catch(function() {
-      const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription('There was a problem getting the video you provided!')
-      message.say(errvideoEmbed);
-      return;
-    });
-    // can be uncommented if you don't want the bot to play live streams
-    // if (video.raw.snippet.liveBroadcastContent === 'live') {
-    //   return message.say("I don't support live streams!");
-    // }
-    // // can be uncommented if you don't want the bot to play videos longer than 1 hour
-    // if (video.duration.hours !== 0) {
-    //   return message.say('I cannot play videos longer than 1 hour');
-    // }
-    // // can be uncommented if you want to limit the queue
-    // if (message.guild.musicData.queue.length > 10) {
-    //   return message.say(
-    //     'There are too many songs in the queue already, skip or wait a bit'
-    //   );
-    // }
-    message.guild.musicData.queue.push(
-      searchCommand.constructSongObj(video, voiceChannel, message.member.user)
-    );
-    if (
-      message.guild.musicData.isPlaying == false ||
-      typeof message.guild.musicData.isPlaying == 'undefined'
-    ) {
-      message.guild.musicData.isPlaying = true;
-      return playSong(message.guild.musicData.queue, message, 0);
-    } else if (message.guild.musicData.isPlaying == true) {
-      const addvideoEmbed = new MessageEmbed()
-      .setColor(normalcolor)
-      .setDescription(`**${video.title}** added to queue`)
-      message.say(addvideoEmbed);
-      return;
-    }
-  }
-
     const videos = await youtube.searchVideos(query, 5).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -187,17 +51,13 @@ module.exports = class searchCommand extends Command {
     }
     const vidNameArr = [];
     for (let i = 0; i < videos.length; i++) {
-      vidNameArr.push(`${i + 1}: ${videos[i].title}`);
+      vidNameArr.push(`${i + 1}| ${videos[i].title}`);
     }
     vidNameArr.push('exit');
     const embed = new MessageEmbed()
       .setColor(normalcolor)
       .setTitle('Choose a song by commenting a number between 1 and 5')
-      .addField('Song 1', vidNameArr[0])
-      .addField('Song 2', vidNameArr[1])
-      .addField('Song 3', vidNameArr[2])
-      .addField('Song 4', vidNameArr[3])
-      .addField('Song 5', vidNameArr[4])
+      .setDescription(`${vidNameArr[0]}\n${vidNameArr[1]}\n${vidNameArr[2]}\n${vidNameArr[3]}\n${vidNameArr[4]}`)
       .addField('Exit', 'Write "exit" to cancel');
     var songEmbed = await message.channel.send({ embed });
     message.channel
