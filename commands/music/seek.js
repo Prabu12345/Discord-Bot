@@ -11,7 +11,7 @@ module.exports = class SeekCommand extends Command {
       memberName: 'seek',
       guildOnly: true,
       description: 'seek duration of music',
-      examples: ['seek f \`1:30\`', 'seek b \`0:30\`', 'seek \`1:30\`', 'seek \`100\`'],
+      examples: ['seek f \`1:30\`', 'seek b \`30\`', 'seek \`1:30\`', 'seek \`30\`'],
       args: [
         {
           key: 'time1',
@@ -33,7 +33,7 @@ module.exports = class SeekCommand extends Command {
     if (timevar.length == 0) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`**Usage:** -seek <forward | backward> <time(2:00 / 30)> or -seek <duration(2:00)>`)
+      .setDescription(`**Usage:** -seek <forward | backward> <time(2:00 | 120)> or -seek <duration(2:00 | 120)>`)
       return message.say(errvideoEmbed);
     } else if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
@@ -57,23 +57,21 @@ module.exports = class SeekCommand extends Command {
       message.reply(errloopEmbed);
       return;
     } else if (video.live == true || video.duration == "Live Stream") {
-      message.channel.send('you can\'t Seek Live Stream video')
+      message.channel.send('I can\'t set Live Stream video')
       return; 
     }
     if (!type) {
       if (time.search(/[:]/) >= 0) { 
         var waktu1 = time.split(':'); 
         var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
-        loopEmbed.setDescription(`Seeking to ${msToTime(parseInt(allwaktu) * 1000)}.`)
+        loopEmbed.setDescription(`**Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
       } else if (time.search(/[.]/) >= 0) {
         var waktu2 = time.split('.');
         var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
-        loopEmbed.setDescription(`Seeking to ${msToTime(parseInt(allwaktu) * 1000)}.`)
+        loopEmbed.setDescription(`**Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
       } else {
-        const errvideoEmbed = new MessageEmbed()
-        .setColor(errorcolor)
-        .setDescription(`Usage: -seek <forward | backward> <time(2:00 / 30)> or -seek <duration(2:00)>`)
-        return message.say(errvideoEmbed);
+        var allwaktu = time
+        loopEmbed.setDescription(`**Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
       }
     } else {
       if (type == 'forward' || type == 'f') {
@@ -82,16 +80,16 @@ module.exports = class SeekCommand extends Command {
           var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
           let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
           let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-          loopEmbed.setDescription(`Seeking forward by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
+          loopEmbed.setDescription(`**Set forward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         } else if (time.search(/[.]/) >= 0) {
           var waktu2 = time.split('.');
           var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
           let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
           let afterseek = Math.ceil(parseInt(allwaktu) + (message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
-          loopEmbed.setDescription(`Seeking forward by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
+          loopEmbed.setDescription(`**Set forward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         } else {
           var allwaktu = time
-          loopEmbed.setDescription(`Seeked ${time} Second.`)
+          loopEmbed.setDescription(`**Set to** \`${msToTime(allwaktu * 1000)}\``)
         }
       } else if (type == 'backward' || type == 'b') {
         if (time.search(/[:]/) >= 0) { 
@@ -99,16 +97,16 @@ module.exports = class SeekCommand extends Command {
           var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
           let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
           let afterseek = Math.ceil(message.guild.musicData.seek + (message.guild.musicData.songDispatcher.streamTime / 1000) - parseInt(allwaktu));
-          loopEmbed.setDescription(`Seeking backward by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
+          loopEmbed.setDescription(`**Set backward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         } else if (time.search(/[.]/) >= 0) {
           var waktu2 = time.split('.');
           var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
           let beforeseek = Math.ceil((message.guild.musicData.songDispatcher.streamTime / 1000) + message.guild.musicData.seek);
           let afterseek = Math.ceil(message.guild.musicData.seek + (message.guild.musicData.songDispatcher.streamTime / 1000) - parseInt(allwaktu));
-          loopEmbed.setDescription(`Seeking backward by ${msToTime(beforeseek * 1000)} to ${msToTime(afterseek * 1000)}.`)
+          loopEmbed.setDescription(`**Set backward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         } else {
           var allwaktu = time
-          loopEmbed.setDescription(`Seeked ${time} Second.`)
+          loopEmbed.setDescription(`**Set to** \`${msToTime(allwaktu * 1000)}\``)
         }
       } else {
         return;
@@ -120,7 +118,7 @@ module.exports = class SeekCommand extends Command {
     let completed = Math.ceil(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek);
     let videotime = (video.rawDuration / 1000);
     if (seekAmount >= videotime) {
-      return message.channel.send('Seek duration is more than video duration!');
+      return message.channel.send('The duration is more than video duration!');
     }
     if (!type) {
       message.guild.musicData.seek = seekAmount
