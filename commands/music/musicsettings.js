@@ -111,8 +111,8 @@ module.exports = class LeaveCommand extends Command {
                 }
                 let tim = db.get(`${message.guild.id}.settings`)
                 let volume = tim.volume
-                tim.timeout = (tIndex * 60000);
-                db.set(`${message.guild.id}.settings`, {volume: volume, timeout: tim.timeout})
+                let timeout = (tIndex * 60000);
+                db.set(`${message.guild.id}.settings`, {volume: volume, timeout: timeout})
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The timeout set to **${tIndex} Minutes**, ${message.author}`)
