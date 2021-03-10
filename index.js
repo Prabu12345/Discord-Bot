@@ -5,6 +5,10 @@ const { prefix, token, discord_owner_id } = require('./config.json');
 const MongoClient = require('mongodb').MongoClient;
 const MongoDBProvider = require('commando-provider-mongo').MongoDBProvider;
 const fs = require('fs')
+const Topgg = require('@top-gg/sdk')
+const api = new Topgg.Api('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcyODQwOTk5NzQzNTk5NDE0MiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjE1MzMyMzA0fQ.Hcuy0VxREh38DaaGuuBeXa5PuCOCvupkFHRkX6fWX3Q')
+const { Database } = require("quickmongo");
+const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
@@ -14,14 +18,12 @@ Structures.extend('Guild', function(Guild) {
         queue: [],
         isPlaying: false,
         pause: false,
-        timeout: 60000,
         loop: 'off',
         sloop: 'null',
         remind: [],
         seek: 0,
         nowPlaying: null,
         songDispatcher: null,
-        volume: 50
       };
       this.triviaData = {
         isTriviaRunning: false,
@@ -38,6 +40,14 @@ const client = new CommandoClient({
   commandPrefix: prefix,
   owner: discord_owner_id // value comes from config.json
 });
+
+/*setInterval(() => {
+  api.postStats({
+    serverCount: client.guilds.cache.size,
+    /*shardId: client.shard.ids[0], // if you're sharding
+    shardCount: client.options.shardCount
+  })
+}, 1800000) // post every 30 minutes*/
 
 fs.readdir('./resources/event/', (err, files) => {
   if (err) return console.error;
@@ -63,11 +73,11 @@ client.cachedMessageReactions = new Map();
 client.registry
   .registerDefaultTypes()
   .registerGroups([ 
-    ['guild', 'guild related commands'],
-    ['music', 'Music Command Group'],
+    ['guild', ':gear: Guild related commands'],
+    ['music', ':notes: Music Command Group'],
     ['gifs', 'Gif Command Group'],
     ['anime', 'Anime Command Group'],   
-    ['other', 'random types of commands group']
+    ['other', ':question: Other commands group']
   ])
   .registerDefaultGroups()
   .registerDefaultCommands({
@@ -127,6 +137,7 @@ client.login(process.env.token);
 
 var t;
 function rrun(newState) { 
+  let timeout = db.get(`${newState.guild.id}.settings`)
   t = setTimeout(() => {
     newState.guild.musicData.loop = 'off';
     newState.guild.musicData.seek = 0;
@@ -135,7 +146,7 @@ function rrun(newState) {
     setTimeout(function onTimeOut() {
       newState.guild.me.voice.channel.leave();
     }, 500);
-  }, newState.guild.musicData.timeout); 
+  }, timeout.timeout); 
 } 
 
 function stop() { 

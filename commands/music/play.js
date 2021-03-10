@@ -12,6 +12,8 @@ const spt = new Spotify({
   clientSecret: "89c15cd0add944c6bef3be863b964d9f",
   });
 const { normalcolor, errorcolor, prefix } = require('../../config.json');
+const { Database } = require("quickmongo");
+const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
 module.exports = class PlayCommand extends Command {
   constructor(client) {
@@ -406,12 +408,13 @@ module.exports = class PlayCommand extends Command {
     } else {
       playtype = ytdl(queue[0].url, { quality: `highestaudio`, filter: () => ['251'], highWaterMark: 1 << 25 })
     }*/
+    let vol = db.get(`${message.guild.id}.settings`)
     queue[0].voiceChannel
       .join()
       .then(function(connection) {
-        const vol = message.guild.musicData.volume / 100;
+        const vol1 = vol.volume / 100;
         const dispatcher = connection
-          .play(ytdl(queue[0].url, { quality: `highestaudio`, filter: () => ['251'], highWaterMark: 1 << 25 }), { volume: vol, seek: seekAmount })
+          .play(ytdl(queue[0].url, { quality: `highestaudio`, filter: () => ['251'], highWaterMark: 1 << 25 }), { volume: vol1, seek: seekAmount })
           dispatcher.on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             message.guild.musicData.nowPlaying = queue[0];
