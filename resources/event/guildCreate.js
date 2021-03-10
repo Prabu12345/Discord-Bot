@@ -6,7 +6,7 @@ module.exports = async (client, guild) => {
     if (!new1) {
         db.createModel(guild.id)
         db.set(guild.id, { settings: [] })
-        db.set(`${guild.id}.settings`, { volume: 50, timeout: 60000 })
+        db.push(`${guild.id}.settings`, { volume: 50, timeout: 60000 })
         console.log(`I have joined to ${guild.name}`);
         return;
     } else {
