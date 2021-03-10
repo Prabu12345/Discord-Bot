@@ -80,7 +80,6 @@ module.exports = class QueueCommand extends Command {
             queueEmbed.edit(embeds[currentPage]);
           }
         } else {
-          collector.stop();
           reaction.message.reactions.removeAll();
           reaction.message.delete({ timeout: 1000 }).catch(console.error);
         }
@@ -89,6 +88,10 @@ module.exports = class QueueCommand extends Command {
         console.error(error);
         return message.channel.send(error.message + ', Please give me Permission to access **ADD_REACTIONS**').catch(console.error);
       }
+    });
+
+    collector.on("end", () => { 
+      reaction.message.reactions.removeAll();
     });
   }
 };
