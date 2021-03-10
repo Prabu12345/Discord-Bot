@@ -106,6 +106,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.guild.musicData.loop = 'off';
     newState.guild.musicData.seek = 0;
     newState.guild.musicData.queue.length = 0;
+    message.guild.musicData.pause = false
     newState.guild.musicData.songDispatcher.end();
     return;
   }
@@ -142,6 +143,7 @@ async function rrun(newState) {
     newState.guild.musicData.loop = 'off';
     newState.guild.musicData.seek = 0;
     newState.guild.musicData.queue.length = 0;
+    newState.guild.musicData.pause = false
     newState.guild.musicData.songDispatcher.end();
     setTimeout(function onTimeOut() {
       newState.guild.me.voice.channel.leave();
