@@ -16,7 +16,7 @@ module.exports = class NowPlayingCommand extends Command {
     });
   }
 
-  run(message) {
+  async run(message) {
     const video = message.guild.musicData.nowPlaying;
     const errnpEmbed = new MessageEmbed()
     .setColor(errorcolor)
