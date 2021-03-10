@@ -21,11 +21,12 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
+    let all = await db.get(`${message.guild.id}.settings`)
     const embed = new MessageEmbed()
       .setColor(normalcolor)
       .setTitle('Choose a music settings by commenting a number between 1 and 2')
-      .setDescription(`1. Update max volume - **${message.guild.musicData.volume}% (1 - 100)**\n
-      2. Automatically leave the channel if empty - **${message.guild.musicData.timeout / 60000} minutes (0 - 50)**`
+      .setDescription(`1. Update max volume - **${all.volume}% (1 - 100)**\n
+      2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
@@ -69,7 +70,7 @@ module.exports = class LeaveCommand extends Command {
                   vm.delete();
                 }
                 let vol = await db.get(`${message.guild.id}.settings`)
-                vol.volume = vIndex
+                db.set(`${message.guild.id}.settings`, {volume: vIndex, timeout: tim.timeout})
                 const volumeEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The volume set to **${vIndex}%**, ${message.author}`)
@@ -110,6 +111,7 @@ module.exports = class LeaveCommand extends Command {
                 }
                 let tim = db.get(`${message.guild.id}.settings`)
                 tim.timeout = (tIndex * 60000);
+                db.set(`${message.guild.id}.settings`, {volume: tim.volume, timeout: tim.timeout})
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The timeout set to **${tIndex} Minutes**, ${message.author}`)
