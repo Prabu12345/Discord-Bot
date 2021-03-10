@@ -109,7 +109,7 @@ module.exports = class LeaveCommand extends Command {
                 if (tm) {
                   tm.delete();
                 }
-                let tim = db.get(`${message.guild.id}.settings`)
+                let tim = await db.get(`${message.guild.id}.settings`)
                 let volume = tim.volume
                 let timeout = (tIndex * 60000);
                 db.set(`${message.guild.id}.settings`, {volume: volume, timeout: timeout})
