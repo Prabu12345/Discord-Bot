@@ -380,7 +380,7 @@ module.exports = class PlayCommand extends Command {
     } else if (message.guild.musicData.isPlaying == true) {
       const addvideoEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`**${videos.title}** added to queue`)
+      .setDescription(`**${videos[0].title}** added to queue`)
       message.say(addvideoEmbed);
       return;
     }
