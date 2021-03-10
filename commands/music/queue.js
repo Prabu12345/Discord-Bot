@@ -91,7 +91,7 @@ module.exports = class QueueCommand extends Command {
     });
 
     collector.on("end", (reaction, user) => { 
-      reaction.message.reactions.removeAll();
+      queueEmbed.reactions.removeAll();
     });
   }
 };
