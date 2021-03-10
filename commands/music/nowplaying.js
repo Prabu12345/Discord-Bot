@@ -49,7 +49,7 @@ module.exports = class NowPlayingCommand extends Command {
     message.channel.send(videoEmbed);
     return;
   }
-  static playbackBar(message, video) {
+  static async playbackBar(message, video) {
     const passedTimeInMS = (message.guild.musicData.songDispatcher.streamTime + (message.guild.musicData.seek * 1000)).toFixed(0);
     const passedTimeInMSObj = {
       seconds: Math.floor((passedTimeInMS / 1000) % 60),
@@ -100,7 +100,7 @@ module.exports = class NowPlayingCommand extends Command {
     return playBack;
   }
   // prettier-ignore
-  static formatDuration(durationObj) {
+  static async formatDuration(durationObj) {
       const duration = `${durationObj.hours ? (durationObj.hours + ':') : ''}${
         durationObj.minutes ? durationObj.minutes : '00'
       }:${
