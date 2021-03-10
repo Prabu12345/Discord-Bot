@@ -39,10 +39,10 @@ module.exports = class NowPlayingCommand extends Command {
     const videoEmbed = new MessageEmbed()
       .setThumbnail(video.thumbnail)
       .setColor(normalcolor)
-      .setAuthor(`:musical_note: Now Playing`, message.member.user.avatarURL('webp', false, 16))
-      .setTitle(`[${video.title}](${video.url})`)
-      .setDescription(description)
-      .addField('Music Settings' ,`Volume ${vol.volume}% | Loop ${message.guild.musicData.loop}`)
+      .setAuthor(`Now Playing`, message.member.user.avatarURL('webp', false, 16))
+      .setTitle(`:musical_note: ${video.title}`)
+      .setDescription(`${description}\n Volume ${vol.volume}% | Loop ${message.guild.musicData.loop}`)
+      .setURL(video.url)
       .setFooter(
         `Requested by ${video.memberDisplayName}`
       );
