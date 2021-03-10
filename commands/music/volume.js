@@ -68,7 +68,7 @@ module.exports = class VolumeCommand extends Command {
       return message.say(volumeEmbed);
     } else {
       const volume = wantedVolume;
-      db.set(`${message.guild.id}.settings`, {volume: volume})
+      db.set(`${message.guild.id}.settings`, [{volume: volume, timeout: vol[0].timeout}])
       message.guild.musicData.songDispatcher.setVolume(volume / 100);
       const volumeEmbed = new MessageEmbed()
         .setColor(normalcolor)
