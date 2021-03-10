@@ -313,13 +313,16 @@ module.exports = class PlayCommand extends Command {
     // This if statement checks if the user entered a youtube url, it can be any kind of youtube url
     if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
       message.channel.send(`:mag_right:Searching \`${query}\``);
-      const video = await youtube.getVideo(query).catch(function() {
-        const errvideoEmbed = new MessageEmbed()
-        .setColor(errorcolor)
-        .setDescription('There was a problem getting the video you provided!')
-        message.say(errvideoEmbed);
-        return;
+      query = query
+        .replace(/(>|<)/gi, '')
+        .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+      const id = query[2].split(/[^0-9a-z_\-]/i)[0];
+      let failedToGetVideo = false;
+      const video = await gch.getVideoByID(id).catch(function() {
+        message.say(':x: There was a problem getting the video you provided!');
+        failedToGetVideo = true;
       });
+      if (failedToGetVideo) return;
       // can be uncommented if you don't want the bot to play live streams
       // if (video.raw.snippet.liveBroadcastContent === 'live') {
       //   return message.say("I don't support live streams!");
@@ -335,7 +338,7 @@ module.exports = class PlayCommand extends Command {
       //   );
       // }
       message.guild.musicData.queue.push(
-        PlayCommand.constructSongObj(video, voiceChannel, message.member.user)
+        PlayCommand.constructSongObj1(video, voiceChannel, message.member.user)
       );
       if (
         message.guild.musicData.isPlaying == false ||
@@ -346,7 +349,10 @@ module.exports = class PlayCommand extends Command {
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`**${video.title}** added to queue`)
+        .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
+        .setTitle(`:musical_note: [${video.title}](${video.url})`)
+        .addField(`Potition `,`#${message.guild.musicData.queue.length} in queue`)
+        .setThumbnail(video.thumbnails.high.url)
         message.say(addvideoEmbed);
         return;
       }
@@ -380,9 +386,13 @@ module.exports = class PlayCommand extends Command {
       message.guild.musicData.isPlaying = true;
       PlayCommand.playSong(message.guild.musicData.queue, message, 0);
     } else if (message.guild.musicData.isPlaying == true) {
+      let url = `https://youtube.com/watch?v=${videos[0].id}`;
       const addvideoEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`**${videos[0].title}** added to queue`)
+      .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
+      .setTitle(`:musical_note: [${videos[0].title}](${url})`)
+      .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
+      .setThumbnail(videos[0].thumbnail.url)
       message.say(addvideoEmbed);
       return;
     }
