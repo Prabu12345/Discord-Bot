@@ -4,8 +4,9 @@ const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net
 module.exports = async (client, guild) => {
     let new1 = await db.get(guild.id)
     if (!new1) {
-        db.set(guild.id, { settingss: [] })
-        db.set(`${guild.id}.settingss`, { volume: 50, timeout: 60000 })
+        db.set(guild.id, {
+            settings: [{ volume: 50, timeout: 60000 }]
+          });
         console.log(`I have joined to ${guild.name}`);
     } else {
     }

@@ -24,9 +24,9 @@ module.exports = class CreatePlaylistCommand extends Command {
     // check if the user exists in the db
     let new1 = await db.get(message.member.id)
     if (!new1) {
-      db.createModel(message.member.id)
-      db.set(message.member.id, { savedPlaylist: [] })
-      db.push(`${message.member.id}.savedPlaylist`, { name: playlistName, urls: [] })
+      db.set(message.member.id, {
+        savedPlaylist: [{ name: playlistName, urls: [] }]
+      });
       message.reply(`Created a new playlist named **${playlistName}**`);
       return;
     }
