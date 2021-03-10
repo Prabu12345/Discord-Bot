@@ -36,13 +36,11 @@ module.exports = class LeaveCommand extends Command {
       message.say(errleaveEmbed);
       return;
     }
-      voiceChannel.join().then(connection => {
-        // Yay, it worked!
-        message.react('👌')
-        console.log(`Successfully connected To voice channel in ${message.guild.name}`);
-      }).catch(err => {
-        console.error(err)
-      })
-      return;
+    try {
+      voiceChannel.join()
+      message.react('👌')
+    } catch {
+      return message.reply(':x Something went wrong when joining channels');
+    }
   }
 };
