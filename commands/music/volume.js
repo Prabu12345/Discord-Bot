@@ -33,7 +33,6 @@ module.exports = class VolumeCommand extends Command {
   }
 
   run(message, { wantedVolume }) {
-    db.get(`${message.guild.id}.settings`).then(console.log);
     const voiceChannel = message.member.voice.channel;
     const errvolumeEmbed = new MessageEmbed()
     .setColor(errorcolor)
@@ -65,7 +64,7 @@ module.exports = class VolumeCommand extends Command {
     if(wantedVolume == ''){
       const volumeEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`The Volume now is **${vol.volume}%**, ${message.author}`)
+      .setDescription(`The Volume now is **${vol[0].volume}%**, ${message.author}`)
       return message.say(volumeEmbed);
     } else {
       const volume = wantedVolume;
