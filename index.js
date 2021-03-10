@@ -136,8 +136,8 @@ client.on('voiceStateUpdate', async (___, newState) => {
 client.login(process.env.token);
 
 var t;
-function rrun(newState) { 
-  let timeout = db.get(`${newState.guild.id}.settings`)
+async function rrun(newState) { 
+  let timeout = await db.get(`${newState.guild.id}.settings`)
   t = setTimeout(() => {
     newState.guild.musicData.loop = 'off';
     newState.guild.musicData.seek = 0;

@@ -1,6 +1,8 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
+const { Database } = require("quickmongo");
+const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
 module.exports = class LeaveCommand extends Command {
   constructor(client) {
@@ -66,7 +68,8 @@ module.exports = class LeaveCommand extends Command {
                 if (vm) {
                   vm.delete();
                 }
-                message.guild.musicData.volume = vIndex
+                let vol = await db.get(`${message.guild.id}.settings`)
+                vol.volume = vIndex
                 const volumeEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The volume set to **${vIndex}%**, ${message.author}`)
@@ -105,7 +108,8 @@ module.exports = class LeaveCommand extends Command {
                 if (tm) {
                   tm.delete();
                 }
-                message.guild.musicData.timeout = (tIndex * 60000);
+                let tim = db.get(`${message.guild.id}.settings`)
+                tim.timeout = (tIndex * 60000);
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The timeout set to **${tIndex} Minutes**, ${message.author}`)

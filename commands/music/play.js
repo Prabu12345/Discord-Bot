@@ -408,7 +408,7 @@ module.exports = class PlayCommand extends Command {
     } else {
       playtype = ytdl(queue[0].url, { quality: `highestaudio`, filter: () => ['251'], highWaterMark: 1 << 25 })
     }*/
-    let vol = db.get(`${message.guild.id}.settings`)
+    let vol = await db.get(`${message.guild.id}.settings`)
     queue[0].voiceChannel
       .join()
       .then(function(connection) {
