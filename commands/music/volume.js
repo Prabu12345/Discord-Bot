@@ -60,7 +60,7 @@ module.exports = class VolumeCommand extends Command {
       message.say(errvolumeEmbed)
       return;
     }
-    let vol = db.get(`${message.guild.id}.settings`)
+    let vol = await db.get(`${message.guild.id}.settings`)
     if(wantedVolume == ''){
       const volumeEmbed = new MessageEmbed()
       .setColor(normalcolor)
