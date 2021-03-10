@@ -1,6 +1,8 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { normalcolor, errorcolor } = require('../../config.json')
+const { Database } = require("quickmongo");
+const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
 module.exports = class VolumeCommand extends Command {
   constructor(client) {
@@ -58,14 +60,15 @@ module.exports = class VolumeCommand extends Command {
       message.say(errvolumeEmbed)
       return;
     }
+    let vol = db.get(`${message.guild.id}.settings`)
     if(wantedVolume == ''){
       const volumeEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`The Volume now is **${message.guild.musicData.volume}%**, ${message.author}`)
+      .setDescription(`The Volume now is **${vol.volume}%**, ${message.author}`)
       return message.say(volumeEmbed);
     } else {
       const volume = wantedVolume;
-      message.guild.musicData.volume = volume;
+      db.set(`${message.guild.id}.settings`, {volume: volume})
       message.guild.musicData.songDispatcher.setVolume(volume / 100);
       const volumeEmbed = new MessageEmbed()
         .setColor(normalcolor)
