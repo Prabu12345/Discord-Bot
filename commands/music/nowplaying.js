@@ -40,16 +40,16 @@ module.exports = class NowPlayingCommand extends Command {
       .setThumbnail(video.thumbnail)
       .setColor(normalcolor)
       .setAuthor(`:musical_note: Now Playing`, message.member.user.avatarURL('webp', false, 16))
-      .setDescription(`[${video.title}](${video.url})`)
+      .setTitle(`[${video.title}](${video.url})`)
+      .setDescription(description)
       .addField('Music Settings' ,`Volume ${vol.volume}% | Loop ${message.guild.musicData.loop}`)
-      .addField('Duration', description)
       .setFooter(
         `Requested by ${video.memberDisplayName}`
       );
     message.channel.send(videoEmbed);
     return;
   }
-  static async playbackBar(message, video) {
+  static playbackBar(message, video) {
     const passedTimeInMS = (message.guild.musicData.songDispatcher.streamTime + (message.guild.musicData.seek * 1000)).toFixed(0);
     const passedTimeInMSObj = {
       seconds: Math.floor((passedTimeInMS / 1000) % 60),
@@ -100,7 +100,7 @@ module.exports = class NowPlayingCommand extends Command {
     return playBack;
   }
   // prettier-ignore
-  static async formatDuration(durationObj) {
+  static formatDuration(durationObj) {
       const duration = `${durationObj.hours ? (durationObj.hours + ':') : ''}${
         durationObj.minutes ? durationObj.minutes : '00'
       }:${

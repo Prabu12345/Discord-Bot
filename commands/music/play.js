@@ -353,6 +353,7 @@ module.exports = class PlayCommand extends Command {
         .setTitle(`:musical_note: [${video.title}](${video.url})`)
         .addField(`Potition `,`#${message.guild.musicData.queue.length} in queue`)
         .setThumbnail(video.thumbnails.high.url)
+        .setURL(video.url)
         message.say(addvideoEmbed);
         return;
       }
@@ -390,9 +391,10 @@ module.exports = class PlayCommand extends Command {
       const addvideoEmbed = new MessageEmbed()
       .setColor(normalcolor)
       .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-      .setTitle(`:musical_note: [${videos[0].title}](${url})`)
+      .setTitle(`:musical_note: ${videos[0].title}`)
       .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
       .setThumbnail(videos[0].thumbnail.url)
+      .setURL(url)
       message.say(addvideoEmbed);
       return;
     }
