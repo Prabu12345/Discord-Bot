@@ -33,7 +33,7 @@ module.exports = class VolumeCommand extends Command {
   }
 
   run(message, { wantedVolume }) {
-    let vol = db.get(`${message.guild.id}.settings`).then(console.log);
+    db.get(`${message.guild.id}.settings`).then(console.log);
     const voiceChannel = message.member.voice.channel;
     const errvolumeEmbed = new MessageEmbed()
     .setColor(errorcolor)
