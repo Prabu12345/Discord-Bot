@@ -1,6 +1,8 @@
 const { MessageEmbed } = require('discord.js');
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
+const { Database } = require("quickmongo");
+const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
 module.exports = class NowPlayingCommand extends Command {
   constructor(client) {
@@ -33,13 +35,13 @@ module.exports = class NowPlayingCommand extends Command {
     } else {
       description = NowPlayingCommand.playbackBar(message, video);
     }
-
+    let vol = await db.get(`${message.guild.id}.settings`);
     const videoEmbed = new MessageEmbed()
       .setThumbnail(video.thumbnail)
       .setColor(normalcolor)
       .setTitle(`Now Playing`, message.member.user.avatarURL('webp', false, 16))
       .setDescription(`[${video.title}](${video.url})`)
-      .addField('Music Settings' ,`Volume ${message.guild.musicData.volume}% | Loop ${message.guild.musicData.loop}`)
+      .addField('Music Settings' ,`Volume ${vol.volume}% | Loop ${message.guild.musicData.loop}`)
       .addField('Duration', description)
       .setFooter(
         `Requested by ${video.memberDisplayName}`

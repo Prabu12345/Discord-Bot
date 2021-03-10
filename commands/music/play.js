@@ -495,7 +495,7 @@ module.exports = class PlayCommand extends Command {
             message.say(`Cannot play ${queue[0].title} song`);
             queue.shift();
             console.error(e);
-            PlayCommand.playSong(queue, message, 0);
+            if (queue) PlayCommand.playSong(queue, message, 0);
             return;
           });
       })
