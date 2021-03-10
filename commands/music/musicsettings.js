@@ -70,7 +70,7 @@ module.exports = class LeaveCommand extends Command {
                   vm.delete();
                 }
                 let vol = await db.get(`${message.guild.id}.settings`)
-                db.set(`${message.guild.id}.settings`, {volume: vIndex, timeout: tim.timeout})
+                db.set(`${message.guild.id}.settings`, {volume: vIndex, timeout: vol.timeout})
                 const volumeEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The volume set to **${vIndex}%**, ${message.author}`)
@@ -110,8 +110,9 @@ module.exports = class LeaveCommand extends Command {
                   tm.delete();
                 }
                 let tim = db.get(`${message.guild.id}.settings`)
+                let volume = tim.volume
                 tim.timeout = (tIndex * 60000);
-                db.set(`${message.guild.id}.settings`, {volume: tim.volume, timeout: tim.timeout})
+                db.set(`${message.guild.id}.settings`, {volume: volume, timeout: tim.timeout})
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The timeout set to **${tIndex} Minutes**, ${message.author}`)
