@@ -41,7 +41,7 @@ module.exports = class NowPlayingCommand extends Command {
       .setColor(normalcolor)
       .setAuthor(`Now Playing`, message.member.user.avatarURL('webp', false, 16))
       .setTitle(`:musical_note: ${video.title}`)
-      .setDescription(`${description}\n Volume ${vol.volume}% | Loop ${message.guild.musicData.loop}`)
+      .setDescription(`${description}\n\n**Volume** ${vol.volume}% | **Loop** ${message.guild.musicData.loop}`)
       .setURL(video.url)
       .setFooter(
         `Requested by ${video.memberDisplayName}`
