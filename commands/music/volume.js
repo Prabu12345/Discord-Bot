@@ -32,7 +32,7 @@ module.exports = class VolumeCommand extends Command {
     });
   }
 
-  run(message, { wantedVolume }) {
+  async run(message, { wantedVolume }) {
     const voiceChannel = message.member.voice.channel;
     const errvolumeEmbed = new MessageEmbed()
     .setColor(errorcolor)
