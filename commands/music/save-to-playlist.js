@@ -99,6 +99,7 @@ module.exports = class SaveToPlaylistCommand extends Command {
         message.reply('The playlists was successfully saved!');
       } else {
         urlsArrayClone.push(processedURL);
+        if (!urlsArrayClone) return;
         savedPlaylistsClone[location].urls = urlsArrayClone;
         message.reply(
           `I added **${
