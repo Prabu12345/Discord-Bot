@@ -31,6 +31,10 @@ module.exports = class CreatePlaylistCommand extends Command {
       return;
     }
     let new2 = await db.get(`${message.member.id}.savedPlaylist`)
+    if(new2.length >= 8){
+      message.channel.send('There is already reached limit of playlist, you can\'t add more!');
+      return;
+    }
     // make sure the playlist name isn't a duplicate
     for (let i = 0; i < new2.length; i++) {
         if (

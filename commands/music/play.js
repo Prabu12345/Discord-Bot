@@ -22,7 +22,7 @@ module.exports = class PlayCommand extends Command {
       aliases: ['p', 'add'],
       memberName: 'play',
       group: 'music',
-      description: 'Play any song or playlist from youtube or spotify',
+      description: 'Play any song or playlist from youtube and spotify',
       guildOnly: true,
       clientPermissions: ['SPEAK', 'CONNECT'],
       throttling: {
@@ -129,7 +129,7 @@ module.exports = class PlayCommand extends Command {
       return message.say(errvideoEmbed);
       }
       const tracks = []
-      message.channel.send(`:mag_right: **Searching** \`${query}\``);
+      message.channel.send(`:mag_right: **Searching** \`${query}\` `);
       for (let i = 0; i < playlist.tracks.items.length; i++) {
         const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
         const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {

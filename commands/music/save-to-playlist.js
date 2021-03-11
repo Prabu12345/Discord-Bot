@@ -82,6 +82,10 @@ module.exports = class SaveToPlaylistCommand extends Command {
     }
     if (found) {
       let urlsArrayClone = savedPlaylistsClone[location].urls;
+      if(urlsArrayClone.length > 99){
+        message.channel.send('There is already reached limit of playlist, you can\'t add more!');
+        return;
+      }
       const processedURL = await SaveToPlaylistCommand.processURL(url, message);
       if (Array.isArray(processedURL)) {
         urlsArrayClone = urlsArrayClone.concat(processedURL);
