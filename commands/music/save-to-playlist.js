@@ -208,28 +208,32 @@ module.exports = class SaveToPlaylistCommand extends Command {
         message.reply(':x: Playlist is either private or it does not exist!');
         return;
       });
-      const videosArr = await playlist.getVideos().catch(function() {
-        message.reply(
-          ':x: There was a problem getting one of the videos in the playlist!'
-        );
-        return;
-      });
-      let urlsArr = [];
-      for (let i = 0; i < videosArr.length; i++) {
-        if (videosArr[i].raw.status.privacyStatus == 'private') {
-          continue;
-        } else {
-          try {
-            const video = await videosArr[i].fetch();
-            urlsArr.push(
-              SaveToPlaylistCommand.constructSongObj(video, message.member.user)
-            );
-          } catch (err) {
-            return console.error(err);
+      if (playlist) {
+        const videosArr = await playlist.getVideos().catch(function() {
+          message.reply(
+            ':x: There was a problem getting one of the videos in the playlist!'
+          );
+          return;
+        });
+        let urlsArr = [];
+        for (let i = 0; i < videosArr.length; i++) {
+          if (videosArr[i].raw.status.privacyStatus == 'private') {
+            continue;
+          } else {
+            try {
+              const video = await videosArr[i].fetch();
+              urlsArr.push(
+                SaveToPlaylistCommand.constructSongObj(video, message.member.user)
+              );
+            } catch (err) {
+              return console.error(err);
+            }
           }
         }
+        return urlsArr;
+      } else {
+        return;
       }
-      return urlsArr;
     }
     url = url
       .replace(/(>|<)/gi, '')
