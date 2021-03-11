@@ -7,5 +7,6 @@
     "SOUNDCLOUD_CLIENT_ID": "",
     "geniusLyricsAPI": "ZD_lLHBwRlRRfQvVLAnHKHksDHQv9W1wm1ZAByPaYo1o2NuAw6v9USBUI1vEssjq",
     "normalcolor": "#89CFF0",
-    "errorcolor": "#ff7373"
+    "errorcolor": "#ff7373",
+    "playlistslimit": 100
   }

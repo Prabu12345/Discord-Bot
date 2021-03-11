@@ -71,6 +71,7 @@ module.exports = class SaveToPlaylistCommand extends Command {
       message.reply('You have zero saved playlists!');
       return;
     }
+    message.channel.send(`:mag_right: **Searching** \`${url}\``);
     let found = false;
     let location;
     for (let i = 0; i < savedPlaylistsClone.length; i++) {
@@ -82,8 +83,9 @@ module.exports = class SaveToPlaylistCommand extends Command {
     }
     if (found) {
       let urlsArrayClone = savedPlaylistsClone[location].urls;
+      let items = urlsArrayClone
       if(urlsArrayClone.length > 99){
-        message.channel.send('There is already reached limit of playlist, you can\'t add more!');
+        message.reply(`There is already reached limit of playlist`);
         return;
       }
       const processedURL = await SaveToPlaylistCommand.processURL(url, message);
@@ -93,6 +95,10 @@ module.exports = class SaveToPlaylistCommand extends Command {
         message.reply('The playlists was successfully saved!');
       } else {
         urlsArrayClone.push(processedURL);
+        if((items.length + urlsArrayClone.length) > 99){
+          message.reply(`This playlists are more than limit of playlists!`);
+          return;
+        }
         savedPlaylistsClone[location].urls = urlsArrayClone;
         message.reply(
           `I added **${
