@@ -90,6 +90,7 @@ module.exports = class SaveToPlaylistCommand extends Command {
       }
       const processedURL = await SaveToPlaylistCommand.processURL(url, message);
       if (Array.isArray(processedURL)) {
+        if (!processedURL) return;
         if((items.length + processedURL.length) > 99){
           message.reply(`This playlists are more than limit of playlists!`);
           return;
@@ -98,8 +99,8 @@ module.exports = class SaveToPlaylistCommand extends Command {
         savedPlaylistsClone[location].urls = urlsArrayClone;
         message.reply('The playlists was successfully saved!');
       } else {
+        if (!processedURL) return;
         urlsArrayClone.push(processedURL);
-        if (!urlsArrayClone) return;
         savedPlaylistsClone[location].urls = urlsArrayClone;
         message.reply(
           `I added **${
