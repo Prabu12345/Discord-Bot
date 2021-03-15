@@ -13,6 +13,7 @@ module.exports = class LeaveCommand extends Command {
       memberName: 'musicsettings',
       guildOnly: true,
       description: 'To settings music',
+      userPermissions: ['MANAGE_CHANNELS'],
       throttling: {
         usages: 1,
         duration: 30
@@ -22,9 +23,6 @@ module.exports = class LeaveCommand extends Command {
 
   async run(message) {
     let role = await message.guild.roles.cache.find(role => role.name.toLowerCase() === 'DJ');
-    let perm = message.member.hasPermission('MANAGE_CHANNELS')
-    let perm2 = message.member.hasPermission('ADMINISTRATOR')
-    if (!role || !perm || !perm2) return message.reply('You dont have permission `MANAGE_CHANNELS or ADMINISTRATOR` or DJ role to use this commands');
     let all = await db.get(`${message.guild.id}.settings`)
     let np
     if (all.maxvolume == false) {
@@ -38,7 +36,7 @@ module.exports = class LeaveCommand extends Command {
       .setTitle('Choose a music settings by commenting a number between 1 and 2')
       .setDescription(`1. Update max volume - **${all.volume}% (100 - 200)**\n
       2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
-      3. Automatically show now playing - ${np}`
+      3. Automatically show now playing - **${np}**`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
