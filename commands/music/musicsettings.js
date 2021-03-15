@@ -25,7 +25,7 @@ module.exports = class LeaveCommand extends Command {
     let role = await message.guild.roles.cache.find(role => role.name.toLowerCase() === 'DJ');
     let all = await db.get(`${message.guild.id}.settings`)
     let np
-    if (all.maxvolume == false) {
+    if (all.nowplaying == false) {
       np = 'disable'
     } else {
       np = 'enable'
@@ -151,10 +151,10 @@ module.exports = class LeaveCommand extends Command {
           }
           if (all.nowplaying == false) {
             db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: true, timeout: all.timeout})
-            message.say(`Automatically show now play ${all.nowplaying}`)
+            message.say(`Automatically show now play **enable**`)
           } else {
             db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: false, timeout: all.timeout})
-            message.say(`Automatically show now play ${all.nowplaying}`)
+            message.say(`Automatically show now play **disable**`)
           }
         }
       })
