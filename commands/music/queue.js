@@ -86,7 +86,7 @@ module.exports = class QueueCommand extends Command {
         await reaction.users.remove(message.author.id);
       } catch (error) {
         console.error(error);
-        return message.channel.send(error.message + ', Please give me Permission to access **ADD_REACTIONS**').catch(console.error);
+        return message.channel.send(error.message + ', Please give me **MANAGE_MESSAGES** to delete a reaction').catch(console.error);
       }
     });
 

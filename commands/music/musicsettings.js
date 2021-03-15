@@ -21,12 +21,24 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
+    let role = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'DJ');
+    let perm = message.member.hasPermission('MANAGE_CHANNELS')
+    let perm2 = message.member.hasPermission('ADMINISTRATOR')
+    if (!role || !perm || !perm2) return message.reply('You dont have permission `MANAGE_CHANNELS or ADMINISTRATOR` or DJ role to use this commands');
     let all = await db.get(`${message.guild.id}.settings`)
+    let np
+    if (all.maxvolume == false) {
+      np = 'disable'
+    } else {
+      np = 'enable'
+    }
     const embed = new MessageEmbed()
       .setColor(normalcolor)
+      .setAuthor('')
       .setTitle('Choose a music settings by commenting a number between 1 and 2')
-      .setDescription(`1. Update max volume - **${all.volume}% (1 - 100)**\n
-      2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**`
+      .setDescription(`1. Update max volume - **${all.volume}% (100 - 200)**\n
+      2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
+      3. Automatically show now playing - ${np}`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
@@ -51,11 +63,11 @@ module.exports = class LeaveCommand extends Command {
           if (songEmbed) {
             songEmbed.delete();
           }
-          var vm = await message.channel.send('What do you want to set the volume to?');
+          var vm = await message.channel.send('What do you want to set max volume to?');
           message.channel
             .awaitMessages(
               async function(msg) {
-                return (msg.content > 0 && msg.content < 101) || msg.content === 'cancel';
+                return (msg.content > 99 && msg.content < 201) || msg.content === 'cancel';
               },
               {
                 max: 1,
@@ -65,15 +77,15 @@ module.exports = class LeaveCommand extends Command {
             )
             .then(async function(response) {
               const vIndex = parseInt(response.first().content);
-              if (vIndex > 0 && vIndex < 101) {
+              if (vIndex > 99 && vIndex < 201) {
                 if (vm) {
                   vm.delete();
                 }
                 let vol = await db.get(`${message.guild.id}.settings`)
-                db.set(`${message.guild.id}.settings`, {volume: vIndex, timeout: vol.timeout})
+                db.set(`${message.guild.id}.settings`, {volume: vIndex, maxvolume: vol.maxvolume, nowplaying: vol.nowplaying, timeout: vol.timeout})
                 const volumeEmbed = new MessageEmbed()
                   .setColor(normalcolor)
-                  .setDescription(`The volume set to **${vIndex}%**, ${message.author}`)
+                  .setDescription(`Max volume set to **${vIndex}%**, ${message.author}`)
                 message.say(volumeEmbed);
               }
             })
@@ -111,8 +123,10 @@ module.exports = class LeaveCommand extends Command {
                 }
                 let tim = await db.get(`${message.guild.id}.settings`)
                 let volume = tim.volume
+                let maxvolume = tim.maxvolume
+                let np = tim.nowplaying
                 let timeout = (tIndex * 60000);
-                db.set(`${message.guild.id}.settings`, {volume: volume, timeout: timeout})
+                db.set(`${message.guild.id}.settings`, {volume: volume, maxvolume: maxvolume, nowplaying: np, timeout: timeout})
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The timeout set to **${tIndex} Minutes**, ${message.author}`)
@@ -133,6 +147,17 @@ module.exports = class LeaveCommand extends Command {
               message.say(errvideoEmbed);
               return;
             });
+        } else if (mIndex = 3) {
+          if (songEmbed) {
+            songEmbed.delete();
+          }
+          if (all.nowplaying == false) {
+            db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: true, timeout: all.timeout})
+            message.say(`Automatically show now play ${all.nowplaying}`)
+          } else {
+            db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: false, timeout: all.timeout})
+            message.say(`Automatically show now play ${all.nowplaying}`)
+          }
         }
       })
       .catch(async function() {

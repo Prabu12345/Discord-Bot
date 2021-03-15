@@ -33,6 +33,7 @@ module.exports = class VolumeCommand extends Command {
   }
 
   async run(message, { wantedVolume }) {
+    let vol = await db.get(`${message.guild.id}.settings`)
     const voiceChannel = message.member.voice.channel;
     const errvolumeEmbed = new MessageEmbed()
     .setColor(errorcolor)
@@ -53,14 +54,13 @@ module.exports = class VolumeCommand extends Command {
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errvolumeEmbed);
       return;
-    } else if (wantedVolume > 100) {
+    } else if (wantedVolume > vol.maxvolume) {
       const errvolumeEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('You cant set the volume above 100%')
+      .setDescription(`You cant set the volume above ${vol.maxvolume}%`)
       message.say(errvolumeEmbed)
       return;
     }
-    let vol = await db.get(`${message.guild.id}.settings`)
     if(wantedVolume == ''){
       const volumeEmbed = new MessageEmbed()
       .setColor(normalcolor)
@@ -68,7 +68,7 @@ module.exports = class VolumeCommand extends Command {
       return message.say(volumeEmbed);
     } else {
       const volume = wantedVolume;
-      db.set(`${message.guild.id}.settings`, {volume: volume, timeout: vol.timeout})
+      db.set(`${message.guild.id}.settings`, {volume: volume, maxvolume: vol.maxvolume, nowplaying: vol.nowplaying, timeout: vol.timeout})
       message.guild.musicData.songDispatcher.setVolume(volume / 100);
       const volumeEmbed = new MessageEmbed()
         .setColor(normalcolor)

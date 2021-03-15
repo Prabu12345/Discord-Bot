@@ -535,7 +535,11 @@ module.exports = class PlayCommand extends Command {
         queue[0].memberAvatar
       );
     if (message.guild.musicData.seek == 0) {
-      var playingMessage = await message.channel.send(videoEmbed);
+      if (vol.nowplaying == true) {
+        var playingMessage = await message.channel.send(videoEmbed);
+      } else {
+        return;
+      }
     
       const filter = (user) => user.id !== message.client.user.id;
       var collector = playingMessage.createReactionCollector(filter, {

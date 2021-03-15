@@ -29,7 +29,7 @@ module.exports = class DisplayPlaylistCommand extends Command {
         const urlsArray = userPlaylists[userPlaylists.indexOf(found)].urls;
         if (!urlsArray.length) {
             message.reply(
-              `'${playlistName}' playlist is empty, add songs to it before attempting to play it`
+              `\`${playlistName}\` playlist is empty, add songs to it before attempting to play it`
             );
             return;
         }
@@ -40,6 +40,7 @@ module.exports = class DisplayPlaylistCommand extends Command {
             message.reply(`🎵 **${query}** added ${urlsArray.length} songs to the queue!`);
         } else if (!message.guild.musicData.isPlaying) {
             message.guild.musicData.isPlaying = true;
+            message.reply(`🎵 **${query}** added ${urlsArray.length} songs to the queue!`);
             playSong(message.guild.musicData.queue, message, 0);
         }   
     } else {
