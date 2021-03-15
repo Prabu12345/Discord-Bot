@@ -145,7 +145,7 @@ module.exports = class LeaveCommand extends Command {
               message.say(errvideoEmbed);
               return;
             });
-        } else if (mIndex = 3) {
+        } else if (mIndex == 3) {
           if (songEmbed) {
             songEmbed.delete();
           }
