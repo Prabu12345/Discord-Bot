@@ -34,7 +34,7 @@ module.exports = class LeaveCommand extends Command {
       .setColor(normalcolor)
       .setAuthor('')
       .setTitle('Choose a music settings by commenting a number between 1 and 2')
-      .setDescription(`1. Update max volume - **${all.volume}% (100 - 200)**\n
+      .setDescription(`1. Update max volume - **${all.maxvolume}% (100 - 200)**\n
       2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
       3. Automatically show now playing - **${np}**`
       )
