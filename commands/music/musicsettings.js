@@ -21,7 +21,7 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
-    let role = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'DJ');
+    let role = await message.guild.roles.cache.find(role => role.name.toLowerCase() === 'DJ');
     let perm = message.member.hasPermission('MANAGE_CHANNELS')
     let perm2 = message.member.hasPermission('ADMINISTRATOR')
     if (!role || !perm || !perm2) return message.reply('You dont have permission `MANAGE_CHANNELS or ADMINISTRATOR` or DJ role to use this commands');
