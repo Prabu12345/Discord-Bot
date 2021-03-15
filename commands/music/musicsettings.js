@@ -43,7 +43,7 @@ module.exports = class LeaveCommand extends Command {
     message.channel
       .awaitMessages(
         function(msg) {
-          return (msg.content > 0 && msg.content < 3) || msg.content === 'exit';
+          return (msg.content > 0 && msg.content < 4) || msg.content === 'exit';
         },
         {
           max: 1,
