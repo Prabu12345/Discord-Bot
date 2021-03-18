@@ -10,6 +10,7 @@ module.exports = class PruneCommand extends Command {
       memberName: 'prune',
       guildOnly: true,
       userPermissions: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
+      clientPermissions: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
       args: [
         {
           key: 'deleteCount',
