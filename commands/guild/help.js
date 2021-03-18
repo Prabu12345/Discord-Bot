@@ -77,8 +77,8 @@ module.exports = class BanCommand extends Command {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
 		.setTitle(`${commands[0].name.toUpperCase()} - ${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}`)
-		  if (!commands || !commands && message.channel.type !== 'dm') return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${message.guild.commandPrefix}help\` For the List Of the Commands!**`))
 		  if (message.channel.type !== 'dm') {
+			if (commands == undefined || commands[0] == undefined) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${message.guild.commandPrefix}help\` For the List Of the Commands!**`))
 			if (commands[0].name == 'playlist') {
 				embed.setDescription(stripIndents`
 				** | Description |** 
@@ -98,6 +98,7 @@ module.exports = class BanCommand extends Command {
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
 				`)
 			} else {
+				if (commands == undefined || commands[0] == undefined) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`-help\` For the List Of the Commands!**`))
 				embed.setDescription(stripIndents`
 				**| Description |** 
 				\`${commands[0].description || "No Description provided."}\`
