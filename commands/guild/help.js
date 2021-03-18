@@ -66,7 +66,7 @@ module.exports = class BanCommand extends Command {
 		.setColor(normalcolor)
 		.setAuthor(oneLine`
 		${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}
-		`, message.member.user.avatarURL('webp', false, 16))
+		`)
 		.setTitle(`${commands[0].name.toUpperCase()}`)
 		  if (!commands || !commands && message.channel.type !== 'dm') return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${message.guild.commandPrefix}help\` For the List Of the Commands!**`))
 		  embed.setDescription(stripIndents`
