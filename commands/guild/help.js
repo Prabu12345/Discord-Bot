@@ -74,7 +74,7 @@ module.exports = class BanCommand extends Command {
 		  ** Usage -** ${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
 		  ** Detail -** ${commands[0].details || 'No Detail provided'}
 		  ** Examples -** ${commands[0].examples || 'No Examples provided'}
-		  ** Aliases -** ${commands[0].aliases || "No Aliases provided"}
+		  ** Aliases -** ${commands[0].aliases.join(', ') || "No Aliases provided"}
 		  `)
 		  if (message.channel.type !== 'dm') {
 			embed.setFooter(message.guild.name, message.guild.iconURL())
