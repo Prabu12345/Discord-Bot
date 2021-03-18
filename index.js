@@ -1,5 +1,5 @@
 const { CommandoClient } = require('discord.js-commando');
-const { Structures, VoiceChannel } = require('discord.js');
+const { Structures, Collection } = require('discord.js');
 const path = require('path');
 const { prefix, token, discord_owner_id } = require('./config.json');
 const MongoClient = require('mongodb').MongoClient;
