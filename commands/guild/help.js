@@ -64,10 +64,7 @@ module.exports = class BanCommand extends Command {
 	  } else {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
-		.setAuthor(oneLine`
-		${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}
-		`)
-		.setTitle(`${commands[0].name.toUpperCase()}`)
+		.setTitle(`${commands[0].name.toUpperCase()} - ${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}`)
 		  if (!commands || !commands && message.channel.type !== 'dm') return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${message.guild.commandPrefix}help\` For the List Of the Commands!**`))
 		  embed.setDescription(stripIndents`
 		  ** Description -** ${commands[0].description || "No Description provided."}
