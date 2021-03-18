@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, prefix } = require('../../config.json')
 const { stripIndents, oneLine } = require('common-tags')
 
 module.exports = class BanCommand extends Command {
