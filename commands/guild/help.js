@@ -38,14 +38,19 @@ module.exports = class BanCommand extends Command {
 
 	  	**| Info [2] |** 
 		  \`help\`, \`whomademe\`.
+
 		**| Music [22] |** 
 		\`clear\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
+
 	  	**| Anime [3] |** 
 		  \`animegif\`, \`gintama\`, \`jojo\`.
+
 	  	**| Fun [5] |** 
 		  \`cat\`, \`chucknorris\`, \`fortune\`, \`insult\`, \`random\`.
+
 	  	**| Guild [4] |** 
 		  \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
+
 	  	**| Other [7] |** 
 		  \`math\`, \`motivation\`, \`ping\`, \`reddit\`, \`remind\`, \`reminds\`, \`world-news\`.
 		`)
@@ -57,14 +62,19 @@ module.exports = class BanCommand extends Command {
 
 	  	**| Info [2] |** 
 		  \`help\`, \`whomademe\`.
+
 		**| Music [22] |** 
 		\`clear\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
+
 	  	**| Anime [3] |** 
 		  \`animegif\`, \`gintama\`, \`jojo\`.
+
 	  	**| Fun [5] |** 
 		  \`cat\`, \`chucknorris\`, \`fortune\`, \`insult\`, \`random\`.
+
 	  	**| Guild [4] |** 
 		  \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
+
 	  	**| Other [7] |** 
 		  \`math\`, \`motivation\`, \`ping\`, \`reddit\`, \`remind\`, \`reminds\`, \`world-news\`.
 		`)
@@ -83,9 +93,13 @@ module.exports = class BanCommand extends Command {
 				embed.setDescription(stripIndents`
 				** | Description |** 
 				\`${commands[0].description || "No Description provided."}\`
-				** | Usage |** ${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
+
+				** | Usage |** 
+				${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
+
 				** | Detail |** 
 				\`${commands[0].details || '`No Detail provided`'}\`
+
 				** | Examples |** 
 				\`${message.guild.commandPrefix}playlist\`
 				\`${message.guild.commandPrefix}playlist create music\`
@@ -94,6 +108,7 @@ module.exports = class BanCommand extends Command {
 				\`${message.guild.commandPrefix}playlist remove music 1\`
 				\`${message.guild.commandPrefix}playlist delete music\`
 				\`${message.guild.commandPrefix}playlist see\`
+
 				** | Aliases |** 
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
 				`)
@@ -102,12 +117,16 @@ module.exports = class BanCommand extends Command {
 				embed.setDescription(stripIndents`
 				**| Description |** 
 				\`${commands[0].description || "No Description provided."}\`
+				
 				**| Usage |** 
 				${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
+				
 				**| Detail |** 
 				\`${commands[0].details || '`No Detail provided`'}\`
+				
 				**| Examples |** 
 				\`${commands[0].examples || 'No Examples provided'}\`
+				
 				**| Aliases |** 
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
 				`)
@@ -118,9 +137,13 @@ module.exports = class BanCommand extends Command {
 				embed.setDescription(stripIndents`
 				** | Description |** 
 				\`${commands[0].description || "No Description provided."}\`
-				** | Usage |** ${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
+				
+				** | Usage |** 
+				${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
+				
 				** | Detail |** 
 				\`${commands[0].details || '`No Detail provided`'}\`
+				
 				** | Examples |** 
 				\`-playlist\`
 				\`-playlist create music\`
@@ -129,6 +152,7 @@ module.exports = class BanCommand extends Command {
 				\`-playlist remove music 1\`
 				\`-playlist delete music\`
 				\`-playlist see\`
+				
 				** | Aliases |** 
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
 				`)
@@ -136,12 +160,16 @@ module.exports = class BanCommand extends Command {
 				embed.setDescription(stripIndents`
 				**| Description |** 
 				\`${commands[0].description || "No Description provided."}\`
+				
 				**| Usage |** 
 				${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
+				
 				**| Detail |** 
 				\`${commands[0].details || '`No Detail provided`'}\`
+				
 				**| Examples |** 
 				\`${commands[0].examples || 'No Examples provided'}\`
+				
 				**| Aliases |** 
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
 				`)
