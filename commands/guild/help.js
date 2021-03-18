@@ -30,8 +30,9 @@ module.exports = class BanCommand extends Command {
 	if (!command) {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
-		.setAuthor(`${message.member.user.username}`, message.member.user.avatarURL('webp', false, 16))
-		.setDescription(stripIndents`
+		if (message.channel.type !== 'dm') {
+			embed.setAuthor(`${message.member.user.username}`, message.member.user.avatarURL('webp', false, 16))
+			embed.setDescription(stripIndents`
 		**For Help Related To A Particular Command Type -**
 	  	\`${message.guild.commandPrefix}help [command name | alias] Or ${this.client.user} help [command name | alias]\`
 
@@ -42,29 +43,47 @@ module.exports = class BanCommand extends Command {
 	  	**Guild [4] -** \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
 	  	**Other [7] -** \`math\`, \`motivation\`, \`ping\`, \`reddit\`, \`remind\`, \`reminds\`, \`world-news\`.
 		`)
-		.setFooter(`${message.guild.me.displayName}`, this.client.user.displayAvatarURL())
+		embed.setFooter(`${message.guild.me.displayName}`, this.client.user.displayAvatarURL())
+		} else {
+			embed.setDescription(stripIndents`
+		**For Help Related To A Particular Command Type -**
+	  	\`-help [command name | alias] Or @TaserM#3997 help [command name | alias]\`
+
+	  	**Info [2] -** \`help\`, \`whomademe\`.
+		**Music [22] -** \`clear\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
+	  	**Anime [3] -** \`animegif\`, \`gintama\`, \`jojo\`.
+	  	**Fun [5] -** \`cat\`, \`chucknorris\`, \`fortune\`, \`insult\`, \`random\`.
+	  	**Guild [4] -** \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
+	  	**Other [7] -** \`math\`, \`motivation\`, \`ping\`, \`reddit\`, \`remind\`, \`reminds\`, \`world-news\`.
+		`)
+		embed.setFooter(`${this.client.user.displayName}`, this.client.user.displayAvatarURL())
+		}
 		embed.setTimestamp()
 	  
-		message.channel.send(embed)
+		return message.channel.send(embed)
 	  } else {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
 		.setAuthor(oneLine`
-		**Group:** ${commands[0].group.name}
-		(\`${commands[0].groupID}:${commands[0].memberName}\`)
+		${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}
 		`, message.member.user.avatarURL('webp', false, 16))
-		.setTitle(`Command - ${commands[0].name}`)
-		  if (!commands) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${message.guild.commandPrefix}help\` For the List Of the Commands!**`))
+		.setTitle(`${commands[0].name.toUpperCase()}`)
+		  if (!commands || !commands && message.channel.type !== 'dm') return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${message.guild.commandPrefix}help\` For the List Of the Commands!**`))
 		  embed.setDescription(stripIndents`
 		  ** Description -** ${commands[0].description || "No Description provided."}
-		  ** Usage -** ${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : 'No Usage'}`)}
-		  ** Needed Permissions -** ${commands[0].guildOnly ? ' Usable only in servers' : ''}
-		  ** Aliases -** ${commands[0].aliases.join(', ') || "None."}
+		  ** Usage -** ${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
+		  ** Detail -** ${commands[0].details || 'No Detail provided'}
+		  ** Examples -** ${commands[0].examples.join('\n') || 'No Examples provided'}
+		  ** Aliases -** ${commands[0].aliases.join(', ') || "No Aliases provided"}
 		  `)
-		  embed.setFooter(message.guild.name, message.guild.iconURL())
+		  if (message.channel.type !== 'dm') {
+			embed.setFooter(message.guild.name, message.guild.iconURL())
+		  } else {
+
+	      }	  
 		  embed.setTimestamp()
 	  
-		  message.channel.send(embed)
+		  return message.channel.send(embed)
 	  }
   }
 };
