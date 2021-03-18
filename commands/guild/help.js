@@ -34,7 +34,7 @@ module.exports = class BanCommand extends Command {
 			embed.setAuthor(`${message.member.user.username}`, message.member.user.avatarURL('webp', false, 16))
 			embed.setDescription(stripIndents`
 		**For Help Related To A Particular Command Type -**
-	  	\`${message.guild.commandPrefix}help [command name | alias] Or ${this.client.user} help [command name | alias]\`
+	  	\`${message.guild.commandPrefix}help [command name | alias] Or @TaserM#3997 help [command name | alias]\`
 
 	  	**Info [2] -** \`help\`, \`whomademe\`.
 		**Music [22] -** \`clear\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
