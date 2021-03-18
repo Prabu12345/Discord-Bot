@@ -42,7 +42,7 @@ module.exports = class BanCommand extends Command {
 	  	**Guild [4]** - \`ban\`, \`kick\`, \`prefix\`, \`prune\`
 	  	**Other [7]** - \`math\`, \`motivation\`, \`ping\`, \`reddit\`, \`remind\`, \`reminds\`, \`world-news\`
 		`)
-		.setFooter(`${message.guild.me.displayName}`, client.user.displayAvatarURL())
+		.setFooter(`${message.guild.me.displayName}`, this.client.user.displayAvatarURL())
 		embed.setTimestamp()
 	  
 		message.channel.send(embed)
