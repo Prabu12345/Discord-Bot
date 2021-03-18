@@ -28,8 +28,8 @@ module.exports = class BanCommand extends Command {
 	const showAll = command && command.toLowerCase() === 'all';
 
 	if (!command) {
-		let gr = groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && (showAll || cmd.isUsable(message))
-		.map(cmd => `\`${cmd.name}\``).join(', ')))
+		let gr = groups.filter(grp => grp.commands.filter(cmd => !cmd.hidden && (showAll || cmd.isUsable(message))
+		).map(cmd => `\`${cmd.name}\``).join(', '))
 
 		const embed = new MessageEmbed()
 		.setColor(COLOR)
