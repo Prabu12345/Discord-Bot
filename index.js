@@ -73,14 +73,16 @@ client.cachedMessageReactions = new Map();
 client.registry
   .registerDefaultTypes()
   .registerGroups([ 
-    ['guild', ':gear: Guild related commands'],
-    ['music', ':notes: Music Command Group'],
-    ['gifs', 'Gif Command Group'],
+    ['guild', 'Guild related commands'],
+    ['music', 'Music Command Group'],
+    ['info', 'info Command Group'],
+    ['fun', 'Fun Command Group'],
     ['anime', 'Anime Command Group'],   
-    ['other', ':question: Other commands group']
+    ['other', 'Other commands group']
   ])
   .registerDefaultGroups()
   .registerDefaultCommands({
+    help: false,
     unknownCommand: false,
     eval: false,
     prefix: true,
