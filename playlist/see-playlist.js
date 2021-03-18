@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "playlist");
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor } = require('../config.json')
 const Pagination = require('discord-paginationembed');
 
 module.exports = class DisplayPlaylistCommand extends Command {
