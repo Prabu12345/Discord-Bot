@@ -56,7 +56,7 @@ module.exports = class BanCommand extends Command {
 	  	**Guild [4] -** \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
 	  	**Other [7] -** \`math\`, \`motivation\`, \`ping\`, \`reddit\`, \`remind\`, \`reminds\`, \`world-news\`.
 		`)
-		embed.setFooter(`${this.client.user.displayName}`, this.client.user.displayAvatarURL())
+		embed.setFooter(`${this.client.user.username}`, this.client.user.displayAvatarURL())
 		}
 		embed.setTimestamp()
 	  
