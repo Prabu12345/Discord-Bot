@@ -37,7 +37,7 @@ module.exports = class BanCommand extends Command {
 		.setDescription(stripIndents`
 		For Help Related To A Particular Command Type -
 	  	\`${prefix}help [command name] Or ${prefix}help [alias]**\`
-	  	Info [1] - ${gr}
+	  	Info [1] - ${gr[0]}
 	  	Anime [7] - 
 	  	Fun [13] - 
 	  	Image [10] - 
