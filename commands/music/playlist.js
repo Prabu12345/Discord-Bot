@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "playlist");
+const { playSong } = require('../commands/music/play')
 
 module.exports = class CreatePlaylistCommand extends Command {
   constructor(client) {
@@ -16,14 +17,43 @@ module.exports = class CreatePlaylistCommand extends Command {
           prompt: 'What is the name of the playlist you would like to create?',
           type: 'string',
           default: ''
-        }
+        },
+        {
+            key: 'additional',
+            prompt: 'What is the name of the playlist you would like to create?',
+            type: 'string',
+            default: ''
+          }
       ]
     });
   }
 
-  async run(message, { type }) {
+  async run(message, { type, additional }) {
     if (type.toLowerCase() == 'play') {
-        return message.client.commands.get("play-playlist").run(message, '');
+        if (additional == '') return message.channel.send('You must include a name for this playlist.')
+        const userPlaylists = await db.get(`${message.member.id}.savedPlaylist`);
+        const found = userPlaylists.find(element => element.name == additional);
+        if (found) {
+            const urlsArray = userPlaylists[userPlaylists.indexOf(found)].urls;
+            if (!urlsArray.length) {
+                message.reply(
+                  `\`${additional}\` playlist is empty, add songs to it before attempting to play it`
+                );
+                return;
+            }
+            urlsArray.map(element =>
+                message.guild.musicData.queue.push(element)
+            );
+            if (message.guild.musicData.isPlaying) {
+                message.reply(`🎵 **${additional}** added ${urlsArray.length} songs to the queue!`);
+            } else if (!message.guild.musicData.isPlaying) {
+                message.guild.musicData.isPlaying = true;
+                message.reply(`🎵 **${additional}** added ${urlsArray.length} songs to the queue!`);
+                playSong(message.guild.musicData.queue, message, 0);
+            }   
+        } else {
+            message.reply(`You have no playlist named ${additional}`)
+        }
     } else if (type.toLowerCase() == 'add') {
         return message.client.commands.get("save-to-playlist").run(message, '');
     } else if (type.toLowerCase() == 'remove') {

@@ -60,14 +60,6 @@ fs.readdir('./resources/event/', (err, files) => {
   });
 });
 
-client.commands = new Collection();
-
-const commandFiles = fs.readdirSync(path.join(__dirname, "playlist")).filter((file) => file.endsWith(".js"));
-for (const file of commandFiles) {
-  const command = require(path.join(__dirname, "playlist", `${file}`));
-  client.commands.set(command.name, command);
-}
-
 client.setProvider(
   MongoClient.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority')
   .then(client => new MongoDBProvider(client, 'guaa'))
