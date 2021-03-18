@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "playlist");
-const { playSong } = require('../music/play')
+const { playSong } = require('../commands/music/play')
 
 module.exports = class DisplayPlaylistCommand extends Command {
   constructor(client) {
