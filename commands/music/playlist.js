@@ -7,7 +7,7 @@ const Youtube = require('simple-youtube-api');
 const Youtube1 = require('youtube-sr').default;
 const Pagination = require('discord-paginationembed');
 const { Spotify } = require('spotify-info.js')
-const { youtubeAPI } = require('../config.json');
+const { youtubeAPI } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 const spotify = new Spotify({
   clientID: "540def33c9bb4c94b7d3b5bb51615624",
@@ -81,7 +81,9 @@ module.exports = class CreatePlaylistCommand extends Command {
             message.reply(`You have no playlist named ${additional}`)
         }
     } else if (type.toLowerCase() == 'add') {
+        if (additional == '') return message.channel.send('You must include a name and url for this playlist.')
         let addive = additional.split(' ');
+        if (addive[1] == '') return message.channel.send('You must include a url for this playlist.')
         const dbUserFetch = await db.get(`${message.member.id}.savedPlaylist`);
         if (!dbUserFetch) {
             message.reply('You have zero saved playlists!');
@@ -137,7 +139,9 @@ module.exports = class CreatePlaylistCommand extends Command {
             return;
         }
     } else if (type.toLowerCase() == 'remove') {
+        if (additional == '') return message.channel.send('You must include a name and index for this playlist.')
         let addimove = additional.split(' ')
+        if (addimove == '') return message.channel.send('You must include a index for this playlist.')
         const dbUserFetch = await db.get(`${message.member.id}.savedPlaylist`);
         if (!dbUserFetch) {
           message.reply('You have zero saved playlists!');
@@ -184,6 +188,7 @@ module.exports = class CreatePlaylistCommand extends Command {
           return;
         }
     } else if (type.toLowerCase() == 'create') {
+        if (additional == '') return message.channel.send('You must include a name for this playlist.')
         let new1 = await db.get(message.member.id)
         if (!new1) {
           db.set(message.member.id, {
@@ -212,6 +217,7 @@ module.exports = class CreatePlaylistCommand extends Command {
         db.push(`${message.member.id}.savedPlaylist`, { name: additional, urls: [] });
         message.reply(`Created a new playlist named **${additional}**`);
     } else if (type.toLowerCase() == 'delete') {
+        if (additional == '') return message.channel.send('You must include a name for this playlist.')
         const dbUserFetch = await db.get(message.member.id);
         if (!dbUserFetch) {
           message.reply('You have zero saved playlists!');
@@ -240,6 +246,7 @@ module.exports = class CreatePlaylistCommand extends Command {
           message.reply(`You have no playlist named ${additional}`);
         }
     } else if (type.toLowerCase() == 'see') {
+        if (additional == '') return message.channel.send('You must include a name for this playlist.')
         const dbUserFetch = await db.get(`${message.member.id}.savedPlaylist`);
         if (!dbUserFetch) {
             message.reply('You have zero saved playlists!');
