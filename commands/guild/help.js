@@ -44,7 +44,7 @@ module.exports = class BanCommand extends Command {
 	  	Music [13] - 
 	  	Other [6] - 
 		`)
-		.setFooter(`${message.guild.me.displayName} | Total Commands - ${client.commands.size - 1} Loaded`, client.user.displayAvatarURL())
+		.setFooter(`${message.guild.me.displayName} | Total Commands - ${gr.length}} Loaded`)
 		embed.setTimestamp()
 	  
 		return message.channel.send(embed)
