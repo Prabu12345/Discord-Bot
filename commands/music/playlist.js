@@ -30,6 +30,7 @@ module.exports = class CreatePlaylistCommand extends Command {
 
   async run(message, { type, additional }) {
     if (type.toLowerCase() == 'play') {
+        const voiceChannel = message.member.voice.channel;
         if (additional == '') return message.channel.send('You must include a name for this playlist.')
         if (!voiceChannel) {
             const errvideoEmbed = new MessageEmbed()
