@@ -6,7 +6,7 @@ module.exports = class RandomNumberCommand extends Command {
       name: 'random',
       aliases: ['random-number', 'number-between'],
       memberName: 'random',
-      group: 'other',
+      group: 'fun',
       description: 'Generate a random number between two provided numbers',
       args: [
         {

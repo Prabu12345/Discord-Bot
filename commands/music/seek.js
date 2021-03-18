@@ -8,9 +8,10 @@ module.exports = class SeekCommand extends Command {
     super(client, {
       name: 'seek',
       group: 'music',
+      aliases: ['set'],
       memberName: 'seek',
       guildOnly: true,
-      description: 'seek duration of music',
+      description: 'Set duration of music',
       examples: ['seek f \`1:30\`', 'seek b \`30\`', 'seek \`1:30\`', 'seek \`30\`'],
       args: [
         {

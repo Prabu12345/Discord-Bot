@@ -7,7 +7,7 @@ module.exports = class FortuneCommand extends Command {
     super(client, {
       name: 'fortune',
       aliases: ['fortune-cookie'],
-      group: 'other',
+      group: 'fun',
       memberName: 'fortune',
       description: 'Replies with a fortune cookie tip',
       throttling: {

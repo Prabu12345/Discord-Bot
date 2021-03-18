@@ -7,7 +7,7 @@ module.exports = class CatCommand extends Command {
     super(client, {
       name: 'cat',
       aliases: ['cat-pic', 'cats'],
-      group: 'other',
+      group: 'fun',
       memberName: 'cat',
       description: 'Replies with a cute cat picture',
       throttling: {
