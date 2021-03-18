@@ -32,7 +32,7 @@ module.exports = class BanCommand extends Command {
 		).map(cmd => `\`${cmd.name}\``).join(', '))
 
 		const embed = new MessageEmbed()
-		.setColor(COLOR)
+		.setColor(normalcolor)
 		.setAuthor(`${message.guild.me.displayName}`, message.member.user.avatarURL('webp', false, 16))
 		.setDescription(stripIndents`
 		For Help Related To A Particular Command Type -
@@ -50,7 +50,7 @@ module.exports = class BanCommand extends Command {
 		return message.channel.send(embed)
 	  } else {
 		const embed = new MessageEmbed()
-		.setColor(COLOR)
+		.setColor(normalcolor)
 		.setAuthor(oneLine`
 		**Group:** ${commands[0].group.name}
 		(\`${commands[0].groupID}:${commands[0].memberName}\`)
