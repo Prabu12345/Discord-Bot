@@ -7,6 +7,7 @@ const Youtube = require('simple-youtube-api');
 const Youtube1 = require('youtube-sr').default;
 const Pagination = require('discord-paginationembed');
 const { Spotify } = require('spotify-info.js')
+const { stripIndents, oneLine } = require('common-tags')
 const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 const spotify = new Spotify({
@@ -14,7 +15,7 @@ const spotify = new Spotify({
   clientSecret: "89c15cd0add944c6bef3be863b964d9f",
 });
 
-module.exports = class CreatePlaylistCommand extends Command {
+module.exports = class PlaylistCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'playlist',
@@ -83,7 +84,7 @@ module.exports = class CreatePlaylistCommand extends Command {
     } else if (type.toLowerCase() == 'add') {
         if (additional == '') return message.channel.send('You must include a name and url for this playlist.')
         let addive = additional.split(' ');
-        if (addive[1] == '') return message.channel.send('You must include a url for this playlist.')
+        if (addive[1] == undefined) return message.channel.send('You must include a url for this playlist.')
         const dbUserFetch = await db.get(`${message.member.id}.savedPlaylist`);
         if (!dbUserFetch) {
             message.reply('You have zero saved playlists!');
@@ -111,7 +112,7 @@ module.exports = class CreatePlaylistCommand extends Command {
             message.reply(`There is already reached limit of playlist`);
             return;
         }
-        const processedURL = await SaveToPlaylistCommand.processURL(addive[1], message);
+        const processedURL = await PlaylistCommand.processURL(addive[1], message);
         if (Array.isArray(processedURL)) {
             if (!processedURL) return;
                 if((items.length + processedURL.length) > 99){
@@ -141,7 +142,7 @@ module.exports = class CreatePlaylistCommand extends Command {
     } else if (type.toLowerCase() == 'remove') {
         if (additional == '') return message.channel.send('You must include a name and index for this playlist.')
         let addimove = additional.split(' ')
-        if (addimove == '') return message.channel.send('You must include a index for this playlist.')
+        if (addimove[1] == undefined) return message.channel.send('You must include a index for this playlist.')
         const dbUserFetch = await db.get(`${message.member.id}.savedPlaylist`);
         if (!dbUserFetch) {
           message.reply('You have zero saved playlists!');
