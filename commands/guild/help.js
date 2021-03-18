@@ -30,7 +30,7 @@ module.exports = class BanCommand extends Command {
 	if (!command) {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
-		.setAuthor(`${message.guild.me.displayName}`, message.member.user.avatarURL('webp', false, 16))
+		.setAuthor(`${message.member.user.username}`, message.member.user.avatarURL('webp', false, 16))
 		.setDescription(stripIndents`
 		**For Help Related To A Particular Command Type -**
 	  	\`${message.guild.commandPrefix}help [command name | alias] Or ${this.client.user} help [command name | alias]\`
@@ -59,7 +59,7 @@ module.exports = class BanCommand extends Command {
 		  ** Description -** ${commands[0].description || "No Description provided."}
 		  ** Usage -** ${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : 'No Usage'}`)}
 		  ** Needed Permissions -** ${commands[0].guildOnly ? ' Usable only in servers' : ''}
-		  ** Aliases -** ${commands[0].aliases ? commands[0].aliases.join(", ") : "None."}
+		  ** Aliases -** ${commands[0].aliases.join(', ') || "None."}
 		  `)
 		  embed.setFooter(message.guild.name, message.guild.iconURL())
 		  embed.setTimestamp()
