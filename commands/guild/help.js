@@ -73,7 +73,7 @@ module.exports = class BanCommand extends Command {
 		  ** Description -** ${commands[0].description || "No Description provided."}
 		  ** Usage -** ${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
 		  ** Detail -** ${commands[0].details || 'No Detail provided'}
-		  ** Examples -** ${commands[0].examples.join('\n') || 'No Examples provided'}
+		  ** Examples -** ${commands[0].examples.join(', ') || 'No Examples provided'}
 		  ** Aliases -** ${commands[0].aliases.join(', ') || "No Aliases provided"}
 		  `)
 		  if (message.channel.type !== 'dm') {
