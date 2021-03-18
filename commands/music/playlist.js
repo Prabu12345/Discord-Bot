@@ -31,6 +31,20 @@ module.exports = class CreatePlaylistCommand extends Command {
   async run(message, { type, additional }) {
     if (type.toLowerCase() == 'play') {
         if (additional == '') return message.channel.send('You must include a name for this playlist.')
+        if (!voiceChannel) {
+            const errvideoEmbed = new MessageEmbed()
+            .setColor(errorcolor)
+            .setDescription('Join a channel and try again')
+            message.say(errvideoEmbed);
+            return;
+        }
+        if (message.guild.triviaData.isTriviaRunning == true) {
+            const errvideoEmbed = new MessageEmbed()
+            .setColor(errorcolor)
+            .setDescription('Please try after the trivia has ended')
+            message.say(errvideoEmbed);
+            return;
+        }
         const userPlaylists = await db.get(`${message.member.id}.savedPlaylist`);
         const found = userPlaylists.find(element => element.name == additional);
         if (found) {
