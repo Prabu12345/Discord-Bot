@@ -7,7 +7,7 @@ const Youtube = require('simple-youtube-api');
 const Youtube1 = require('youtube-sr').default;
 const Pagination = require('discord-paginationembed');
 const { Spotify } = require('spotify-info.js')
-const { youtubeAPI } = require('../../config.json');
+const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 const spotify = new Spotify({
   clientID: "540def33c9bb4c94b7d3b5bb51615624",
