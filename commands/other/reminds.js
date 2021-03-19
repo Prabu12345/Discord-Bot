@@ -9,6 +9,7 @@ module.exports = class CatCommand extends Command {
       aliases: ['rm-list', 'rms'],
       group: 'other',
       memberName: 'reminds',
+      guildOnly: true,
       description: 'See the remind list!',
       throttling: {
         usages: 2,

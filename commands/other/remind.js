@@ -10,6 +10,7 @@ module.exports = class CatCommand extends Command {
       group: 'other',
       memberName: 'remind',
 	  description: 'To Remind you.',
+	  guildOnly: true,
 	  examples: ['remind 1h30m Remindme to working', 'remind 1h30m Remindme to working'],
       throttling: {
         usages: 2,
@@ -76,7 +77,7 @@ module.exports = class CatCommand extends Command {
 				setTimeout(function() 
 					{
 						message.guild.musicData.remind.shift();
-					  message.channel.send(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
+					  	message.channel.send(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
 						tts: true
 					  });
 					}, actualTime);
