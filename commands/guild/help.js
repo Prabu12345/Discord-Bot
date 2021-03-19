@@ -89,8 +89,8 @@ module.exports = class BanCommand extends Command {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
 		.setTitle(`${commands[0].name.toUpperCase()} - ${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}`)
+		if (commands[0].length === 0 || commands.length === 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${Command.usage('command', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}\` For the List Of the Commands!**`))
 		  if (message.channel.type !== 'dm') {
-			if (commands.length == 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${message.guild.commandPrefix}help\` For the List Of the Commands!**`))
 			if (commands[0].name == 'playlist') {
 				embed.setDescription(stripIndents`
 				** | Description |** 
@@ -115,7 +115,6 @@ module.exports = class BanCommand extends Command {
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
 				`)
 			} else {
-				if (commands.length == 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${message.guild.commandPrefix}help\` For the List Of the Commands!**`))
 				embed.setDescription(stripIndents`
 				**| Description |** 
 				\`${commands[0].description || "No Description provided."}\`
@@ -135,7 +134,6 @@ module.exports = class BanCommand extends Command {
 			}
 			embed.setFooter(message.guild.name, message.guild.iconURL())
 		  } else {
-			if (commands.length == 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`-help\` For the List Of the Commands!**`))
 			if (commands[0].name == 'playlist') {
 				embed.setDescription(stripIndents`
 				** | Description |** 
@@ -160,7 +158,6 @@ module.exports = class BanCommand extends Command {
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
 				`)
 			} else {
-				if (commands.length == 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`-help\` For the List Of the Commands!**`))
 				embed.setDescription(stripIndents`
 				**| Description |** 
 				\`${commands[0].description || "No Description provided."}\`
@@ -172,7 +169,7 @@ module.exports = class BanCommand extends Command {
 				\`${commands[0].details || '`No Detail provided`'}\`
 				
 				**| Examples |** 
-				\`${commands[0].examples || 'No Examples provided'}\`
+				\`${commands[0].examples.join('\n') || 'No Examples provided'}\`
 				
 				**| Aliases |** 
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
