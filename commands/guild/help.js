@@ -88,8 +88,9 @@ module.exports = class BanCommand extends Command {
 	  } else {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
-		.setTitle(`${commands[0].name.toUpperCase()} - ${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}`)
-		if (commands.length === 1 ) {
+		.setTitle(`${commands[0].name.toUpperCase()} - ${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}`);
+
+		try {
 			if (message.channel.type !== 'dm') {
 				if (commands[0].name == 'playlist') {
 					embed.setDescription(stripIndents`
@@ -169,17 +170,16 @@ module.exports = class BanCommand extends Command {
 					\`${commands[0].details || '`No Detail provided`'}\`
 					
 					**| Examples |** 
-					\`${commands[0].examples.join('\n') || 'No Examples provided'}\`
+					\`${commands[0].examples || 'No Examples provided'}\`
 					
 					**| Aliases |** 
 					\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
 					`)
 				}
-			  }	  
-			  embed.setTimestamp()
-		  
-			  return message.channel.send(embed)
-		} else {
+			}	  
+			embed.setTimestamp()
+			return message.channel.send(embed)	  
+		} catch {
 			return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${Command.usage('command', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}\` For the List Of the Commands!**`))
 		}	  
 	  }
