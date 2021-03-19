@@ -27,6 +27,8 @@ module.exports = class BanCommand extends Command {
 	const commands = this.client.registry.findCommands(command, false, message);
 	const showAll = command && command.toLowerCase() === 'all';
 
+	console.log(commands)
+
 	if (!command) {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
