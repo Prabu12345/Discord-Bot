@@ -76,7 +76,7 @@ module.exports = class BanCommand extends Command {
 		  \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
 
 	  	**| Other [7] |** 
-		  \`math\`, \`motivation\`, \`ping\`, \`reddit\`, \`remind\`, \`reminds\`, \`world-news\`.
+		  \`math\`, \`motivation\`, \`ping\`, \`remind\`, \`reminds\`.
 		`)
 		embed.setFooter(`${this.client.user.username}`, this.client.user.displayAvatarURL())
 		}
