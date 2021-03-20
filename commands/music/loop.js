@@ -9,7 +9,7 @@ module.exports = class LoopCommand extends Command {
       group: 'music',
       memberName: 'loop',
       guildOnly: true,
-      examples: ['Loop \`all\`', 'Loop \`one\`'],
+      examples: ['Loop queue', 'Loop track'],
       description: 'Loop the current playing song',
       args: [
         {
@@ -56,11 +56,11 @@ module.exports = class LoopCommand extends Command {
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
 
-    if (totypelooplower == 'one') {
+    if (totypelooplower == 'track') {
       loopEmbed.setDescription('Looped **One track**, **loop off** if you want to stop looping!')
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
-    } else if (totypelooplower == 'all') {
+    } else if (totypelooplower == 'queue') {
       loopEmbed.setDescription('Looped **All track**, **loop off** if you want to stop looping!')
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
