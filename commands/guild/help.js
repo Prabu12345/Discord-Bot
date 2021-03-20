@@ -86,7 +86,7 @@ module.exports = class BanCommand extends Command {
 	  } else {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
-		if (commands.length === 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${Command.usage('command', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}\` For the List Of the Commands!**`))
+		if (commands.length === 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do \`${Command.usage('command', message.guild ? message.guild.commandPrefix : null, this.client.user)}\` For the List Of the Commands!**`))
 		embed.setTitle(`${commands[0].name.toUpperCase()} - ${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}`);
 		if (message.channel.type !== 'dm') {
 			if (commands[0].name == 'playlist') {
