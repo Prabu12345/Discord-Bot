@@ -12,7 +12,7 @@ module.exports = class SeekCommand extends Command {
       memberName: 'seek',
       guildOnly: true,
       description: 'Set duration of music',
-      examples: ['seek f \`1:30\`', 'seek b \`30\`', 'seek \`1:30\`', 'seek \`30\`'],
+      examples: ['seek f 1:30', 'seek b 30', 'seek 1:30', 'seek 30'],
       args: [
         {
           key: 'time1',
