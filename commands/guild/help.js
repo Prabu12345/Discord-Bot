@@ -52,7 +52,7 @@ module.exports = class BanCommand extends Command {
 		  \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
 
 	  	**| Other [7] |** 
-		  \`math\`, \`motivation\`, \`ping\`, \`reddit\`, \`remind\`, \`reminds\`, \`world-news\`.
+		  \`math\`, \`motivation\`, \`ping\`, \`remind\`, \`reminds\`.
 		`)
 		embed.setFooter(`${message.guild.me.displayName}`, this.client.user.displayAvatarURL())
 		} else {
