@@ -62,7 +62,7 @@ module.exports = class SeekCommand extends Command {
       return; 
     }
     if (!type) {
-      if (time.search(/[abc]/)) {
+      if (type.search(/[abc]/)) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
 	      .setDescription(`**Usage:** -seek [forward | backward] <time(2:00 | 120)> or -seek <duration(2:00 | 120)>`)
