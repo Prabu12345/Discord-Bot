@@ -38,7 +38,7 @@ module.exports = class CatCommand extends Command {
 			var actualTime = 0;
 			if (!time) {
 				embed.setColor(errorcolor)
-				embed.setDescription('Lu harus masukin buat apa gw ngingetin lu')
+				embed.setDescription('Please input why to want remind you')
 				return message.channel.send(embed)
 			}
 
