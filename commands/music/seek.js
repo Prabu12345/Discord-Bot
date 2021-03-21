@@ -62,7 +62,7 @@ module.exports = class SeekCommand extends Command {
       return; 
     }
     if (!type) {
-      if (type.search(/[abc]/)) {
+      if (time.search(/\w/)) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
 	      .setDescription(`**Usage:** -seek [forward | backward] <time(2:00 | 120)> or -seek <duration(2:00 | 120)>`)
@@ -81,7 +81,7 @@ module.exports = class SeekCommand extends Command {
       }
     } else {
       if (type == 'forward' || type == 'f') {
-        if (time.search(/[abc]/)) {
+        if (time.search(/\w/)) {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
 	        .setDescription(`**Usage:** -seek [forward | backward] <time(2:00 | 120)> or -seek <duration(2:00 | 120)>`)
@@ -105,7 +105,7 @@ module.exports = class SeekCommand extends Command {
           loopEmbed.setDescription(`**Set forward by** \`${msToTime(beforeseek * 1000)}\` **to** \`${msToTime(afterseek * 1000)}\``)
         }
       } else if (type == 'backward' || type == 'b') {
-        if (time.search(/[abc]/)) {
+        if (time.search(/\w/)) {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
           .setDescription(`**Usage:** -seek [forward | backward] <time(2:00 | 120)> or -seek <duration(2:00 | 120)>`)
