@@ -26,6 +26,7 @@ module.exports = class RemoveSongCommand extends Command {
     });
   }
   run(message, { songNumber }) {
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
     const errremoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 || songNumber > message.guild.musicData.queue.length) {
@@ -38,7 +39,10 @@ module.exports = class RemoveSongCommand extends Command {
       message.say(errremoveEmbed);
       return;
     }
-    if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) return message.reply('You cannot remove music request other people');
+    if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
+      return message.reply('You cannot remove music request other people');
+    } else if (message.member.roles.cache.get(role.id)) {
+    }
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
