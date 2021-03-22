@@ -49,7 +49,7 @@ module.exports = class SkipCommand extends Command {
         return message.channel.send("You already voted to skip!")
 
     message.guild.musicData.svote.push(message.member.id)
-    message.channel.send(`You voted to skip the song ${serverQueue.skipVotes.length}/${required} votes`)
+    message.channel.send(`You voted to skip the song ${message.guild.musicData.svote.length}/${required} votes`)
     
     if(message.guild.musicData.svote.length >= required){
       message.guild.musicData.sloop = message.guild.musicData.loop;
