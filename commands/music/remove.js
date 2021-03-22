@@ -40,8 +40,11 @@ module.exports = class RemoveSongCommand extends Command {
       return;
     }
     if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
-      return message.reply('You cannot remove music request other people');
-    } else if (message.member.roles.cache.get(role.id)) {
+      if (message.member.roles.cache.get(role.id)) {
+
+      } else {
+        return message.reply('You cannot remove music request other people');
+      }
     }
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
