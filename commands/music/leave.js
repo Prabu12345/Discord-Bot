@@ -10,7 +10,11 @@ module.exports = class LeaveCommand extends Command {
       group: 'music',
       memberName: 'leave',
       guildOnly: true,
-      description: 'Leaves voice channel if in one'
+      description: 'Leaves voice channel if in one',
+      throttling: {
+        usages: 1,
+        duration: 5
+      },
     });
   }
 

@@ -107,7 +107,7 @@ module.exports = class BanCommand extends Command {
 				\`${message.guild.commandPrefix}playlist play music\`
 				\`${message.guild.commandPrefix}playlist remove music 1\`
 				\`${message.guild.commandPrefix}playlist delete music\`
-				\`${message.guild.commandPrefix}playlist see\`
+				\`${message.guild.commandPrefix}playlist see music\`
 
 				** | Aliases |** 
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
@@ -150,7 +150,7 @@ module.exports = class BanCommand extends Command {
 				\`-playlist play music\`
 				\`-playlist remove music 1\`
 				\`-playlist delete music\`
-				\`-playlist see\`
+				\`-playlist see music\`
 				
 				** | Aliases |** 
 				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`

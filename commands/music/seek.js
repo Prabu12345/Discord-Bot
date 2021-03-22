@@ -13,6 +13,10 @@ module.exports = class SeekCommand extends Command {
       guildOnly: true,
       description: 'Set duration of music',
       examples: ['seek f 1:30', 'seek b 30', 'seek 1:30', 'seek 30'],
+      throttling: {
+        usages: 1,
+        duration: 5
+      },
       args: [
         {
           key: 'time1',

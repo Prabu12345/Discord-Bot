@@ -5,11 +5,11 @@ const { normalcolor, errorcolor } = require('../../config.json')
 module.exports = class SkipCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'skip',
-      aliases: ['skip-song', 's'],
-      memberName: 'skip',
+      name: 'fskip',
+      aliases: ['fc', 'fc-song'],
+      memberName: 'fskip',
       group: 'music',
-      description: 'Skip the current playing song',
+      description: 'force Skip the current playing song',
       guildOnly: true,
       throttling: {
         usages: 1,
@@ -19,6 +19,8 @@ module.exports = class SkipCommand extends Command {
   }
 
   run(message) {
+    let role = await message.guild.roles.cache.find(role => role.name.toLowerCase() === 'DJ');
+    if (message.member.roles.cache !== role) return message.reply('You dont have permisison or DJ role')
     const errskipEmbed = new MessageEmbed()
     .setColor(errorcolor)
     const voiceChannel = message.member.voice.channel;
@@ -42,22 +44,10 @@ module.exports = class SkipCommand extends Command {
       return message.say(errskipEmbed);
     }
 
-    let usersC = message.member.voice.channel.members.size;
-    let required = Math.ceil(usersC/2);
-
-    if(message.guild.musicData.svote.includes(message.member.id))
-        return message.channel.send("You already voted to skip!")
-
-    message.guild.musicData.svote.push(message.member.id)
-    message.channel.send(`You voted to skip the song ${serverQueue.skipVotes.length}/${required} votes`)
-    
-    if(message.guild.musicData.svote.length >= required){
       message.guild.musicData.sloop = message.guild.musicData.loop;
       message.guild.musicData.loop = 'off';
       message.guild.musicData.songDispatcher.end();
-      message.guild.musicData.svote = [];
       message.react('⏭️');
       setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
-    }
   }
 };

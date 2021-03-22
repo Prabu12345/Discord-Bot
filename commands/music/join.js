@@ -10,7 +10,11 @@ module.exports = class LeaveCommand extends Command {
       group: 'music',
       memberName: 'join',
       guildOnly: true,
-      description: 'Joins Voice Channel'
+      description: 'Joins Voice Channel',
+      throttling: {
+        usages: 1,
+        duration: 5
+      },
     });
   }
 

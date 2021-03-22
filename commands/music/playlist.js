@@ -24,6 +24,10 @@ module.exports = class PlaylistCommand extends Command {
       guildOnly: true,
       description: 'Create and save playlist',
       details: 'Type -> create ( create playlist ), add ( add song to playlist ), play ( play saved playlist ), remove ( remove song from playlist ), delete ( delete playlist ), see ( see song in playlist )', 
+      throttling: {
+        usages: 1,
+        duration: 5
+      },
       args: [
         {
           key: 'type',

@@ -9,7 +9,11 @@ module.exports = class ShuffleQueueCommand extends Command {
       memberName: 'shuffle',
       group: 'music',
       description: 'Shuffle the song queue',
-      guildOnly: true
+      guildOnly: true,
+      throttling: {
+        usages: 1,
+        duration: 5
+      }
     });
   }
   run(message) {

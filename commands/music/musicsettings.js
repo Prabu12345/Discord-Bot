@@ -13,7 +13,6 @@ module.exports = class LeaveCommand extends Command {
       memberName: 'musicsettings',
       guildOnly: true,
       description: 'To settings music',
-      userPermissions: ['MANAGE_CHANNELS'],
       throttling: {
         usages: 1,
         duration: 30
@@ -23,6 +22,7 @@ module.exports = class LeaveCommand extends Command {
 
   async run(message) {
     let role = await message.guild.roles.cache.find(role => role.name.toLowerCase() === 'DJ');
+    if (message.member.roles.cache !== role) return message.reply('You dont have permisison or DJ role')
     let all = await db.get(`${message.guild.id}.settings`)
     let np
     if (all.nowplaying == false) {
@@ -80,7 +80,7 @@ module.exports = class LeaveCommand extends Command {
                   vm.delete();
                 }
                 let vol = await db.get(`${message.guild.id}.settings`)
-                db.set(`${message.guild.id}.settings`, {volume: vIndex, maxvolume: vol.maxvolume, nowplaying: vol.nowplaying, timeout: vol.timeout})
+                db.set(`${message.guild.id}.settings`, {volume: vol.volume, maxvolume: vIndex, nowplaying: vol.nowplaying, timeout: vol.timeout})
                 const volumeEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`Max volume set to **${vIndex}%**, ${message.author}`)
