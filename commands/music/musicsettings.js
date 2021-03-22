@@ -21,8 +21,8 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
-    let role = await message.guild.roles.cache.find(role => role.name.toLowerCase() === 'DJ');
-    if (message.member.roles.cache !== role) return message.reply('You dont have permisison or DJ role')
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
+    if(!message.member.roles.cache.get(role.id)) return message.channel.send("You don't have the DJ role");
     let all = await db.get(`${message.guild.id}.settings`)
     let np
     if (all.nowplaying == false) {
