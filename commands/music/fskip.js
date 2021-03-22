@@ -21,7 +21,6 @@ module.exports = class SkipCommand extends Command {
   async run(message) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
     if(!message.member.roles.cache.get(role.id)) return message.channel.send("You don't have the DJ role");
-    if (message.member.roles.cache !== role) return message.reply('You dont have permisison or DJ role')
     const errskipEmbed = new MessageEmbed()
     .setColor(errorcolor)
     const voiceChannel = message.member.voice.channel;
