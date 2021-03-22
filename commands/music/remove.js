@@ -25,7 +25,7 @@ module.exports = class RemoveSongCommand extends Command {
       ]
     });
   }
-  run(message, { songNumber }) {
+  async run(message, { songNumber }) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
     const errremoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
