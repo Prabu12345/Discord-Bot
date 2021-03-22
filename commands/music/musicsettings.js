@@ -22,7 +22,7 @@ module.exports = class LeaveCommand extends Command {
 
   async run(message) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
-    if(!message.member.roles.cache.get(role.id)) return message.channel.send("You don't have the DJ role");
+    if(!message.member.roles.cache.get(role.id)) return message.channel.send("You don't have role named *DJ*");
     let all = await db.get(`${message.guild.id}.settings`)
     let np
     if (all.nowplaying == false) {
