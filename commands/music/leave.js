@@ -63,7 +63,7 @@ module.exports = class LeaveCommand extends Command {
       message.guild.musicData.isPlaying = false;
       message.guild.musicData.nowPlaying = null;
       setTimeout(() => {
-        message.guild.musicData.songDispatcher.destroy();
+        message.guild.musicData.songDispatcher = null;
       }, 200);
       setTimeout(() => {
         message.guild.me.voice.channel.leave();
@@ -75,7 +75,7 @@ module.exports = class LeaveCommand extends Command {
       message.guild.musicData.loop = 'off';
       message.guild.musicData.isPlaying = false;
       message.guild.musicData.nowPlaying = null;
-      message.guild.musicData.songDispatcher.destroy();
+      message.guild.musicData.songDispatcher = null;
       message.react('👌')
       setTimeout(() => {
         message.guild.me.voice.channel.leave();
