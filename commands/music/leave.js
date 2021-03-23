@@ -76,7 +76,6 @@ module.exports = class LeaveCommand extends Command {
       message.guild.musicData.loop = 'off';
       message.guild.musicData.isPlaying = false;
       message.guild.musicData.nowPlaying = null;
-      message.guild.musicData.songDispatcher = null;
       message.guild.musicData.songDispatcher.destroy();
       message.react('👌')
       setTimeout(() => {
