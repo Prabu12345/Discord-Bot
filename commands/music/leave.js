@@ -59,11 +59,13 @@ module.exports = class LeaveCommand extends Command {
     } else if (message.guild.musicData.songDispatcher.paused) {
       message.guild.musicData.songDispatcher.resume();
       message.guild.musicData.loop = 'off';
-      message.guild.musicData.queue.length = 0;
       message.guild.musicData.pause = false
+      message.guild.musicData.isPlaying = false;
+      message.guild.musicData.nowPlaying = null;
+      message.guild.musicData.songDispatcher = null;
       setTimeout(() => {
-        message.guild.musicData.songDispatcher.end();
-      }, 100);
+        message.guild.musicData.songDispatcher.destroy();
+      }, 200);
       setTimeout(() => {
         message.guild.me.voice.channel.leave();
       }, 200);
@@ -71,9 +73,11 @@ module.exports = class LeaveCommand extends Command {
       
       return;
     } else {
-      message.guild.musicData.queue.length = 0;
       message.guild.musicData.loop = 'off';
-      message.guild.musicData.songDispatcher.end();
+      message.guild.musicData.isPlaying = false;
+      message.guild.musicData.nowPlaying = null;
+      message.guild.musicData.songDispatcher = null;
+      message.guild.musicData.songDispatcher.destroy();
       message.react('👌')
       setTimeout(() => {
         message.guild.me.voice.channel.leave();

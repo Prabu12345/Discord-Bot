@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
+const { playSong } = require('../music/play');
 
 module.exports = class LeaveCommand extends Command {
   constructor(client) {
@@ -41,7 +42,11 @@ module.exports = class LeaveCommand extends Command {
       return;
     }
     try {
-      voiceChannel.join()
+      if (message.guild.musicData.queue.length == 0){
+        voiceChannel.join()
+      } else {
+        playSong(message.guild.musicData.queue, message, 0);
+      }
       message.react('👌')
     } catch {
       return message.reply(':x Something went wrong when joining channels');

@@ -61,6 +61,10 @@ module.exports = class PlayCommand extends Command {
       return;
     }
 
+    if (!message.guild.me.voice.channel) {
+      message.reply(`*I am not connected to a voice channel.* \`Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one\``)
+    }
+
     if (message.guild.musicData.pause == true && query.length == 0) {
     const resumeEmbed = new MessageEmbed()
     .setColor(normalcolor)
@@ -437,6 +441,7 @@ module.exports = class PlayCommand extends Command {
             if (collector && !collector.end) collector.stop();
             queue = message.guild.musicData.queue;
             message.guild.musicData.seek = 0;
+            message.guild.musicData.svote = [];
             if (message.guild.musicData.loop == 'one') {
               for (let i = 0; i < 1; i++) {
                 message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
