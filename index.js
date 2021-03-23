@@ -66,9 +66,6 @@ client.setProvider(
   .then(client => new MongoDBProvider(client, 'guaa'))
 ).catch(console.error);
 
-client.mongoose = require('./resources/mongoose');
-client.mongoose.init();
-
 client.cachedMessageReactions = new Map();
 
 client.registry
