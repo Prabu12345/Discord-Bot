@@ -62,7 +62,6 @@ module.exports = class LeaveCommand extends Command {
       message.guild.musicData.pause = false
       message.guild.musicData.isPlaying = false;
       message.guild.musicData.nowPlaying = null;
-      message.guild.musicData.songDispatcher = null;
       setTimeout(() => {
         message.guild.musicData.songDispatcher.destroy();
       }, 200);
