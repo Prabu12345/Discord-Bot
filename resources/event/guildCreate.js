@@ -5,7 +5,7 @@ module.exports = async (client, guild) => {
     let new1 = await db.get(guild.id)
     if (!new1) {
         db.set(guild.id, {
-            settings: { volume: 50, timeout: 60000 }
+            settings: { volume: 50, maxvolume: 100, nowplaying: true, timeout: 60000 }
           });
         console.log(`I have joined to ${guild.name}`);
     } else {
