@@ -62,7 +62,7 @@ module.exports = class PlayCommand extends Command {
     }
 
     if (!message.guild.me.voice.channel) {
-      return message.reply(`*I am not connected to a voice channel.* \`Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one\``)
+      return message.reply(`*I am not connected to a voice channel.* Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
     }
 
     if (message.guild.musicData.pause == true && query.length == 0) {
