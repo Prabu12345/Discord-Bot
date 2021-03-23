@@ -45,6 +45,7 @@ module.exports = class LeaveCommand extends Command {
       if (message.guild.musicData.queue.length == 0){
         voiceChannel.join()
       } else {
+        message.guild.musicData.isPlaying == true
         playSong(message.guild.musicData.queue, message, 0);
       }
       message.react('👌')
