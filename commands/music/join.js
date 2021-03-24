@@ -31,11 +31,8 @@ module.exports = class LeaveCommand extends Command {
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      } else {
-        if(message.guild.me.voice.channel) {
-          return message.channel.send(`I already in voice channel, ${message.author}`);
-        }
+      if(message.guild.me.voice.channel) {
+        return message.channel.send(`I already in voice channel, ${message.author}`);
       }
     } else if (message.guild.musicData.isPlaying == true) {
       return message.channel.send(`I already in voice channel, ${message.author}`);
