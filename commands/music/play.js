@@ -53,6 +53,13 @@ module.exports = class PlayCommand extends Command {
       return;
     }
 
+    if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.say(errleaveEmbed);
+    }
+
     if (message.guild.triviaData.isTriviaRunning == true) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -104,7 +111,6 @@ module.exports = class PlayCommand extends Command {
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj(
           videos[0],
-          voiceChannel,
           message.member.user
         )
       );
@@ -158,7 +164,6 @@ module.exports = class PlayCommand extends Command {
           message.guild.musicData.queue.push(
             PlayCommand.constructSongObj(
               video,
-              voiceChannel,
               message.member.user
             )
           );
@@ -221,7 +226,6 @@ module.exports = class PlayCommand extends Command {
           message.guild.musicData.queue.push(
             PlayCommand.constructSongObj(
               video,
-              voiceChannel,
               message.member.user
             )
           );
@@ -288,7 +292,6 @@ module.exports = class PlayCommand extends Command {
             message.guild.musicData.queue.push(
               PlayCommand.constructSongObj1(
                 video,
-                voiceChannel,
                 message.member.user
               )
             );
@@ -342,7 +345,7 @@ module.exports = class PlayCommand extends Command {
       //   );
       // }
       message.guild.musicData.queue.push(
-        PlayCommand.constructSongObj1(video, voiceChannel, message.member.user)
+        PlayCommand.constructSongObj1(video, message.member.user)
       );
       if (
         message.guild.musicData.isPlaying == false ||
@@ -383,7 +386,6 @@ module.exports = class PlayCommand extends Command {
     message.guild.musicData.queue.push(
       PlayCommand.constructSongObj(
         videos[0],
-        voiceChannel,
         message.member.user
       )
     );
@@ -557,20 +559,19 @@ module.exports = class PlayCommand extends Command {
     } 
   }
 
-  static constructSongObj(video, voiceChannel, user) {
+  static constructSongObj(video, user) {
     return {
       url: `https://youtube.com/watch?v=${video.id}`,
       title: video.title,
       rawDuration: video.duration,
       duration: video.durationFormatted,
       thumbnail: video.thumbnail.url,
-      voiceChannel,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
   }
 
-  static constructSongObj1(video, voiceChannel, user) {
+  static constructSongObj1(video, user) {
     const totalDurationObj = video.duration;
 
     let totalDurationInMS = 0;
@@ -592,7 +593,6 @@ module.exports = class PlayCommand extends Command {
       rawDuration: totalDurationInMS,
       duration,
       thumbnail: video.thumbnails.high.url,
-      voiceChannel,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
     };

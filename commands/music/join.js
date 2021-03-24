@@ -31,15 +31,14 @@ module.exports = class LeaveCommand extends Command {
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      if(message.guild.me.voice.channel) {
-        return message.channel.send(`I already in voice channel, ${message.author}`);
+      if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
+      } else {
+        if(message.guild.me.voice.channel) {
+          return message.channel.send(`I already in voice channel, ${message.author}`);
+        }
       }
-    } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
-      message.say(errleaveEmbed);
-      return;
+    } else if (message.guild.musicData.isPlaying == true) {
+      return message.channel.send(`I already in voice channel, ${message.author}`);
     }
     try {
       if (message.guild.musicData.queue.length == 0){

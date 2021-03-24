@@ -43,7 +43,7 @@ module.exports = class BanCommand extends Command {
 		\`clear\`, \`fskip\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
 
 	  	**| Anime [3] |** 
-		  \`animegif\`, \`gintama\`, \`jojo\`.
+		  \`animegif\`, \`gintama\`, \`jojo\`, \`neko\`, \`nekogif\`.
 
 	  	**| Fun [5] |** 
 		  \`cat\`, \`chucknorris\`, \`fortune\`, \`insult\`, \`random\`.
@@ -86,7 +86,7 @@ module.exports = class BanCommand extends Command {
 	  } else {
 		const embed = new MessageEmbed()
 		.setColor(normalcolor)
-		if (commands.length === 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do ${Command.usage('command', message.guild ? message.guild.commandPrefix : null, this.client.user)} For the List Of the Commands!**`))
+		if (commands.length === 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do ${Command.usage('help', message.guild ? message.guild.commandPrefix : null, this.client.user)} For the List Of the Commands!**`))
 		embed.setTitle(`${commands[0].name.toUpperCase()} - ${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}`);
 		if (message.channel.type !== 'dm') {
 			if (commands[0].name == 'playlist') {
