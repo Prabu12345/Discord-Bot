@@ -70,8 +70,8 @@ module.exports = class MoveSongCommand extends Command {
       newPosition - 1
     );
     const moveEmbed = new MessageEmbed()
-    .setColor(errorcolor)
-    .setDescription(`**${songName}** moved to position ${newPosition}`)
+    .setColor(normalcolor)
+    .setDescription(`:white_check_mark: **${songName}** moved to position ${newPosition}`)
     message.channel.send(moveEmbed);
   }
   // https://stackoverflow.com/a/5306832/9421002
