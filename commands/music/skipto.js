@@ -28,7 +28,7 @@ module.exports = class SkipToCommand extends Command {
     });
   }
 
-  run(message, { songNumber }) {
+  async run(message, { songNumber }) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
     const errskiptoEmbed = new MessageEmbed()
     .setColor(errorcolor)
