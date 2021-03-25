@@ -53,13 +53,6 @@ module.exports = class PlayCommand extends Command {
       return;
     }
 
-    if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
-      const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
-      message.say(errleaveEmbed);
-    }
-
     if (message.guild.triviaData.isTriviaRunning == true) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -70,6 +63,13 @@ module.exports = class PlayCommand extends Command {
 
     if (!message.guild.me.voice.channel) {
       return message.reply(`*I am not connected to a voice channel.* Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
+    }
+
+    if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.say(errleaveEmbed);
     }
 
     if (message.guild.musicData.pause == true && query.length == 0) {
