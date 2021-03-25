@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, xmoji, cmoji } = require('../../config.json')
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
@@ -46,18 +46,18 @@ module.exports = class VolumeCommand extends Command {
     ) {
       const errvolumeEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('There is no song playing right now!')
+      .setDescription(`${xmoji} | There is no song playing right now!`)
       return message.say(errvolumeEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
       const errvolumeEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errvolumeEmbed);
       return;
     } else if (wantedVolume > vol.maxvolume) {
       const errvolumeEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`You cant set the volume above ${vol.maxvolume}%`)
+      .setDescription(`${xmoji} | You cant set the volume above ${vol.maxvolume}%`)
       message.say(errvolumeEmbed)
       return;
     }
@@ -72,7 +72,7 @@ module.exports = class VolumeCommand extends Command {
       message.guild.musicData.songDispatcher.setVolume(volume / 100);
       const volumeEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`The volume set to **${wantedVolume}%**, ${message.author}`)
+        .setDescription(`${cmoji} | The volume set to **${wantedVolume}%**, ${message.author}`)
       message.say(volumeEmbed);
     }
   }

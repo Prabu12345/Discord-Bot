@@ -11,7 +11,11 @@ module.exports = class QueueCommand extends Command {
       memberName: 'queue',
       guildOnly: true,
       description: 'Display the song queue',
-      clientPermissions: ['ADD_REACTIONS']
+      clientPermissions: ['ADD_REACTIONS'],
+      throttling: {
+        usages: 1,
+        duration: 10
+      }
     });
   }
 

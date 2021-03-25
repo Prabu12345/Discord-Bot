@@ -14,7 +14,7 @@ module.exports = class LeaveCommand extends Command {
       description: 'Joins Voice Channel',
       throttling: {
         usages: 1,
-        duration: 5
+        duration: 10
       },
     });
   }

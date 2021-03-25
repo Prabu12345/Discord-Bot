@@ -559,7 +559,9 @@ module.exports = class PlayCommand extends Command {
     } 
   }
 
-  static constructSongObj(video, user) {
+  static constructSongObj(video, user) { 
+    let duration = this.formatDuration(video.durationFormatted);
+    if (duration == '0:00') duration = 'Live Stream';
     return {
       url: `https://youtube.com/watch?v=${video.id}`,
       title: video.title,

@@ -42,20 +42,27 @@ module.exports = class SkipCommand extends Command {
       return message.say(errskipEmbed);
     }
 
-    let usersC = message.member.voice.channel.members.size;
-    let required = Math.ceil(usersC/2);
-
-    if(message.guild.musicData.svote.includes(message.member.id))
-        return message.channel.send("You already voted to skip!")
-
-    message.guild.musicData.svote.push(message.member.id)
-    message.channel.send(`You voted to skip the song ${message.guild.musicData.svote.length}/${required} votes`)
-    
-    if(message.guild.musicData.svote.length >= required){
+    if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
+      let usersC = message.member.voice.channel.members.size;
+      let required = Math.ceil(usersC/2);
+  
+      if(message.guild.musicData.svote.includes(message.member.id))
+          return message.channel.send(":x: | You already voted to skip!")
+  
+      message.guild.musicData.svote.push(message.member.id)
+      message.channel.send(`:white_check_mark: | You voted to skip the song \`${message.guild.musicData.svote.length}\`/\`${required}\` votes`)
+      
+      if(message.guild.musicData.svote.length >= required){
+        message.guild.musicData.sloop = message.guild.musicData.loop;
+        message.guild.musicData.loop = 'off';
+        message.guild.musicData.songDispatcher.end();
+        message.react('⏭️');
+        setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
+      }
+    } else {
       message.guild.musicData.sloop = message.guild.musicData.loop;
       message.guild.musicData.loop = 'off';
       message.guild.musicData.songDispatcher.end();
-      message.guild.musicData.svote = [];
       message.react('⏭️');
       setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
     }

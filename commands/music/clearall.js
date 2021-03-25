@@ -37,12 +37,32 @@ module.exports = class SkipAllCommand extends Command {
       errskipallEmbed.setDescription('There are no songs in queue')
       return message.say(errskipallEmbed)
     };
-    message.guild.musicData.queue.length = 0; // clear queue
-    message.guild.musicData.songDispatcher.end();
-    const errleaveEmbed = new MessageEmbed()
-      .setColor(normalcolor)
-      .setDescription('The queue has cleared!')
-    message.say(errleaveEmbed);
-    return;
+
+    if (message.member.roles.cache.get(role.id)) {
+      message.guild.musicData.queue.length = 0; // clear queue
+      const errleaveEmbed = new MessageEmbed()
+        .setColor(normalcolor)
+        .setDescription('The queue has cleared!')
+      message.say(errleaveEmbed);
+      return;
+    } else {
+      let usersC = message.member.voice.channel.members.size;
+      let required = Math.ceil(usersC/2);
+  
+      if(message.guild.musicData.cvote.includes(message.member.id))
+          return message.channel.send(":x: | You already voted to skip!")
+  
+      message.guild.musicData.cvote.push(message.member.id)
+      message.channel.send(`:white_check_mark: | You voted to skip the song \`${message.guild.musicData.cvote.length}\`/\`${required}\` votes`)
+      
+      if(message.guild.musicData.cvote.length >= required){
+        message.guild.musicData.queue.length = 0; // clear queue
+        const errleaveEmbed = new MessageEmbed()
+          .setColor(normalcolor)
+          .setDescription('The queue has cleared!')
+        message.say(errleaveEmbed);
+        return;
+      }
+    }
   }
 };

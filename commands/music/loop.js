@@ -18,7 +18,11 @@ module.exports = class LoopCommand extends Command {
           default: '',
           prompt: 'Loop **one** for looped current song, loop **all** for looped queue'
         }
-      ]
+      ],
+      throttling: {
+        usages: 1,
+        duration: 5
+      }
     });
   }
 

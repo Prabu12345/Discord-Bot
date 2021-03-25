@@ -29,6 +29,7 @@ module.exports = class SkipToCommand extends Command {
   }
 
   run(message, { songNumber }) {
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
     const errskiptoEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 && songNumber > message.guild.musicData.queue.length) {
@@ -57,13 +58,33 @@ module.exports = class SkipToCommand extends Command {
       return message.say(errskiptoEmbed)
     };
 
-    var newsongNumber = (songNumber - 1);
-
-    message.guild.musicData.sloop = message.guild.musicData.loop;
-    message.guild.musicData.loop = 'off';
-    message.guild.musicData.queue.splice(0, newsongNumber);
-    message.guild.musicData.songDispatcher.end();
-    setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
-    return;
+    if (message.member.roles.cache.get(role.id)) {
+      var newsongNumber = (songNumber - 1);
+      message.guild.musicData.sloop = message.guild.musicData.loop;
+      message.guild.musicData.loop = 'off';
+      message.guild.musicData.queue.splice(0, newsongNumber);
+      message.guild.musicData.songDispatcher.end();
+      setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
+      return;
+    } else {
+      let usersC = message.member.voice.channel.members.size;
+      let required = Math.ceil(usersC/2);
+  
+      if(message.guild.musicData.stvote.includes(message.member.id))
+          return message.channel.send(":x: | You already voted to skip!")
+  
+      message.guild.musicData.stvote.push(message.member.id)
+      message.channel.send(`:white_check_mark: | You voted to skip the song \`${message.guild.musicData.stvote.length}\`/\`${required}\` votes`)
+      
+      if(message.guild.musicData.stvote.length >= required){
+        var newsongNumber = (songNumber - 1);
+        message.guild.musicData.sloop = message.guild.musicData.loop;
+        message.guild.musicData.loop = 'off';
+        message.guild.musicData.queue.splice(0, newsongNumber);
+        message.guild.musicData.songDispatcher.end();
+        setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
+        return;
+      }
+    }
   }
 };

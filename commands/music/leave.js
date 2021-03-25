@@ -13,7 +13,7 @@ module.exports = class LeaveCommand extends Command {
       description: 'Leaves voice channel if in one',
       throttling: {
         usages: 1,
-        duration: 5
+        duration: 10
       },
     });
   }

@@ -20,6 +20,8 @@ Structures.extend('Guild', function(Guild) {
         pause: false,
         loop: 'off',
         svote: [],
+        cvote: [],
+        stvote: [],
         sloop: 'null',
         remind: [],
         seek: 0,
