@@ -122,7 +122,9 @@ client.on('voiceStateUpdate', async (___, newState) => {
   }
   if (
     newState.guild.me.voice.channel && 
-    newState.guild.musicData.songDispatcher
+    newState.guild.musicData.songDispatcher ||
+	newState.guild.me.voice.channel && 
+    !newState.guild.musicData.songDispatcher
   ) {
     if (newState.guild.me.voice.channel.members.array().length == 1) {
       rrun(newState)

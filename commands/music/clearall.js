@@ -51,12 +51,10 @@ module.exports = class SkipAllCommand extends Command {
       let required = Math.ceil(usersC/2);
   
       if(message.guild.musicData.cvote.includes(message.member.id))
-          return message.channel.send(":x: | You already voted to skip!")
+          return message.channel.send(":x: | You already voted to clear!")
   
       message.guild.musicData.cvote.push(message.member.id)
-      message.channel.send(`:white_check_mark: | You voted to skip the song \`${message.guild.musicData.cvote.length}\`/\`${required}\` votes`)
-      
-      if(message.guild.musicData.cvote.length >= required){
+	        if(message.guild.musicData.cvote.length >= required){
         message.guild.musicData.queue.length = 0; // clear queue
         const errleaveEmbed = new MessageEmbed()
           .setColor(normalcolor)
@@ -64,6 +62,7 @@ module.exports = class SkipAllCommand extends Command {
         message.say(errleaveEmbed);
         return;
       }
+      message.channel.send(`:white_check_mark: | You voted to clear the queue \`${message.guild.musicData.cvote.length}\`/\`${required}\` votes`)
     }
   }
 };
