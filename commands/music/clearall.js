@@ -53,6 +53,7 @@ module.exports = class SkipAllCommand extends Command {
         .setColor(normalcolor)
         .setDescription('The queue has cleared!')
       message.say(errleaveEmbed);
+      message.guild.musicData.cvote = []
       return;
     } else {
       let usersC = message.member.voice.channel.members.size;
@@ -62,12 +63,14 @@ module.exports = class SkipAllCommand extends Command {
           return message.channel.send(":x: | You already voted to clear!")
   
       message.guild.musicData.cvote.push(message.member.id)
-	        if(message.guild.musicData.cvote.length >= required){
+
+	    if(message.guild.musicData.cvote.length >= required){
         message.guild.musicData.queue.length = 0; // clear queue
         const errleaveEmbed = new MessageEmbed()
           .setColor(normalcolor)
           .setDescription('The queue has cleared!')
         message.say(errleaveEmbed);
+        message.guild.musicData.cvote = []
         return;
       }
       message.channel.send(`:white_check_mark: | You voted to clear the queue \`${message.guild.musicData.cvote.length}\`/\`${required}\` votes`)
