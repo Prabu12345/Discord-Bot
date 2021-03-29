@@ -16,6 +16,14 @@ module.exports = class SkipAllCommand extends Command {
 
   async run(message) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
+    if (!role) return message.guild.roles.create({
+      data: {
+        name: 'DJ',
+      },
+      reason: 'we needed a role for DJ',
+    })
+      .then(console.log)
+      .catch(console.error);
     const errskipallEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;

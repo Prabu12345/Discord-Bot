@@ -27,6 +27,14 @@ module.exports = class RemoveSongCommand extends Command {
   }
   async run(message, { songNumber }) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
+    if (!role) return message.guild.roles.create({
+      data: {
+        name: 'DJ',
+      },
+      reason: 'we needed a role for DJ',
+    })
+      .then(console.log)
+      .catch(console.error);
     const errremoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 || songNumber > message.guild.musicData.queue.length) {
