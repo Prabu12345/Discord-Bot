@@ -132,10 +132,10 @@ function generateQueueEmbed(message, queue) {
 };
 
 function textlimit(text) {
-  if (text.length > 40) {
-    text.slice(0, 40)
+  if (text.length > 42) {
+    text = text.slice(0, 42)
     return text + '...'
-  } else {
+  } else {  
     return text
   }
 }
