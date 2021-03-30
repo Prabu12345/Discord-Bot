@@ -90,7 +90,7 @@ module.exports = class QueueCommand extends Command {
         await reaction.users.remove(message.author.id);
       } catch (error) {
         console.error(error);
-        return message.channel.send(error.message + ', Please give me **MANAGE_MESSAGES** to delete a reaction').catch(console.error);
+        return message.channel.send(error.message + ', Please give me permission to **MANAGE_MESSAGES** to delete a reaction').catch(console.error);
       }
     });
 
@@ -114,7 +114,7 @@ function generateQueueEmbed(message, queue) {
     let j = i;
     k += 10;
 
-    const info = current.map((track) => `**${++j}** | [${track.title}](${track.url}) (${msToTime(track.rawDuration)}) - **${track.memberDisplayName}**`).join("\n");
+    const info = current.map((track) => `**${++j}** | [${textlimit(track.title)}](${track.url}) (${msToTime(track.rawDuration)}) - **${track.memberDisplayName}**`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
     .setTitle(`🎶 Queue for ${message.guild.name} (${queue.length})`)
@@ -130,6 +130,15 @@ function generateQueueEmbed(message, queue) {
   }
   return embeds;
 };
+
+function textlimit(text) {
+  if (text.length > 40) {
+    text.slice(0, 40)
+    return text + '...'
+  } else {
+    return text
+  }
+}
 
 function msToTime(duration) {
   var seconds = parseInt((duration / 1000) % 60),
