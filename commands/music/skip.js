@@ -42,7 +42,7 @@ module.exports = class SkipCommand extends Command {
       return message.say(errskipEmbed);
     }
 
-    if (message.guild.musicData.queue[0].memberDisplayName !== message.member.user.username) {
+    if (message.guild.musicData.nowPlaying.memberDisplayName !== message.member.user.username) {
       let usersC = message.member.voice.channel.members.size;
       let required = Math.ceil(usersC/2);
 
