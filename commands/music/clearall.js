@@ -6,7 +6,7 @@ module.exports = class SkipAllCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'clear',
-      aliases: ['clearall'],
+      aliases: ['clearall', 'clearqueue'],
       memberName: 'clear',
       group: 'music',
       description: 'Remove all songs in queue',
@@ -22,8 +22,8 @@ module.exports = class SkipAllCommand extends Command {
       },
       reason: 'we needed a role for DJ',
     })
-      .then(console.log)
-      .catch(console.error);
+      .then()
+      .catch(message.channel.send('Please Give me Permission to MANAGE_ROLES'));
     const errskipallEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;

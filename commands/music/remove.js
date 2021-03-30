@@ -33,8 +33,8 @@ module.exports = class RemoveSongCommand extends Command {
       },
       reason: 'we needed a role for DJ',
     })
-      .then(console.log)
-      .catch(console.error);
+    .then()
+    .catch(message.channel.send('Please Give me Permission to MANAGE_ROLES'));
     const errremoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 || songNumber > message.guild.musicData.queue.length) {

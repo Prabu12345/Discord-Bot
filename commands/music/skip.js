@@ -52,19 +52,14 @@ module.exports = class SkipCommand extends Command {
         message.guild.musicData.songDispatcher.end();
         message.react('⏭️');
         setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
+        return;
       }
-  
-	  message.guild.musicData.svote.push(message.member.id)
+
       if(message.guild.musicData.svote.includes(message.member.id))
-          return message.channel.send(":x: | You already voted to skip!")
+      return message.channel.send(":x: | You already voted to skip!")
   
-        if(message.guild.musicData.svote.length >= required){
-        message.guild.musicData.sloop = message.guild.musicData.loop;
-        message.guild.musicData.loop = 'off';
-        message.guild.musicData.songDispatcher.end();
-        message.react('⏭️');
-        setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
-      }
+	    message.guild.musicData.svote.push(message.member.id)
+
       message.channel.send(`:white_check_mark: | You voted to skip the song \`${message.guild.musicData.svote.length}\`/\`${required}\` votes`)
     } else {
       message.guild.musicData.sloop = message.guild.musicData.loop;
