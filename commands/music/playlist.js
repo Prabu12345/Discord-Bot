@@ -64,7 +64,7 @@ module.exports = class PlaylistCommand extends Command {
             return;
         }
         if (message.guild.me.voice.channel) {
-          if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
+          if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
             const errleaveEmbed = new MessageEmbed()
             .setColor(errorcolor)
             .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
