@@ -62,7 +62,7 @@ module.exports = class PlayCommand extends Command {
     }
 
     if (!message.guild.me.voice.channel) {
-      return message.reply(`*I am not connected to a voice channel.* Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
+      return message.reply(`**I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
     }
 
     if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
@@ -150,39 +150,25 @@ module.exports = class PlayCommand extends Command {
           return;
         });
         if (results.length < 1) {
-            continue
+          continue
         }
-        tracks.push(results[0])
+        tracks.push(
+          PlayCommand.constructSongObj(
+            results[0],
+            message.member.user
+          )
+        )
       }
-
-      for (let i = 0; i < tracks.length; i++) {
-        try {
-          const video = await tracks[i];
-          // this can be uncommented if you choose to limit the queue
-          // if (message.guild.musicData.queue.length < 10) {
-          //
-          message.guild.musicData.queue.push(
-            PlayCommand.constructSongObj(
-              video,
-              message.member.user
-            )
-          );
-          // } else {
-          //   return message.say(
-          //     `I can't play the full playlist because there will be more than 10 songs in queue`
-          //   );
-          // }
-        } catch (err) {
-          return console.error(err);
-        }
-      }
+      tracks.map(element => 
+        message.guild.musicData.queue.push(element)  
+      );
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`Playlist - :musical_note:  **${playlist.name}** :musical_note: has been added to queue`)
+        .setDescription(`🎵 | **${playlist.name}** added ${tracks.length} songs to the queue!`)
         message.say(addvideoEmbed);
         return;
       }
@@ -214,37 +200,23 @@ module.exports = class PlayCommand extends Command {
         if (results.length < 1) {
             continue
         }
-        tracks.push(results[0])
+        tracks.push(
+          PlayCommand.constructSongObj(
+            results[0],
+            message.member.user
+          )
+        )
       }
-
-      for (let i = 0; i < tracks.length; i++) {
-        try {
-          const video = await tracks[i];
-          // this can be uncommented if you choose to limit the queue
-          // if (message.guild.musicData.queue.length < 10) {
-          //
-          message.guild.musicData.queue.push(
-            PlayCommand.constructSongObj(
-              video,
-              message.member.user
-            )
-          );
-          // } else {
-          //   return message.say(
-          //     `I can't play the full playlist because there will be more than 10 songs in queue`
-          //   );
-          // }
-        } catch (err) {
-          return console.error(err);
-        }
-      }
+      tracks.map(element => 
+        message.guild.musicData.queue.push(element)  
+      );
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`Album - :musical_note:  **${album.name}** :musical_note: has been added to queue`)
+        .setDescription(`🎵 | **${album.name}** added ${tracks.length} songs to the queue!`)
         message.say(addvideoEmbed);
         return;
       }
@@ -256,7 +228,7 @@ module.exports = class PlayCommand extends Command {
         /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/
       )
     ) {
-      message.channel.send(`:mag_right: **Searching** \`${query}\``);
+      message.channel.send(`:mag_right: | **Searching** \`${query}\``);
       const playlist = await gch.getPlaylist(query).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
@@ -311,7 +283,7 @@ module.exports = class PlayCommand extends Command {
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`Playlist - :musical_note:  **${playlist.title}** :musical_note: has been added to queue`)
+        .setDescription(`🎵 | **${playlist.title}** added ${tracks.length} songs to the queue!`)
         message.say(addvideoEmbed);
         return;
       }

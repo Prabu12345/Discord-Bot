@@ -114,7 +114,7 @@ function generateQueueEmbed(message, queue) {
     let j = i;
     k += 10;
 
-    const info = current.map((track) => `**${++j}** | [${textlimit(track.title)}](${track.url}) (${msToTime(track.rawDuration)}) - **${track.memberDisplayName}**`).join("\n");
+    const info = current.map((track) => `**${++j}** | [${track.title}](${track.url}) (${msToTime(track.rawDuration)}) - **${track.memberDisplayName}**`).join("\n");
     const video = message.guild.musicData.nowPlaying;
     const embed = new MessageEmbed()
     .setTitle(`🎶 Queue for ${message.guild.name} (${queue.length})`)
@@ -124,7 +124,7 @@ function generateQueueEmbed(message, queue) {
       embed.setFooter(`Now Playing: ${video.title} | Loop: ${message.guild.musicData.loop} | Total Queue Time: ${msToTime(allduration)}`)
     embeds.push(embed);
   } else if (message.guild.musicData.loop == 'one' || message.guild.musicData.loop == 'all') {
-      embed.setFooter(`Now Playing: ${video.title} | Loop: ${message.guild.musicData.loop} Track | Total Queue Time: ${msToTime(allduration)}`)
+      embed.setFooter(`Now Playing: ${textlimit(video.title)} | Loop: ${message.guild.musicData.loop} Track | Total Queue Time: ${msToTime(allduration)}`)
     embeds.push(embed);
     }
   }
@@ -132,8 +132,8 @@ function generateQueueEmbed(message, queue) {
 };
 
 function textlimit(text) {
-  if (text.length > 42) {
-    text = text.slice(0, 42)
+  if (text.length > 30) {
+    text = text.slice(0, 30)
     return text + '...'
   } else {  
     return text

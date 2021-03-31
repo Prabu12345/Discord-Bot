@@ -63,6 +63,7 @@ module.exports = class SkipToCommand extends Command {
     message.guild.musicData.loop = 'off';
     message.guild.musicData.queue.splice(0, newsongNumber);
     message.guild.musicData.songDispatcher.end();
+    message.react('⏭️');
     setTimeout(function onTimeOut() { message.guild.musicData.loop = message.guild.musicData.sloop }, 500);
     return;
   }

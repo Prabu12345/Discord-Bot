@@ -91,7 +91,6 @@ module.exports = class BanCommand extends Command {
 		if (message.channel.type !== 'dm') {
 			if (commands[0].name == 'playlist') {
 				embed.setDescription(stripIndents`
-				** | Description |** 
 				\`${commands[0].description || "No Description provided."}\`
 
 				** | Usage |** 
@@ -114,7 +113,6 @@ module.exports = class BanCommand extends Command {
 				`)
 			} else {
 				embed.setDescription(stripIndents`
-				**| Description |** 
 				\`${commands[0].description || "No Description provided."}\`
 				
 				**| Usage |** 
@@ -134,7 +132,6 @@ module.exports = class BanCommand extends Command {
 		  } else {
 			if (commands[0].name == 'playlist') {
 				embed.setDescription(stripIndents`
-				** | Description |** 
 				\`${commands[0].description || "No Description provided."}\`
 				
 				** | Usage |** 
@@ -157,7 +154,6 @@ module.exports = class BanCommand extends Command {
 				`)
 			} else {
 				embed.setDescription(stripIndents`
-				**| Description |** 
 				\`${commands[0].description || "No Description provided."}\`
 				
 				**| Usage |** 
