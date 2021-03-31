@@ -57,6 +57,7 @@ module.exports = class searchCommand extends Command {
       return message.say(errvideoEmbed);
     }
 
+    message.channel.send(`:mag_right: | **Searching** \`${query}\``);
     const videos = await youtube.search(query, { type: 'video', limit: 5, safeSearch: true }).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)

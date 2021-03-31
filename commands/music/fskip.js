@@ -19,15 +19,15 @@ module.exports = class SkipCommand extends Command {
   }
 
   async run(message) {
-    let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) return message.guild.roles.create({
       data: {
         name: 'DJ',
       },
       reason: 'we needed a role for DJ',
     })
-      .then(console.log)
-      .catch(console.error);
+    .then(message.channel.send('I Added DJ role because i NEED it'))
+    .catch(message.channel.send('Please Give me Permission to MANAGE_ROLES to add DJ role'));
     if(!message.member.roles.cache.get(role.id)) return message.channel.send("You don't have role named *DJ*");
     const errskipEmbed = new MessageEmbed()
     .setColor(errorcolor)

@@ -26,15 +26,15 @@ module.exports = class RemoveSongCommand extends Command {
     });
   }
   async run(message, { songNumber }) {
-    let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) return message.guild.roles.create({
       data: {
         name: 'DJ',
       },
       reason: 'we needed a role for DJ',
     })
-    .then()
-    .catch(message.channel.send('Please Give me Permission to MANAGE_ROLES'));
+    .then(message.channel.send('I Added DJ role because i NEED it'))
+    .catch(message.channel.send('Please Give me Permission to MANAGE_ROLES to add DJ role'));
     const errremoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 || songNumber > message.guild.musicData.queue.length) {
