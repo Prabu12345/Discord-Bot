@@ -50,6 +50,13 @@ module.exports = class searchCommand extends Command {
       return;
     }
 
+    if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      message.say(errleaveEmbed);
+    }
+
     if (query.length == 0){
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)

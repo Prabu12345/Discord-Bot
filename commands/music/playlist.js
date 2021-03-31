@@ -63,6 +63,12 @@ module.exports = class PlaylistCommand extends Command {
             message.say(errvideoEmbed);
             return;
         }
+        if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
+          const errleaveEmbed = new MessageEmbed()
+          .setColor(errorcolor)
+          .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+          message.say(errleaveEmbed);
+        }
         const userPlaylists = await db.get(`${message.member.id}.savedPlaylist`);
         const found = userPlaylists.find(element => element.name == additional);
         if (found) {
