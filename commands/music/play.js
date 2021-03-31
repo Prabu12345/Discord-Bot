@@ -65,11 +65,11 @@ module.exports = class PlayCommand extends Command {
       return message.reply(`**I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
     }
 
-    if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
+    if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
-      message.say(errleaveEmbed);
+      return message.say(errleaveEmbed);
     }
 
     if (message.guild.musicData.pause == true && query.length == 0) {
