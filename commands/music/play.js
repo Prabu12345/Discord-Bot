@@ -106,7 +106,7 @@ module.exports = class PlayCommand extends Command {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | I had some trouble finding what you were looking for, please try again or be more specific`)
-        message.say(errvideoEmbed);
+        srch.edit('', errvideoEmbed);
         return;
       }
       message.guild.musicData.queue.push(
@@ -142,7 +142,7 @@ module.exports = class PlayCommand extends Command {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`playlist not found`)
-      return message.say(errvideoEmbed);
+      return srch.edit('', errvideoEmbed);
       }
       const tracks = []
       for (let i = 0; i < playlist.tracks.items.length; i++) {
@@ -151,7 +151,7 @@ module.exports = class PlayCommand extends Command {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
           .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
-          await message.say(errvideoEmbed);
+          await srch.edit('', errvideoEmbed);
           return;
         });
         if (results.length < 1) {
@@ -193,7 +193,7 @@ module.exports = class PlayCommand extends Command {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`Album not found`)
-      return message.say(errvideoEmbed);
+      return srch.edit('', errvideoEmbed);
       }
       const tracks = []
       for (let i = 0; i < album.tracks.items.length; i++) {
@@ -202,7 +202,7 @@ module.exports = class PlayCommand extends Command {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
           .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
-          await message.say(errvideoEmbed);
+          await srch.edit('', errvideoEmbed);
           return;
         });
         if (results.length < 1) {
@@ -244,14 +244,14 @@ module.exports = class PlayCommand extends Command {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | Playlist is either private or it does not exist!`)
-        return message.say(errvideoEmbed);
+        return srch.edit('', errvideoEmbed);
       });
       // add 10 as an argument in getVideos() if you choose to limit the queue
       const videosArr = await playlist.getVideos().catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | There was a problem getting one of the videos in the playlist!`)
-        message.say(errvideoEmbed);
+        srch.edit('', errvideoEmbed);
         return;
       });
 
@@ -312,7 +312,7 @@ module.exports = class PlayCommand extends Command {
       const id = query[2].split(/[^0-9a-z_\-]/i)[0];
       let failedToGetVideo = false;
       const video = await gch.getVideoByID(id).catch(function() {
-        message.say(':x: | There was a problem getting the video you provided!');
+        srch.edit('', ':x: | There was a problem getting the video you provided!');
         failedToGetVideo = true;
       });
       if (failedToGetVideo) return;
@@ -357,7 +357,7 @@ module.exports = class PlayCommand extends Command {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
-      await message.say(errvideoEmbed);
+      await srch.edit('', errvideoEmbed);
       return;
     });
     if (videos.length < 1 || !videos) {
@@ -365,7 +365,7 @@ module.exports = class PlayCommand extends Command {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | I had some trouble finding what you were looking for, please try again or be more specific`)
-      message.say(errvideoEmbed);
+      srch.edit('', errvideoEmbed);
       return;
     }
     message.guild.musicData.queue.push(

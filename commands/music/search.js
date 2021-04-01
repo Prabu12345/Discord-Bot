@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const youtube = require('youtube-sr').default;
-const { cmoji, xmoji, normalcolor, errorcolor } = require('../../config.json');
+const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
 const { playSong } = require('../music/play')
 
 module.exports = class searchCommand extends Command {
@@ -96,72 +96,42 @@ module.exports = class searchCommand extends Command {
       .setDescription(`${vidNameArr[0]}\n${vidNameArr[1]}\n${vidNameArr[2]}\n${vidNameArr[3]}\n${vidNameArr[4]}`)
       .addField('Exit', 'Write "exit" to cancel');
     var songEmbed = await message.channel.send({ embed });
-    try {
-      await songEmbed.react("1️⃣");
-      await songEmbed.react("2️⃣");
-      await songEmbed.react("3️⃣");
-      await songEmbed.react("4️⃣");
-      await songEmbed.react("5️⃣");
-      await songEmbed.react("❌");
-    } catch (error) {
-      console.error(error);
-      message.channel.send(error.message).catch(console.error);
-    }
+    message.channel
+      .awaitMessages(
+        function(msg) {
+          return (msg.content > 0 && msg.content < 6) || msg.content === 'exit';
+        },
+        {
+          max: 1,
+          time: 60000,
+          errors: ['time']
+        }
+      )
+      .then(function(response) {
+        const videoIndex = parseInt(response.first().content);
+        if (response.first().content === 'exit') {
+          songEmbed.delete();
+          return;
+        }
+          // // can be uncommented if you don't want the bot to play live streams
+          // if (video.raw.snippet.liveBroadcastContent === 'live') {
+          //   songEmbed.delete();
+          //   return message.say("I don't support live streams!");
+          // }
 
-    const filter = (reaction, user) =>
-      ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "❌"].includes(reaction.emoji.name) && message.author.id === user.id;
-    const collector = songEmbed.createReactionCollector(filter, { time: 60000 });
+          // // can be uncommented if you don't want the bot to play videos longer than 1 hour
+          // if (video.duration.hours !== 0) {
+          //   songEmbed.delete();
+          //   return message.say('I cannot play videos longer than 1 hour');
+          // }
 
-    collector.on("collect", async (reaction, user) => {
-      try {
-        if (reaction.emoji.name === "➡1️⃣") {
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[1 - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
-          if (collector && !collector.end) collector.stop();
-        } else if (reaction.emoji.name === "⬅2️⃣") {
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[2 - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
-          if (collector && !collector.end) collector.stop();
-        } else if (reaction.emoji.name === "⬅3️⃣") {
-          videoIndex = 3
+          // // can be uncommented if you don't want to limit the queue
+          // if (message.guild.musicData.queue.length > 10) {
+          //   songEmbed.delete();
+          //   return message.say(
+          //     'There are too many songs in the queue already, skip or wait a bit'
+          //   );
+          // }
           message.guild.musicData.queue.push(
             searchCommand.constructSongObj(
               videos[videoIndex - 1],
@@ -170,80 +140,33 @@ module.exports = class searchCommand extends Command {
           );
           if (message.guild.musicData.isPlaying == false) {
             message.guild.musicData.isPlaying = true;
+            if (songEmbed) {
+              songEmbed.delete();
+            }
             playSong(message.guild.musicData.queue, message, 0);
           } else if (message.guild.musicData.isPlaying == true) {
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
+            if (songEmbed) {
+              songEmbed.delete();
+            }
             const addvideoEmbed = new MessageEmbed()
             .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
+            .setDescription(`**${videos[videoIndex - 1].title}** added to queue`)
             srch.edit('', addvideoEmbed);
             return;
           }
-          if (collector && !collector.end) collector.stop();
-        } else if (reaction.emoji.name === "⬅4️⃣") {
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[4 - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
-          if (collector && !collector.end) collector.stop();
-        } else if (reaction.emoji.name === "5️⃣") {
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[5 - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
-          if (collector && !collector.end) collector.stop();
-        } else {
-          if (collector && !collector.end) collector.stop();
+      })
+      .catch(function(e) {
+        if (songEmbed) {
+          songEmbed.delete();
         }
-        await reaction.users.remove(message.author.id);
-      } catch (error) {
-        console.error(error);
-        return message.channel.send(error.message + ', Please give me permission to **MANAGE_MESSAGES** to delete a reaction').catch(console.error);
-      }
-    });
-
-    collector.on("end", (reaction, user) => { 
-      songEmbed.reactions.removeAll();
-      songEmbed.delete({timeout:1000});
-    });
+        console.error(e)
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription(`${xmoji} | Please try again and enter a number between 1 and 5 or exit`)
+        srch.edit('', errvideoEmbed);
+        return;
+      });  
+  
   }
   static constructSongObj(video, user) {
     let duration = this.formatDuration(video.durationFormatted);
@@ -272,4 +195,5 @@ module.exports = class searchCommand extends Command {
     }`;
     return duration;
   }
+
 }
