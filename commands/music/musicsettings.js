@@ -72,7 +72,7 @@ module.exports = class LeaveCommand extends Command {
           if (songEmbed) {
             songEmbed.delete();
           }
-          response.delete();
+          message.channel.bulkDelete(1)
           var vm = await message.channel.send('What do you want to set max volume to?');
           message.channel
             .awaitMessages(
@@ -91,7 +91,7 @@ module.exports = class LeaveCommand extends Command {
                 if (vm) {
                   vm.delete();
                 }
-                response.delete();
+                message.channel.bulkDelete(1)
                 let vol = await db.get(`${message.guild.id}.settings`)
                 db.set(`${message.guild.id}.settings`, {volume: vol.volume, maxvolume: vIndex, nowplaying: vol.nowplaying, timeout: vol.timeout})
                 const volumeEmbed = new MessageEmbed()
@@ -114,7 +114,7 @@ module.exports = class LeaveCommand extends Command {
           if (songEmbed) {
             songEmbed.delete();
           }
-          response.delete();
+          message.channel.bulkDelete(1)
           var tm = await message.channel.send('What do you want to set the timeout to?');
           message.channel
             .awaitMessages(
@@ -133,7 +133,7 @@ module.exports = class LeaveCommand extends Command {
                 if (tm) {
                   tm.delete();
                 }
-                response.delete();
+                message.channel.bulkDelete(1)
                 let tim = await db.get(`${message.guild.id}.settings`)
                 let volume = tim.volume
                 let maxvolume = tim.maxvolume
@@ -164,7 +164,7 @@ module.exports = class LeaveCommand extends Command {
           if (songEmbed) {
             songEmbed.delete();
           }
-          response.delete();
+          message.channel.bulkDelete(1)
           if (all.nowplaying == false) {
             db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: true, timeout: all.timeout})
             message.say(`Automatically show now play **enable**`)
