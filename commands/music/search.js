@@ -112,38 +112,32 @@ module.exports = class searchCommand extends Command {
       ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "❌"].includes(reaction.emoji.name) && message.author.id === user.id;
     const collector = songEmbed.createReactionCollector(filter, { time: 60000 });
 
-    const videoIndex = 0
+    let videoIndex = 0
 
     collector.on("collect", async (reaction, user) => {
       try {
         if (reaction.emoji.name === "➡1️⃣") {
           videoIndex = 1
-          songEmbed.reactions.removeAll();
-          songEmbed.delete({timeout:1000});
           searchCommand.playy(message, videos, videoIndex)
+          if (collector && !collector.end) collector.stop();
         } else if (reaction.emoji.name === "⬅2️⃣") {
           videoIndex = 2
-          reaction.message.reactions.removeAll();
-          reaction.message.delete({timeout:1000});
           searchCommand.playy(message, videos, videoIndex)
+          if (collector && !collector.end) collector.stop();
         } else if (reaction.emoji.name === "⬅3️⃣") {
           videoIndex = 3
-          reaction.message.reactions.removeAll();
-          reaction.message.delete({timeout:1000});
           searchCommand.playy(message, videos, videoIndex)
+          if (collector && !collector.end) collector.stop();
         } else if (reaction.emoji.name === "⬅4️⃣") {
           videoIndex = 4
-          reaction.message.reactions.removeAll();
-          reaction.message.delete({timeout:1000});
           searchCommand.playy(message, videos, videoIndex)
+          if (collector && !collector.end) collector.stop();
         } else if (reaction.emoji.name === "5️⃣") {
           videoIndex = 5
-          reaction.message.reactions.removeAll();
-          reaction.message.delete({timeout:1000});
           searchCommand.playy(message, videos, videoIndex)
+          if (collector && !collector.end) collector.stop();
         } else {
-          reaction.message.reactions.removeAll();
-          reaction.message.delete({timeout:1000});
+          if (collector && !collector.end) collector.stop();
         }
         await reaction.users.remove(message.author.id);
       } catch (error) {
@@ -153,10 +147,8 @@ module.exports = class searchCommand extends Command {
     });
 
     collector.on("end", (reaction, user) => { 
-      if (songEmbed) {
-        songEmbed.reactions.removeAll();
-        songEmbed.delete({timeout:1000});
-      }
+      songEmbed.reactions.removeAll();
+      songEmbed.delete({timeout:1000});
     });
   }
   static constructSongObj(video, user) {
