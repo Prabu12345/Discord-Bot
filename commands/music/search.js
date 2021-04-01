@@ -106,7 +106,7 @@ module.exports = class searchCommand extends Command {
 
     const filter = (reaction, user) =>
       ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "❌"].includes(reaction.emoji.name) && message.author.id === user.id;
-    const collector = queueEmbed.createReactionCollector(filter, { time: 60000 });
+    const collector = songEmbed.createReactionCollector(filter, { time: 60000 });
 
     const videoIndex = 0
 
