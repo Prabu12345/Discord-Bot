@@ -89,13 +89,14 @@ module.exports = class PlayCommand extends Command {
       return message.say(errvideoEmbed);
     }
 
+    const srch = await message.channel.send(`:mag_right: | **Searching** \`${query}\``);
+
     if (
       query.match(
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
       )
     ) {
       var updatedQuery;
-      message.channel.send(`:mag_right: | **Searching** \`${query}\``);
       const spotifyData = await spotify.getPreview(query).catch(() => {})
       if (spotifyData) {
         updatedQuery = `${spotifyData.artist} - ${spotifyData.title}`
@@ -121,7 +122,7 @@ module.exports = class PlayCommand extends Command {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
         .setDescription(`**${videos.title}** added to queue`)
-        message.say(addvideoEmbed);
+        srch.edit('', addvideoEmbed);
         return;
       }
     }
@@ -139,7 +140,6 @@ module.exports = class PlayCommand extends Command {
       return message.say(errvideoEmbed);
       }
       const tracks = []
-      message.channel.send(`:mag_right: | **Searching** \`${query}\` `);
       for (let i = 0; i < playlist.tracks.items.length; i++) {
         const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
         const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
@@ -164,12 +164,16 @@ module.exports = class PlayCommand extends Command {
       );
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
+        const addvideoEmbed = new MessageEmbed()
+        .setColor(normalcolor)
+        .setDescription(`🎵 | **${playlist.name}** added ${tracks.length} songs to the queue!`)
+        srch.edit('', addvideoEmbed);
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
         .setDescription(`🎵 | **${playlist.name}** added ${tracks.length} songs to the queue!`)
-        message.say(addvideoEmbed);
+        srch.edit('', addvideoEmbed);
         return;
       }
     }
@@ -187,7 +191,6 @@ module.exports = class PlayCommand extends Command {
       return message.say(errvideoEmbed);
       }
       const tracks = []
-      message.channel.send(`:mag_right: | **Searching** \`${query}\``);
       for (let i = 0; i < album.tracks.items.length; i++) {
         const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
         const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
@@ -212,12 +215,16 @@ module.exports = class PlayCommand extends Command {
       );
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
+        const addvideoEmbed = new MessageEmbed()
+        .setColor(normalcolor)
+        .setDescription(`🎵 | **${album.name}** added ${tracks.length} songs to the queue!`)
+        srch.edit('', addvideoEmbed);
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
         .setDescription(`🎵 | **${album.name}** added ${tracks.length} songs to the queue!`)
-        message.say(addvideoEmbed);
+        srch.edit('', addvideoEmbed);
         return;
       }
     }
@@ -228,7 +235,6 @@ module.exports = class PlayCommand extends Command {
         /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/
       )
     ) {
-      message.channel.send(`:mag_right: | **Searching** \`${query}\``);
       const playlist = await gch.getPlaylist(query).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
@@ -279,19 +285,22 @@ module.exports = class PlayCommand extends Command {
       }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
+        const addvideoEmbed = new MessageEmbed()
+        .setColor(normalcolor)
+        .setDescription(`🎵 | **${playlist.title}** added ${tracks.length} songs to the queue!`)
+        srch.edit('', addvideoEmbed);
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
         .setDescription(`🎵 | **${playlist.title}** added ${tracks.length} songs to the queue!`)
-        message.say(addvideoEmbed);
+        srch.edit('', addvideoEmbed);
         return;
       }
     }
 
     // This if statement checks if the user entered a youtube url, it can be any kind of youtube url
     if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
-      message.channel.send(`:mag_right: | Searching \`${query}\``);
       query = query
         .replace(/(>|<)/gi, '')
         .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
@@ -333,7 +342,7 @@ module.exports = class PlayCommand extends Command {
         .addField(`Potition `,`#${message.guild.musicData.queue.length} in queue`)
         .setThumbnail(video.thumbnails.high.url)
         .setURL(video.url)
-        message.say(addvideoEmbed);
+        srch.edit('', addvideoEmbed);
         return;
       }
     }
@@ -354,7 +363,6 @@ module.exports = class PlayCommand extends Command {
       message.say(errvideoEmbed);
       return;
     }
-    message.channel.send(`:mag_right: | **Searching** \`${query}\``);
     message.guild.musicData.queue.push(
       PlayCommand.constructSongObj(
         videos[0],
@@ -373,7 +381,7 @@ module.exports = class PlayCommand extends Command {
       .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
       .setThumbnail(videos[0].thumbnail.url)
       .setURL(url)
-      message.say(addvideoEmbed);
+      srch.edit('', addvideoEmbed);
       return;
     }
   }
