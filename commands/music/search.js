@@ -153,8 +153,10 @@ module.exports = class searchCommand extends Command {
     });
 
     collector.on("end", (reaction, user) => { 
-      reaction.message.reactions.removeAll();
-      reaction.message.delete({timeout:1000});
+      if (reaction.message.reactions) {
+        reaction.message.reactions.removeAll();
+        reaction.message.delete({timeout:1000});
+      }
     });
   }
   static constructSongObj(video, user) {
