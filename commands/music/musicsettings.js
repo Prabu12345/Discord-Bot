@@ -51,7 +51,7 @@ module.exports = class LeaveCommand extends Command {
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
-    var xr = await message.channel
+    message.channel
       .awaitMessages(
         function(msg) {
           return (msg.content > 0 && msg.content < 4) || msg.content === 'exit';
@@ -72,9 +72,9 @@ module.exports = class LeaveCommand extends Command {
           if (songEmbed) {
             songEmbed.delete();
           }
-          xr.delete();
+          response.delete();
           var vm = await message.channel.send('What do you want to set max volume to?');
-          var x = await message.channel
+          message.channel
             .awaitMessages(
               async function(msg) {
                 return (msg.content > 99 && msg.content < 201) || msg.content === 'cancel';
@@ -91,7 +91,7 @@ module.exports = class LeaveCommand extends Command {
                 if (vm) {
                   vm.delete();
                 }
-                x.delete();
+                response.delete();
                 let vol = await db.get(`${message.guild.id}.settings`)
                 db.set(`${message.guild.id}.settings`, {volume: vol.volume, maxvolume: vIndex, nowplaying: vol.nowplaying, timeout: vol.timeout})
                 const volumeEmbed = new MessageEmbed()
@@ -114,9 +114,9 @@ module.exports = class LeaveCommand extends Command {
           if (songEmbed) {
             songEmbed.delete();
           }
-          xr.delete();
+          response.delete();
           var tm = await message.channel.send('What do you want to set the timeout to?');
-          var x = await message.channel
+          message.channel
             .awaitMessages(
               async function(msg) {
                 return (msg.content < 50) || msg.content === 'cancel';
@@ -133,7 +133,7 @@ module.exports = class LeaveCommand extends Command {
                 if (tm) {
                   tm.delete();
                 }
-                x.delete();
+                response.delete();
                 let tim = await db.get(`${message.guild.id}.settings`)
                 let volume = tim.volume
                 let maxvolume = tim.maxvolume
@@ -164,7 +164,7 @@ module.exports = class LeaveCommand extends Command {
           if (songEmbed) {
             songEmbed.delete();
           }
-          xr.delete();
+          response.delete();
           if (all.nowplaying == false) {
             db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: true, timeout: all.timeout})
             message.say(`Automatically show now play **enable**`)
