@@ -177,7 +177,6 @@ module.exports = class searchCommand extends Command {
       rawDuration: video.duration,
       duration: video.durationFormatted,
       thumbnail: video.thumbnail.url,
-      voiceChannel,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
