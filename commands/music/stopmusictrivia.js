@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 
 module.exports = class StopMusicTriviaCommand extends Command {
   constructor(client) {
@@ -23,17 +23,17 @@ module.exports = class StopMusicTriviaCommand extends Command {
     const errsmtrivaEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (!message.guild.triviaData.isTriviaRunning){
-      errsmtrivaEmbed.setDescription('No trivia is currently running')
+      errsmtrivaEmbed.setDescription(`${xmoji} | No trivia is currently running`)
       return message.say(errsmtrivaEmbed);
     }
 
     if (message.guild.me.voice.channel !== message.member.voice.channel) {
-      errsmtrivaEmbed.setDescription("Join the trivia's channel and try again")
+      errsmtrivaEmbed.setDescription(`${xmoji} | Join the trivia's channel and try again`)
       return message.say(errsmtrivaEmbed);
     }
 
     if (!message.guild.triviaData.triviaScore.has(message.author.username)) {
-      errsmtrivaEmbed.setDescription('You need to participate in the trivia in order to end it')
+      errsmtrivaEmbed.setDescription(`${xmoji} | You need to participate in the trivia in order to end it`)
       return message.say(errsmtrivaEmbed);
     }
 

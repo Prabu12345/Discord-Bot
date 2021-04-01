@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const ytdl = require('ytdl-core');
 const fs = require('fs');
-const { prefix, normalcolor, errorcolor } = require('../../config.json');
+const { prefix, normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json');
 
 module.exports = class MusicTriviaCommand extends Command {
   constructor(client) {
@@ -35,11 +35,11 @@ module.exports = class MusicTriviaCommand extends Command {
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      errtrivaEmbed.setDescription('Please join a voice channel and try again')
+      errtrivaEmbed.setDescription(`${xmoji} | Please join a voice channel and try again`)
       return message.say(errtrivaEmbed);
     }    
     if (message.guild.musicData.isPlaying === true) {
-      errtrivaEmbed.setDescription('A quiz or a song is already running')
+      errtrivaEmbed.setDescription(`${xmoji} | A quiz or a song is already running`)
       return message.channel.send(errtrivaEmbed);
     }
     message.guild.musicData.isPlaying = true;

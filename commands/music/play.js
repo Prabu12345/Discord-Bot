@@ -11,7 +11,7 @@ const spt = new Spotify({
   clientID: "540def33c9bb4c94b7d3b5bb51615624",
   clientSecret: "89c15cd0add944c6bef3be863b964d9f",
   });
-const { normalcolor, errorcolor, prefix } = require('../../config.json');
+const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
@@ -48,7 +48,7 @@ module.exports = class PlayCommand extends Command {
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('Join a channel and try again')
+      .setDescription(`${xmoji} | Join a channel and try again`)
       message.say(errvideoEmbed);
       return;
     }
@@ -56,26 +56,26 @@ module.exports = class PlayCommand extends Command {
     if (message.guild.triviaData.isTriviaRunning == true) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('Please try after the trivia has ended')
+      .setDescription(`${xmoji} | Please try after the trivia has ended`)
       message.say(errvideoEmbed);
       return;
     }
 
     if (!message.guild.me.voice.channel) {
-      return message.reply(`**I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
+      return message.reply(`${xmoji} | **I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
     }
 
     if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       return message.say(errleaveEmbed);
     }
 
     if (message.guild.musicData.pause == true && query.length == 0) {
     const resumeEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    .setDescription('Song resumed :play_pause:')
+    .setDescription(`${cmoji} | Song resumed :play_pause:`)
     message.say(resumeEmbed);
     message.guild.musicData.pause = false;
     message.guild.musicData.songDispatcher.resume();
@@ -105,7 +105,7 @@ module.exports = class PlayCommand extends Command {
       if (videos.length < 1 || !videos) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription('I had some trouble finding what you were looking for, please try again or be more specific')
+        .setDescription(`${xmoji} | I had some trouble finding what you were looking for, please try again or be more specific`)
         message.say(errvideoEmbed);
         return;
       }
@@ -119,9 +119,14 @@ module.exports = class PlayCommand extends Command {
         message.guild.musicData.isPlaying = true;
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
+        let url = `https://youtube.com/watch?v=${videos.id}`;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`**${videos.title}** added to queue`)
+        .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
+        .setTitle(`${videos.title}`)
+        .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
+        .setThumbnail(videos.thumbnail.url)
+        .setURL(url)
         srch.edit('', addvideoEmbed);
         return;
       }
@@ -145,7 +150,7 @@ module.exports = class PlayCommand extends Command {
         const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
-          .setDescription('There was a problem searching the video you requested :(')
+          .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
           await message.say(errvideoEmbed);
           return;
         });
@@ -196,7 +201,7 @@ module.exports = class PlayCommand extends Command {
         const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
-          .setDescription('There was a problem searching the video you requested :(')
+          .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
           await message.say(errvideoEmbed);
           return;
         });
@@ -238,14 +243,14 @@ module.exports = class PlayCommand extends Command {
       const playlist = await gch.getPlaylist(query).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription('Playlist is either private or it does not exist!')
+        .setDescription(`${xmoji} | Playlist is either private or it does not exist!`)
         return message.say(errvideoEmbed);
       });
       // add 10 as an argument in getVideos() if you choose to limit the queue
       const videosArr = await playlist.getVideos().catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription('There was a problem getting one of the videos in the playlist!')
+        .setDescription(`${xmoji} | There was a problem getting one of the videos in the playlist!`)
         message.say(errvideoEmbed);
         return;
       });
@@ -307,7 +312,7 @@ module.exports = class PlayCommand extends Command {
       const id = query[2].split(/[^0-9a-z_\-]/i)[0];
       let failedToGetVideo = false;
       const video = await gch.getVideoByID(id).catch(function() {
-        message.say(':x: There was a problem getting the video you provided!');
+        message.say(':x: | There was a problem getting the video you provided!');
         failedToGetVideo = true;
       });
       if (failedToGetVideo) return;
@@ -351,7 +356,7 @@ module.exports = class PlayCommand extends Command {
     const videos = await youtube.search(query, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('There was a problem searching the video you requested :(')
+      .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
       await message.say(errvideoEmbed);
       return;
     });
@@ -359,7 +364,7 @@ module.exports = class PlayCommand extends Command {
       if (query.match(/^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/)) return;
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('I had some trouble finding what you were looking for, please try again or be more specific')
+      .setDescription(`${xmoji} | I had some trouble finding what you were looking for, please try again or be more specific`)
       message.say(errvideoEmbed);
       return;
     }

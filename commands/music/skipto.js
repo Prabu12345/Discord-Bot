@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class SkipToCommand extends Command {
@@ -33,12 +33,12 @@ module.exports = class SkipToCommand extends Command {
     const errskiptoEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 && songNumber > message.guild.musicData.queue.length) {
-      errskiptoEmbed.setDescription('Please enter a valid song number')
+      errskiptoEmbed.setDescription(`${xmoji} | Please enter a valid song number`)
       return message.say(errskiptoEmbed);
     }
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      errskiptoEmbed.setDescription('Join a channel and try again')
+      errskiptoEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       return message.say(errskiptoEmbed)
     };
 
@@ -46,15 +46,15 @@ module.exports = class SkipToCommand extends Command {
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      errskiptoEmbed.setDescription('There is no song playing right now!')
+      errskiptoEmbed.setDescription(`${xmoji} | There is no song playing right now!`)
       return message.say(errskiptoEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      errskiptoEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      errskiptoEmbed.setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errskiptoEmbed);
       return;
     }
     if (message.guild.musicData.queue < 1){
-      errskiptoEmbed.setDescription('There are no songs in queue')
+      errskiptoEmbed.setDescription(`${xmoji} | There are no songs in queue`)
       return message.say(errskiptoEmbed)
     };
     

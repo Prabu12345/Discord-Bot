@@ -37,7 +37,7 @@ module.exports = class VolumeCommand extends Command {
     const voiceChannel = message.member.voice.channel;
     const errvolumeEmbed = new MessageEmbed()
     .setColor(errorcolor)
-    .setDescription('Join a channel and try again')
+    .setDescription(`${xmoji} | Join a channel and try again`)
     if (!voiceChannel) return message.say(errvolumeEmbed);
 
     if (

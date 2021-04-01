@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 const { playSong } = require('../music/play');
 
@@ -24,7 +24,7 @@ module.exports = class LeaveCommand extends Command {
     if (!voiceChannel) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('Join a channel and try again')
+      .setDescription(`${xmoji} | Join a channel and try again`)
       message.say(errleaveEmbed);
       return;
     } else if (
@@ -32,10 +32,10 @@ module.exports = class LeaveCommand extends Command {
       message.guild.musicData.songDispatcher == null
     ) {
       if(message.guild.me.voice.channel) {
-        return message.channel.send(`I already in voice channel, ${message.author}`);
+        return message.channel.send(`${xmoji} | I already in voice channel, ${message.author}`);
       }
     } else if (message.guild.musicData.isPlaying == true) {
-      return message.channel.send(`I already in voice channel, ${message.author}`);
+      return message.channel.send(`${xmoji} | I already in voice channel, ${message.author}`);
     }
     try {
       if (message.guild.musicData.queue.length == 0){
@@ -46,7 +46,7 @@ module.exports = class LeaveCommand extends Command {
       }
       message.react('👌')
     } catch {
-      return message.reply(':x: Something went wrong when joining channels');
+      return message.reply(':x: | Something went wrong when joining channels');
     }
   }
 };

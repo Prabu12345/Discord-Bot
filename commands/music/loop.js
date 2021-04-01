@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class LoopCommand extends Command {
@@ -32,7 +32,7 @@ module.exports = class LoopCommand extends Command {
     if (!message.guild.musicData.isPlaying) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('There is no song playing right now!')
+      .setDescription(`${xmoji} | There is no song playing right now!`)
       return message.say(errloopEmbed);
     } else if (typeLoop.length == 0) {
       const errloopEmbed = new MessageEmbed()
@@ -45,14 +45,14 @@ module.exports = class LoopCommand extends Command {
     ) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('You cannot loop over a trivia!')
+      .setDescription(`${xmoji} | You cannot loop over a trivia!`)
       return message.say(errloopEmbed);
     } else if (
       message.member.voice.channel.id !== message.guild.me.voice.channel.id
     ) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.reply(errloopEmbed);
       return;
     }
@@ -61,15 +61,15 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
 
     if (totypelooplower == 'track') {
-      loopEmbed.setDescription('Looped **One track**, **loop off** if you want to stop looping!')
+      loopEmbed.setDescription(`${cmoji} | Looped **One track**, **loop off** if you want to stop looping!`)
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
     } else if (totypelooplower == 'queue') {
-      loopEmbed.setDescription('Looped **All track**, **loop off** if you want to stop looping!')
+      loopEmbed.setDescription(`${cmoji} | Looped **All track**, **loop off** if you want to stop looping!`)
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
     } else if (totypelooplower == 'off') {
-      loopEmbed.setDescription('Loop **off**!')
+      loopEmbed.setDescription(`${cmoji} | Loop **off**!`)
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
     };

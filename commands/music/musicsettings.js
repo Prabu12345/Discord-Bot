@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
@@ -106,7 +106,7 @@ module.exports = class LeaveCommand extends Command {
               }
               const errvideoEmbed = new MessageEmbed()
               .setColor(errorcolor)
-              .setDescription('Please try again and enter a number between 1 and 100')
+              .setDescription(`${xmoji} | Please try again and enter a number between 1 and 100`)
               message.say(errvideoEmbed);
               return;
             });
@@ -156,7 +156,7 @@ module.exports = class LeaveCommand extends Command {
               }
               const errvideoEmbed = new MessageEmbed()
               .setColor(errorcolor)
-              .setDescription('Please try again and enter a number between 0 and 50')
+              .setDescription(`${xmoji} | Please try again and enter a number between 0 and 50`)
               message.say(errvideoEmbed);
               return;
             });
@@ -180,7 +180,7 @@ module.exports = class LeaveCommand extends Command {
         }
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription('Please try again and enter a number between 1 and 3 or exit')
+        .setDescription(`${xmoji} | Please try again and enter a number between 1 and 3 or exit`)
         message.say(errvideoEmbed);
         return;
       });  

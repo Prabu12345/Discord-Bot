@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class MoveSongCommand extends Command {
@@ -41,13 +41,13 @@ module.exports = class MoveSongCommand extends Command {
       newPosition > message.guild.musicData.queue.length ||
       oldPosition == newPosition
     ) {
-      errmoveEmbed.setDescription('Try again and enter a valid song position number')
+      errmoveEmbed.setDescription(`${xmoji} | Try again and enter a valid song position number`)
       message.say(errmoveEmbed);
       return;
     }
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      errmoveEmbed.setDescription('Join a channel and try again')
+      errmoveEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       message.say(errmoveEmbed);
       return;
     }
@@ -55,9 +55,9 @@ module.exports = class MoveSongCommand extends Command {
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      return message.reply('There is no song playing right now!');
+      return message.reply(`${xmoji} | There is no song playing right now!`);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      errmoveEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      errmoveEmbed.setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errmoveEmbed);
       return;
     }
@@ -71,7 +71,7 @@ module.exports = class MoveSongCommand extends Command {
     );
     const moveEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    .setDescription(`:white_check_mark: **${songName}** moved to position ${newPosition}`)
+    .setDescription(`:white_check_mark: | **${songName}** moved to position ${newPosition}`)
     message.channel.send(moveEmbed);
   }
   // https://stackoverflow.com/a/5306832/9421002

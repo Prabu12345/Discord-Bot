@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 
 module.exports = class QueueCommand extends Command {
   constructor(client) {
@@ -21,7 +21,7 @@ module.exports = class QueueCommand extends Command {
 
   async run(message) {
     if (message.guild.triviaData.isTriviaRunning)
-      return message.say('Try again after the trivia has ended');
+      return message.say(`${xmoji} | Try again after the trivia has ended`);
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
@@ -29,7 +29,7 @@ module.exports = class QueueCommand extends Command {
     ) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('There is no song playing right now!')
+      .setDescription(`${xmoji} | There is no song playing right now!`)
       return message.say(errloopEmbed);
     }
     
@@ -37,7 +37,7 @@ module.exports = class QueueCommand extends Command {
       const video = message.guild.musicData.nowPlaying;
       var errqueueembed = new MessageEmbed()
         .setTitle(`🎶 Queue for ${message.guild.name} (${message.guild.musicData.queue.length})`)
-        .setDescription('There are no songs in queue!')
+        .setDescription(`There are no songs in queue!`)
         if (video) {
           errqueueembed.setColor(normalcolor)
           if (message.guild.musicData.loop == 'off') {

@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class LeaveCommand extends Command {
@@ -23,7 +23,7 @@ module.exports = class LeaveCommand extends Command {
     if (!voiceChannel) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('Join a channel and try again')
+      .setDescription(`${xmoji} | Join a channel and try again`)
       message.say(errleaveEmbed);
       return;
     } else if (
@@ -40,20 +40,20 @@ module.exports = class LeaveCommand extends Command {
       } else {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('There is no song playing right now!')
+      .setDescription(`${xmoji} | There is no song playing right now!`)
       message.say(errleaveEmbed);
       return;
       }
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errleaveEmbed);
       return;
     } else if (!message.guild.musicData.queue) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('There are no songs in queue')
+      .setDescription(`${xmoji} | There are no songs in queue`)
       message.say(errleaveEmbed);
       return;
     } else if (message.guild.musicData.songDispatcher.paused) {

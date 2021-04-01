@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class SkipAllCommand extends Command {
@@ -23,12 +23,12 @@ module.exports = class SkipAllCommand extends Command {
       reason: 'we needed a role for DJ',
     })
       .then()
-      .catch(message.channel.send('Please Give me Permission to MANAGE_ROLES'));
+      .catch(message.channel.send(`${xmoji} | Please Give me Permission to MANAGE_ROLES`));
     const errskipallEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      errskipallEmbed.setDescription('Join a channel and try again')
+      errskipallEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       return message.say(errskipallEmbed)
     };
 
@@ -36,14 +36,14 @@ module.exports = class SkipAllCommand extends Command {
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      errskipallEmbed.setDescription('There is no song playing right now!')
+      errskipallEmbed.setDescription(`${xmoji} | There is no song playing right now!`)
       return message.say(errskipallEmbed)
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      errskipallEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      errskipallEmbed.setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       return message.say(errskipallEmbed)
     }
     if (!message.guild.musicData.queue) {
-      errskipallEmbed.setDescription('There are no songs in queue')
+      errskipallEmbed.setDescription(`${xmoji} | There are no songs in queue`)
       return message.say(errskipallEmbed)
     };
 
@@ -51,7 +51,7 @@ module.exports = class SkipAllCommand extends Command {
       message.guild.musicData.queue.length = 0; // clear queue
       const errleaveEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription('The queue has cleared!')
+        .setDescription(`${cmoji} | The queue has cleared!`)
       message.say(errleaveEmbed);
       message.guild.musicData.cvote = []
       return;
@@ -68,7 +68,7 @@ module.exports = class SkipAllCommand extends Command {
         message.guild.musicData.queue.length = 0; // clear queue
         const errleaveEmbed = new MessageEmbed()
           .setColor(normalcolor)
-          .setDescription('The queue has cleared!')
+          .setDescription(`${cmoji} | The queue has cleared!`)
         message.say(errleaveEmbed);
         message.guild.musicData.cvote = []
         return;

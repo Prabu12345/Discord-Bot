@@ -8,7 +8,7 @@ const Youtube1 = require('youtube-sr').default;
 const Pagination = require('discord-paginationembed');
 const { Spotify } = require('spotify-info.js')
 const { stripIndents, oneLine } = require('common-tags')
-const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
+const { youtubeAPI, normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json');
 const youtube = new Youtube(youtubeAPI);
 const spotify = new Spotify({
   clientID: "540def33c9bb4c94b7d3b5bb51615624",
@@ -48,18 +48,18 @@ module.exports = class PlaylistCommand extends Command {
   async run(message, { type, additional }) {
     if (type.toLowerCase() == 'play') {
         const voiceChannel = message.member.voice.channel;
-        if (additional == '') return message.channel.send('You must include a name for this playlist.')
+        if (additional == '') return message.channel.send(`${xmoji} | You must include a name for this playlist.`)
         if (!voiceChannel) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)
-            .setDescription('Join a channel and try again')
+            .setDescription(`${xmoji} | Join a channel and try again`)
             message.say(errvideoEmbed);
             return;
         }
         if (message.guild.triviaData.isTriviaRunning == true) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)
-            .setDescription('Please try after the trivia has ended')
+            .setDescription(`${xmoji} | Please try after the trivia has ended`)
             message.say(errvideoEmbed);
             return;
         }
@@ -67,7 +67,7 @@ module.exports = class PlaylistCommand extends Command {
           if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
             const errleaveEmbed = new MessageEmbed()
             .setColor(errorcolor)
-            .setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+            .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
             return message.say(errleaveEmbed);
           }
         }
@@ -95,9 +95,9 @@ module.exports = class PlaylistCommand extends Command {
             message.reply(`You have no playlist named ${additional}`)
         }
     } else if (type.toLowerCase() == 'add') {
-        if (additional == '') return message.channel.send('You must include a name and url for this playlist.')
+        if (additional == '') return message.channel.send(`${xmoji} | You must include a name and url for this playlist.`)
         let addive = additional.split(' ');
-        if (addive[1] == undefined) return message.channel.send('You must include a url for this playlist.')
+        if (addive[1] == undefined) return message.channel.send(`${xmoji} | You must include a url for this playlist.`)
         const dbUserFetch = await db.get(`${message.member.id}.savedPlaylist`);
         if (!dbUserFetch) {
             message.reply('You have zero saved playlists!');
@@ -108,7 +108,7 @@ module.exports = class PlaylistCommand extends Command {
             message.reply('You have zero saved playlists!');
             return;
         }
-        message.channel.send(`:mag_right: **Searching** \`${addive[1]}\``);
+        message.channel.send(`:mag_right: | **Searching** \`${addive[1]}\``);
         let found = false;
         let location;
         for (let i = 0; i < savedPlaylistsClone.length; i++) {
@@ -153,9 +153,9 @@ module.exports = class PlaylistCommand extends Command {
             return;
         }
     } else if (type.toLowerCase() == 'remove') {
-        if (additional == '') return message.channel.send('You must include a name and index for this playlist.')
+        if (additional == '') return message.channel.send(`${xmoji} | You must include a name and index for this playlist.`)
         let addimove = additional.split(' ')
-        if (addimove[1] == undefined) return message.channel.send('You must include a index for this playlist.')
+        if (addimove[1] == undefined) return message.channel.send(`${xmoji} | You must include a index for this playlist.`)
         const dbUserFetch = await db.get(`${message.member.id}.savedPlaylist`);
         if (!dbUserFetch) {
           message.reply('You have zero saved playlists!');
@@ -202,7 +202,7 @@ module.exports = class PlaylistCommand extends Command {
           return;
         }
     } else if (type.toLowerCase() == 'create') {
-        if (additional == '') return message.channel.send('You must include a name for this playlist.')
+        if (additional == '') return message.channel.send(`${xmoji} | You must include a name for this playlist.`)
         let new1 = await db.get(message.member.id)
         if (!new1) {
           db.set(message.member.id, {
@@ -231,7 +231,7 @@ module.exports = class PlaylistCommand extends Command {
         db.push(`${message.member.id}.savedPlaylist`, { name: additional, urls: [] });
         message.reply(`Created a new playlist named **${additional}**`);
     } else if (type.toLowerCase() == 'delete') {
-        if (additional == '') return message.channel.send('You must include a name for this playlist.')
+        if (additional == '') return message.channel.send(`${xmoji} | You must include a name for this playlist.`)
         const dbUserFetch = await db.get(message.member.id);
         if (!dbUserFetch) {
           message.reply('You have zero saved playlists!');
@@ -260,7 +260,7 @@ module.exports = class PlaylistCommand extends Command {
           message.reply(`You have no playlist named ${additional}`);
         }
     } else if (type.toLowerCase() == 'see') {
-        if (additional == '') return message.channel.send('You must include a name for this playlist.')
+        if (additional == '') return message.channel.send(`${xmoji} | You must include a name for this playlist.`)
         const dbUserFetch = await db.get(`${message.member.id}.savedPlaylist`);
         if (!dbUserFetch) {
             message.reply('You have zero saved playlists!');
@@ -336,7 +336,7 @@ module.exports = class PlaylistCommand extends Command {
       if (videos.length < 1 || !videos) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription('I had some trouble finding what you were looking for, please try again or be more specific')
+        .setDescription(`${xmoji} | I had some trouble finding what you were looking for, please try again or be more specific`)
         message.say(errvideoEmbed);
         return;
       }
@@ -347,7 +347,7 @@ module.exports = class PlaylistCommand extends Command {
       if (!album) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`playlist not found`)
+      .setDescription(`${xmoji} | playlist not found`)
       return message.say(errvideoEmbed);
       }
       const tracks = []
@@ -356,7 +356,7 @@ module.exports = class PlaylistCommand extends Command {
         const results = await Youtube1.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
-          .setDescription('There was a problem searching the video you requested :(')
+          .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
           await message.say(errvideoEmbed);
           return;
         });
@@ -383,7 +383,7 @@ module.exports = class PlaylistCommand extends Command {
       if (!album) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`Album not found`)
+      .setDescription(`${xmoji} | Album not found`)
       return message.say(errvideoEmbed);
       }
       const tracks = []
@@ -392,7 +392,7 @@ module.exports = class PlaylistCommand extends Command {
         const results = await Youtube1.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
-          .setDescription('There was a problem searching the video you requested :(')
+          .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
           await message.say(errvideoEmbed);
           return;
         });
@@ -415,13 +415,13 @@ module.exports = class PlaylistCommand extends Command {
     }
     if (url.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/)) {
       const playlist = await youtube.getPlaylist(url).catch(function() {
-        message.reply(':x: Playlist is either private or it does not exist!');
+        message.reply(':x: | Playlist is either private or it does not exist!');
         return;
       });
       if (playlist) {
         const videosArr = await playlist.getVideos().catch(function() {
           message.reply(
-            ':x: There was a problem getting one of the videos in the playlist!'
+            ':x: | There was a problem getting one of the videos in the playlist!'
           );
           return;
         });
@@ -450,11 +450,11 @@ module.exports = class PlaylistCommand extends Command {
       .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
     const id = url[2].split(/[^0-9a-z_\-]/i)[0];
     const video = await youtube.getVideoByID(id).catch(function() {
-      message.reply(':x: There was a problem getting the video you provided!');
+      message.reply(':x: | There was a problem getting the video you provided!');
       return;
     });
     if (video.raw.snippet.liveBroadcastContent === 'live') {
-      message.reply("I don't support live streams!");
+      message.reply(`${xmoji} | I not support live streams!`);
       return false;
     }
     return SaveToPlaylistCommand.constructSongObj(video, message.member.user);

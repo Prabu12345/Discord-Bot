@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
@@ -29,7 +29,7 @@ module.exports = class NowPlayingCommand extends Command {
         !message.guild.musicData.nowPlaying) ||
       message.guild.triviaData.isTriviaRunning
     ) {
-      errnpEmbed.setDescription('There is no song playing right now!')
+      errnpEmbed.setDescription(`${xmoji} | There is no song playing right now!`)
       return message.say(errnpEmbed);
     }
 

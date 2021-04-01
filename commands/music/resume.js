@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class ResumeCommand extends Command {
@@ -23,7 +23,7 @@ module.exports = class ResumeCommand extends Command {
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      errresumeEmbed.setDescription('Join a channel and try again')
+      errresumeEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       return message.say(errresumeEmbed)
     };
 
@@ -31,16 +31,16 @@ module.exports = class ResumeCommand extends Command {
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher === null
     ) {
-      errresumeEmbed.setDescription('There is no song playing right now!')
+      errresumeEmbed.setDescription(`${xmoji} | There is no song playing right now!`)
       return message.say(errresumeEmbed);
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
-      errresumeEmbed.setDescription(`You must be in the same voice channel as the bot's in order to use that!`)
+      errresumeEmbed.setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errresumeEmbed);
       return;
     }
     const resumeEmbed = new MessageEmbed()
     .setColor(normalcolor)
-    .setDescription('resumed :play_pause:')
+    .setDescription(`${cmoji} | resumed :play_pause:`)
     message.say(resumeEmbed);
     message.guild.musicData.pause = false;
     message.guild.musicData.songDispatcher.resume();
