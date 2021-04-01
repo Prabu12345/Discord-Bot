@@ -153,9 +153,9 @@ module.exports = class searchCommand extends Command {
     });
 
     collector.on("end", (reaction, user) => { 
-      if (reaction.message.reactions) {
-        reaction.message.reactions.removeAll();
-        reaction.message.delete({timeout:1000});
+      if (songEmbed) {
+        songEmbed.reactions.removeAll();
+        songEmbed.delete({timeout:1000});
       }
     });
   }
