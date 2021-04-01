@@ -116,157 +116,27 @@ module.exports = class searchCommand extends Command {
           videoIndex = 1
           songEmbed.reactions.removeAll();
           songEmbed.delete({timeout:1000});
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[videoIndex - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
+          searchCommand.playy(message, videos, videoIndex)
         } else if (reaction.emoji.name === "⬅2️⃣") {
           videoIndex = 2
           songEmbed.reactions.removeAll();
           songEmbed.delete({timeout:1000});
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[videoIndex - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
+          searchCommand.playy(message, videoIndex)
         } else if (reaction.emoji.name === "⬅3️⃣") {
           videoIndex = 3
           songEmbed.reactions.removeAll();
           songEmbed.delete({timeout:1000});
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[videoIndex - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
+          searchCommand.playy(message, videoIndex)
         } else if (reaction.emoji.name === "⬅4️⃣") {
           videoIndex = 4
           songEmbed.reactions.removeAll();
           songEmbed.delete({timeout:1000});
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[videoIndex - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
+          searchCommand.playy(message, videoIndex)
         } else if (reaction.emoji.name === "5️⃣") {
           videoIndex = 5
           songEmbed.reactions.removeAll();
           songEmbed.delete({timeout:1000});
-          message.guild.musicData.queue.push(
-            searchCommand.constructSongObj(
-              videos[videoIndex - 1],
-              message.member.user
-            )
-          );
-          if (message.guild.musicData.isPlaying == false) {
-            message.guild.musicData.isPlaying = true;
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            playSong(message.guild.musicData.queue, message, 0);
-          } else if (message.guild.musicData.isPlaying == true) {
-            if (songEmbed) {
-              songEmbed.delete();
-            }
-            let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
-            const addvideoEmbed = new MessageEmbed()
-            .setColor(normalcolor)
-            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setTitle(`${videos[videoIndex - 1].title}`)
-            .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
-            .setURL(url)
-            srch.edit('', addvideoEmbed);
-            return;
-          }
+          searchCommand.playy(message, videoIndex)
         } else {
           songEmbed.reactions.removeAll();
           songEmbed.delete({timeout:1000});
@@ -311,4 +181,27 @@ module.exports = class searchCommand extends Command {
     return duration;
   }
 
+  static playy(message, videos, videoIndex){
+    message.guild.musicData.queue.push(
+      searchCommand.constructSongObj(
+        videos[videoIndex - 1],
+        message.member.user
+      )
+    );
+    if (message.guild.musicData.isPlaying == false) {
+      message.guild.musicData.isPlaying = true;
+      playSong(message.guild.musicData.queue, message, 0);
+    } else if (message.guild.musicData.isPlaying == true) {
+      let url = `https://youtube.com/watch?v=${videos[videoIndex - 1].id}`;
+      const addvideoEmbed = new MessageEmbed()
+      .setColor(normalcolor)
+      .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
+      .setTitle(`${videos[videoIndex - 1].title}`)
+      .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
+      .setThumbnail(videos[videoIndex - 1].thumbnail.url)
+      .setURL(url)
+      srch.edit('', addvideoEmbed);
+      return;
+    }
+  }
 }
