@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const youtube = require('youtube-sr').default;
-const { youtubeAPI, normalcolor, errorcolor } = require('../../config.json');
+const { youtubeAPI, normalcolor, errorcolor, xmoji, cmoji } = require('../../config.json');
 const { playSong } = require('../music/play')
 
 module.exports = class searchCommand extends Command {
