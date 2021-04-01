@@ -50,6 +50,10 @@ module.exports = class searchCommand extends Command {
       return;
     }
 
+    if (!message.guild.me.voice.channel) {
+      return message.reply(`${xmoji} | **I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
+    }
+
     if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
@@ -119,27 +123,27 @@ module.exports = class searchCommand extends Command {
           searchCommand.playy(message, videos, videoIndex)
         } else if (reaction.emoji.name === "⬅2️⃣") {
           videoIndex = 2
-          songEmbed.reactions.removeAll();
-          songEmbed.delete({timeout:1000});
-          searchCommand.playy(message, videoIndex)
+          reaction.message.reactions.removeAll();
+          reaction.message.delete({timeout:1000});
+          searchCommand.playy(message, videos, videoIndex)
         } else if (reaction.emoji.name === "⬅3️⃣") {
           videoIndex = 3
-          songEmbed.reactions.removeAll();
-          songEmbed.delete({timeout:1000});
-          searchCommand.playy(message, videoIndex)
+          reaction.message.reactions.removeAll();
+          reaction.message.delete({timeout:1000});
+          searchCommand.playy(message, videos, videoIndex)
         } else if (reaction.emoji.name === "⬅4️⃣") {
           videoIndex = 4
-          songEmbed.reactions.removeAll();
-          songEmbed.delete({timeout:1000});
-          searchCommand.playy(message, videoIndex)
+          reaction.message.reactions.removeAll();
+          reaction.message.delete({timeout:1000});
+          searchCommand.playy(message, videos, videoIndex)
         } else if (reaction.emoji.name === "5️⃣") {
           videoIndex = 5
-          songEmbed.reactions.removeAll();
-          songEmbed.delete({timeout:1000});
-          searchCommand.playy(message, videoIndex)
+          reaction.message.reactions.removeAll();
+          reaction.message.delete({timeout:1000});
+          searchCommand.playy(message, videos, videoIndex)
         } else {
-          songEmbed.reactions.removeAll();
-          songEmbed.delete({timeout:1000});
+          reaction.message.reactions.removeAll();
+          reaction.message.delete({timeout:1000});
         }
         await reaction.users.remove(message.author.id);
       } catch (error) {
@@ -149,8 +153,8 @@ module.exports = class searchCommand extends Command {
     });
 
     collector.on("end", (reaction, user) => { 
-      songEmbed.reactions.removeAll();
-      songEmbed.delete({timeout:1000});
+      reaction.message.reactions.removeAll();
+      reaction.message.delete({timeout:1000});
     });
   }
   static constructSongObj(video, user) {
