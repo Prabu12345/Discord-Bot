@@ -73,7 +73,7 @@ module.exports = class searchCommand extends Command {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
-      await message.say(errvideoEmbed);
+      await srch.edit('', errvideoEmbed);
       return;
     });
     if (videos.length < 5 || !videos) {
@@ -81,7 +81,7 @@ module.exports = class searchCommand extends Command {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | I had some trouble finding what you were looking for, please try again or be more specific`)
-      message.say(errvideoEmbed);
+      srch.edit('', errvideoEmbed);
       return;
     }
 
@@ -143,6 +143,7 @@ module.exports = class searchCommand extends Command {
             if (songEmbed) {
               songEmbed.delete();
             }
+            srch.delete();
             playSong(message.guild.musicData.queue, message, 0);
           } else if (message.guild.musicData.isPlaying == true) {
             if (songEmbed) {

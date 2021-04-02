@@ -117,6 +117,7 @@ module.exports = class PlayCommand extends Command {
       );
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
+        srch.delete();
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         let url = `https://youtube.com/watch?v=${videos.id}`;
@@ -338,6 +339,7 @@ module.exports = class PlayCommand extends Command {
         typeof message.guild.musicData.isPlaying == 'undefined'
       ) {
         message.guild.musicData.isPlaying = true;
+        srch.delete();
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
@@ -376,6 +378,7 @@ module.exports = class PlayCommand extends Command {
     );
     if (message.guild.musicData.isPlaying == false) {
       message.guild.musicData.isPlaying = true;
+      srch.delete();
       PlayCommand.playSong(message.guild.musicData.queue, message, 0);
     } else if (message.guild.musicData.isPlaying == true) {
       let url = `https://youtube.com/watch?v=${videos[0].id}`;
@@ -496,10 +499,15 @@ module.exports = class PlayCommand extends Command {
             };  
           })
           .on('error', function(e) {
-            message.say(`Cannot play ${queue[0].title} song`);
-            queue.shift();
-            console.error(e);
-            if (queue) PlayCommand.playSong(queue, message, 0);
+            if (message.guild.musicData.errorP < 3) {
+              message.say(`Cannot play ${queue[0].title} song`);
+              queue.shift();
+              console.error(e);
+              message.guild.musicData.errorP + 1
+              if (queue) PlayCommand.playSong(queue, message, 0);
+            } else {
+              message.say(`Error playing music, please tell to owner`);
+            }
             return;
           });
       })

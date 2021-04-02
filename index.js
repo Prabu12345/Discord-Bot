@@ -19,6 +19,7 @@ Structures.extend('Guild', function(Guild) {
         isPlaying: false,
         pause: false,
         loop: 'off',
+        errorP: 0,
         svote: [],
         cvote: [],
         sloop: 'null',
