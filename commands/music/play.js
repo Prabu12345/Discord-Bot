@@ -291,13 +291,13 @@ module.exports = class PlayCommand extends Command {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${tracks.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${tracks.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }

@@ -100,6 +100,16 @@ module.exports = class QueueCommand extends Command {
   }
 };
 
+
+function textlimit(text) {
+  if (text.length > 30) {
+    text = text.slice(0, 30)
+    return text + '...'
+  } else {  
+    return text
+  }
+}
+
 function generateQueueEmbed(message, queue) {
   let embeds = [];
   let k = 10;
@@ -130,15 +140,6 @@ function generateQueueEmbed(message, queue) {
   }
   return embeds;
 };
-
-function textlimit(text) {
-  if (text.length > 30) {
-    text = text.slice(0, 30)
-    return text + '...'
-  } else {  
-    return text
-  }
-}
 
 function msToTime(duration) {
   var seconds = parseInt((duration / 1000) % 60),
