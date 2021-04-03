@@ -178,13 +178,13 @@ module.exports = class searchCommand extends Command {
   
   }
   static constructSongObj(video, user) {
-    let duration = this.formatDuration(video.durationFormatted);
+    let duration = video.durationFormatted;
     if (duration == '0:00') duration = 'Live Stream';
     return {
       url: `https://youtube.com/watch?v=${video.id}`,
       title: video.title,
       rawDuration: video.duration,
-      duration: video.durationFormatted,
+      duration,
       thumbnail: video.thumbnail.url,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
