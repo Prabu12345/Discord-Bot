@@ -105,6 +105,16 @@ module.exports = class PlayCommand extends Command {
           message.member.user
         )
       );
+      let sum = 0, i;
+      let dur = ''
+      for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
+        sum += (+message.guild.musicData.queue[i].rawDuration);
+      }
+      if (video.duration = 'Live Stream') {
+        dur = video.duration
+      } else {
+        dur = 'Live Stream'
+      }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         srch.delete();
@@ -114,10 +124,11 @@ module.exports = class PlayCommand extends Command {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
         .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-        .setTitle(`${videos.title}`)
-        .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
-        .setThumbnail(videos.thumbnail.url)
-        .setURL(url)
+        .setDescription(`${[videos[0].title](url)}`)
+        .addField(`Song Duration`,`${dur}`, true)
+        .addField(`Estimated time until playing`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+        .addField(`Potition in queue`,`**#**${message.guild.musicData.queue.length}`, true)
+        .setThumbnail(videos[0].thumbnail.url)
         srch.edit('', addvideoEmbed);
         return;
       }
@@ -336,6 +347,16 @@ module.exports = class PlayCommand extends Command {
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj1(video, message.member.user)
       );
+      let sum = 0, i;
+      let dur = ''
+      for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
+        sum += (+message.guild.musicData.queue[i].rawDuration);
+      }
+      if (video.duration = 'Live Stream') {
+        dur = video.duration
+      } else {
+        dur = 'Live Stream'
+      }
       if (
         message.guild.musicData.isPlaying == false ||
         typeof message.guild.musicData.isPlaying == 'undefined'
@@ -347,10 +368,11 @@ module.exports = class PlayCommand extends Command {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
         .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-        .setTitle(`${video.title}`)
-        .addField(`Potition `,`#${message.guild.musicData.queue.length} in queue`)
+        .setDescription(`${[video.title](video.url)}`)
+        .addField(`Song Duration`,`${dur}`, true)
+        .addField(`Estimated time until playing`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+        .addField(`Potition `,`#${message.guild.musicData.queue.length} in queue`, true)
         .setThumbnail(video.thumbnails.high.url)
-        .setURL(video.url)
         srch.edit('', addvideoEmbed);
         return;
       }
@@ -378,6 +400,16 @@ module.exports = class PlayCommand extends Command {
         message.member.user
       )
     );
+    let sum = 0, i;
+    let dur = ''
+    for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
+      sum += (+message.guild.musicData.queue[i].rawDuration);
+    }
+    if (video.duration = 'Live Stream') {
+      dur = video.duration
+    } else {
+      dur = 'Live Stream'
+    }
     if (message.guild.musicData.isPlaying == false) {
       message.guild.musicData.isPlaying = true;
       srch.delete();
@@ -387,10 +419,11 @@ module.exports = class PlayCommand extends Command {
       const addvideoEmbed = new MessageEmbed()
       .setColor(normalcolor)
       .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-      .setTitle(`${videos[0].title}`)
-      .addField(`Potition`,`#${message.guild.musicData.queue.length} in queue`)
+      .setDescription(`${[videos[0].title](url)}`)
+      .addField(`Song Duration`,`${dur}`, true)
+      .addField(`Estimated time until playing`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+      .addField(`Potition in queue`,`**#**${message.guild.musicData.queue.length}`, true)
       .setThumbnail(videos[0].thumbnail.url)
-      .setURL(url)
       srch.edit('', addvideoEmbed);
       return;
     }
@@ -555,13 +588,13 @@ module.exports = class PlayCommand extends Command {
   }
 
   static constructSongObj(video, user) { 
-    let duration = this.formatDuration(video.durationFormatted);
+    let duration = video.durationFormatted;
     if (duration == '0:00') duration = 'Live Stream';
     return {
       url: `https://youtube.com/watch?v=${video.id}`,
       title: video.title,
       rawDuration: video.duration,
-      duration: video.durationFormatted,
+      duration,
       thumbnail: video.thumbnail.url,
       memberDisplayName: user.username,
       memberAvatar: user.avatarURL('webp', false, 16)
@@ -569,25 +602,12 @@ module.exports = class PlayCommand extends Command {
   }
 
   static constructSongObj1(video, user) {
-    const totalDurationObj = video.duration;
-
-    let totalDurationInMS = 0;
-    Object.keys(totalDurationObj).forEach(function(key) {
-      if (key == 'hours') {
-        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 3600000;
-      } else if (key == 'minutes') {
-        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 60000;
-      } else if (key == 'seconds') {
-        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 1000;
-      }
-    });
-
     let duration = this.formatDuration(video.duration);
     if (duration == '00:00') duration = 'Live Stream';
     return {
       url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
-      rawDuration: totalDurationInMS,
+      rawDuration: this.durationrawed(video.duration),
       duration,
       thumbnail: video.thumbnails.high.url,
       memberDisplayName: user.username,
@@ -606,5 +626,34 @@ module.exports = class PlayCommand extends Command {
         : '00')
     }`;
     return duration;
+  }
+
+  static durationrawed(duration){
+    const totalDurationObj = duration;
+    let totalDurationInMS = 0;
+    Object.keys(totalDurationObj).forEach(function(key) {
+      if (key == 'hours') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 3600000;
+      } else if (key == 'minutes') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 60000;
+      } else if (key == 'seconds') {
+        totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 1000;
+      }
+    });
+  }
+
+  static msToTime(duration) {
+    var seconds = parseInt((duration / 1000) % 60),
+        minutes = parseInt((duration / (1000 * 60)) % 60),
+        hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+  
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    if (hours !== "00")
+      return hours + ":" + minutes + ":" + seconds;
+    else
+      return minutes + ":" + seconds;
   }
 };

@@ -130,6 +130,16 @@ module.exports = class searchCommand extends Command {
               message.member.user
             )
           );
+          let sum = 0, i;
+          let dur = ''
+          for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
+            sum += (+message.guild.musicData.queue[i].rawDuration);
+          }
+          if (video.duration = 'Live Stream') {
+            dur = video.duration
+          } else {
+            dur = 'Live Stream'
+          }
           if (message.guild.musicData.isPlaying == false) {
             message.guild.musicData.isPlaying = true;
             if (songEmbed) {
@@ -141,9 +151,15 @@ module.exports = class searchCommand extends Command {
             if (songEmbed) {
               songEmbed.delete();
             }
+            let url = `https://youtube.com/watch?v=${videos.id}`;
             const addvideoEmbed = new MessageEmbed()
             .setColor(normalcolor)
-            .setDescription(`**${videos[videoIndex - 1].title}** added to queue`)
+            .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
+            .setDescription(`${[videos[0].title](url)}`)
+            .addField(`Song Duration`,`${dur}`, true)
+            .addField(`Estimated time until playing`,`${searchCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+            .addField(`Potition in queue`,`**#**${message.guild.musicData.queue.length}`, true)
+            .setThumbnail(videos[0].thumbnail.url)
             srch.edit('', addvideoEmbed);
             return;
           }
@@ -188,4 +204,18 @@ module.exports = class searchCommand extends Command {
     return duration;
   }
 
+  static msToTime(duration) {
+    var seconds = parseInt((duration / 1000) % 60),
+        minutes = parseInt((duration / (1000 * 60)) % 60),
+        hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+  
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    if (hours !== "00")
+      return hours + ":" + minutes + ":" + seconds;
+    else
+      return minutes + ":" + seconds;
+  }
 }

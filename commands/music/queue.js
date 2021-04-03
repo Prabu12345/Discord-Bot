@@ -142,6 +142,7 @@ function generateQueueEmbed(message, queue) {
 };
 
 function msToTime(duration) {
+  if (duration === 0) return 'Live Stream'
   var seconds = parseInt((duration / 1000) % 60),
       minutes = parseInt((duration / (1000 * 60)) % 60),
       hours = parseInt((duration / (1000 * 60 * 60)) % 24);
