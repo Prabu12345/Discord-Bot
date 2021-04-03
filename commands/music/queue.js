@@ -131,9 +131,9 @@ function generateQueueEmbed(message, queue) {
     .setColor(normalcolor)
     .setDescription(`${info}`)
     if (message.guild.musicData.loop == 'off') {
-      embed.setFooter(`Now Playing: ${video.title} | Loop: ${message.guild.musicData.loop} | Total Queue Time: ${msToTime(allduration)}`)
+      embed.setFooter(`Now Playing: ${textlimit(video.title)} | Loop: ${message.guild.musicData.loop} | Total Queue Time: ${msToTime(allduration)}`)
     embeds.push(embed);
-  } else if (message.guild.musicData.loop == 'one' || message.guild.musicData.loop == 'all') {
+  } else if (message.guild.musicData.loop == 'track' || message.guild.musicData.loop == 'queue') {
       embed.setFooter(`Now Playing: ${textlimit(video.title)} | Loop: ${message.guild.musicData.loop} Track | Total Queue Time: ${msToTime(allduration)}`)
     embeds.push(embed);
     }

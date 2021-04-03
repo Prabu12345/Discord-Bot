@@ -106,7 +106,7 @@ module.exports = class NowPlayingCommand extends Command {
   // prettier-ignore
   static formatDuration(durationObj) {
       const duration = `${durationObj.hours ? (durationObj.hours + ':') : ''}${
-        durationObj.minutes ? durationObj.minutes : '00'
+        durationObj.minutes ? durationObj.minutes : '0'
       }:${
         (durationObj.seconds < 10)
           ? ('0' + durationObj.seconds)

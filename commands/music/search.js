@@ -157,7 +157,7 @@ module.exports = class searchCommand extends Command {
             .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
             .setDescription(`**[${videos[0].title}](${url})**`)
             .addField(`Song Duration`,`${dur}`, true)
-            .addField(`Estimated time`,`${searchCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+            .addField(`Estimated time`,`${PlayCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek)) + sum)}`, true)
             .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
             .setThumbnail(videos[0].thumbnail.url)
             srch.edit('', addvideoEmbed);

@@ -126,7 +126,7 @@ module.exports = class PlayCommand extends Command {
         .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
         .setDescription(`**[${videos[0].title}](${url})**`)
         .addField(`Song Duration`,`${dur}`, true)
-        .addField(`Estimated time`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+        .addField(`Estimated time`,`${PlayCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + (message.guild.musicData.seek * 1000))) + sum)}`, true)
         .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
         .setThumbnail(videos[0].thumbnail.url)
         srch.edit('', addvideoEmbed);
@@ -370,7 +370,7 @@ module.exports = class PlayCommand extends Command {
         .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
         .setDescription(`**[${video.title}](${video.url})**`)
         .addField(`Song Duration`,`${dur}`, true)
-        .addField(`Estimated time`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+        .addField(`Estimated time`,`${PlayCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + (message.guild.musicData.seek * 1000))) + sum)}`, true)
         .addField(`Potition `,`#${message.guild.musicData.queue.length} in queue`, true)
         .setThumbnail(video.thumbnails.high.url)
         srch.edit('', addvideoEmbed);
@@ -421,7 +421,7 @@ module.exports = class PlayCommand extends Command {
       .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
       .setDescription(`**[${videos[0].title}](${url})**`)
       .addField(`Song Duration`,`${dur}`, true)
-      .addField(`Estimated time`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+      .addField(`Estimated time`,`${PlayCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + (message.guild.musicData.seek * 1000))) + sum)}`, true)
       .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
       .setThumbnail(videos[0].thumbnail.url)
       srch.edit('', addvideoEmbed);
@@ -467,7 +467,7 @@ module.exports = class PlayCommand extends Command {
             queue = message.guild.musicData.queue;
             message.guild.musicData.seek = 0;
             message.guild.musicData.svote = [];
-            if (message.guild.musicData.loop == 'one') {
+            if (message.guild.musicData.loop == 'track') {
               for (let i = 0; i < 1; i++) {
                 message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
               }
@@ -490,7 +490,7 @@ module.exports = class PlayCommand extends Command {
                   }, 90000);
                 }
               }
-            } else if (message.guild.musicData.loop == 'all') {
+            } else if (message.guild.musicData.loop == 'queue') {
               message.guild.musicData.queue.push(message.guild.musicData.nowPlaying);
               if (queue.length >= 1) {
                 PlayCommand.playSong(queue, message, 0);
@@ -607,7 +607,7 @@ module.exports = class PlayCommand extends Command {
     return {
       url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
-      rawDuration: this.durationrawed(video.duration),
+      rawDuration: this.durationrawed(this.formatDuration(video.duration)),
       duration,
       thumbnail: video.thumbnails.high.url,
       memberDisplayName: user.username,
