@@ -45,7 +45,7 @@ module.exports = class LeaveCommand extends Command {
         playSong(message.guild.musicData.queue, message, 0);
       }
       const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
+      .setColor(normalcolor)
       .setDescription(`${cmoji} | **Joined** \`${message.channel.name}\` **and bound to** \`${message.member.voice.channel.name}\``)
       message.say(errleaveEmbed);
     } catch {
