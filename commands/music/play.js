@@ -143,7 +143,8 @@ module.exports = class PlayCommand extends Command {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`playlist not found`)
-      return srch.edit('', errvideoEmbed);
+      srch.edit('', errvideoEmbed);
+      return;
       }
       const tracks = []
       for (let i = 0; i < playlist.tracks.items.length; i++) {
@@ -152,7 +153,7 @@ module.exports = class PlayCommand extends Command {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
           .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
-          await srch.edit('', errvideoEmbed);
+          srch.edit('', errvideoEmbed);
           return;
         });
         if (results.length < 1) {
@@ -194,7 +195,8 @@ module.exports = class PlayCommand extends Command {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`Album not found`)
-      return srch.edit('', errvideoEmbed);
+      srch.edit('', errvideoEmbed);
+      return;
       }
       const tracks = []
       for (let i = 0; i < album.tracks.items.length; i++) {
@@ -203,7 +205,7 @@ module.exports = class PlayCommand extends Command {
           const errvideoEmbed = new MessageEmbed()
           .setColor(errorcolor)
           .setDescription(`${xmoji} | There was a problem searching the video you requested :(`)
-          await srch.edit('', errvideoEmbed);
+          srch.edit('', errvideoEmbed);
           return;
         });
         if (results.length < 1) {
@@ -241,20 +243,26 @@ module.exports = class PlayCommand extends Command {
         /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/
       )
     ) {
+      let failedToGetVideo = false;
       const playlist = await gch.getPlaylist(query).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | Playlist is either private or it does not exist!`)
-        return srch.edit('', errvideoEmbed);
+        srch.edit('', errvideoEmbed);
+        failedToGetVideo = true;
+        return;
       });
+      if (failedToGetVideo) return;
       // add 10 as an argument in getVideos() if you choose to limit the queue
       const videosArr = await playlist.getVideos().catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | There was a problem getting one of the videos in the playlist!`)
         srch.edit('', errvideoEmbed);
+        failedToGetVideo = true;
         return;
       });
+      if (failedToGetVideo) return;
 
       // this for loop can be uncommented if you want to shuffle the playlist
 
