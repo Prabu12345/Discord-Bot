@@ -38,17 +38,20 @@ module.exports = class LeaveCommand extends Command {
       return message.channel.send(`${xmoji} | I already in voice channel, ${message.author}`);
     }
     try {
-      if (message.guild.musicData.queue.length == 0){
+      if (message.guild.musicData.queue.length === 0){
         voiceChannel.join()
       } else {
         message.guild.musicData.isPlaying = true
         playSong(message.guild.musicData.queue, message, 0);
       }
+      console.log(message.channel)
+      console.log(message.guild.me.voice.channel)
+      console.log(message.channel.name)
+      console.log(message.guild.me.voice.channel.name)
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${cmoji} | **Joined** \`${message.channel.name}\` **and bound to** \`${message.guild.me.voice.channel.name}\``)
       message.say(errleaveEmbed);
-      message.react('👌')
     } catch {
       return message.reply(':x: | Something went wrong when joining channels');
     }
