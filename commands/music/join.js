@@ -46,7 +46,7 @@ module.exports = class LeaveCommand extends Command {
       }
       const errleaveEmbed = new MessageEmbed()
       .setColor(normalcolor)
-      .setDescription(`${cmoji} | **Joined** \`${message.channel.name}\` **and bound to** \`${message.member.voice.channel.name}\``)
+      .setDescription(`${cmoji} | **Joined** \`${message.member.voice.channel.name}\` **and bound to** \`${message.channel.name}\``)
       message.say(errleaveEmbed);
     } catch {
       return message.reply(':x: | Something went wrong when joining channels');
