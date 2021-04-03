@@ -107,7 +107,7 @@ module.exports = class PlayCommand extends Command {
       );
       let sum = 0, i;
       let dur = ''
-      for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
+      for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
         sum += (+message.guild.musicData.queue[i].rawDuration);
       }
       if (videos[0].duration > 0) {
@@ -124,10 +124,10 @@ module.exports = class PlayCommand extends Command {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
         .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-        .setDescription(`[${videos[0].title}](${url})`)
+        .setDescription(`**[${videos[0].title}](${url})**`)
         .addField(`Song Duration`,`${dur}`, true)
-        .addField(`Estimated time until playing`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
-        .addField(`Potition in queue`,`**#**${message.guild.musicData.queue.length}`, true)
+        .addField(`Estimated time`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+        .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
         .setThumbnail(videos[0].thumbnail.url)
         srch.edit('', addvideoEmbed);
         return;
@@ -349,7 +349,7 @@ module.exports = class PlayCommand extends Command {
       );
       let sum = 0, i;
       let dur = ''
-      for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
+      for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
         sum += (+message.guild.musicData.queue[i].rawDuration);
       }
       if (PlayCommand.durationrawed(video.duration) > 0) {
@@ -368,9 +368,9 @@ module.exports = class PlayCommand extends Command {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
         .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-        .setDescription(`[${video.title}](${video.url})`)
+        .setDescription(`**[${video.title}](${video.url})**`)
         .addField(`Song Duration`,`${dur}`, true)
-        .addField(`Estimated time until playing`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+        .addField(`Estimated time`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
         .addField(`Potition `,`#${message.guild.musicData.queue.length} in queue`, true)
         .setThumbnail(video.thumbnails.high.url)
         srch.edit('', addvideoEmbed);
@@ -402,7 +402,7 @@ module.exports = class PlayCommand extends Command {
     );
     let sum = 0, i;
     let dur = ''
-    for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
+    for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
       sum += (+message.guild.musicData.queue[i].rawDuration);
     }
     if (videos[0].duration > 0) {
@@ -419,10 +419,10 @@ module.exports = class PlayCommand extends Command {
       const addvideoEmbed = new MessageEmbed()
       .setColor(normalcolor)
       .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-      .setDescription(`[${videos[0].title}](${url})`)
+      .setDescription(`**[${videos[0].title}](${url})**`)
       .addField(`Song Duration`,`${dur}`, true)
-      .addField(`Estimated time until playing`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
-      .addField(`Potition in queue`,`**#**${message.guild.musicData.queue.length}`, true)
+      .addField(`Estimated time`,`${PlayCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
+      .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
       .setThumbnail(videos[0].thumbnail.url)
       srch.edit('', addvideoEmbed);
       return;
