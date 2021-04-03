@@ -29,6 +29,18 @@ module.exports = class SkipToCommand extends Command {
   }
 
   async run(message, { songNumber }) {
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
+    if (!role) { 
+    let a = await message.channel.send('Adding DJ role, because i need it')
+    return message.guild.roles.create({
+      data: {
+        name: 'DJ',
+      },
+      reason: 'we needed a role for DJ',
+    })
+    .then()
+    .catch(a.edit('', 'Failed to create role because i don\'t have permission'));
+    }
     const errskiptoEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 && songNumber > message.guild.musicData.queue.length) {

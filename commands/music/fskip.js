@@ -20,9 +20,8 @@ module.exports = class SkipCommand extends Command {
 
   async run(message) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
-    const voiceChannel = message.member.voice.channel;
     if (!role) { 
-    message.channel.send('I Added DJ role because i NEED it')
+    let a = await message.channel.send('Adding DJ role, because i need it')
     return message.guild.roles.create({
       data: {
         name: 'DJ',
@@ -30,7 +29,7 @@ module.exports = class SkipCommand extends Command {
       reason: 'we needed a role for DJ',
     })
     .then()
-    .catch();
+    .catch(a.edit('', 'Failed to create role because i don\'t have permission'));
     }
     const errskipEmbed = new MessageEmbed()
     .setColor(errorcolor)

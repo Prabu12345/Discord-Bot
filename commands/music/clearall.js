@@ -15,15 +15,18 @@ module.exports = class SkipAllCommand extends Command {
   }
 
   async run(message) {
-    let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
-    if (!role) return message.guild.roles.create({
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
+    if (!role) { 
+    let a = await message.channel.send('Adding DJ role, because i need it')
+    return message.guild.roles.create({
       data: {
         name: 'DJ',
       },
       reason: 'we needed a role for DJ',
     })
-      .then()
-      .catch(message.channel.send(`${xmoji} | Please Give me Permission to MANAGE_ROLES`));
+    .then()
+    .catch(a.edit('', 'Failed to create role because i don\'t have permission'));
+    }
     const errskipallEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
