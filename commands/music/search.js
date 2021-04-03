@@ -155,7 +155,7 @@ module.exports = class searchCommand extends Command {
             const addvideoEmbed = new MessageEmbed()
             .setColor(normalcolor)
             .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setDescription(`${[videos[0].title](url)}`)
+            .setDescription(`[${videos[0].title}](${url})`)
             .addField(`Song Duration`,`${dur}`, true)
             .addField(`Estimated time until playing`,`${searchCommand.msToTime(message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek + sum)}`, true)
             .addField(`Potition in queue`,`**#**${message.guild.musicData.queue.length}`, true)
