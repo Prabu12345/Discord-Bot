@@ -39,7 +39,6 @@ module.exports = class VolumeCommand extends Command {
     .setColor(errorcolor)
     .setDescription(`${xmoji} | Join a channel and try again`)
     if (!voiceChannel) return message.say(errvolumeEmbed);
-
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
@@ -60,8 +59,7 @@ module.exports = class VolumeCommand extends Command {
       .setDescription(`${xmoji} | You cant set the volume above ${vol.maxvolume}%`)
       message.say(errvolumeEmbed)
       return;
-    }
-    if(wantedVolume == ''){
+    } else if(wantedVolume == ''){
       const volumeEmbed = new MessageEmbed()
       .setColor(normalcolor)
       .setDescription(`The Volume now is **${vol.volume}%**, ${message.author}`)

@@ -40,28 +40,20 @@ module.exports = class searchCommand extends Command {
       .setDescription(`${xmoji} | Join a channel and try again`)
       message.say(errvideoEmbed);
       return;
-    }
-
-    if (message.guild.triviaData.isTriviaRunning == true) {
+    } else if (message.guild.triviaData.isTriviaRunning == true) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | Please try after the trivia has ended`)
       message.say(errvideoEmbed);
       return;
-    }
-
-    if (!message.guild.me.voice.channel) {
+    } else if (!message.guild.me.voice.channel) {
       return message.reply(`${xmoji} | **I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
-    }
-
-    if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
+    } else if (message.member.voice.channel.id !== message.guild.voice.channel.id) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errleaveEmbed);
-    }
-
-    if (query.length == 0){
+    } else if (query.length == 0){
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`**Usage:** -search <Video Name>`)

@@ -89,86 +89,20 @@ module.exports = class BanCommand extends Command {
 		if (commands.length === 0) return message.channel.send(embed.setTitle("**Invalid Command!**").setDescription(`**Do ${Command.usage('help', message.guild ? message.guild.commandPrefix : null, this.client.user)} For the List Of the Commands!**`))
 		embed.setTitle(`${commands[0].name.toUpperCase()} - ${commands[0].group.name}${commands[0].guildOnly ? ' (Usable only in servers)' : ''}`);
 		if (message.channel.type !== 'dm') {
-			if (commands[0].name == 'playlist') {
-				embed.setDescription(stripIndents`
-				\`${commands[0].description || "No Description provided."}\`
-
-				** | Usage |** 
-				${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
-
-				** | Detail |** 
-				\`${commands[0].details || '`No Detail provided`'}\`
-
-				** | Examples |** 
-				\`${message.guild.commandPrefix}playlist\`
-				\`${message.guild.commandPrefix}playlist create music\`
-				\`${message.guild.commandPrefix}playlist add music https://www.youtube.com/watch?\`
-				\`${message.guild.commandPrefix}playlist play music\`
-				\`${message.guild.commandPrefix}playlist remove music 1\`
-				\`${message.guild.commandPrefix}playlist delete music\`
-				\`${message.guild.commandPrefix}playlist see music\`
-
-				** | Aliases |** 
-				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
-				`)
-			} else {
-				embed.setDescription(stripIndents`
-				\`${commands[0].description || "No Description provided."}\`
-				
-				**| Usage |** 
-				${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
-				
-				**| Detail |** 
-				\`${commands[0].details || '`No Detail provided`'}\`
-				
-				**| Examples |** 
-				\`${commands[0].examples || 'No Examples provided'}\`
-				
-				**| Aliases |** 
-				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
-				`)
-			}
+			embed.setDescription(stripIndents`
+			\`${commands[0].description || "No Description provided."}\``)
+			embed.addField(`| Detail |`, `\`${commands[0].details}\` || \`No Detail provided\``)
+			embed.addField(`| Usage |`, message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`))
+			embed.addField(`| Examples |`, `\`${commands[0].examples.join(`\n`)}\` || \`No Examples provided\``)
+			embed.addField(`| Aliases |`, `\`${commands[0].aliases.join(', ')}\` || \`No Aliases provided\``)
 			embed.setFooter(message.guild.name, message.guild.iconURL())
 		  } else {
-			if (commands[0].name == 'playlist') {
-				embed.setDescription(stripIndents`
-				\`${commands[0].description || "No Description provided."}\`
-				
-				** | Usage |** 
-				${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
-				
-				** | Detail |** 
-				\`${commands[0].details || '`No Detail provided`'}\`
-				
-				** | Examples |** 
-				\`-playlist\`
-				\`-playlist create music\`
-				\`-playlist add music https://www.youtube.com/watch?\`
-				\`-playlist play music\`
-				\`-playlist remove music 1\`
-				\`-playlist delete music\`
-				\`-playlist see music\`
-				
-				** | Aliases |** 
-				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
-				`)
-			} else {
-				embed.setDescription(stripIndents`
-				\`${commands[0].description || "No Description provided."}\`
-				
-				**| Usage |** 
-				${message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
-				
-				**| Detail |** 
-				\`${commands[0].details || '`No Detail provided`'}\`
-				
-				**| Examples |** 
-				\`${commands[0].examples || 'No Examples provided'}\`
-				
-				**| Aliases |** 
-				\`${commands[0].aliases.join(', ') || "No Aliases provided"}\`
-				`)
-			}
+			embed.setDescription(stripIndents`
+			\`${commands[0].description || "No Description provided."}\``)
+			embed.addField(`| Detail |`, `\`${commands[0].details}\` || \`No Detail provided\``)
+			embed.addField(`| Usage |`, message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`))
+			embed.addField(`| Examples |`, `\`${commands[0].examples.join(`\n`)}\` || \`No Examples provided\``)
+			embed.addField(`| Aliases |`, `\`${commands[0].aliases.join(', ')}\` || \`No Aliases provided\``)
 		}	  
 		embed.setTimestamp()
 		return message.channel.send(embed)	

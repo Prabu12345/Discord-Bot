@@ -25,9 +25,7 @@ module.exports = class SkipCommand extends Command {
     if (!voiceChannel) {
       errskipEmbed.setDescription(':x: | Join a channel and try again')
       return message.say(errskipEmbed)
-    };
-
-    if (
+    } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {

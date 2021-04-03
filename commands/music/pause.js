@@ -25,9 +25,7 @@ module.exports = class PauseCommand extends Command {
     if (!voiceChannel) {
       errpauseEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       return message.reply(errpauseEmbed);
-    }
-
-    if (
+    } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
@@ -38,7 +36,6 @@ module.exports = class PauseCommand extends Command {
       message.reply(errpauseEmbed);
       return;
     }
-
     const pauseEmbed = new MessageEmbed()
     .setColor(normalcolor)
     .setDescription(`${cmoji} | paused :pause_button:`)

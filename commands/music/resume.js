@@ -25,9 +25,7 @@ module.exports = class ResumeCommand extends Command {
     if (!voiceChannel) {
       errresumeEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       return message.say(errresumeEmbed)
-    };
-
-    if (
+    } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher === null
     ) {

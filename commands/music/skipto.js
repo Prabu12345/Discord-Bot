@@ -29,7 +29,6 @@ module.exports = class SkipToCommand extends Command {
   }
 
   async run(message, { songNumber }) {
-    let role = await message.guild.roles.cache.find(role => role.name === 'DJ');
     const errskiptoEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 && songNumber > message.guild.musicData.queue.length) {
@@ -40,9 +39,7 @@ module.exports = class SkipToCommand extends Command {
     if (!voiceChannel) {
       errskiptoEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       return message.say(errskiptoEmbed)
-    };
-
-    if (
+    } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
@@ -52,8 +49,7 @@ module.exports = class SkipToCommand extends Command {
       errskiptoEmbed.setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errskiptoEmbed);
       return;
-    }
-    if (message.guild.musicData.queue < 1){
+    } else if (message.guild.musicData.queue < 1){
       errskiptoEmbed.setDescription(`${xmoji} | There are no songs in queue`)
       return message.say(errskiptoEmbed)
     };

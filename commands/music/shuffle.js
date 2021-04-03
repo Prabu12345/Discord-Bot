@@ -23,9 +23,7 @@ module.exports = class ShuffleQueueCommand extends Command {
     if (!voiceChannel) {
       errshuffleEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       return message.say(errshuffleEmbed)
-    };
-
-    if (
+    } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
@@ -35,9 +33,7 @@ module.exports = class ShuffleQueueCommand extends Command {
       errshuffleEmbed.setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errshuffleEmbed);
       return;
-    }
-
-    if (message.guild.musicData.queue.length < 1) {
+    } else if (message.guild.musicData.queue.length < 1) {
       errshuffleEmbed.setDescription(`${xmoji} | There are no songs in queue`)
       return message.say(errshuffleEmbed);
     }

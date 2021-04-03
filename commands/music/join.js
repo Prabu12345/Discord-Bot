@@ -44,6 +44,10 @@ module.exports = class LeaveCommand extends Command {
         message.guild.musicData.isPlaying = true
         playSong(message.guild.musicData.queue, message, 0);
       }
+      const errleaveEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`${cmoji} | **Joined** \`${message.channel.name}\` **and bound to** \`${message.guild.me.voice.channel.name}\``)
+      message.say(errleaveEmbed);
       message.react('👌')
     } catch {
       return message.reply(':x: | Something went wrong when joining channels');

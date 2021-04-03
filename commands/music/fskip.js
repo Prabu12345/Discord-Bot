@@ -20,6 +20,7 @@ module.exports = class SkipCommand extends Command {
 
   async run(message) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
+    const voiceChannel = message.member.voice.channel;
     if (!role) { 
     message.channel.send('I Added DJ role because i NEED it')
     return message.guild.roles.create({
@@ -31,16 +32,13 @@ module.exports = class SkipCommand extends Command {
     .then()
     .catch();
     }
-    if(!message.member.roles.cache.get(role.id)) return message.channel.send("You don't have role named *DJ*");
     const errskipEmbed = new MessageEmbed()
     .setColor(errorcolor)
-    const voiceChannel = message.member.voice.channel;
+    if(!message.member.roles.cache.get(role.id)) return message.channel.send("You don't have role named *DJ*");
     if (!voiceChannel) {
       errskipEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       return message.say(errskipEmbed)
-    };
-
-    if (
+    } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {

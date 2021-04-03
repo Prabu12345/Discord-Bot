@@ -24,6 +24,7 @@ module.exports = class PlaylistCommand extends Command {
       guildOnly: true,
       description: 'Create and save playlist',
       details: 'Type -> create ( create playlist ), add ( add song to playlist ), play ( play saved playlist ), remove ( remove song from playlist ), delete ( delete playlist ), see ( see song in playlist )', 
+      examples: ['playlist', 'playlist create music', 'playlist add music https://www.youtube.com/watch?', 'playlist play music', 'playlist remove music 1', 'playlist delete music', 'playlist see music'],
       throttling: {
         usages: 1,
         duration: 5
@@ -55,15 +56,15 @@ module.exports = class PlaylistCommand extends Command {
             .setDescription(`${xmoji} | Join a channel and try again`)
             message.say(errvideoEmbed);
             return;
-        }
-        if (message.guild.triviaData.isTriviaRunning == true) {
+        } else if (message.guild.triviaData.isTriviaRunning == true) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)
             .setDescription(`${xmoji} | Please try after the trivia has ended`)
             message.say(errvideoEmbed);
             return;
-        }
-        if (message.guild.me.voice.channel) {
+        } else if (!message.guild.me.voice.channel) {
+          return message.reply(`${xmoji} | **I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
+        } else if (message.guild.me.voice.channel) {
           if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
             const errleaveEmbed = new MessageEmbed()
             .setColor(errorcolor)
@@ -181,9 +182,7 @@ module.exports = class PlaylistCommand extends Command {
           if (urlsArrayClone.length == 0) {
             message.reply(`**${additional}** is empty!`);
             return;
-          }
-    
-          if (addimove[1] > urlsArrayClone.length) {
+          } else if (addimove[1] > urlsArrayClone.length) {
             message.reply(
               `The index you provided is larger than the playlist's length`
             );

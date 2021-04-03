@@ -32,6 +32,7 @@ module.exports = class MoveSongCommand extends Command {
     });
   }
   async run(message, { oldPosition, newPosition }) {
+    var voiceChannel = message.member.voice.channel;
     const errmoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (
@@ -44,14 +45,11 @@ module.exports = class MoveSongCommand extends Command {
       errmoveEmbed.setDescription(`${xmoji} | Try again and enter a valid song position number`)
       message.say(errmoveEmbed);
       return;
-    }
-    var voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) {
+    } else if (!voiceChannel) {
       errmoveEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       message.say(errmoveEmbed);
       return;
-    }
-    if (
+    } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {

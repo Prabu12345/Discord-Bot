@@ -37,8 +37,7 @@ module.exports = class MusicTriviaCommand extends Command {
     if (!voiceChannel) {
       errtrivaEmbed.setDescription(`${xmoji} | Please join a voice channel and try again`)
       return message.say(errtrivaEmbed);
-    }    
-    if (message.guild.musicData.isPlaying === true) {
+    } else if (message.guild.musicData.isPlaying === true) {
       errtrivaEmbed.setDescription(`${xmoji} | A quiz or a song is already running`)
       return message.channel.send(errtrivaEmbed);
     }

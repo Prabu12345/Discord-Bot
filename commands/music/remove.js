@@ -49,15 +49,13 @@ module.exports = class RemoveSongCommand extends Command {
       errremoveEmbed.setDescription(`${xmoji} | Join a channel and try again`)
       message.say(errremoveEmbed);
       return;
-    }
-    if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
+    } else if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
       if (message.member.roles.cache.get(role.id)) {
 
       } else {
         return message.reply(`${xmoji} | You cannot remove music request other people`);
       }
-    }
-    if (
+    } else if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
