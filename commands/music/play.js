@@ -110,8 +110,8 @@ module.exports = class PlayCommand extends Command {
       for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
         sum += (+message.guild.musicData.queue[i].rawDuration);
       }
-      if (message.guild.musicData.queue[message.guild.musicData.queue.length].duration === 'Live Stream') {
-        dur = message.guild.musicData.queue[message.guild.musicData.queue.length].duration
+      if (videos[0].duration > 0) {
+        dur = videos[0].durationFormatted
       } else {
         dur = 'Live Stream'
       }
@@ -352,8 +352,8 @@ module.exports = class PlayCommand extends Command {
       for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
         sum += (+message.guild.musicData.queue[i].rawDuration);
       }
-      if (message.guild.musicData.queue[message.guild.musicData.queue.length].duration === 'Live Stream') {
-        dur = message.guild.musicData.queue[message.guild.musicData.queue.length].duration
+      if (PlayCommand.durationrawed(video.duration) > 0) {
+        dur = PlayCommand.msToTime(PlayCommand.durationrawed(video.duration))
       } else {
         dur = 'Live Stream'
       }
@@ -405,8 +405,8 @@ module.exports = class PlayCommand extends Command {
     for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
       sum += (+message.guild.musicData.queue[i].rawDuration);
     }
-    if (message.guild.musicData.queue[message.guild.musicData.queue.length].duration === 'Live Stream') {
-      dur = message.guild.musicData.queue[message.guild.musicData.queue.length].duration
+    if (videos[0].duration > 0) {
+      dur = videos[0].durationFormatted
     } else {
       dur = 'Live Stream'
     }
