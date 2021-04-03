@@ -135,8 +135,8 @@ module.exports = class searchCommand extends Command {
           for (i = 0; i < message.guild.musicData.queue.length; i +=1 ) {
             sum += (+message.guild.musicData.queue[i].rawDuration);
           }
-          if (video.duration = 'Live Stream') {
-            dur = video.duration
+          if (message.guild.musicData.queue[message.guild.musicData.queue.length].duration = 'Live Stream') {
+            dur = message.guild.musicData.queue[message.guild.musicData.queue.length].duration
           } else {
             dur = 'Live Stream'
           }
