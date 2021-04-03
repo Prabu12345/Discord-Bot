@@ -44,10 +44,10 @@ module.exports = class LeaveCommand extends Command {
         message.guild.musicData.isPlaying = true
         playSong(message.guild.musicData.queue, message, 0);
       }
-      console.log(message.channel)
-      console.log(message.guild.me.voice.channel)
-      console.log(message.channel.name)
-      console.log(message.guild.me.voice.channel.name)
+      console.log(`1` + message.channel)
+      console.log(`2` + message.member.voice.channel)
+      console.log(`3` + message.channel.name)
+      console.log(`4` + message.member.voice.channel.name)
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${cmoji} | **Joined** \`${message.channel.name}\` **and bound to** \`${message.guild.me.voice.channel.name}\``)
