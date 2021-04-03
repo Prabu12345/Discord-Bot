@@ -106,7 +106,7 @@ module.exports = class BanCommand extends Command {
 			embed.addField(`| Detail |`, `\`${commands[0].details || `No Detail provided`}\``)
 			embed.addField(`| Usage |`, message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`))
 			if (commands[0].examples) {
-				embed.addField(`| Examples |`, `\`${commands[0].examples.join(`\n`)}\``)
+				embed.addField(`| Examples |`, `\`${commands[0].examples.join(`\n `)}\``)
 			} else {
 				embed.addField(`| Examples |`, `\`No Examples provided\``)
 			}
