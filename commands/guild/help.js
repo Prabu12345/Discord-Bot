@@ -91,18 +91,26 @@ module.exports = class BanCommand extends Command {
 		if (message.channel.type !== 'dm') {
 			embed.setDescription(stripIndents`
 			\`${commands[0].description || "No Description provided."}\``)
-			embed.addField(`| Detail |`, commands[0].details || `No Detail provided`)
+			embed.addField(`| Detail |`, `\`${commands[0].details}\` || \`No Detail provided\``)
 			embed.addField(`| Usage |`, message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`))
-			embed.addField(`| Examples |`, commands[0].examples.join(`\n`) || `No Examples provided`)
-			embed.addField(`| Aliases |`, commands[0].aliases.join(', ') || `No Aliases provided`)
+			if (commands[0].examples) {
+				embed.addField(`| Examples |`, `\`${commands[0].examples.join(`\n`)}\``)
+			} else {
+				embed.addField(`| Examples |`, `\`No Examples provided\``)
+			}
+			embed.addField(`| Aliases |`, `\`${commands[0].aliases.join(', ')}\` || \`No Aliases provided\``)
 			embed.setFooter(message.guild.name, message.guild.iconURL())
 		  } else {
 			embed.setDescription(stripIndents`
 			\`${commands[0].description || "No Description provided."}\``)
-			embed.addField(`| Detail |`, commands[0].details || `No Detail provided`)
+			embed.addField(`| Detail |`, `\`${commands[0].details}\` || \`No Detail provided\``)
 			embed.addField(`| Usage |`, message.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`))
-			embed.addField(`| Examples |`, commands[0].examples.join(`\n`) || `No Examples provided`)
-			embed.addField(`| Aliases |`, commands[0].aliases.join(', ') || `No Aliases provided`)
+			if (commands[0].examples) {
+				embed.addField(`| Examples |`, `\`${commands[0].examples.join(`\n`)}\``)
+			} else {
+				embed.addField(`| Examples |`, `\`No Examples provided\``)
+			}
+			embed.addField(`| Aliases |`, `\`${commands[0].aliases.join(', ')}\` || \`No Aliases provided\``)
 		}	  
 		embed.setTimestamp()
 		return message.channel.send(embed)	
