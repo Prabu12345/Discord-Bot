@@ -116,7 +116,7 @@ module.exports = class PlayCommand extends Command {
         dur = 'Live Stream'
       }
       if (message.guild.musicData.isPlaying == false) {
-        message.guild.musicData.isPlaying = true;
+        message.guild.musicData.isPlaying = true; 
         srch.delete();
         return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
@@ -607,7 +607,7 @@ module.exports = class PlayCommand extends Command {
     return {
       url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
-      rawDuration: this.durationrawed(this.formatDuration(video.duration)),
+      rawDuration: this.durationrawed(video.duration),
       duration,
       thumbnail: video.thumbnails.high.url,
       memberDisplayName: user.username,
