@@ -28,34 +28,20 @@ module.exports = class CatCommand extends Command {
           newremind.push(message.guild.musicData.remind[i]);
       }
     }
-    if (rdremove == '') {
-      if (found == true) {
-        var d = new Date();
-        const savedSongsEmbed = new Pagination.FieldsEmbed()
-        .setArray(newremind)
-        .setAuthorizedUsers([message.member.id])
-        .setChannel(message.channel)
-        .setElementsPerPage(10)
-        .formatField('# - remind msg - Estimate time', function(e) {
-          return `**${newremind.indexOf(e) + 1}**| ${e.remindermsg} - ${msToTime(e.starttime+e.timetowait - d.getTime())}`;
-        });
-        savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`**${newremind.length}/∞**`);
-        savedSongsEmbed.build();
-      } else {
-        message.channel.send("There are no reminders right now!");
-      }
-    } else if (rdremove == 'remove' || rdremove == 'r') {
-      const errremoveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      if (nurdremove < 1 || nurdremove > message.guild.musicData.remind.length) {
-        errremoveEmbed.setDescription('Please enter a valid reminds number')
-        return message.say(errremoveEmbed);
-      }
-
-      const removeEmbed = new MessageEmbed()
-      .setColor(normalcolor)
-      .setDescription(`Lg ga bisa jangan di coba!`)
-      message.say(removeEmbed);
+    if (found == true) {
+      var d = new Date();
+      const savedSongsEmbed = new Pagination.FieldsEmbed()
+      .setArray(newremind)
+      .setAuthorizedUsers([message.member.id])
+      .setChannel(message.channel)
+      .setElementsPerPage(10)
+      .formatField('# - remind msg - Estimate time', function(e) {
+        return `**${newremind.indexOf(e) + 1}**| ${e.remindermsg} - ${msToTime(e.starttime+e.timetowait - d.getTime())}`;
+      });
+      savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`**${newremind.length}/∞**`);
+      savedSongsEmbed.build();
+    } else {
+      message.channel.send("There are no reminders right now!");
     }
   }
 };
