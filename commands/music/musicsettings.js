@@ -41,6 +41,12 @@ module.exports = class LeaveCommand extends Command {
     } else {
       np = 'enable'
     }
+    let bb
+    if (message.guild.musicData.bassboost == false) {
+      bb = 'disable'
+    } else {
+      bb = 'enable'
+    }
     const embed = new MessageEmbed()
       .setColor(normalcolor)
       .setAuthor('')
@@ -48,7 +54,7 @@ module.exports = class LeaveCommand extends Command {
       .setDescription(`1. Update max volume - **${all.maxvolume}% (100 - 200)**\n
       2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
       3. Automatically show now playing - **${np}**\n
-      4. Bassboost filter - **${message.guild.musicData.bassboost}**`
+      4. Bassboost filter - **${bb}**`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
@@ -166,7 +172,7 @@ module.exports = class LeaveCommand extends Command {
             songEmbed.delete();
           }
           message.channel.bulkDelete(1)
-          if (all.nowplaying == false) {
+          if (message.guild.musicData.bassboost == false) {
             message.guild.musicData.bassboost = true;
             message.say(`Bassboost filter **enable**, it could be work next play if the music play.`)
           } else {
@@ -193,7 +199,7 @@ module.exports = class LeaveCommand extends Command {
         }
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription(`${xmoji} | Please try again and enter a number between 1 and 3 or exit`)
+        .setDescription(`${xmoji} | Please try again and enter a number between 1 and 4 or exit`)
         message.say(errvideoEmbed);
         return;
       });  
