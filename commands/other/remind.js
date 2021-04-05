@@ -69,7 +69,7 @@ module.exports = class CatCommand extends Command {
 				embed.setDescription(`${message.author}, your reminder has been set for ` + msToTime(actualTime))
 				message.channel.send(embed);
 				var d = new Date();
-				var reminder = {author: message.member.user.username, remindermsg: outputMsg, starttime: d.getTime(), timetowait: actualTime};
+				var reminder = {author: message.author, remindermsg: outputMsg, starttime: d.getTime(), timetowait: actualTime};
 				
 				message.guild.musicData.remind.push(reminder);
 				message.guild.musicData.remind.sort(function(a, b){return (a.starttime+a.timetowait) - (b.starttime+b.timetowait)});
@@ -85,7 +85,7 @@ module.exports = class CatCommand extends Command {
 				message.reply('You formatted the time incorrectly it should only have numbers and the letters s, m, h and d and it should look like: \'4d20h30s\' or \'2h30m\' ');
 			}
 		} else {
-			message.reply('You probably formatted your reminder wrong, type !help to learn how to make reminders!')
+			message.reply(`You probably formatted your reminder wrong, type ${Command.usage('help remind', message.guild ? message.guild.commandPrefix : null, this.client.user)} to learn how to make reminders!`)
 		}
   };
 }

@@ -149,7 +149,7 @@ function msToTime(duration) {
 
   hours = (hours < 10) ? hours : hours;
   minutes = (minutes < 10) ? minutes : minutes;
-  seconds = (seconds < 10) ? seconds : seconds;
+  seconds = (seconds < 10) ? '0' + seconds : seconds;
 
   if (hours !== 0)
   	return hours + ":" + minutes + ":" + seconds;
