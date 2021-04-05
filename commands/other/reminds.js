@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
+const Pagination = require('discord-paginationembed');
 
 module.exports = class CatCommand extends Command {
   constructor(client) {
@@ -15,20 +16,6 @@ module.exports = class CatCommand extends Command {
         usages: 2,
         duration: 10
       },
-      args: [
-        {
-		      key: 'rdremove',
-		      default: '',
-          prompt: 'mau liat punya siapa?',
-          type: 'string'
-        },
-        {
-		      key: 'nurdremove',
-		      default: '',
-          prompt: 'nomor brp yang mau di apus?',
-          type: 'integer'
-        }
-      ]
     });
   }
 
@@ -41,21 +28,23 @@ module.exports = class CatCommand extends Command {
           a.push(i)
       }
     }
-    let embed = new MessageEmbed()
     if (rdremove == '') {
       if (found == true) {
-        var txt = "";
         var newremind = [];
         for (let i = 0; i < a.length; i++) {
           newremind.push(message.guild.musicData.remind[a[i]]);
         }
-        newremind.forEach(function(value, index, array){
-            var d = new Date();
-            txt = txt + (index + 1) + ". " + value.remindermsg + " (reminding in " + msToTime(value.starttime+value.timetowait - d.getTime()) + " - " + value.author + ")\n"; 
-        });   
-        embed.setColor(normalcolor)
-        embed.setDescription("**Reminder list:** \n" + txt)
-        message.channel.send(embed);
+        var d = new Date();
+        const savedSongsEmbed = new Pagination.FieldsEmbed()
+        .setArray(newremind)
+        .setAuthorizedUsers([message.member.id])
+        .setChannel(message.channel)
+        .setElementsPerPage(10)
+        .formatField('# - remind msg - Estimate time', function(e) {
+          return `**${newremind.indexOf(e) + 1}**| ${e.remindermsg} - ${msToTime(e.starttime+e.timetowait - d.getTime())}`;
+        });
+        savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`**${newremind.length}/∞**`);
+        savedSongsEmbed.build();
       } else {
         message.channel.send("There are no reminders right now!");
       }
