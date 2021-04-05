@@ -47,14 +47,15 @@ module.exports = class LeaveCommand extends Command {
       .setTitle('Choose a music settings by commenting a number between 1 and 2')
       .setDescription(`1. Update max volume - **${all.maxvolume}% (100 - 200)**\n
       2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
-      3. Automatically show now playing - **${np}**`
+      3. Automatically show now playing - **${np}**\n
+      4. Bassboost filter - **${message.guild.musicData.bassboost}**`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
     message.channel
       .awaitMessages(
         function(msg) {
-          return (msg.content > 0 && msg.content < 4) || msg.content === 'exit';
+          return (msg.content > 0 && msg.content < 5) || msg.content === 'exit';
         },
         {
           max: 1,
@@ -160,6 +161,18 @@ module.exports = class LeaveCommand extends Command {
               message.say(errvideoEmbed);
               return;
             });
+        } else if (mIndex == 4) {
+          if (songEmbed) {
+            songEmbed.delete();
+          }
+          message.channel.bulkDelete(1)
+          if (all.nowplaying == false) {
+            message.guild.musicData.bassboost = true;
+            message.say(`Bassboost filter **enable**, it could be work next play if the music play.`)
+          } else {
+            message.guild.musicData.bassboost = false
+            message.say(`Bassboost filter **disable**,  it could be work next song if the music play.`)
+          }
         } else if (mIndex == 3) {
           if (songEmbed) {
             songEmbed.delete();

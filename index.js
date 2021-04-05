@@ -22,6 +22,7 @@ Structures.extend('Guild', function(Guild) {
         errorP: 0,
         svote: [],
         cvote: [],
+        bassboost: false,
         sloop: 'null',
         remind: [],
         seek: 0,

@@ -27,7 +27,7 @@
     "ytdl-core": "^4.5.0",
     "nekos.life": "^2.0.7",
     "fs": "^0.0.1-security",
-    "discord-ytdl-core": "^4.1.3",
+    "discord-ytdl-core": "^5.0.2",
     "spotify-url-info": "^2.2.0",
     "spotify-info.js": "^1.0.4",
     "quickmongo": "^3.0.0"

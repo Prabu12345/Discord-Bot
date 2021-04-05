@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const youtube = require('youtube-sr').default;
 const syoutube = require('simple-youtube-api');
-const ytdl = require('ytdl-core');
+const ytdl = require('discord-ytdl-core');
 const spotify = require('spotify-url-info')
 const { youtubeAPI } = require('../../config.json');
 const gch = new syoutube(youtubeAPI);
@@ -432,6 +432,12 @@ module.exports = class PlayCommand extends Command {
     if (message.guild.musicData.seek > 0) {
       if (collector && !collector.end) collector.stop();
     }
+    let encoderArgs
+    if (message.guild.musicData.bassboost === false) {
+        encoderArgs = []
+    } else {
+        encoderArgs = ['-af', 'Bassboost']
+    }
     /*let mode;
     var query = queue[0].url
     if (query.match(/^(http(s)?:\/\/)?((w){3}.)?soundcloud\.com\/.+/)){
@@ -451,7 +457,18 @@ module.exports = class PlayCommand extends Command {
       .then(function(connection) {
         const vol1 = vol.volume / 100;
         const dispatcher = connection
-          .play(ytdl(queue[0].url, { quality: `highestaudio`, filter: () => ['251'], highWaterMark: 1 << 25 }), { volume: vol1, seek: seekAmount })
+          .play(ytdl(queue[0].url, { 
+            quality: `highestaudio`, 
+            filter: 'audioonly',
+            opusEncoded: true,
+            encoderArgs,
+            seek: seekAmount,
+            highWaterMark: 1 << 25 
+          }), { 
+            type: 'opus',
+            bitrate: 'auto',
+            volume: vol1
+          })
           dispatcher.on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             message.guild.musicData.nowPlaying = queue[0];
