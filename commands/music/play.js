@@ -316,13 +316,12 @@ module.exports = class PlayCommand extends Command {
 
     // This if statement checks if the user entered a youtube url, it can be any kind of youtube url
     if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
-      try {
-        query = query
-        .replace(/(>|<)/gi, '')
-        .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-      } catch {
+      query = query
+      .replace(/(>|<)/gi, '')
+      .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/).catch(function() {
         srch.edit('', ':x: | There was a problem getting the video you provided!');
-      }
+        failedToGetVideo = true;
+      });
       const id = query[2].split(/[^0-9a-z_\-]/i)[0];
       let failedToGetVideo = false;
       const video = await gch.getVideoByID(id).catch(function() {
@@ -640,6 +639,7 @@ module.exports = class PlayCommand extends Command {
         totalDurationInMS = totalDurationInMS + totalDurationObj[key] * 1000;
       }
     });
+    return totalDurationInMS
   }
 
   static msToTime(duration) {
