@@ -38,7 +38,7 @@ module.exports = class CatCommand extends Command {
       .formatField('# - remind msg - Estimate time', function(e) {
         return `**${newremind.indexOf(e) + 1}**| ${e.remindermsg} - ${msToTime(e.starttime+e.timetowait - d.getTime())}`;
       });
-      savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`**${newremind.length}/∞**`);
+      savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`${newremind.length}/∞`);
       savedSongsEmbed.build();
     } else {
       message.channel.send("There are no reminders right now!");

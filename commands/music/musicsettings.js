@@ -48,7 +48,7 @@ module.exports = class LeaveCommand extends Command {
       .setDescription(`1. Update max volume - **${all.maxvolume}% (100 - 200)**\n
       2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
       3. Automatically show now playing - **${np}**\n
-      4. Bassboost filter - **${message.guild.musicData.bassboost*4}**`
+      4. Bassboost filter - **${message.guild.musicData.bassboost*4}%**`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
@@ -184,7 +184,7 @@ module.exports = class LeaveCommand extends Command {
                 message.guild.musicData.bassboost = Math.ceil(tIndex/4)
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
-                  .setDescription(`The bassboost set to **${tIndex}%**, ${message.author}`)
+                  .setDescription(`The bassboost set to **${tIndex}%**, it could be work next play if the music play.`)
                 message.say(timeoutEmbed);
               }
             })
@@ -198,13 +198,6 @@ module.exports = class LeaveCommand extends Command {
               message.say(errvideoEmbed);
               return;
             });
-          if (message.guild.musicData.bassboost == false) {
-            message.guild.musicData.bassboost = true;
-            message.say(`Bassboost filter **enable**, it could be work next play if the music play.`)
-          } else {
-            message.guild.musicData.bassboost = false
-            message.say(`Bassboost filter **disable**,  it could be work next song if the music play.`)
-          }
         } else if (mIndex == 3) {
           if (songEmbed) {
             songEmbed.delete();

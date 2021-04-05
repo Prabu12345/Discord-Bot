@@ -434,7 +434,7 @@ module.exports = class PlayCommand extends Command {
     }
     let bassset = `bass=g=${message.guild.musicData.bassboost}`
     let encoderArgs
-    if (message.guild.musicData.bassboost === false) {
+    if (message.guild.musicData.bassboost > 0) {
         encoderArgs = []
     } else {
         encoderArgs = ['-af', bassset]
