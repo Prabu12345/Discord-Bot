@@ -435,9 +435,9 @@ module.exports = class PlayCommand extends Command {
     let bassset = `bass=g=${message.guild.musicData.bassboost}`
     let encoderArgs
     if (message.guild.musicData.bassboost > 0) {
-        encoderArgs = []
+      encoderArgs = ['-af', bassset]
     } else {
-        encoderArgs = ['-af', bassset]
+      encoderArgs = []
     }
     /*let mode;
     var query = queue[0].url
