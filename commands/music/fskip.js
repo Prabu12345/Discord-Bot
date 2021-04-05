@@ -19,6 +19,7 @@ module.exports = class SkipCommand extends Command {
   }
 
   async run(message) {
+    const voiceChannel = message.member.voice.channel;
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) { 
     let a = await message.channel.send('Adding DJ role, because i need it')

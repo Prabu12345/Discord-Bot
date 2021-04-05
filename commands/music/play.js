@@ -316,12 +316,9 @@ module.exports = class PlayCommand extends Command {
 
     // This if statement checks if the user entered a youtube url, it can be any kind of youtube url
     if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
-      query = query
-      .replace(/(>|<)/gi, '')
-      .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/).catch(function() {
-        srch.edit('', ':x: | There was a problem getting the video you provided!');
-        failedToGetVideo = true;
-      });
+      query = query.split('\n')
+      query = query[0].replace(/(>|<)/gi, '')
+      .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)
       const id = query[2].split(/[^0-9a-z_\-]/i)[0];
       let failedToGetVideo = false;
       const video = await gch.getVideoByID(id).catch(function() {
@@ -602,7 +599,7 @@ module.exports = class PlayCommand extends Command {
 
   static constructSongObj1(video, user) {
     let duration = this.formatDuration(video.duration);
-    if (duration == '00:00') duration = 'Live Stream';
+    if (duration == '0:00') duration = 'Live Stream';
     return {
       url: `https://youtube.com/watch?v=${video.raw.id}`,
       title: video.title,
@@ -616,7 +613,7 @@ module.exports = class PlayCommand extends Command {
 
   static formatDuration(durationObj) {
     const duration = `${durationObj.hours ? (durationObj.hours + ':') : ''}${
-      durationObj.minutes ? durationObj.minutes : '00'
+      durationObj.minutes ? durationObj.minutes : '0'
     }:${
       (durationObj.seconds < 10)
         ? ('0' + durationObj.seconds)
@@ -647,11 +644,11 @@ module.exports = class PlayCommand extends Command {
         minutes = parseInt((duration / (1000 * 60)) % 60),
         hours = parseInt((duration / (1000 * 60 * 60)) % 24);
   
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
+    hours = (hours < 10) ? hours : hours;
+    minutes = (minutes < 10) ? minutes : minutes;
+    seconds = (seconds < 10) ? seconds : seconds;
 
-    if (hours !== "00")
+    if (hours !== 0)
       return hours + ":" + minutes + ":" + seconds;
     else
       return minutes + ":" + seconds;
