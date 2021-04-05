@@ -15,25 +15,21 @@ module.exports = class CatCommand extends Command {
       throttling: {
         usages: 2,
         duration: 10
-      },
+      }
     });
   }
 
-  async run(message, {rdremove}, {nurdremove}) {
-    let a = [];
+  async run(message) {
+    var newremind = [];
     let found = false;
     for (let i = 0; i < message.guild.musicData.remind.length; i++) {
       if (message.guild.musicData.remind[i].author == message.author) {
           found = true;
-          a.push(i)
+          newremind.push(message.guild.musicData.remind[i]);
       }
     }
     if (rdremove == '') {
       if (found == true) {
-        var newremind = [];
-        for (let i = 0; i < a.length; i++) {
-          newremind.push(message.guild.musicData.remind[a[i]]);
-        }
         var d = new Date();
         const savedSongsEmbed = new Pagination.FieldsEmbed()
         .setArray(newremind)
