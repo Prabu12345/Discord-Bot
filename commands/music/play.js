@@ -13,6 +13,7 @@ const spt = new Spotify({
   });
 const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
 const { Database } = require("quickmongo");
+const { msToTime } = require('./search');
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
 module.exports = class PlayCommand extends Command {
@@ -304,9 +305,10 @@ module.exports = class PlayCommand extends Command {
       */
 
       for (let i = 0; i < videosArr.length; i++) {
+        let dur = msToTime(videosArr[i].duration).split(':')
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
-        } else if (videosArr[i].duration.hours > 5) {
+        } else if (dur[0] > 5) {
           continue;
         } else {
           try {
