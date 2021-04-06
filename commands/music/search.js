@@ -201,7 +201,7 @@ module.exports = class searchCommand extends Command {
   static msToTime(duration) {
     var seconds = parseInt((duration / 1000) % 60),
       minutes = parseInt((duration / (1000 * 60)) % 60),
-      hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+      hours = parseInt((duration / (1000 * 60 * 60)) % 24),
       days = parseInt((duration / (1000 * 60 * 60 * 24)) % 365);
   
     hours = (hours < 10) ? hours : hours;

@@ -145,7 +145,7 @@ function msToTime(duration) {
   if (duration === 0) return 'Live Stream'
   var seconds = parseInt((duration / 1000) % 60),
     minutes = parseInt((duration / (1000 * 60)) % 60),
-    hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+    hours = parseInt((duration / (1000 * 60 * 60)) % 24),
     days = parseInt((duration / (1000 * 60 * 60 * 24)) % 365);
 
   hours = (hours < 10) ? hours : hours;
