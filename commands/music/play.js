@@ -306,7 +306,7 @@ module.exports = class PlayCommand extends Command {
       for (let i = 0; i < videosArr.length; i++) {
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
-        } else if (videosArr[i].duration.hours > 5) {
+        } else if (((PlayCommand.durationrawed(videosArr[i].duration) / (1000 * 60 * 60)) % 24) > 5) {
           continue;
         } else {
           try {
@@ -359,7 +359,7 @@ module.exports = class PlayCommand extends Command {
       //   return message.say("I don't support live streams!");
       // }
       // can be uncommented if you don't want the bot to play videos longer than 1 hour
-      if (video.duration.hours > 5) {
+      if (((PlayCommand.durationrawed(video.duration) / (1000 * 60 * 60)) % 24) > 5) {
         return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
       }
       // can be uncommented if you want to limit the queue
