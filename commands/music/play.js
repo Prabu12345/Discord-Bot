@@ -306,7 +306,7 @@ module.exports = class PlayCommand extends Command {
       for (let i = 0; i < videosArr.length; i++) {
         const video = await videosArr[i].fetch();
         let endur = parseInt(PlayCommand.durationrawed(video.duration))
-        if (videosArr[i].raw.status.privacyStatus == 'private') {
+        if (video.raw.status.privacyStatus == 'private') {
           continue;
         } else if (parseInt((endur / (1000 * 60 * 60)) % 24) > 5) {
           continue;
