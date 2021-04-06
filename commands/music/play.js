@@ -306,7 +306,7 @@ module.exports = class PlayCommand extends Command {
       for (let i = 0; i < videosArr.length; i++) {
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
-        } else if (parseInt((parseInt(PlayCommand.durationrawed(videosArr[i].duration)) / (1000 * 60 * 60)) % 24) > 5) {
+        } else if (videosArr[i].duration.hours > 5) {
           continue;
         } else {
           try {
