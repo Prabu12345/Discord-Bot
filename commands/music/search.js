@@ -110,20 +110,14 @@ module.exports = class searchCommand extends Command {
           //   songEmbed.delete();
           //   return message.say("I don't support live streams!");
           // }
-
-          // // can be uncommented if you don't want the bot to play videos longer than 1 hour
-          // if (video.duration.hours !== 0) {
-          //   songEmbed.delete();
-          //   return message.say('I cannot play videos longer than 1 hour');
-          // }
-
-          // // can be uncommented if you don't want to limit the queue
-          // if (message.guild.musicData.queue.length > 10) {
-          //   songEmbed.delete();
-          //   return message.say(
-          //     'There are too many songs in the queue already, skip or wait a bit'
-          //   );
-          // }
+          // can be uncommented if you don't want the bot to play videos longer than 1 hour
+          if (((videos[videoIndex -1 ].duration / (1000 * 60 * 60)) % 24) > 5) {
+            return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+          }
+          // can be uncommented if you want to limit the queue
+          if (message.guild.musicData.queue.length >= 1000) {
+            return srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
+          }
           message.guild.musicData.queue.push(
             searchCommand.constructSongObj(
               videos[videoIndex - 1],
@@ -206,16 +200,20 @@ module.exports = class searchCommand extends Command {
 
   static msToTime(duration) {
     var seconds = parseInt((duration / 1000) % 60),
-        minutes = parseInt((duration / (1000 * 60)) % 60),
-        hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+      minutes = parseInt((duration / (1000 * 60)) % 60),
+      hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+      days = parseInt((duration / (1000 * 60 * 60 * 24)) % 365);
   
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    hours = (hours < 10) ? hours : hours;
+    minutes = (minutes < 10) ? minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-    if (hours !== "00")
+  
+    if (days !== 0) {
+      return days + ":" + hours + ":" + minutes + ":" + seconds;
+    } else if (hours !== 0) {
       return hours + ":" + minutes + ":" + seconds;
-    else
+    } else {
       return minutes + ":" + seconds;
+    } 
   }
 }

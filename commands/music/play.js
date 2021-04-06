@@ -417,7 +417,7 @@ module.exports = class PlayCommand extends Command {
       return;
     }
     // can be uncommented if you don't want the bot to play videos longer than 1 hour
-    if (((video.duration / (1000 * 60 * 60)) % 24) > 5) {
+    if (((videos[0].duration / (1000 * 60 * 60)) % 24) > 5) {
       return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
     }
     // can be uncommented if you want to limit the queue
