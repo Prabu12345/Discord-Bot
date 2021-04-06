@@ -144,15 +144,19 @@ function generateQueueEmbed(message, queue) {
 function msToTime(duration) {
   if (duration === 0) return 'Live Stream'
   var seconds = parseInt((duration / 1000) % 60),
-      minutes = parseInt((duration / (1000 * 60)) % 60),
-      hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+    minutes = parseInt((duration / (1000 * 60)) % 60),
+    hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+    days = parseInt((duration / (1000 * 60 * 60 * 24)) % 365);
 
   hours = (hours < 10) ? hours : hours;
   minutes = (minutes < 10) ? minutes : minutes;
-  seconds = (seconds < 10) ? '0' + seconds : seconds;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-  if (hours !== 0)
-  	return hours + ":" + minutes + ":" + seconds;
-  else
-  	return minutes + ":" + seconds;
+  if (days !== 0) {
+    return days + ":" + hours + ":" + minutes + ":" + seconds;
+  } else if (hours !== 0) {
+    return hours + ":" + minutes + ":" + seconds;
+  } else {
+    return minutes + ":" + seconds;
+  }   
 }

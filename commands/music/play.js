@@ -99,6 +99,14 @@ module.exports = class PlayCommand extends Command {
         srch.edit('', errvideoEmbed);
         return;
       }
+      // can be uncommented if you don't want the bot to play videos longer than 1 hour
+      if (((videos[0].duration / (1000 * 60 * 60)) % 24) > 5) {
+        return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+      }
+      // can be uncommented if you want to limit the queue
+      if (message.guild.musicData.queue.length >= 1000) {
+        return srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
+      }
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj(
           videos[0],
@@ -159,13 +167,24 @@ module.exports = class PlayCommand extends Command {
         });
         if (results.length < 1) {
           continue
+        } else if (((results[0].duration / (1000 * 60 * 60)) % 24) > 5) {
+          continue;
+        } else {
+          try {
+            if (message.guild.musicData.queue.length < 1000) {
+              tracks.push(
+                PlayCommand.constructSongObj(
+                  results[0],
+                  message.member.user
+                )
+              )
+            } else {
+              return srch.edit('', ':x: | I can\'t play the full playlist because there will be more than 1000 songs in queue');
+            }
+          } catch (err) {
+            return console.error(err);
+          }
         }
-        tracks.push(
-          PlayCommand.constructSongObj(
-            results[0],
-            message.member.user
-          )
-        )
       }
       tracks.map(element => 
         message.guild.musicData.queue.push(element)  
@@ -211,13 +230,24 @@ module.exports = class PlayCommand extends Command {
         });
         if (results.length < 1) {
             continue
+        } else if (((results[0].duration / (1000 * 60 * 60)) % 24) > 5) {
+          continue;
+        } else {
+          try {
+            if (message.guild.musicData.queue.length < 1000) {
+              tracks.push(
+                PlayCommand.constructSongObj(
+                  results[0],
+                  message.member.user
+                )
+              )
+            } else {
+              return srch.edit('', ':x: | I can\'t play the full playlist because there will be more than 1000 songs in queue');
+            }
+          } catch (err) {
+            return console.error(err);
+          }
         }
-        tracks.push(
-          PlayCommand.constructSongObj(
-            results[0],
-            message.member.user
-          )
-        )
       }
       tracks.map(element => 
         message.guild.musicData.queue.push(element)  
@@ -276,23 +306,21 @@ module.exports = class PlayCommand extends Command {
       for (let i = 0; i < videosArr.length; i++) {
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
+        } else if (videosArr[i].duration.hours > 5) {
+          continue;
         } else {
           try {
             const video = await videosArr[i].fetch();
-            // this can be uncommented if you choose to limit the queue
-            // if (message.guild.musicData.queue.length < 10) {
-            //
-            message.guild.musicData.queue.push(
-              PlayCommand.constructSongObj1(
-                video,
-                message.member.user
-              )
-            );
-            // } else {
-            //   return message.say(
-            //     `I can't play the full playlist because there will be more than 10 songs in queue`
-            //   );
-            // }
+            if (message.guild.musicData.queue.length < 1000) {
+              message.guild.musicData.queue.push(
+                PlayCommand.constructSongObj1(
+                  video,
+                  message.member.user
+                )
+              );
+              } else {
+                return srch.edit('', ':x: | I can\'t play the full playlist because there will be more than 10 songs in queue');
+              }
           } catch (err) {
             return console.error(err);
           }
@@ -330,16 +358,14 @@ module.exports = class PlayCommand extends Command {
       // if (video.raw.snippet.liveBroadcastContent === 'live') {
       //   return message.say("I don't support live streams!");
       // }
-      // // can be uncommented if you don't want the bot to play videos longer than 1 hour
-      // if (video.duration.hours !== 0) {
-      //   return message.say('I cannot play videos longer than 1 hour');
-      // }
-      // // can be uncommented if you want to limit the queue
-      // if (message.guild.musicData.queue.length > 10) {
-      //   return message.say(
-      //     'There are too many songs in the queue already, skip or wait a bit'
-      //   );
-      // }
+      // can be uncommented if you don't want the bot to play videos longer than 1 hour
+      if (video.duration.hours > 5) {
+        return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+      }
+      // can be uncommented if you want to limit the queue
+      if (message.guild.musicData.queue.length >= 1000) {
+        return srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
+      }
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj1(video, message.member.user)
       );
@@ -389,6 +415,14 @@ module.exports = class PlayCommand extends Command {
       .setDescription(`${xmoji} | I had some trouble finding what you were looking for, please try again or be more specific`)
       srch.edit('', errvideoEmbed);
       return;
+    }
+    // can be uncommented if you don't want the bot to play videos longer than 1 hour
+    if (((video.duration / (1000 * 60 * 60)) % 24) > 5) {
+      return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+    }
+    // can be uncommented if you want to limit the queue
+    if (message.guild.musicData.queue.length >= 1000) {
+      return srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
     }
     message.guild.musicData.queue.push(
       PlayCommand.constructSongObj(
@@ -659,16 +693,20 @@ module.exports = class PlayCommand extends Command {
 
   static msToTime(duration) {
     var seconds = parseInt((duration / 1000) % 60),
-        minutes = parseInt((duration / (1000 * 60)) % 60),
-        hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+      minutes = parseInt((duration / (1000 * 60)) % 60),
+      hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+      days = parseInt((duration / (1000 * 60 * 60 * 24)) % 365);
   
     hours = (hours < 10) ? hours : hours;
     minutes = (minutes < 10) ? minutes : minutes;
-    seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-    if (hours !== 0)
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+  
+    if (days !== 0) {
+      return days + ":" + hours + ":" + minutes + ":" + seconds;
+    } else if (hours !== 0) {
       return hours + ":" + minutes + ":" + seconds;
-    else
+    } else {
       return minutes + ":" + seconds;
+    }   
   }
 };

@@ -69,14 +69,14 @@ module.exports = class SeekCommand extends Command {
       if (time.search(/[:]/) >= 0) { 
         var waktu1 = time.split(':'); 
         var allwaktu = parseInt(waktu1[0] * 60) + parseInt(waktu1[1]);
-        loopEmbed.setDescription(`**Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
+        loopEmbed.setDescription(`${cmoji} | **Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
       } else if (time.search(/[.]/) >= 0) {
         var waktu2 = time.split('.');
         var allwaktu = parseInt(waktu2[0] * 60) + parseInt(waktu2[1]);
-        loopEmbed.setDescription(`**Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
+        loopEmbed.setDescription(`${cmoji} | **Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
       } else {
         var allwaktu = time
-        loopEmbed.setDescription(`**Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
+        loopEmbed.setDescription(`${cmoji} | **Set to** \`${msToTime(parseInt(allwaktu) * 1000)}\``)
       }
     } else {
       if (type == 'forward' || type == 'f') {
