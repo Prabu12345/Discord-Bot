@@ -304,6 +304,7 @@ module.exports = class PlayCommand extends Command {
       */
 
       for (let i = 0; i < videosArr.length; i++) {
+        const video = await videosArr[i].fetch();
         let endur = parseInt(PlayCommand.durationrawed(video.duration))
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
@@ -311,7 +312,6 @@ module.exports = class PlayCommand extends Command {
           continue;
         } else {
           try {
-            const video = await videosArr[i].fetch();
             if (message.guild.musicData.queue.length < 1000) {
               message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj1(
