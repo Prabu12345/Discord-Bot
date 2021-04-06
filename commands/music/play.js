@@ -304,14 +304,13 @@ module.exports = class PlayCommand extends Command {
       */
 
       for (let i = 0; i < videosArr.length; i++) {
-        const video = await videosArr[i].fetch();
-        let endur = parseInt(PlayCommand.durationrawed(video.duration))
-        if (video.raw.status.privacyStatus == 'private') {
+        if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
-        } else if (parseInt((endur / (1000 * 60 * 60)) % 24) > 5) {
+        } else if (parseInt((parseInt(PlayCommand.durationrawed(videosArr[i].duration)) / (1000 * 60 * 60)) % 24) > 5) {
           continue;
         } else {
           try {
+            const video = await videosArr[i].fetch();
             if (message.guild.musicData.queue.length < 1000) {
               message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj1(
