@@ -111,7 +111,7 @@ module.exports = class searchCommand extends Command {
           //   return message.say("I don't support live streams!");
           // }
           // can be uncommented if you don't want the bot to play videos longer than 1 hour
-          if (((videos[videoIndex -1 ].duration / (1000 * 60 * 60)) % 24) > 5) {
+          if (parseInt((videos[videoIndex -1 ].duration / (1000 * 60 * 60)) % 24) > 5) {
             return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
           }
           // can be uncommented if you want to limit the queue
