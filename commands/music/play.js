@@ -110,11 +110,19 @@ module.exports = class PlayCommand extends Command {
       // can be uncommented if you don't want the bot to play videos longer than 1 hour
       let endur = (videos[0].duration / (1000 * 60 * 60)) % 24
       if ( endur > 5) {
-        return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription(`${xmoji}  | I cannot play videos longer than 5 hour`)
+        srch.edit('', errvideoEmbed);
+        return;
       }
       // can be uncommented if you want to limit the queue
       if (message.guild.musicData.queue.length >= 1000) {
-        return srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription(`${xmoji} | There are too many songs in the queue already, skip or wait a bit`)
+        srch.edit('', errvideoEmbed);
+        return;
       }
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj(
@@ -190,7 +198,11 @@ module.exports = class PlayCommand extends Command {
                 )
               )
             } else {
-              return srch.edit('', ':x: | I can\'t play the full playlist because there will be more than 1000 songs in queue');
+              const errvideoEmbed = new MessageEmbed()
+              .setColor(errorcolor)
+              .setDescription(`${xmoji} | I can\'t play the full playlist because there will be more than 1000 songs in queue`)
+              srch.edit('', errvideoEmbed);
+              return;
             }
           } catch (err) {
             return console.error(err);
@@ -255,7 +267,12 @@ module.exports = class PlayCommand extends Command {
                 )
               )
             } else {
-              return srch.edit('', ':x: | I can\'t play the full playlist because there will be more than 1000 songs in queue');
+              // can be uncommented if you want to limit the queue
+              const errvideoEmbed = new MessageEmbed()
+              .setColor(errorcolor)
+              .setDescription(`${xmoji} | I can\'t play the full playlist because there will be more than 1000 songs in queue`)
+              srch.edit('', errvideoEmbed);
+              return;
             }
           } catch (err) {
             return console.error(err);
@@ -335,7 +352,11 @@ module.exports = class PlayCommand extends Command {
                 )
               );
               } else {
-                return srch.edit('', ':x: | I can\'t play the full playlist because there will be more than 10 songs in queue');
+                const errvideoEmbed = new MessageEmbed()
+                .setColor(errorcolor)
+                .setDescription(`${xmoji} | I can\'t play the full playlist because there will be more than 1000 songs in queue`)
+                srch.edit('', errvideoEmbed);
+                return;
               }
           } catch (err) {
             return console.error(err);
@@ -377,14 +398,20 @@ module.exports = class PlayCommand extends Command {
       // can be uncommented if you don't want the bot to play videos longer than 1 hour
       let endur = parseInt(PlayCommand.durationrawed(video.duration))
       endur = (endur / (1000 * 60 * 60)) % 24
-      if (endur > 5) {
-        srch.edit('', ':x: | I cannot play videos longer than 5 hour');
-        return 
+      if ( endur > 5) {
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription(`${xmoji}  | I cannot play videos longer than 5 hour`)
+        srch.edit('', errvideoEmbed);
+        return;
       }
       // can be uncommented if you want to limit the queue
       if (message.guild.musicData.queue.length >= 1000) {
-        srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
-        return 
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription(`${xmoji} | There are too many songs in the queue already, skip or wait a bit`)
+        srch.edit('', errvideoEmbed);
+        return;
       }
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj1(video, message.member.user)
@@ -439,11 +466,19 @@ module.exports = class PlayCommand extends Command {
     // can be uncommented if you don't want the bot to play videos longer than 1 hour
     let endur = (videos[0].duration / (1000 * 60 * 60)) % 24
     if ( endur > 5) {
-      return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`${xmoji}  | I cannot play videos longer than 5 hour`)
+      srch.edit('', errvideoEmbed);
+      return;
     }
     // can be uncommented if you want to limit the queue
     if (message.guild.musicData.queue.length >= 1000) {
-      return srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`${xmoji} | There are too many songs in the queue already, skip or wait a bit`)
+      srch.edit('', errvideoEmbed);
+      return;
     }
     message.guild.musicData.queue.push(
       PlayCommand.constructSongObj(
