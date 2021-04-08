@@ -65,14 +65,19 @@ module.exports = class PlayCommand extends Command {
       .setColor(errorcolor)
       .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       return message.say(errleaveEmbed);
-    } else if (message.guild.musicData.songDispatcher.paused) {
+    } else 
+    
+    if (message.guild.musicData.songDispatcher.paused) {
     const resumeEmbed = new MessageEmbed()
     .setColor(normalcolor)
     .setDescription(`${cmoji} | Song resumed :play_pause:`)
     message.say(resumeEmbed);
     message.guild.musicData.songDispatcher.resume();
     return;
-    } else if (query.length == 0){
+    } else {
+    }
+    
+    if (query.length == 0){
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`**Usage:** ${prefix}play <YouTube or Spotify URL | Video Name>`)
