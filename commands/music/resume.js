@@ -40,7 +40,6 @@ module.exports = class ResumeCommand extends Command {
     .setColor(normalcolor)
     .setDescription(`${cmoji} | resumed :play_pause:`)
     message.say(resumeEmbed);
-    message.guild.musicData.pause = false;
     message.guild.musicData.songDispatcher.resume();
   }
 };

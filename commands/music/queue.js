@@ -130,13 +130,8 @@ function generateQueueEmbed(message, queue) {
     .setTitle(`🎶 Queue for ${message.guild.name} (${queue.length})`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
-    if (message.guild.musicData.loop == 'off') {
-      embed.setFooter(`Now Playing: ${textlimit(video.title)} | Loop: ${message.guild.musicData.loop} | Total Queue Time: ${msToTime(allduration)}`)
+    .setFooter(`Now Playing: ${textlimit(video.title)} | Loop: ${message.guild.musicData.loop} | Total Queue Time: ${msToTime(allduration)}`)
     embeds.push(embed);
-  } else if (message.guild.musicData.loop == 'track' || message.guild.musicData.loop == 'queue') {
-      embed.setFooter(`Now Playing: ${textlimit(video.title)} | Loop: ${message.guild.musicData.loop} Track | Total Queue Time: ${msToTime(allduration)}`)
-    embeds.push(embed);
-    }
   }
   return embeds;
 };

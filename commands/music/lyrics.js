@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
+const Pagination = require('discord-paginationembed');
 const cheerio = require('cheerio');
 const { geniusLyricsAPI, normalcolor, errorcolor, xmoji, cmoji } = require('../../config.json');
 
@@ -65,13 +66,7 @@ module.exports = class LyricsCommand extends Command {
         LyricsCommand.getSongPageURL(url)
           .then(function(url) {
             LyricsCommand.getLyrics(url)
-              .then(function(lyrics) {
-                if (lyrics.length > 4095) {
-                  message.say(
-                    'Lyrics are too long to be returned in a message embed'
-                  );
-                  return;
-                }
+              .then(function(lyrics) {   
                 if (lyrics.length < 2048) {
                   const lyricsEmbed = new MessageEmbed()
                     .setTitle(songName)
@@ -80,19 +75,30 @@ module.exports = class LyricsCommand extends Command {
                     .setFooter('Provided by genius.com');
                   return sentMessage.edit('', lyricsEmbed);
                 } else {
-                  // 2048 < lyrics.length < 4096
-                  const firstLyricsEmbed = new MessageEmbed()
-                    .setTitle(songName)
-                    .setColor(normalcolor)
-                    .setDescription(lyrics.slice(0, 2048))
-                    .setFooter('Provided by genius.com');
-                  const secondLyricsEmbed = new MessageEmbed()
-                    .setTitle(songName)
-                    .setColor(normalcolor)
-                    .setDescription(lyrics.slice(2048, lyrics.length))
-                    .setFooter('Provided by genius.com');
-                  sentMessage.edit('', firstLyricsEmbed);
-                  message.channel.send(secondLyricsEmbed);
+                  let zenbu = []
+                  let pg1 = lyrics.slice(0, 2048)
+                  let pg2 = lyrics.slice(2048, 4096) 
+                  let pg3
+                  if (lyrics.length > 4096) {
+                    pg3 = lyrics.slice(4096, lyrics.length) 
+                    zenbu.push(pg1)
+                    zenbu.push(pg2)
+                    zenbu.push(pg3)
+                  } else {
+                    zenbu.push(pg1)
+                    zenbu.push(pg2)
+                  }
+                  sentMessage.delete();
+                  const LyricsEmbed = new Pagination.FieldsEmbed()
+                  .setArray(zenbu)
+                  .setAuthorizedUsers([message.member.id])
+                  .setChannel(message.channel)
+                  .setElementsPerPage(1)
+                  .formatField('--------------------', function(e) {
+                    return `${e}`;
+                  });
+                  LyricsEmbed.embed.setColor(normalcolor).setTitle(`🎶 ${songName} Songs Lyrics`).setFooter(`Provided by genius.com`);
+                  LyricsEmbed.build();
                   return;
                 }
               })

@@ -65,12 +65,11 @@ module.exports = class PlayCommand extends Command {
       .setColor(errorcolor)
       .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       return message.say(errleaveEmbed);
-    } else if (message.guild.musicData.pause == true && query.length == 0) {
+    } else if (message.guild.musicData.songDispatcher.paused) {
     const resumeEmbed = new MessageEmbed()
     .setColor(normalcolor)
     .setDescription(`${cmoji} | Song resumed :play_pause:`)
     message.say(resumeEmbed);
-    message.guild.musicData.pause = false;
     message.guild.musicData.songDispatcher.resume();
     return;
     } else if (query.length == 0){
@@ -101,7 +100,8 @@ module.exports = class PlayCommand extends Command {
         return;
       }
       // can be uncommented if you don't want the bot to play videos longer than 1 hour
-      if (parseInt((videos[0].duration / (1000 * 60 * 60)) % 24) > 5) {
+      let endur = (videos[0].duration / (1000 * 60 * 60)) % 24
+      if ( endur > 5) {
         return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
       }
       // can be uncommented if you want to limit the queue
@@ -168,7 +168,9 @@ module.exports = class PlayCommand extends Command {
         });
         if (results.length < 1) {
           continue
-        } else if (parseInt((results[0].duration / (1000 * 60 * 60)) % 24) > 5) {
+        } 
+        let endur = (results[0].duration / (1000 * 60 * 60)) % 24
+        if (endur > 5) {
           continue;
         } else {
           try {
@@ -231,7 +233,9 @@ module.exports = class PlayCommand extends Command {
         });
         if (results.length < 1) {
             continue
-        } else if (parseInt((results[0].duration / (1000 * 60 * 60)) % 24) > 5) {
+        }
+        let endur = (results[0].duration / (1000 * 60 * 60)) % 24
+        if (endur > 5) {
           continue;
         } else {
           try {
@@ -305,14 +309,16 @@ module.exports = class PlayCommand extends Command {
       */
 
       for (let i = 0; i < videosArr.length; i++) {
-        let dur = msToTime(videosArr[i].duration).split(':')
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
-        } else if (dur[0] > 5) {
+        } 
+        const video = await videosArr[i].fetch();
+        let endur = parseInt(PlayCommand.durationrawed(video.duration))
+        endur = (endur / (1000 * 60 * 60)) % 24
+        if (endur > 5) {
           continue;
         } else {
           try {
-            const video = await videosArr[i].fetch();
             if (message.guild.musicData.queue.length < 1000) {
               message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj1(
@@ -362,12 +368,15 @@ module.exports = class PlayCommand extends Command {
       // }
       // can be uncommented if you don't want the bot to play videos longer than 1 hour
       let endur = parseInt(PlayCommand.durationrawed(video.duration))
-      if (parseInt((endur / (1000 * 60 * 60)) % 24) > 5) {
-        return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+      endur = (endur / (1000 * 60 * 60)) % 24
+      if (endur > 5) {
+        srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+        return 
       }
       // can be uncommented if you want to limit the queue
       if (message.guild.musicData.queue.length >= 1000) {
-        return srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
+        srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
+        return 
       }
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj1(video, message.member.user)
@@ -420,7 +429,8 @@ module.exports = class PlayCommand extends Command {
       return;
     }
     // can be uncommented if you don't want the bot to play videos longer than 1 hour
-    if (parseInt((videos[0].duration / (1000 * 60 * 60)) % 24) > 5) {
+    let endur = (videos[0].duration / (1000 * 60 * 60)) % 24
+    if ( endur > 5) {
       return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
     }
     // can be uncommented if you want to limit the queue

@@ -37,7 +37,7 @@ module.exports = class LoopCommand extends Command {
     } else if (typeLoop.length == 0) {
       const errloopEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription('**Usage:** -loop <one | all | off>')
+      .setDescription('**Usage:** -loop <track | queue | off>')
       return message.say(errloopEmbed);
     } else if (
       message.guild.musicData.isPlaying &&

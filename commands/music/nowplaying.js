@@ -45,7 +45,7 @@ module.exports = class NowPlayingCommand extends Command {
       .setColor(normalcolor)
       .setAuthor(`Now Playing`, message.member.user.avatarURL('webp', false, 16))
       .setTitle(`${video.title}`)
-      .setDescription(`**Volume** ${vol.volume}% | **Loop** ${message.guild.musicData.loop}\n\`${description}\``)
+      .setDescription(`\`${description}\``)
       .setURL(video.url)
       .setFooter(
         `Requested by ${video.memberDisplayName}`
@@ -87,7 +87,7 @@ module.exports = class NowPlayingCommand extends Command {
       (passedTimeInMS / totalDurationInMS) * 10
     );
     let playBack = '';
-    for (let i = 1; i < 21; i++) {
+    for (let i = 1; i < 35; i++) {
       if (playBackBarLocation == 0) {
         playBack = '🔘▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬';
         break;
