@@ -107,7 +107,7 @@ module.exports = class searchCommand extends Command {
         }
           // can be uncommented if you don't want the bot to play videos longer than 1 hour
           let endur = (videos[videoIndex -1 ].duration / (1000 * 60 * 60)) % 24
-          if(videos[0].duration < 1) {
+          if(videos[videoIndex -1 ].duration < 1) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)
             .setDescription(`${xmoji} | I\`m not support live stream`)
