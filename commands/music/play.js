@@ -65,16 +65,19 @@ module.exports = class PlayCommand extends Command {
       .setColor(errorcolor)
       .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       return message.say(errleaveEmbed);
-    } else 
-    
-    if (message.guild.musicData.songDispatcher.paused) {
-    const resumeEmbed = new MessageEmbed()
-    .setColor(normalcolor)
-    .setDescription(`${cmoji} | Song resumed :play_pause:`)
-    message.say(resumeEmbed);
-    message.guild.musicData.songDispatcher.resume();
-    return;
-    } else {
+    }
+
+    if (message.guild.musicData.songDispatcher) {
+      if (message.guild.musicData.songDispatcher.paused) {
+        message.guild.musicData.songDispatcher.resume();
+        const resumeEmbed = new MessageEmbed()
+        .setColor(normalcolor)
+        .setDescription(`${cmoji} | Song resumed :play_pause:`)
+        message.say(resumeEmbed);
+        return;
+      } else {
+
+      }
     }
     
     if (query.length == 0){
