@@ -105,19 +105,29 @@ module.exports = class searchCommand extends Command {
           songEmbed.delete();
           return;
         }
-          // // can be uncommented if you don't want the bot to play live streams
-          // if (video.raw.snippet.liveBroadcastContent === 'live') {
-          //   songEmbed.delete();
-          //   return message.say("I don't support live streams!");
-          // }
           // can be uncommented if you don't want the bot to play videos longer than 1 hour
           let endur = (videos[videoIndex -1 ].duration / (1000 * 60 * 60)) % 24
+          if(videos[0].duration < 1) {
+            const errvideoEmbed = new MessageEmbed()
+            .setColor(errorcolor)
+            .setDescription(`${xmoji} | I\`m not support live stream`)
+            srch.edit('', errvideoEmbed);
+            return;
+          }
           if ( endur > 5) {
-            return srch.edit('', ':x: | I cannot play videos longer than 5 hour');
+            const errvideoEmbed = new MessageEmbed()
+            .setColor(errorcolor)
+            .setDescription(`${xmoji} | I cannot play videos longer than 5 hour`)
+            srch.edit('', errvideoEmbed);
+            return;
           }
           // can be uncommented if you want to limit the queue
           if (message.guild.musicData.queue.length >= 1000) {
-            return srch.edit('', ':x: | There are too many songs in the queue already, skip or wait a bit');
+            const errvideoEmbed = new MessageEmbed()
+            .setColor(errorcolor)
+            .setDescription(`${xmoji} | There are too many songs in the queue already, skip or wait a bit`)
+            srch.edit('', errvideoEmbed);
+            return;
           }
           message.guild.musicData.queue.push(
             searchCommand.constructSongObj(

@@ -356,7 +356,7 @@ module.exports = class PlayCommand extends Command {
                 .setColor(errorcolor)
                 .setDescription(`${xmoji} | I can\'t play the full playlist because there will be more than 1000 songs in queue`)
                 srch.edit('', errvideoEmbed);
-                return;
+                return; 
               }
           } catch (err) {
             return console.error(err);
@@ -392,16 +392,20 @@ module.exports = class PlayCommand extends Command {
       });
       if (failedToGetVideo) return;
       // can be uncommented if you don't want the bot to play live streams
-      // if (video.raw.snippet.liveBroadcastContent === 'live') {
-      //   return message.say("I don't support live streams!");
-      // }
+      if (video.raw.snippet.liveBroadcastContent === 'live') {
+        const errvideoEmbed = new MessageEmbed()
+        .setColor(errorcolor)
+        .setDescription(`${xmoji} | I don't support live streams!`)
+        srch.edit('', errvideoEmbed);
+        return;
+      }
       // can be uncommented if you don't want the bot to play videos longer than 1 hour
       let endur = parseInt(PlayCommand.durationrawed(video.duration))
       endur = (endur / (1000 * 60 * 60)) % 24
       if ( endur > 5) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription(`${xmoji}  | I cannot play videos longer than 5 hour`)
+        .setDescription(`${xmoji} | I cannot play videos longer than 5 hour!`)
         srch.edit('', errvideoEmbed);
         return;
       }
@@ -409,7 +413,7 @@ module.exports = class PlayCommand extends Command {
       if (message.guild.musicData.queue.length >= 1000) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription(`${xmoji} | There are too many songs in the queue already, skip or wait a bit`)
+        .setDescription(`${xmoji} | There are too many songs in the queue already, skip or wait a bit!`)
         srch.edit('', errvideoEmbed);
         return;
       }
@@ -463,12 +467,19 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
     }
+    if(videos[0].duration < 1) {
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`${xmoji} | I don't support live streams!`)
+      srch.edit('', errvideoEmbed);
+      return;
+    }
     // can be uncommented if you don't want the bot to play videos longer than 1 hour
     let endur = (videos[0].duration / (1000 * 60 * 60)) % 24
     if ( endur > 5) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`${xmoji}  | I cannot play videos longer than 5 hour`)
+      .setDescription(`${xmoji} | I cannot play videos longer than 5 hour`)
       srch.edit('', errvideoEmbed);
       return;
     }
