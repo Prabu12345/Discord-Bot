@@ -34,7 +34,7 @@ module.exports = class NowPlayingCommand extends Command {
     }
 
     let description;
-    if (video.live == true || video.duration == 'Live Stream') {
+    if (video.duration == 'Live Stream') {
       description = 'Live Stream';
     } else {
       description = NowPlayingCommand.playbackBar(message, video);
