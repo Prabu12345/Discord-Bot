@@ -61,11 +61,11 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
 
     if (totypelooplower == 'track') {
-      loopEmbed.setDescription(`${cmoji} | Looped **One track**, **loop off** if you want to stop looping!`)
+      loopEmbed.setDescription(`${cmoji} | Looped **track**, **loop off** if you want to stop looping!`)
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
     } else if (totypelooplower == 'queue') {
-      loopEmbed.setDescription(`${cmoji} | Looped **All track**, **loop off** if you want to stop looping!`)
+      loopEmbed.setDescription(`${cmoji} | Looped **Queue**, **loop off** if you want to stop looping!`)
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
     } else if (totypelooplower == 'off') {

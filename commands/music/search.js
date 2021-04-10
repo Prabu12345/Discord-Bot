@@ -107,10 +107,10 @@ module.exports = class searchCommand extends Command {
         }
           // can be uncommented if you don't want the bot to play videos longer than 1 hour
           let endur = (videos[videoIndex -1 ].duration / (1000 * 60 * 60)) % 24
-          if(videos[videoIndex -1 ].duration < 1) {
+          if(videos[videoIndex -1 ].duration < 1 && message.guild.musicData.bassboost > 0) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)
-            .setDescription(`${xmoji} | I\`m not support live stream`)
+            .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
             srch.edit('', errvideoEmbed);
             return;
           }
@@ -162,7 +162,7 @@ module.exports = class searchCommand extends Command {
             .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
             .setDescription(`**[${videos[0].title}](${url})**`)
             .addField(`Song Duration`,`${dur}`, true)
-            .addField(`Estimated time`,`${PlayCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek)) + sum)}`, true)
+            .addField(`Estimated time`,`${searchCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek)) + sum)}`, true)
             .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
             .setThumbnail(videos[0].thumbnail.url)
             srch.edit('', addvideoEmbed);

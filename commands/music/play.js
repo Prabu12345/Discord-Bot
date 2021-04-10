@@ -188,6 +188,8 @@ module.exports = class PlayCommand extends Command {
         let endur = (results[0].duration / (1000 * 60 * 60)) % 24
         if (endur > 5) {
           continue;
+        } else if (results[0].duration < 1) {
+          continue;
         } else {
           try {
             if (message.guild.musicData.queue.length < 1000) {
@@ -256,6 +258,8 @@ module.exports = class PlayCommand extends Command {
         }
         let endur = (results[0].duration / (1000 * 60 * 60)) % 24
         if (endur > 5) {
+          continue;
+        } else if (results[0].duration < 1) {
           continue;
         } else {
           try {
@@ -342,6 +346,8 @@ module.exports = class PlayCommand extends Command {
         endur = (endur / (1000 * 60 * 60)) % 24
         if (endur > 5) {
           continue;
+        } if (video.raw.snippet.liveBroadcastContent === 'live') {
+          continue;
         } else {
           try {
             if (message.guild.musicData.queue.length < 1000) {
@@ -392,10 +398,10 @@ module.exports = class PlayCommand extends Command {
       });
       if (failedToGetVideo) return;
       // can be uncommented if you don't want the bot to play live streams
-      if (video.raw.snippet.liveBroadcastContent === 'live') {
+      if (video.raw.snippet.liveBroadcastContent === 'live' && message.guild.musicData.bassboost > 0) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
-        .setDescription(`${xmoji} | I don't support live streams!`)
+        .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
         srch.edit('', errvideoEmbed);
         return;
       }
@@ -467,10 +473,10 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
     }
-    if(videos[0].duration < 1) {
+    if(videos[0].duration < 1 && message.guild.musicData.bassboost > 0) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
-      .setDescription(`${xmoji} | I don't support live streams!`)
+      .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
       srch.edit('', errvideoEmbed);
       return;
     }
