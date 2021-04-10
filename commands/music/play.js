@@ -398,13 +398,13 @@ module.exports = class PlayCommand extends Command {
       });
       if (failedToGetVideo) return;
       // can be uncommented if you don't want the bot to play live streams
-      if (video.raw.snippet.liveBroadcastContent === 'live' && message.guild.musicData.bassboost > 0) {
+      /*if (video.raw.snippet.liveBroadcastContent === 'live' && message.guild.musicData.bassboost > 0) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
         srch.edit('', errvideoEmbed);
         return;
-      }
+      }*/
       // can be uncommented if you don't want the bot to play videos longer than 1 hour
       let endur = parseInt(PlayCommand.durationrawed(video.duration))
       endur = (endur / (1000 * 60 * 60)) % 24
@@ -473,13 +473,13 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
     }
-    if(videos[0].duration < 1 && message.guild.musicData.bassboost > 0) {
+    /*if(videos[0].duration < 1 && message.guild.musicData.bassboost > 0) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
       srch.edit('', errvideoEmbed);
       return;
-    }
+    }*/
     // can be uncommented if you don't want the bot to play videos longer than 1 hour
     let endur = (videos[0].duration / (1000 * 60 * 60)) % 24
     if ( endur > 5) {
@@ -540,11 +540,37 @@ module.exports = class PlayCommand extends Command {
       if (collector && !collector.end) collector.stop();
     }
     let bassset = `bass=g=${message.guild.musicData.bassboost}`
+    let bbzero 
+    let bbzero1
     let encoderArgs
     if (message.guild.musicData.bassboost > 0) {
       encoderArgs = ['-af', bassset]
     } else {
       encoderArgs = []
+    }
+    if (queue[0].rawDuration < 1) {
+      bbzero = {
+        quality: `highestaudio`, 
+        seek: seekAmount,
+        highWaterMark: 1 << 25 
+      }
+      bbzero1 = {
+        volume: vol1
+      }
+    } else {
+      bbzero = {
+        quality: `highestaudio`, 
+        filter: 'audioonly',
+        opusEncoded: true,
+        encoderArgs,
+        seek: seekAmount,
+        highWaterMark: 1 << 25 
+      }
+      bbzero1 = {
+        type: 'opus',
+        bitrate: 'auto',
+        volume: vol1
+      }
     }
     /*let mode;
     var query = queue[0].url
@@ -565,18 +591,7 @@ module.exports = class PlayCommand extends Command {
       .then(function(connection) {
         const vol1 = vol.volume / 100;
         const dispatcher = connection
-          .play(ytdl(queue[0].url, { 
-            quality: `highestaudio`, 
-            filter: 'audioonly',
-            opusEncoded: true,
-            encoderArgs,
-            seek: seekAmount,
-            highWaterMark: 1 << 25 
-          }), { 
-            type: 'opus',
-            bitrate: 'auto',
-            volume: vol1
-          })
+          .play(ytdl(queue[0].url, bbzero), bbzero1)
           dispatcher.on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             message.guild.musicData.nowPlaying = queue[0];

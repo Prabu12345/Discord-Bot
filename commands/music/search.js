@@ -107,13 +107,13 @@ module.exports = class searchCommand extends Command {
         }
           // can be uncommented if you don't want the bot to play videos longer than 1 hour
           let endur = (videos[videoIndex -1 ].duration / (1000 * 60 * 60)) % 24
-          if(videos[videoIndex -1 ].duration < 1 && message.guild.musicData.bassboost > 0) {
+          /*if(videos[videoIndex -1 ].duration < 1 && message.guild.musicData.bassboost > 0) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)
             .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
             srch.edit('', errvideoEmbed);
             return;
-          }
+          }*/
           if ( endur > 5) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)
