@@ -549,7 +549,7 @@ module.exports = class PlayCommand extends Command {
     } else {
       encoderArgs = []
     }
-    if (queue[0].rawDuration < 1) {
+    if (message.guild.musicData.queue[0].rawDuration < 1) {
       bbzero = {
         quality: `highestaudio`, 
         seek: seekAmount,
