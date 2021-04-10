@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const youtube = require('youtube-sr').default;
 const syoutube = require('simple-youtube-api');
 const ytdl = require('discord-ytdl-core');
+const ytdl1 = require('discord-ytdl-core');
 const spotify = require('spotify-url-info')
 const { youtubeAPI } = require('../../config.json');
 const gch = new syoutube(youtubeAPI);
@@ -543,7 +544,6 @@ module.exports = class PlayCommand extends Command {
     const vol1 = vol.volume / 100;
     let bassset = `bass=g=${message.guild.musicData.bassboost}`
     let bbzero 
-    let bbzero1
     let encoderArgs
     if (message.guild.musicData.bassboost > 0) {
       encoderArgs = ['-af', bassset]
@@ -551,26 +551,23 @@ module.exports = class PlayCommand extends Command {
       encoderArgs = []
     }
     if (queue[0].rawDuration < 1) {
-      bbzero = {
+      bbzero = ytdl1(queue[0].url, { 
         quality: `highestaudio`, 
-        filter: 'audioonly',
-        seek: seekAmount,
+        filter: () => ['251'], 
         highWaterMark: 1 << 25 
-      }
-      bbzero1 = {
-        bitrate: 'auto',
-        volume: vol1
+      }), { 
+        volume: vol1, 
+        seek: seekAmount 
       }
     } else {
-      bbzero = {
+      bbzero = ytdl(queue[0].url, {
         quality: `highestaudio`, 
         filter: 'audioonly',
         opusEncoded: true,
         encoderArgs,
         seek: seekAmount,
         highWaterMark: 1 << 25 
-      }
-      bbzero1 = {
+      }), {
         type: 'opus',
         bitrate: 'auto',
         volume: vol1
@@ -593,7 +590,7 @@ module.exports = class PlayCommand extends Command {
       .join()
       .then(function(connection) {
         const dispatcher = connection
-          .play(ytdl(queue[0].url, bbzero), bbzero1)
+          .play(bbzero)
           dispatcher.on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             message.guild.musicData.nowPlaying = queue[0];
