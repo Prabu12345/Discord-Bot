@@ -550,13 +550,15 @@ module.exports = class PlayCommand extends Command {
     } else {
       encoderArgs = []
     }
-    if (message.guild.musicData.queue[0].rawDuration < 1) {
+    if (queue[0].rawDuration < 1) {
       bbzero = {
         quality: `highestaudio`, 
+        filter: 'audioonly',
         seek: seekAmount,
         highWaterMark: 1 << 25 
       }
       bbzero1 = {
+        bitrate: 'auto',
         volume: vol1
       }
     } else {
