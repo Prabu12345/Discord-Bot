@@ -551,15 +551,15 @@ module.exports = class PlayCommand extends Command {
     } else {
       encoderArgs = []
     }
-    if (queue[0].rawDuration < 1) {
+    if (queue[0].duration === 'Live Stream') {
       bbzero = await ytdl1(queue[0].url, { 
         quality: `highestaudio`, 
         filter: () => ['251'], 
         highWaterMark: 1 << 25 
       });
-      bbzero1 = { 
-        volume: vol1, 
-        seek: seekAmount 
+      bbzero1 = {
+        volume: vol1,
+        seek: seekAmount
       };
     } else {
       bbzero = await ytdl(queue[0].url, {
