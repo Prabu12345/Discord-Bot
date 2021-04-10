@@ -543,7 +543,8 @@ module.exports = class PlayCommand extends Command {
     let vol = await db.get(`${message.guild.id}.settings`)
     const vol1 = vol.volume / 100;
     let bassset = `bass=g=${message.guild.musicData.bassboost}`
-    let bbzero 
+    let bbzero = null;
+    let bbzero1
     let encoderArgs
     if (message.guild.musicData.bassboost > 0) {
       encoderArgs = ['-af', bassset]
@@ -551,27 +552,29 @@ module.exports = class PlayCommand extends Command {
       encoderArgs = []
     }
     if (queue[0].rawDuration < 1) {
-      bbzero = ytdl1(queue[0].url, { 
+      bbzero = await ytdl1(queue[0].url, { 
         quality: `highestaudio`, 
         filter: () => ['251'], 
         highWaterMark: 1 << 25 
-      }), { 
+      });
+      bbzero1 = { 
         volume: vol1, 
         seek: seekAmount 
-      }
+      };
     } else {
-      bbzero = ytdl(queue[0].url, {
+      bbzero = await ytdl(queue[0].url, {
         quality: `highestaudio`, 
         filter: 'audioonly',
         opusEncoded: true,
         encoderArgs,
         seek: seekAmount,
         highWaterMark: 1 << 25 
-      }), {
+      });
+      bbzero1 = {
         type: 'opus',
         bitrate: 'auto',
         volume: vol1
-      }
+      };
     }
     /*let mode;
     var query = queue[0].url
@@ -590,7 +593,7 @@ module.exports = class PlayCommand extends Command {
       .join()
       .then(function(connection) {
         const dispatcher = connection
-          .play(bbzero)
+          .play(bbzero, bbzero1)
           dispatcher.on('start', function() {
             message.guild.musicData.songDispatcher = dispatcher;
             message.guild.musicData.nowPlaying = queue[0];
