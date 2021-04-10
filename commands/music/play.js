@@ -540,6 +540,7 @@ module.exports = class PlayCommand extends Command {
       if (collector && !collector.end) collector.stop();
     }
     let vol = await db.get(`${message.guild.id}.settings`)
+    const vol1 = vol.volume / 100;
     let bassset = `bass=g=${message.guild.musicData.bassboost}`
     let bbzero 
     let bbzero1
@@ -589,7 +590,6 @@ module.exports = class PlayCommand extends Command {
     queue[0].voiceChannel
       .join()
       .then(function(connection) {
-        const vol1 = vol.volume / 100;
         const dispatcher = connection
           .play(ytdl(queue[0].url, bbzero), bbzero1)
           dispatcher.on('start', function() {
