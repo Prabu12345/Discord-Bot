@@ -539,6 +539,7 @@ module.exports = class PlayCommand extends Command {
     if (message.guild.musicData.seek > 0) {
       if (collector && !collector.end) collector.stop();
     }
+    let vol = await db.get(`${message.guild.id}.settings`)
     let bassset = `bass=g=${message.guild.musicData.bassboost}`
     let bbzero 
     let bbzero1
@@ -585,7 +586,6 @@ module.exports = class PlayCommand extends Command {
     } else {
       playtype = ytdl(queue[0].url, { quality: `highestaudio`, filter: () => ['251'], highWaterMark: 1 << 25 })
     }*/
-    let vol = await db.get(`${message.guild.id}.settings`)
     queue[0].voiceChannel
       .join()
       .then(function(connection) {
