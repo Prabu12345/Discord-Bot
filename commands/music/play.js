@@ -542,6 +542,9 @@ module.exports = class PlayCommand extends Command {
     }
     let vol = await db.get(`${message.guild.id}.settings`)
     let fil = await db.get(`${message.guild.id}.settings.filters`)
+    if (!fil) {
+      db.set(`${message.guild.id}.settings`, { volume: all.volume, maxvolume: all.maxvolume, nowplaying: all.nowplaying, timeout: all.timeout, filters: { bassboost: false, nightcore: false, karaoke: false} })
+    }
     const vol1 = vol.volume / 100;
     let bbzero = null;
     let bbzero1 = null;

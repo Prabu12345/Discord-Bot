@@ -34,6 +34,7 @@ module.exports = class VolumeCommand extends Command {
 
   async run(message, { wantedVolume }) {
     let vol = await db.get(`${message.guild.id}.settings`)
+    let fil = await db.get(`${message.guild.id}.settings.filters`)
     const voiceChannel = message.member.voice.channel;
     const errvolumeEmbed = new MessageEmbed()
     .setColor(errorcolor)
@@ -66,7 +67,7 @@ module.exports = class VolumeCommand extends Command {
       return message.say(volumeEmbed);
     } else {
       const volume = wantedVolume;
-      db.set(`${message.guild.id}.settings`, {volume: volume, maxvolume: vol.maxvolume, nowplaying: vol.nowplaying, timeout: vol.timeout})
+      db.set(`${message.guild.id}.settings`, {volume: volume, maxvolume: vol.maxvolume, nowplaying: vol.nowplaying, timeout: vol.timeout, filters: {bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: fil.karaoke}})
       message.guild.musicData.songDispatcher.setVolume(volume / 100);
       const volumeEmbed = new MessageEmbed()
         .setColor(normalcolor)

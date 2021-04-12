@@ -162,10 +162,10 @@ module.exports = class LeaveCommand extends Command {
             songEmbed.delete();
           }
           message.channel.bulkDelete(1)
-          if (!all.filters) {
-              db.set(`${message.guild.id}.settings`, { volume: 50, maxvolume: 100, nowplaying: true, timeout: 60000, filters: { bassboost: false, nightcore: false, karaoke: false} })
-          }
           let fil = await db.get(`${message.guild.id}.settings.filters`)
+          if (!fil) {
+            db.set(`${message.guild.id}.settings`, { volume: all.volume, maxvolume: all.maxvolume, nowplaying: all.nowplaying, timeout: all.timeout, filters: { bassboost: false, nightcore: false, karaoke: false} })
+          }
           const embed = new MessageEmbed()
           .setColor(normalcolor)
           .setAuthor('')
@@ -189,6 +189,7 @@ module.exports = class LeaveCommand extends Command {
             )
             .then(async function(response) {
               const tIndex = parseInt(response.first().content);
+              if (response.first().content === 'cancel')
               if (tIndex === 1){
                 if (tm) {
                   tm.delete();
