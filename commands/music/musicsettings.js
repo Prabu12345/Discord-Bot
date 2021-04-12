@@ -2,7 +2,6 @@ const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 const { Database } = require("quickmongo");
-const filterS = require('../../filters.json')
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
 module.exports = class LeaveCommand extends Command {
