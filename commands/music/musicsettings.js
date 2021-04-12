@@ -195,10 +195,10 @@ module.exports = class LeaveCommand extends Command {
                 }
                 message.channel.bulkDelete(1)
                 if (fil.bassboost == false) {
-                  db.set(`${message.guild.id}.settings.filters`, { bassboost: true, nightcore: fil.nightcore, karaoke: fil.karaoke })
+                  db.set(`${message.guild.id}.settings`, { volume: all.volume, maxvolume: all.maxvolume, nowplaying: all.nowplaying, timeout: all.timeout, filters: { bassboost: true, nightcore: fil.nightcore, karaoke: fil.karaoke} })
                   message.say(`karaoke filter **enable**`)
                 } else {
-                  db.set(`${message.guild.id}.settings.filters`, { bassboost: false, nightcore: fil.nightcore, karaoke: fil.karaoke })
+                  db.set(`${message.guild.id}.settings`, { volume: all.volume, maxvolume: all.maxvolume, nowplaying: all.nowplaying, timeout: all.timeout, filters: { bassboost: false, nightcore: fil.nightcore, karaoke: fil.karaoke} })
                   message.say(`karaoke filter **disable**`)
                 }
               }
@@ -208,10 +208,10 @@ module.exports = class LeaveCommand extends Command {
                 }
                 message.channel.bulkDelete(1)
                 if (fil.nightcore == false) {
-                  db.set(`${message.guild.id}.settings.filters`, { bassboost: fil.bassboost, nightcore: true, karaoke: fil.karaoke })
+                  db.set(`${message.guild.id}.settings`, { volume: all.volume, maxvolume: all.maxvolume, nowplaying: all.nowplaying, timeout: all.timeout, filters: { bassboost: fil.bassboost, nightcore: true, karaoke: fil.karaoke} })
                   message.say(`karaoke filter **enable**`)
                 } else {
-                  db.set(`${message.guild.id}.settings.filters`, { bassboost: fil.bassboost, nightcore: false, karaoke: fil.karaoke })
+                  db.set(`${message.guild.id}.settings`, { volume: all.volume, maxvolume: all.maxvolume, nowplaying: all.nowplaying, timeout: all.timeout, filters: { bassboost: fil.bassboost, nightcore: false, karaoke: fil.karaoke} })
                   message.say(`karaoke filter **disable**`)
                 }
               }
@@ -221,10 +221,10 @@ module.exports = class LeaveCommand extends Command {
                 }
                 message.channel.bulkDelete(1)
                 if (fil.karaoke == false) {
-                  db.set(`${message.guild.id}.settings.filters`, { bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: true })
+                  db.set(`${message.guild.id}.settings`, { volume: all.volume, maxvolume: all.maxvolume, nowplaying: all.nowplaying, timeout: all.timeout, filters: { bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: true} })
                   message.say(`karaoke filter **enable**`)
                 } else {
-                  db.set(`${message.guild.id}.settings.filters`, { bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: false })
+                  db.set(`${message.guild.id}.settings`, { volume: all.volume, maxvolume: all.maxvolume, nowplaying: all.nowplaying, timeout: all.timeout, filters: { bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: false} })
                   message.say(`karaoke filter **disable**`)
                 }
               }
