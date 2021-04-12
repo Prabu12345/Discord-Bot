@@ -140,17 +140,17 @@ module.exports = class searchCommand extends Command {
           for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
             sum += (+message.guild.musicData.queue[i].rawDuration);
           }
-          if (videos[0].duration > 0) {
-            dur = videos[0].durationFormatted
+          if (videos[videoIndex - 1].duration > 0) {
+            dur = videos[videoIndex - 1].durationFormatted
           } else {
             dur = 'Live Stream'
           }
           if (message.guild.musicData.isPlaying == false) {
             message.guild.musicData.isPlaying = true;
+            srch.delete();
             if (songEmbed) {
               songEmbed.delete();
             }
-            srch.delete();
             playSong(message.guild.musicData.queue, message, 0);
           } else if (message.guild.musicData.isPlaying == true) {
             if (songEmbed) {
@@ -160,11 +160,11 @@ module.exports = class searchCommand extends Command {
             const addvideoEmbed = new MessageEmbed()
             .setColor(normalcolor)
             .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-            .setDescription(`**[${videos[0].title}](${url})**`)
+            .setDescription(`**[${videos[videoIndex - 1].title}](${url})**`)
             .addField(`Song Duration`,`${dur}`, true)
             .addField(`Estimated time`,`${searchCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + message.guild.musicData.seek)) + sum)}`, true)
             .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
-            .setThumbnail(videos[0].thumbnail.url)
+            .setThumbnail(videos[videoIndex - 1].thumbnail.url)
             srch.edit('', addvideoEmbed);
             return;
           }
