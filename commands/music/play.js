@@ -541,6 +541,7 @@ module.exports = class PlayCommand extends Command {
       if (collector && !collector.end) collector.stop();
     }
     let vol = await db.get(`${message.guild.id}.settings`)
+    let fil = await db.get(`${message.guild.id}.settings.filters`)
     const vol1 = vol.volume / 100;
     let bbzero = null;
     let bbzero1 = null;
@@ -550,8 +551,8 @@ module.exports = class PlayCommand extends Command {
       karaoke: 'stereotools=mlev=0.03'
     }
     const encoderArgsFilters = []
-    Object.keys(vol.filters).forEach((filterName) => {
-      if (vol.filters[filterName] === true) {
+    Object.keys(fil).forEach((filterName) => {
+      if (fil[filterName] === true) {
         encoderArgsFilters.push(filterss[filterName])
       }
     })
