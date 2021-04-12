@@ -165,14 +165,14 @@ module.exports = class LeaveCommand extends Command {
           if (!all.filters) {
               db.set(`${message.guild.id}.settings`, { volume: 50, maxvolume: 100, nowplaying: true, timeout: 60000, filters: { bassboost: false, nightcore: false, karaoke: false} })
           }
-          let infoFilter = db.get(`${message.guild.id}.settings.filters`)
+          let infoFilter = db.get(`${message.guild.id}.settings`)
           const embed = new MessageEmbed()
           .setColor(normalcolor)
           .setAuthor('')
           .setTitle('Choose a music settings by commenting a number between 1 and 3')
-          .setDescription(`1. Bassboost - **${infoFilter.bassboost? `disable`:`enable`}**\n
-          2. Nightcore - **${infoFilter.nightcore? `disable`:`enable`}**\n
-          3. Karaoke - **${infoFilter.karaoke? `disable`:`enable`}**\n`
+          .setDescription(`1. Bassboost - **${infoFilter.filters.bassboost? `enable`:`disable`}**\n
+          2. Nightcore - **${infoFilter.filters.nightcore? `enable`:`disable`}**\n
+          3. Karaoke - **${infoFilter.filters.karaoke? `enable`:`disable`}**\n`
           )
           .setFooter('Write "cancel" to cancel or will cancel automaticly in 1 minute');
           var tm = await message.channel.send({ embed });
@@ -194,7 +194,7 @@ module.exports = class LeaveCommand extends Command {
                   tm.delete();
                 }
                 message.channel.bulkDelete(1)
-                if (infoFilter.bassboost == false) {
+                if (infoFilter.filters.bassboost == false) {
                   db.set(`${message.guild.id}.settings.filters`, { bassboost: true, nightcore: infoFilter.nightcore, karaoke: infoFilter.karaoke })
                   message.say(`karaoke filter **enable**`)
                 } else {
@@ -207,7 +207,7 @@ module.exports = class LeaveCommand extends Command {
                   tm.delete();
                 }
                 message.channel.bulkDelete(1)
-                if (infoFilter.nightcore == false) {
+                if (infoFilter.filters.nightcore == false) {
                   db.set(`${message.guild.id}.settings.filters`, { bassboost: infoFilter.bassboost, nightcore: true, karaoke: infoFilter.karaoke })
                   message.say(`karaoke filter **enable**`)
                 } else {
@@ -220,7 +220,7 @@ module.exports = class LeaveCommand extends Command {
                   tm.delete();
                 }
                 message.channel.bulkDelete(1)
-                if (infoFilter.karaoke == false) {
+                if (infoFilter.filters.karaoke == false) {
                   db.set(`${message.guild.id}.settings.filters`, { bassboost: infoFilter.bassboost, nightcore: infoFilter.nightcore, karaoke: true })
                   message.say(`karaoke filter **enable**`)
                 } else {
