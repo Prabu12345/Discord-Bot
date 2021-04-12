@@ -542,14 +542,24 @@ module.exports = class PlayCommand extends Command {
     }
     let vol = await db.get(`${message.guild.id}.settings`)
     const vol1 = vol.volume / 100;
-    let bassset = `bass=g=${message.guild.musicData.bassboost}`
     let bbzero = null;
-    let bbzero1
+    let bbzero1 = null;
+    const filterss = {
+      bassboost: 'bass=g=15',
+      nightcore: 'aresample=48000,asetrate=48000*1.25',
+      karaoke: 'stereotools=mlev=0.03'
+    }
+    const encoderArgsFilters = []
+    Object.keys(vol.filters).forEach((filterName) => {
+      if (vol.filters[filterName] === true) {
+        encoderArgsFilters.push(filterss[filterName])
+      }
+    })
     let encoderArgs
-    if (message.guild.musicData.bassboost > 0) {
-      encoderArgs = ['-af', bassset]
-    } else {
+    if (encoderArgsFilters.length < 1) {
       encoderArgs = []
+    } else {
+      encoderArgs = ['-af', encoderArgsFilters.join(',')]
     }
     if (queue[0].duration === 'Live Stream') {
       bbzero = await ytdl1(queue[0].url, { 

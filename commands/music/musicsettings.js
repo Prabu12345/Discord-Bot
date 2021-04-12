@@ -2,6 +2,7 @@ const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 const { Database } = require("quickmongo");
+const filterS = require('../../filters.json')
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 
 module.exports = class LeaveCommand extends Command {
@@ -44,11 +45,11 @@ module.exports = class LeaveCommand extends Command {
     const embed = new MessageEmbed()
       .setColor(normalcolor)
       .setAuthor('')
-      .setTitle('Choose a music settings by commenting a number between 1 and 2')
+      .setTitle('Choose a music settings by commenting a number between 1 and 4')
       .setDescription(`1. Update max volume - **${all.maxvolume}% (100 - 200)**\n
       2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
       3. Automatically show now playing - **${np}**\n
-      4. Bassboost filter - **${message.guild.musicData.bassboost*4}%**`
+      4. Music Filter`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
@@ -162,11 +163,24 @@ module.exports = class LeaveCommand extends Command {
             songEmbed.delete();
           }
           message.channel.bulkDelete(1)
-          var tm = await message.channel.send('What do you want to set the bassboost to?');
+          if (!all.filters) {
+              db.set(`${message.guild.id}.settings`, { volume: 50, maxvolume: 100, nowplaying: true, timeout: 60000, filters: { bassboost: false, nightcore: false, karaoke: false} })
+          }
+          let infoFilter = db.get(`${message.guild.id}.settings.filters`)
+          const embed = new MessageEmbed()
+          .setColor(normalcolor)
+          .setAuthor('')
+          .setTitle('Choose a music settings by commenting a number between 1 and 3')
+          .setDescription(`1. Bassboost - **${infoFilter.bassboost? `disable`:`enable`}**\n
+          2. Nightcore - **${infoFilter.nightcore? `disable`:`enable`}**\n
+          3. Karaoke - **${infoFilter.karaoke? `disable`:`enable`}**\n`
+          )
+          .setFooter('Write "cancel" to cancel or will cancel automaticly in 1 minute');
+          var tm = await message.channel.send({ embed });
           message.channel
             .awaitMessages(
               async function(msg) {
-                return (msg.content <= 100) || msg.content === 'cancel';
+                return (msg.content > 0 && msg.content < 4) || msg.content === 'cancel';
               },
               {
                 max: 1,
@@ -176,16 +190,44 @@ module.exports = class LeaveCommand extends Command {
             )
             .then(async function(response) {
               const tIndex = parseInt(response.first().content);
-              if (tIndex <= 100) {
+              if (tIndex === 1){
                 if (tm) {
                   tm.delete();
                 }
                 message.channel.bulkDelete(1)
-                message.guild.musicData.bassboost = Math.ceil(tIndex/4)
-                const timeoutEmbed = new MessageEmbed()
-                  .setColor(normalcolor)
-                  .setDescription(`The bassboost set to **${tIndex}%**, it could be work next play if the music play.`)
-                message.say(timeoutEmbed);
+                if (infoFilter.bassboost == false) {
+                  db.set(`${message.guild.id}.settings.filters`, { bassboost: true, nightcore: infoFilter.nightcore, karaoke: infoFilter.karaoke })
+                  message.say(`karaoke filter **enable**`)
+                } else {
+                  db.set(`${message.guild.id}.settings.filters`, { bassboost: false, nightcore: infoFilter.nightcore, karaoke: infoFilter.karaoke })
+                  message.say(`karaoke filter **disable**`)
+                }
+              }
+              if (tIndex === 2){
+                if (tm) {
+                  tm.delete();
+                }
+                message.channel.bulkDelete(1)
+                if (infoFilter.nightcore == false) {
+                  db.set(`${message.guild.id}.settings.filters`, { bassboost: infoFilter.bassboost, nightcore: true, karaoke: infoFilter.karaoke })
+                  message.say(`karaoke filter **enable**`)
+                } else {
+                  db.set(`${message.guild.id}.settings.filters`, { bassboost: infoFilter.bassboost, nightcore: false, karaoke: infoFilter.karaoke })
+                  message.say(`karaoke filter **disable**`)
+                }
+              }
+              if (tIndex === 3){
+                if (tm) {
+                  tm.delete();
+                }
+                message.channel.bulkDelete(1)
+                if (infoFilter.karaoke == false) {
+                  db.set(`${message.guild.id}.settings.filters`, { bassboost: infoFilter.bassboost, nightcore: infoFilter.nightcore, karaoke: true })
+                  message.say(`karaoke filter **enable**`)
+                } else {
+                  db.set(`${message.guild.id}.settings.filters`, { bassboost: infoFilter.bassboost, nightcore: infoFilter.nightcore, karaoke: false })
+                  message.say(`karaoke filter **disable**`)
+                }
               }
             })
             .catch(async function() {
