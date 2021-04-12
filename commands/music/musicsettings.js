@@ -189,7 +189,12 @@ module.exports = class LeaveCommand extends Command {
             )
             .then(async function(response) {
               const tIndex = parseInt(response.first().content);
-              if (response.first().content === 'cancel')
+              if (response.first().content === 'cancel') {
+                if (tm) {
+                  tm.delete();
+                }
+                return;
+              }
               if (tIndex === 1){
                 if (tm) {
                   tm.delete();
