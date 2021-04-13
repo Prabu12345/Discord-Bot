@@ -155,7 +155,7 @@ module.exports = class LyricsCommand extends Command {
       });
   }
 
-  static generateQueueEmbed(message, lyrics) {
+  async static generateQueueEmbed(message, lyrics) {
     let embeds = [];
     let k = 1;
   
