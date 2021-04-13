@@ -91,7 +91,7 @@ module.exports = class LyricsCommand extends Command {
                   sentMessage.delete();
                   
                   let currentPage = 0;
-                  const embeds = LyricsCommand.generateQueueEmbed(message, zenbu);
+                  const embeds = generateQueueEmbed(message, zenbu);
               
                   const queueEmbed = await message.channel.send(
                     embeds[currentPage]
@@ -153,9 +153,9 @@ module.exports = class LyricsCommand extends Command {
         message.say(err);
         return;
       });
-  }
 
-  async static generateQueueEmbed(message, lyrics) {
+      
+  function generateQueueEmbed(message, lyrics) {
     let embeds = [];
     let k = 1;
   
@@ -174,6 +174,7 @@ module.exports = class LyricsCommand extends Command {
     }
     return embeds;
   };
+  }
 
   static searchSong(query) {
     return new Promise(async function(resolve, reject) {
