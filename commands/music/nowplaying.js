@@ -89,10 +89,10 @@ module.exports = class NowPlayingCommand extends Command {
     let playBack = '';
     for (let i = 1; i < 35; i++) {
       if (playBackBarLocation == 0) {
-        playBack = '🔘▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬';
+        playBack = '🔘▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬';
         break;
       } else if (playBackBarLocation == 10) {
-        playBack = '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬🔘';
+        playBack = '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬🔘';
         break;
       } else if (i == playBackBarLocation * 2) {
         playBack = playBack + '🔘';
