@@ -62,11 +62,11 @@ module.exports = class LyricsCommand extends Command {
     );
 
     LyricsCommand.searchSong(songName)
-      .then(function(url) {
+      .then(async function(url) {
         LyricsCommand.getSongPageURL(url)
-          .then(function(url) {
+          .then(async function(url) {
             LyricsCommand.getLyrics(url)
-              .then(function(lyrics) {   
+              .then(async function(lyrics) {   
                 if (lyrics.length < 2048) {
                   const lyricsEmbed = new MessageEmbed()
                     .setTitle(songName)
