@@ -89,16 +89,53 @@ module.exports = class LyricsCommand extends Command {
                     zenbu.push(pg2)
                   }
                   sentMessage.delete();
-                  const LyricsEmbed = new Pagination.FieldsEmbed()
-                  .setArray(zenbu)
-                  .setAuthorizedUsers([message.member.id])
-                  .setChannel(message.channel)
-                  .setElementsPerPage(1)
-                  .formatField('--------------------', function(e) {
-                    return `${e}`;
+                  
+                  let currentPage = 0;
+                  const embeds = LyricsCommand.generateQueueEmbed(message, zenbu);
+              
+                  const queueEmbed = await message.channel.send(
+                    embeds[currentPage]
+                  );
+              
+                  try {
+                    await queueEmbed.react("⬅️");
+                    await queueEmbed.react("🗑️");
+                    await queueEmbed.react("➡️");
+                  } catch (error) {
+                    console.error(error);
+                    message.channel.send(error.message).catch(console.error);
+                  }
+              
+                  const filter = (reaction, user) =>
+                    ["⬅️", "🗑️", "➡️"].includes(reaction.emoji.name) && message.author.id === user.id;
+                  const collector = queueEmbed.createReactionCollector(filter, { time: 60000 });
+              
+                  collector.on("collect", async (reaction, user) => {
+                    try {
+                      if (reaction.emoji.name === "➡️") {
+                        if (currentPage < embeds.length - 1) {
+                          currentPage++;
+                          queueEmbed.edit(embeds[currentPage]);
+                        }
+                      } else if (reaction.emoji.name === "⬅️") {
+                        if (currentPage !== 0) {
+                          --currentPage;
+                          queueEmbed.edit(embeds[currentPage]);
+                        }
+                      } else {
+                        reaction.message.reactions.removeAll();
+                        reaction.message.delete({ timeout: 1000 }).catch(console.error);
+                      }
+                      await reaction.users.remove(message.author.id);
+                    } catch (error) {
+                      console.error(error);
+                      return message.channel.send(error.message + ', Please give me permission to **MANAGE_MESSAGES** to delete a reaction').catch(console.error);
+                    }
                   });
-                  LyricsEmbed.embed.setColor(normalcolor).setTitle(`🎶 ${songName} Songs Lyrics`).setFooter(`Provided by genius.com`);
-                  LyricsEmbed.build();
+              
+                  collector.on("end", (reaction, user) => { 
+                    queueEmbed.reactions.removeAll();
+                  });
                   return;
                 }
               })
@@ -117,6 +154,26 @@ module.exports = class LyricsCommand extends Command {
         return;
       });
   }
+
+  static generateQueueEmbed(message, lyrics) {
+    let embeds = [];
+    let k = 1;
+  
+    for (let i = 0; i < lyrics.length; i += 1) {
+      const current = lyrics.slice(i, k);
+      let j = i;
+      k += 1;
+  
+      const info = current.map((e) => `${e}`);
+      const embed = new MessageEmbed()
+      .setTitle(`🎶 Lyrics for ${songName}`)
+      .setColor(normalcolor)
+      .setDescription(`${info}`)
+      .setFooter(`Provided by genius.com`)
+      embeds.push(embed);
+    }
+    return embeds;
+  };
 
   static searchSong(query) {
     return new Promise(async function(resolve, reject) {
