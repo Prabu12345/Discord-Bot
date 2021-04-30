@@ -151,7 +151,8 @@ module.exports = class searchCommand extends Command {
             if (songEmbed) {
               songEmbed.delete();
             }
-            return playSong(message.guild.musicData.queue, message, 0);
+            playSong(message.guild.musicData.queue, message, 0);
+            return;
           } else if (message.guild.musicData.isPlaying == true) {
             if (songEmbed) {
               songEmbed.delete();
