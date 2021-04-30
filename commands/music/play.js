@@ -639,7 +639,7 @@ module.exports = class PlayCommand extends Command {
                       message.guild.musicData.loop = 'off';
                       message.guild.me.voice.channel.leave();
                     }
-                  }, 90000);
+                  }, 300000);
                 }
               }
             } else if (message.guild.musicData.loop == 'queue') {
@@ -660,7 +660,7 @@ module.exports = class PlayCommand extends Command {
                       message.guild.musicData.loop = 'off';
                       message.guild.me.voice.channel.leave();
                     }
-                  }, 90000);
+                  }, 300000);
                 }
               }
             } else if (message.guild.musicData.loop == 'off') {
@@ -680,7 +680,7 @@ module.exports = class PlayCommand extends Command {
                       message.guild.musicData.loop = 'off';
                       message.guild.me.voice.channel.leave();
                     }
-                  }, 90000);
+                  }, 300000);
                 }
               }
             };  
