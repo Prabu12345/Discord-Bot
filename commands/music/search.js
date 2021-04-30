@@ -57,7 +57,8 @@ module.exports = class searchCommand extends Command {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`**Usage:** -search <Video Name>`)
-      return message.say(errvideoEmbed);
+      message.say(errvideoEmbed);
+      return;
     }
 
     const srch = await message.channel.send(`:mag_right: | **Searching** \`${query}\``);
@@ -147,12 +148,11 @@ module.exports = class searchCommand extends Command {
           }
           if (message.guild.musicData.isPlaying == false) {
             message.guild.musicData.isPlaying = true;
+            playSong(message.guild.musicData.queue, message, 0);
             srch.delete();
             if (songEmbed) {
               songEmbed.delete();
             }
-            playSong(message.guild.musicData.queue, message, 0);
-            return;
           } else if (message.guild.musicData.isPlaying == true) {
             if (songEmbed) {
               songEmbed.delete();
