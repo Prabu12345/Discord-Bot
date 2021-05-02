@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
-const { playSong } = require('./play')
+const { playSong } = require('../../resources/music/play')
 
 module.exports = class SeekCommand extends Command {
   constructor(client) {
