@@ -2,8 +2,6 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const youtube = require('youtube-sr').default;
 const syoutube = require('simple-youtube-api');
-const ytdl = require('discord-ytdl-core');
-const ytdl1 = require('ytdl-core');
 const spotify = require('spotify-url-info')
 const { youtubeAPI } = require('../../config.json');
 const gch = new syoutube(youtubeAPI);
@@ -13,9 +11,7 @@ const spt = new Spotify({
   clientSecret: "89c15cd0add944c6bef3be863b964d9f",
   });
 const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
-const { Database } = require("quickmongo");
-const { msToTime } = require('./search');
-const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
+const { playSong } = require('../../resources/music/play')
 
 module.exports = class PlayCommand extends Command {
   constructor(client) {
@@ -144,7 +140,7 @@ module.exports = class PlayCommand extends Command {
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true; 
         srch.delete();
-        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
+        return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         let url = `https://youtube.com/watch?v=${videos.id}`;
         const addvideoEmbed = new MessageEmbed()
@@ -221,7 +217,7 @@ module.exports = class PlayCommand extends Command {
         .setColor(normalcolor)
         .setDescription(`🎵 | **${playlist.name}** added ${tracks.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
-        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
+        return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
@@ -293,7 +289,7 @@ module.exports = class PlayCommand extends Command {
         .setColor(normalcolor)
         .setDescription(`🎵 | **${album.name}** added ${tracks.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
-        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
+        return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
@@ -376,7 +372,7 @@ module.exports = class PlayCommand extends Command {
         .setColor(normalcolor)
         .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
-        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
+        return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
@@ -443,7 +439,7 @@ module.exports = class PlayCommand extends Command {
       ) {
         message.guild.musicData.isPlaying = true;
         srch.delete();
-        return PlayCommand.playSong(message.guild.musicData.queue, message, 0);
+        return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
@@ -517,7 +513,7 @@ module.exports = class PlayCommand extends Command {
     if (message.guild.musicData.isPlaying == false) {
       message.guild.musicData.isPlaying = true;
       srch.delete();
-      PlayCommand.playSong(message.guild.musicData.queue, message, 0);
+      playSong(message.guild.musicData.queue, message, 0);
     } else if (message.guild.musicData.isPlaying == true) {
       let url = `https://youtube.com/watch?v=${videos[0].id}`;
       const addvideoEmbed = new MessageEmbed()
