@@ -4,6 +4,7 @@ const ytdl1 = require('ytdl-core');
 const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
+const { playSong } = require('../../resources/music/play')
 
 module.exports = {
     async playSong(queue, message, seekAmount) {
@@ -98,7 +99,7 @@ module.exports = {
                     message.guild.musicData.queue.unshift(message.guild.musicData.nowPlaying);
                   }
                   if (queue.length >= 1) {
-                    PlayCommand.playSong(queue, message, 0);
+                    playSong(queue, message, 0);
                     return;
                   } else {
                     message.guild.musicData.isPlaying = false;
@@ -119,7 +120,7 @@ module.exports = {
                 } else if (message.guild.musicData.loop == 'queue') {
                   message.guild.musicData.queue.push(message.guild.musicData.nowPlaying);
                   if (queue.length >= 1) {
-                    PlayCommand.playSong(queue, message, 0);
+                    playSong(queue, message, 0);
                     return;
                   } else {
                     message.guild.musicData.isPlaying = false;
@@ -139,7 +140,7 @@ module.exports = {
                   }
                 } else if (message.guild.musicData.loop == 'off') {
                   if (queue.length >= 1) {
-                    PlayCommand.playSong(queue, message, 0);
+                    playSong(queue, message, 0);
                     return;
                   } else {
                     message.guild.musicData.isPlaying = false;
@@ -164,8 +165,8 @@ module.exports = {
                   message.say(`Cannot play ${queue[0].title} song`);
                   queue.shift();
                   console.error(e);
-                  message.guild.musicData.errorP + 1
-                  if (queue) PlayCommand.playSong(queue, message, 0);
+                  message.guild.musicData.errorP = message.guild.musicData.errorP + 1
+                  if (queue) playSong(queue, message, 0);
                 } else {
                   message.say(`Error playing music, please tell to owner`);
                 }
