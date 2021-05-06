@@ -23,7 +23,7 @@ module.exports = {
         let bbzero = null;
         let bbzero1 = null;
         const filterss = {
-          bassboost: 'bass=g=15',
+          bassboost: 'bass=g=15,dynaudnorm=f=200',
           nightcore: 'aresample=48000,asetrate=48000*1.25',
           karaoke: 'stereotools=mlev=0.015625'
         }
