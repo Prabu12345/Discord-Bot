@@ -22,15 +22,23 @@ module.exports = class SkipCommand extends Command {
     const voiceChannel = message.member.voice.channel;
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) { 
-    let a = await message.channel.send('Adding DJ role, because i need it')
-    return message.guild.roles.create({
-      data: {
-        name: 'DJ',
-      },
-      reason: 'we needed a role for DJ',
-    })
-    .then()
-    .catch(a.edit('', 'Failed to create role because i don\'t have permission'));
+      if (message.guild.me.hasPermission("MANAGE_ROLES")) {
+        return message.guild.roles.create({
+          data: {
+            name: 'DJ',
+          },
+          reason: 'we needed a role for DJ',
+        })
+        .then()
+        .catch();
+      }
+      if (!message.member.hasPermission("MANAGE_GUILD")) {
+        return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
+      }
+    } else {
+      if (!message.member.hasPermission("MANAGE_GUILD") || !message.member.roles.cache.get(role.id)) {
+        return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
+      }
     }
     const errskipEmbed = new MessageEmbed()
     .setColor(errorcolor)
