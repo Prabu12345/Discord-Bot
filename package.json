@@ -24,10 +24,10 @@
     "discord-paginationembed": "^2.1.0",
     "mongodb": "^3.6.3",
     "commando-provider-mongo": "^2.0.2",
-    "ytdl-core": "^4.5.0",
+    "ytdl-core": "^4.7.0",
     "nekos.life": "^2.0.7",
     "fs": "^0.0.1-security",
-    "discord-ytdl-core": "^5.0.2",
+    "discord-ytdl-core": "^5.0.3",
     "spotify-url-info": "^2.2.0",
     "spotify-info.js": "^1.0.4",
     "quickmongo": "^3.0.0"
