@@ -25,7 +25,7 @@ module.exports = {
         const filterss = {
           bassboost: 'bass=g=15',
           nightcore: 'aresample=48000,asetrate=48000*1.25',
-          karaoke: 'stereotools=mlev=0.05'
+          karaoke: 'stereotools=mlev=0.03'
         }
         const encoderArgsFilters = []
         Object.keys(fil).forEach((filterName) => {
