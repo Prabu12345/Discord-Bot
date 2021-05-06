@@ -27,18 +27,9 @@ module.exports = class LeaveCommand extends Command {
         return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
       }
     } else {
-      if(message.member.roles.cache.get(role.id)) {
+      if(!message.member.roles.cache.get(role.id)) {
         if (!message.member.hasPermission("MANAGE_GUILD")) {
-        }
-      } else {
-        return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
-      }
-      if (!message.member.hasPermission("MANAGE_GUILD")) {
-        if(message.member.roles.cache.get(role.id)) {
-          if (!message.member.hasPermission("MANAGE_GUILD")) {
-          }
-        } else {
-        return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
+          return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
         }
       }
     }

@@ -26,18 +26,10 @@ module.exports = class RemoveSongCommand extends Command {
     });
   }
   async run(message, { songNumber }) {
-    let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
-    if (!role) { 
-    let a = await message.channel.send('Adding DJ role, because i need it')
-    return message.guild.roles.create({
-      data: {
-        name: 'DJ',
-      },
-      reason: 'we needed a role for DJ',
-    })
-    .then()
-    .catch(a.edit('', 'Failed to create role because i don\'t have permission'));
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
     }
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     const errremoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 || songNumber > message.guild.musicData.queue.length) {
@@ -50,9 +42,7 @@ module.exports = class RemoveSongCommand extends Command {
       message.say(errremoveEmbed);
       return;
     } else if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
-      if (message.member.roles.cache.get(role.id)) {
-
-      } else {
+      if (!message.member.hasPermission("ADMINISTRATOR") || !message.member.hasPermission("MANAGE_GUILD") || !message.member.roles.cache.get(role.id)) {
         return message.reply(`${xmoji} | You cannot remove music request other people`);
       }
     } else if (

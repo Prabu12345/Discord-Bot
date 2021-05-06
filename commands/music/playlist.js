@@ -47,6 +47,9 @@ module.exports = class PlaylistCommand extends Command {
   }
 
   async run(message, { type, additional }) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     if (type.toLowerCase() == 'play') {
         const voiceChannel = message.member.voice.channel;
         if (additional == '') return message.channel.send(`${xmoji} | You must include a name for this playlist.`)

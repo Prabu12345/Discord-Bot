@@ -20,6 +20,9 @@ module.exports = class LeaveCommand extends Command {
   }
 
   run(message) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errleaveEmbed = new MessageEmbed()

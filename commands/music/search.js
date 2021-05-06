@@ -33,6 +33,9 @@ module.exports = class searchCommand extends Command {
   }
 
   async run(message, { query }) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()

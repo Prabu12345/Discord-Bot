@@ -27,6 +27,9 @@ module.exports = class LoopCommand extends Command {
   }
 
   run(message, { typeLoop }) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     var totypeloop = typeLoop
     const totypelooplower = totypeloop.substring(totypeloop.search(" ") + 1, totypeloop.end).toLowerCase();
     if (!message.guild.musicData.isPlaying) {

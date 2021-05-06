@@ -17,6 +17,9 @@ module.exports = class ShuffleQueueCommand extends Command {
     });
   }
   run(message) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     const errshuffleEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;

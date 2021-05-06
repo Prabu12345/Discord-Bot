@@ -30,6 +30,9 @@ module.exports = class LyricsCommand extends Command {
     });
   }
   async run(message, { songName }) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     const errlyricsEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (

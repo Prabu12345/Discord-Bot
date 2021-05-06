@@ -19,6 +19,9 @@ module.exports = class SkipCommand extends Command {
   }
 
   run(message) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     const errskipEmbed = new MessageEmbed()
     .setColor(errorcolor)
     const voiceChannel = message.member.voice.channel;

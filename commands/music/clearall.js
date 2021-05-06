@@ -15,18 +15,10 @@ module.exports = class SkipAllCommand extends Command {
   }
 
   async run(message) {
-    let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
-    if (!role) { 
-    let a = await message.channel.send('Adding DJ role, because i need it')
-    return message.guild.roles.create({
-      data: {
-        name: 'DJ',
-      },
-      reason: 'we needed a role for DJ',
-    })
-    .then()
-    .catch(a.edit('', 'Failed to create role because i don\'t have permission'));
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
     }
+    let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     const errskipallEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
@@ -50,7 +42,7 @@ module.exports = class SkipAllCommand extends Command {
       return message.say(errskipallEmbed)
     };
 
-    if (message.member.roles.cache.get(role.id)) {
+    if (!message.member.hasPermission("ADMINISTRATOR") || !message.member.hasPermission("MANAGE_GUILD") || !message.member.roles.cache.get(role.id)) {
       message.guild.musicData.queue.length = 0; // clear queue
       const errleaveEmbed = new MessageEmbed()
         .setColor(normalcolor)

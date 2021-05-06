@@ -21,6 +21,9 @@ module.exports = class NowPlayingCommand extends Command {
   }
 
   async run(message) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     const video = message.guild.musicData.nowPlaying;
     const errnpEmbed = new MessageEmbed()
     .setColor(errorcolor)

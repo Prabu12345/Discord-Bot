@@ -32,6 +32,9 @@ module.exports = class MoveSongCommand extends Command {
     });
   }
   async run(message, { oldPosition, newPosition }) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     var voiceChannel = message.member.voice.channel;
     const errmoveEmbed = new MessageEmbed()
     .setColor(errorcolor)

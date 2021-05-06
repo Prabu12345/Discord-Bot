@@ -29,24 +29,18 @@ module.exports = class SkipToCommand extends Command {
   }
 
   async run(message, { songNumber }) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) { 
       if (!message.member.hasPermission("MANAGE_GUILD")) {
         return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
       }
     } else {
-      if(message.member.roles.cache.get(role.id)) {
+      if(!message.member.roles.cache.get(role.id)) {
         if (!message.member.hasPermission("MANAGE_GUILD")) {
-        }
-      } else {
-        return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
-      }
-      if (!message.member.hasPermission("MANAGE_GUILD")) {
-        if(message.member.roles.cache.get(role.id)) {
-          if (!message.member.hasPermission("MANAGE_GUILD")) {
-          }
-        } else {
-        return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
+          return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
         }
       }
     }

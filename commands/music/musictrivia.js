@@ -30,6 +30,9 @@ module.exports = class MusicTriviaCommand extends Command {
     });
   }
   async run(message, { numberOfSongs }) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     // check if user is in a voice channel
     const errtrivaEmbed = new MessageEmbed()
     .setColor(errorcolor)

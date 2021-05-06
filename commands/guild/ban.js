@@ -29,6 +29,9 @@ module.exports = class BanCommand extends Command {
   }
 
   async run(message, { userToBan, reason }) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     const extractNumber = /\d+/g;
     const userToBanID = userToBan.match(extractNumber)[0];
     const user =

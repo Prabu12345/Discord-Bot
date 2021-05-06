@@ -20,6 +20,9 @@ module.exports = class StopMusicTriviaCommand extends Command {
     });
   }
   run(message) {
+    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
+      return message.channel.send(`I don't have permission to send embed`);
+    }
     const errsmtrivaEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (!message.guild.triviaData.isTriviaRunning){
