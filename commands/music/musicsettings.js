@@ -23,22 +23,23 @@ module.exports = class LeaveCommand extends Command {
   async run(message) {
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) { 
-      if (message.guild.me.hasPermission("MANAGE_ROLES")) {
-        return message.guild.roles.create({
-          data: {
-            name: 'DJ',
-          },
-          reason: 'we needed a role for DJ',
-        })
-        .then()
-        .catch();
-      }
       if (!message.member.hasPermission("MANAGE_GUILD")) {
         return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
       }
     } else {
-      if (!message.member.hasPermission("MANAGE_GUILD") || !message.member.roles.cache.get(role.id)) {
+      if(message.member.roles.cache.get(role.id)) {
+        if (!message.member.hasPermission("MANAGE_GUILD")) {
+        }
+      } else {
         return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
+      }
+      if (!message.member.hasPermission("MANAGE_GUILD")) {
+        if(message.member.roles.cache.get(role.id)) {
+          if (!message.member.hasPermission("MANAGE_GUILD")) {
+          }
+        } else {
+        return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
+        }
       }
     }
     let all = await db.get(`${message.guild.id}.settings`)
