@@ -60,7 +60,7 @@ module.exports = {
           });
           bbzero1 = {
             type: 'opus',
-            bitrate: 'auto',
+            bitrate: 360,
             volume: vol1
           };
         }

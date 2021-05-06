@@ -93,8 +93,9 @@ module.exports = class LeaveCommand extends Command {
                   vm.delete();
                 }
                 message.channel.bulkDelete(1)
+                let fil = await db.get(`${message.guild.id}.settings.filters`)
                 let vol = await db.get(`${message.guild.id}.settings`)
-                db.set(`${message.guild.id}.settings`, {volume: vol.volume, maxvolume: vIndex, nowplaying: vol.nowplaying, timeout: vol.timeout})
+                db.set(`${message.guild.id}.settings`, {volume: vol.volume, maxvolume: vIndex, nowplaying: vol.nowplaying, timeout: vol.timeout, filters: {bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: fil.karaoke}})
                 const volumeEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`Max volume set to **${vIndex}%**, ${message.author}`)
@@ -140,7 +141,8 @@ module.exports = class LeaveCommand extends Command {
                 let maxvolume = tim.maxvolume
                 let np = tim.nowplaying
                 let timeout = (tIndex * 60000);
-                db.set(`${message.guild.id}.settings`, {volume: volume, maxvolume: maxvolume, nowplaying: np, timeout: timeout})
+                let fil = await db.get(`${message.guild.id}.settings.filters`)
+                db.set(`${message.guild.id}.settings`, {volume: volume, maxvolume: maxvolume, nowplaying: np, timeout: timeout, filters: {bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: fil.karaoke}})
                 const timeoutEmbed = new MessageEmbed()
                   .setColor(normalcolor)
                   .setDescription(`The timeout set to **${tIndex} Minutes**, ${message.author}`)
@@ -250,11 +252,12 @@ module.exports = class LeaveCommand extends Command {
             songEmbed.delete();
           }
           message.channel.bulkDelete(1)
+          let fil = await db.get(`${message.guild.id}.settings.filters`)
           if (all.nowplaying == false) {
-            db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: true, timeout: all.timeout})
+            db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: true, timeout: all.timeout, filters: {bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: fil.karaoke}})
             message.say(`Automatically show now play **enable**`)
           } else {
-            db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: false, timeout: all.timeout})
+            db.set(`${message.guild.id}.settings`, {volume: all.volume, maxvolume: all.maxvolume, nowplaying: false, timeout: all.timeout, filters: {bassboost: fil.bassboost, nightcore: fil.nightcore, karaoke: fil.karaoke}})
             message.say(`Automatically show now play **disable**`)
           }
         }
