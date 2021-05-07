@@ -51,7 +51,7 @@ module.exports = {
     async clientperm(message, clientPermissions) {
         const missing = message.channel.permissionsFor(message.guild.me).missing(clientPermissions);
         if(missing.length > 0) {
-            if(data.missing.length === 1) {
+            if(missing.length === 1) {
                 return message.reply(
                     `I need the "${permissions[missing[0]]}" permission for this command to work.`
                 );
@@ -63,6 +63,6 @@ module.exports = {
         }
         return true;
     },
-    
+
     permissions
 }
