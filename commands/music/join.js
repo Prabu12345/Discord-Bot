@@ -23,10 +23,10 @@ module.exports = class LeaveCommand extends Command {
   async run(message) {
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      message.say(`${xmoji} | Join a channel and try again`);
+      message.reply(`${xmoji} | Join a channel and try again`);
       return;
     } 
-    
+
     const acces = await clientperm(message, [ 'EMBED_LINKS', 'CONNECT' ] )
     if (acces === true) {
     } else {
