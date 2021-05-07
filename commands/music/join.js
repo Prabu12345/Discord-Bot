@@ -24,7 +24,7 @@ module.exports = class LeaveCommand extends Command {
     const acces = await clientperm(message, [ 'EMBED_LINKS', 'CONNECT' ] )
     if (!acces) {
       message.channel.send(acces)
-      return;
+      return false;
     }
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
