@@ -27,7 +27,7 @@ module.exports = class CatCommand extends Command {
     });
   }
 
-  run(message, { whatrd }) {
+  async run(message, { whatrd }) {
 	const { clientperm } = require('../../resources/permission')
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {

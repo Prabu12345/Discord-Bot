@@ -16,7 +16,7 @@ module.exports = class ShuffleQueueCommand extends Command {
       }
     });
   }
-  run(message) {
+  async run(message) {
     const errshuffleEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;

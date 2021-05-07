@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
+const { clientperm } = require('../../resources/permission');
 
 module.exports = class LoopCommand extends Command {
   constructor(client) {
@@ -26,7 +27,12 @@ module.exports = class LoopCommand extends Command {
     });
   }
 
-  run(message, { typeLoop }) {
+  async run(message, { typeLoop }) {
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     var totypeloop = typeLoop
     const totypelooplower = totypeloop.substring(totypeloop.search(" ") + 1, totypeloop.end).toLowerCase();
     if (!message.guild.musicData.isPlaying) {

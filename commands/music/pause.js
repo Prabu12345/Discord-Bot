@@ -19,7 +19,7 @@ module.exports = class PauseCommand extends Command {
     });
   }
 
-  run(message) {
+  async run(message) {
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {

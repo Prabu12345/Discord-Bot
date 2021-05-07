@@ -18,7 +18,7 @@ module.exports = class StopMusicTriviaCommand extends Command {
       guildOnly: true
     });
   }
-  run(message) {
+  async run(message) {
     const { clientperm } = require('../../resources/permission')
     const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
     if (acces === true) {

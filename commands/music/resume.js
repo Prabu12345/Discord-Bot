@@ -18,7 +18,7 @@ module.exports = class ResumeCommand extends Command {
     });
   }
 
-  run(message) {
+  async run(message) {
     const errresumeEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;

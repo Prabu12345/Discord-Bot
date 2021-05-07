@@ -18,7 +18,7 @@ module.exports = class SkipCommand extends Command {
     });
   }
 
-  run(message) {
+  async run(message) {
     const { clientperm } = require('../../resources/permission')
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
