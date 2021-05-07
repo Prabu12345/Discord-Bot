@@ -66,7 +66,7 @@ module.exports = {
         voicemissing.map(element =>
             missing.push(element)
         );
-        return missing;
+        return console.log(missing);
         if(missing.length > 0) {
             if(missing.length === 1) {
                 return message.reply(
