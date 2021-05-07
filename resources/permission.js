@@ -60,13 +60,14 @@ module.exports = {
         const missing = []
         const msgmissing = message.channel.permissionsFor(message.guild.me).missing(clientPermissions);
         const voicemissing = message.member.voice.channel.permissionsFor(message.guild.me).missing(clientPermissions);
+        console.log(msgmissing)
+        console.log(voicemissing)
         msgmissing.map(element =>
             missing.push(element)
         );
         voicemissing.map(element =>
             missing.push(element)
         );
-        return console.log(missing);
         if(missing.length > 0) {
             if(missing.length === 1) {
                 return message.reply(
@@ -79,7 +80,5 @@ module.exports = {
             `);
         }
         return true;
-    },
-
-    permissions
+    }
 }
