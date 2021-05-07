@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 const Pagination = require('discord-paginationembed');
 const cheerio = require('cheerio');
+const { clientperm } = require('../../resources/permission')
 const { geniusLyricsAPI, normalcolor, errorcolor, xmoji, cmoji } = require('../../config.json');
 
 module.exports = class LyricsCommand extends Command {
@@ -30,9 +31,12 @@ module.exports = class LyricsCommand extends Command {
     });
   }
   async run(message, { songName }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
+
     const errlyricsEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (

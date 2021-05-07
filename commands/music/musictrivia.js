@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const ytdl = require('ytdl-core');
 const fs = require('fs');
 const { prefix, normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json');
+const { clientperm } = require('../../resources/permission')
 
 module.exports = class MusicTriviaCommand extends Command {
   constructor(client) {
@@ -30,9 +31,11 @@ module.exports = class MusicTriviaCommand extends Command {
     });
   }
   async run(message, { numberOfSongs }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     // check if user is in a voice channel
     const errtrivaEmbed = new MessageEmbed()
     .setColor(errorcolor)

@@ -15,14 +15,16 @@ module.exports = class StopMusicTriviaCommand extends Command {
       memberName: 'stop-trivia',
       group: 'music',
       description: 'End the music trivia',
-      guildOnly: true,
-      clientPermissions: ['SPEAK', 'CONNECT']
+      guildOnly: true
     });
   }
   run(message) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     const errsmtrivaEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (!message.guild.triviaData.isTriviaRunning){

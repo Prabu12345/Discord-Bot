@@ -13,7 +13,6 @@ module.exports = class searchCommand extends Command {
       group: 'music',
       description: 'search any song from youtube',
       guildOnly: true,
-      clientPermissions: ['SPEAK', 'CONNECT'],
       throttling: {
         usages: 2,
         duration: 5
@@ -33,17 +32,20 @@ module.exports = class searchCommand extends Command {
   }
 
   async run(message, { query }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | Join a channel and try again`)
-      message.say(errvideoEmbed);
+      message.reply(`${xmoji} | Join a channel and try again`)
       return;
-    } else if (message.guild.triviaData.isTriviaRunning == true) {
+    } 
+    
+    const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
+    
+    if (message.guild.triviaData.isTriviaRunning == true) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | Please try after the trivia has ended`)

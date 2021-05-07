@@ -20,6 +20,12 @@ module.exports = class CatCommand extends Command {
   }
 
   async run(message) {
+    const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     var newremind = [];
     let found = false;
     for (let i = 0; i < message.guild.musicData.remind.length; i++) {

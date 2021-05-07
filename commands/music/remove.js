@@ -26,22 +26,27 @@ module.exports = class RemoveSongCommand extends Command {
     });
   }
   async run(message, { songNumber }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     const errremoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (songNumber < 1 || songNumber > message.guild.musicData.queue.length) {
-      errremoveEmbed.setDescription(`${xmoji} | Please enter a valid song number`)
-      return message.say(errremoveEmbed);
+      message.reply(`${xmoji} | Please enter a valid song number`);
+      return;
     }
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      errremoveEmbed.setDescription(`${xmoji} | Join a channel and try again`)
-      message.say(errremoveEmbed);
+      message.reply(`${xmoji} | Join a channel and try again`);
       return;
-    } else if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
+    } 
+    
+    const { clientperm } = require('../../resources/permission');
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] );
+    if (acces === true) {
+    } else {
+      return;
+    } 
+    
+    if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
       if (!message.member.hasPermission("ADMINISTRATOR") || !message.member.hasPermission("MANAGE_GUILD") || !message.member.roles.cache.get(role.id)) {
         return message.reply(`${xmoji} | You cannot remove music request other people`);
       }

@@ -20,9 +20,12 @@ module.exports = class QueueCommand extends Command {
   }
 
   async run(message) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     if (message.guild.triviaData.isTriviaRunning)
       return message.say(`${xmoji} | Try again after the trivia has ended`);
 

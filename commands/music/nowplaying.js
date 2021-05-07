@@ -3,6 +3,7 @@ const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
+const { clientperm } = require('../../resources/permission')
 
 module.exports = class NowPlayingCommand extends Command {
   constructor(client) {
@@ -21,9 +22,11 @@ module.exports = class NowPlayingCommand extends Command {
   }
 
   async run(message) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     const video = message.guild.musicData.nowPlaying;
     const errnpEmbed = new MessageEmbed()
     .setColor(errorcolor)

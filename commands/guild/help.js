@@ -23,9 +23,12 @@ module.exports = class BanCommand extends Command {
   }
 
   async run(message, { command }) {
-	if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-		return message.channel.send(`I don't have permission to send embed`);
-	  }
+	const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     const groups = this.client.registry.groups;
 	const commands = this.client.registry.findCommands(command, false, message);
 	const showAll = command && command.toLowerCase() === 'all';

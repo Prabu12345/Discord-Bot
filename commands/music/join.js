@@ -26,12 +26,6 @@ module.exports = class LeaveCommand extends Command {
       message.reply(`${xmoji} | Join a channel and try again`);
       return;
     } 
-
-    const acces = await clientperm(message, ['EMBED_LINKS'], ['CONNECT'] )
-    if (acces === true) {
-    } else {
-      return;
-    } 
     
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
@@ -43,6 +37,13 @@ module.exports = class LeaveCommand extends Command {
     } else if (message.guild.musicData.isPlaying == true) {
       return message.channel.send(`${xmoji} | I already in voice channel, ${message.author}`);
     }
+
+    const acces = await clientperm(message, ['EMBED_LINKS'], ['CONNECT'] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
+    
     try {
       if (message.guild.musicData.queue.length === 0){
         voiceChannel.join()

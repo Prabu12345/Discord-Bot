@@ -36,21 +36,27 @@ const permissions = {
 module.exports = {
     async userperm(message, userPermissionsmsg, userPermissionsvc) {
         const missing = []
-        const msgmissing = message.channel.permissionsFor(message.author).missing(userPermissionsmsg);
-        const voicemissing = message.member.voice.channel.permissionsFor(message.author).missing(userPermissionsvc);
-        msgmissing.map(element =>
-            missing.push(element)
-        );
-        voicemissing.map(element =>
-            missing.push(element)
-        );
+        const msgmissing
+        const voicemissing
+        if (userPermissionsmsg.length > 0) {
+            msgmissing = message.channel.permissionsFor(message.author).missing(userPermissionsmsg);
+            msgmissing.map(element =>
+                missing.push(element)
+            );
+        }
+        if (userPermissionsvc.length > 0) {
+            voicemissing = message.member.voice.channel.permissionsFor(message.author).missing(userPermissionsvc);
+            voicemissing.map(element =>
+                missing.push(element)
+            );
+        }
         if(missing.length > 0) {
             if(missing.length === 1) {
-                return `This command requires you to have the "${permissions[missing[0]]}" permission.`;
+                return `This command requires you to have the \`${permissions[missing[0]]}\` permission.`;
             }
             return oneLine`
                 This command requires you to have the following permissions:
-                ${missing.map(perm => permissions[perm]).join(', ')}
+                \`${missing.map(perm => permissions[perm]).join(', ')}\`
             `;
         }
         return true;
@@ -58,23 +64,29 @@ module.exports = {
 
     async clientperm(message, clientPermissionsmsg, clientPermissionsvc) {
         const missing = []
-        const msgmissing = message.channel.permissionsFor(message.guild.me).missing(clientPermissionsmsg);
-        const voicemissing = message.member.voice.channel.permissionsFor(message.guild.me).missing(clientPermissionsvc);
-        msgmissing.map(element =>
-            missing.push(element)
-        );
-        voicemissing.map(element =>
-            missing.push(element)
-        );
+        const msgmissing
+        const voicemissing
+        if (clientPermissionsmsg.length > 0) {
+            msgmissing = message.channel.permissionsFor(message.guild.me).missing(clientPermissionsmsg);
+            msgmissing.map(element =>
+                missing.push(element)
+            );
+        } 
+        if (clientPermissionsvc.length > 0) {
+            voicemissing = message.member.voice.channel.permissionsFor(message.guild.me).missing(clientPermissionsvc);
+            voicemissing.map(element =>
+                missing.push(element)
+            );
+        }
         if(missing.length > 0) {
             if(missing.length === 1) {
                 return message.reply(
-                    `I need the "${permissions[missing[0]]}" permission for this command to work.`
+                    `I need the \`${permissions[missing[0]]}\` permission for this command to work.`
                 );
             }
             return message.reply(oneLine`
                 I need the following permissions for this command to work:
-                ${missing.map(perm => permissions[perm]).join(', ')}
+                \`${missing.map(perm => permissions[perm]).join(', ')}\`
             `);
         }
         return true;

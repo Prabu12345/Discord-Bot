@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
+const { clientperm } = require('../../resources/permission');
 
 module.exports = class SkipAllCommand extends Command {
   constructor(client) {
@@ -15,17 +16,20 @@ module.exports = class SkipAllCommand extends Command {
   }
 
   async run(message) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     const errskipallEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      errskipallEmbed.setDescription(`${xmoji} | Join a channel and try again`)
-      return message.say(errskipallEmbed)
+      message.reply(`${xmoji} | Join a channel and try again`)
+      return;
     };
+
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||

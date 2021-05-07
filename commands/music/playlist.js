@@ -14,6 +14,7 @@ const spotify = new Spotify({
   clientID: "540def33c9bb4c94b7d3b5bb51615624",
   clientSecret: "89c15cd0add944c6bef3be863b964d9f",
 });
+const { clientperm } = require('../../resources/permission')
 
 module.exports = class PlaylistCommand extends Command {
   constructor(client) {
@@ -47,9 +48,11 @@ module.exports = class PlaylistCommand extends Command {
   }
 
   async run(message, { type, additional }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     if (type.toLowerCase() == 'play') {
         const voiceChannel = message.member.voice.channel;
         if (additional == '') return message.channel.send(`${xmoji} | You must include a name for this playlist.`)

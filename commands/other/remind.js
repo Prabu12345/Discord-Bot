@@ -28,6 +28,12 @@ module.exports = class CatCommand extends Command {
   }
 
   run(message, { whatrd }) {
+	const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
 	let embed = new MessageEmbed()
 	var reminderMsg = whatrd
 		if (reminderMsg == "") {

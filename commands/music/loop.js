@@ -27,9 +27,6 @@ module.exports = class LoopCommand extends Command {
   }
 
   run(message, { typeLoop }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
     var totypeloop = typeLoop
     const totypelooplower = totypeloop.substring(totypeloop.search(" ") + 1, totypeloop.end).toLowerCase();
     if (!message.guild.musicData.isPlaying) {
@@ -63,15 +60,18 @@ module.exports = class LoopCommand extends Command {
     const loopEmbed = new MessageEmbed()
     .setColor(normalcolor)
 
-    if (totypelooplower == 'track') {
+    if (totypelooplower == 'track' || totypelooplower == 'one') {
+      totypelooplower = 'track' 
       loopEmbed.setDescription(`${cmoji} | Looped **track**, **loop off** if you want to stop looping!`)
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
-    } else if (totypelooplower == 'queue') {
+    } else if (totypelooplower == 'queue' || totypelooplower == 'all') {
+      totypelooplower = 'queue'
       loopEmbed.setDescription(`${cmoji} | Looped **Queue**, **loop off** if you want to stop looping!`)
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower
-    } else if (totypelooplower == 'off') {
+    } else if (totypelooplower == 'off' || totypelooplower == 'none') {
+      totypelooplower = 'off'
       loopEmbed.setDescription(`${cmoji} | Loop **off**!`)
       message.say(loopEmbed)
       message.guild.musicData.loop = totypelooplower

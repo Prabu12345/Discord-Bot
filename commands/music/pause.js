@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
+const { clientperm } = require('../../resources/permission')
 
 module.exports = class PauseCommand extends Command {
   constructor(client) {
@@ -19,9 +20,11 @@ module.exports = class PauseCommand extends Command {
   }
 
   run(message) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     const errpauseEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;

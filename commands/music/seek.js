@@ -28,9 +28,12 @@ module.exports = class SeekCommand extends Command {
   }
 
   async run(message, { time }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     const video = message.guild.musicData.nowPlaying;
     var timevar = time;
     var type = timevar.substring(0,timevar.search(" ")).toLowerCase();

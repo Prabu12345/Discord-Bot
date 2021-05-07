@@ -33,9 +33,12 @@ module.exports = class VolumeCommand extends Command {
   }
 
   async run(message, { wantedVolume }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
+    const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     let vol = await db.get(`${message.guild.id}.settings`)
     let fil = await db.get(`${message.guild.id}.settings.filters`)
     const voiceChannel = message.member.voice.channel;

@@ -3,6 +3,7 @@ const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
+const { clientperm } = require('../../resources/permission')
 
 module.exports = class LeaveCommand extends Command {
   constructor(client) {
@@ -21,6 +22,11 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) { 
       if (!message.member.hasPermission("MANAGE_GUILD")) {

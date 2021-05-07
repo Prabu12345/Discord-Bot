@@ -12,6 +12,7 @@ const spt = new Spotify({
   });
 const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
 const { playSong } = require('../../resources/music/play')
+const { clientperm } = require('../../resources/permission')
 
 module.exports = class PlayCommand extends Command {
   constructor(client) {
@@ -22,7 +23,6 @@ module.exports = class PlayCommand extends Command {
       group: 'music',
       description: 'Play any song or playlist from youtube and spotify',
       guildOnly: true,
-      clientPermissions: ['SPEAK', 'CONNECT'],
       throttling: {
         usages: 1,
         duration: 5
@@ -42,9 +42,6 @@ module.exports = class PlayCommand extends Command {
   }
 
   async run(message, { query }) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
     const voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errvideoEmbed = new MessageEmbed()
@@ -52,7 +49,15 @@ module.exports = class PlayCommand extends Command {
       .setDescription(`${xmoji} | Join a channel and try again`)
       message.say(errvideoEmbed);
       return;
-    } else if (message.guild.triviaData.isTriviaRunning == true) {
+    } 
+    
+    const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
+
+    if (message.guild.triviaData.isTriviaRunning == true) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | Please try after the trivia has ended`)

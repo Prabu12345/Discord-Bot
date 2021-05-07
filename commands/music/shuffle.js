@@ -17,16 +17,22 @@ module.exports = class ShuffleQueueCommand extends Command {
     });
   }
   run(message) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
     const errshuffleEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
-      errshuffleEmbed.setDescription(`${xmoji} | Join a channel and try again`)
-      return message.say(errshuffleEmbed)
-    } else if (
+      message.reply(`${xmoji} | Join a channel and try again`);
+      return;
+    } 
+    
+    const { clientperm } = require('../../resources/permission')
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
+
+    if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {

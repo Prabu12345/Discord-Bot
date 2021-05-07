@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
+const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json');
+const { clientperm } = require('../../resources/permission')
 
 module.exports = class SkipCommand extends Command {
   constructor(client) {
@@ -19,19 +20,16 @@ module.exports = class SkipCommand extends Command {
   }
 
   async run(message) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    }
     const voiceChannel = message.member.voice.channel;
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) { 
       if (!message.member.hasPermission("MANAGE_GUILD")) {
-        return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
+        return message.reply("You don't have permission `MANAGE_GUILD` and role named *DJ*");
       }
     } else {
       if(!message.member.roles.cache.get(role.id)) {
         if (!message.member.hasPermission("MANAGE_GUILD")) {
-          return message.channel.send("You don't have permission `MANAGE_GUILD` and role named *DJ*");
+          return message.reply("You don't have permission `MANAGE_GUILD` and role named *DJ*");
         }
       }
     }
@@ -39,9 +37,17 @@ module.exports = class SkipCommand extends Command {
     .setColor(errorcolor)
     if(!message.member.roles.cache.get(role.id)) return message.channel.send("You don't have role named *DJ*");
     if (!voiceChannel) {
-      errskipEmbed.setDescription(`${xmoji} | Join a channel and try again`)
-      return message.say(errskipEmbed)
-    } else if (
+      message.reply(`${xmoji} | Join a channel and try again`);
+      return;
+    }
+    
+    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
+
+    if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
