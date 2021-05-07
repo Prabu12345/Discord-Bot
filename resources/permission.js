@@ -35,7 +35,15 @@ const permissions = {
 
 module.exports = {
     async userperm(message, userPermissions) {
-        const missing = message.channel.permissionsFor(message.author).missing(userPermissions);
+        const missing = []
+        const msgmissing = message.channel.permissionsFor(message.author).missing(userPermissions);
+        const voicemissing = message.member.voice.channel.permissionsFor(message.author).missing(userPermissions);
+        msgmissing.map(element =>
+            missing.push(element)
+        );
+        voicemissing.map(element =>
+            missing.push(element)
+        );
         if(missing.length > 0) {
             if(missing.length === 1) {
                 return `This command requires you to have the "${permissions[missing[0]]}" permission.`;
@@ -49,7 +57,15 @@ module.exports = {
     },
 
     async clientperm(message, clientPermissions) {
-        const missing = message.channel.permissionsFor(message.guild.me).missing(clientPermissions);
+        const missing = []
+        const msgmissing = message.channel.permissionsFor(message.guild.me).missing(clientPermissions);
+        const voicemissing = message.member.voice.channel.permissionsFor(message.guild.me).missing(clientPermissions);
+        msgmissing.map(element =>
+            missing.push(element)
+        );
+        voicemissing.map(element =>
+            missing.push(element)
+        );
         if(missing.length > 0) {
             if(missing.length === 1) {
                 return message.reply(
