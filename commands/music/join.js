@@ -2,6 +2,7 @@ const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 const { playSong } = require('../music/play');
+const { clientperm } = require('../../resources/permission');
 
 module.exports = class LeaveCommand extends Command {
   constructor(client) {
@@ -19,13 +20,12 @@ module.exports = class LeaveCommand extends Command {
     });
   }
 
-  run(message) {
-    if (!message.guild.me.hasPermission("EMBED_LINKS")) {
-      return message.channel.send(`I don't have permission to send embed`);
-    } else if (!message.guild.me.hasPermission("VOICE_JOIN_CHANNEL")) {
-      return message.channel.send(`I don't have permission to connect \`${message.guild.member.voice.channel.name}\` channel`);
+  async run(message) {
+    const acces = await clientperm(message, { EMBED_LINKS, CONNECT } )
+    if (!acces) {
+      message.channel.send(acces)
+      return;
     }
-
     var voiceChannel = message.member.voice.channel;
     if (!voiceChannel) {
       const errleaveEmbed = new MessageEmbed()
