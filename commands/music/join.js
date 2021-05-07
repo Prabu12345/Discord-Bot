@@ -21,8 +21,7 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
-    const perm = ['MANAGE_MESSAGES', 'KICK_MEMBERS', 'BAN_MEMBERS']
-    const acces = await clientperm(message, perm )
+    const acces = await clientperm(message, [ 'EMBED_LINKS', 'CONNECT' ] )
     if (!acces) {
       message.channel.send(acces)
       return;
