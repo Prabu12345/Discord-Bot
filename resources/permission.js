@@ -34,10 +34,10 @@ const permissions = {
 };
 
 module.exports = {
-    async userperm(message, userPermissions) {
+    async userperm(message, userPermissionsmsg, userPermissionsvc) {
         const missing = []
-        const msgmissing = message.channel.permissionsFor(message.author).missing(userPermissions);
-        const voicemissing = message.member.voice.channel.permissionsFor(message.author).missing(userPermissions);
+        const msgmissing = message.channel.permissionsFor(message.author).missing(userPermissionsmsg);
+        const voicemissing = message.member.voice.channel.permissionsFor(message.author).missing(userPermissionsvc);
         msgmissing.map(element =>
             missing.push(element)
         );
@@ -56,12 +56,10 @@ module.exports = {
         return true;
     },
 
-    async clientperm(message, clientPermissions) {
+    async clientperm(message, clientPermissionsmsg, clientPermissionsvc) {
         const missing = []
-        const msgmissing = message.channel.permissionsFor(message.guild.me).missing(clientPermissions);
-        const voicemissing = message.member.voice.channel.permissionsFor(message.guild.me).missing(clientPermissions);
-        console.log(msgmissing)
-        console.log(voicemissing)
+        const msgmissing = message.channel.permissionsFor(message.guild.me).missing(clientPermissionsmsg);
+        const voicemissing = message.member.voice.channel.permissionsFor(message.guild.me).missing(clientPermissionsvc);
         msgmissing.map(element =>
             missing.push(element)
         );

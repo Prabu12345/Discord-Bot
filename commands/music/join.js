@@ -27,7 +27,7 @@ module.exports = class LeaveCommand extends Command {
       return;
     } 
 
-    const acces = await clientperm(message, [ 'EMBED_LINKS', 'CONNECT' ] )
+    const acces = await clientperm(message, ['EMBED_LINKS'], ['CONNECT'] )
     if (acces === true) {
     } else {
       return;
