@@ -21,19 +21,19 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
+    var voiceChannel = message.member.voice.channel;
+    if (!voiceChannel) {
+      message.say(`${xmoji} | Join a channel and try again`);
+      return;
+    } 
+    
     const acces = await clientperm(message, [ 'EMBED_LINKS', 'CONNECT' ] )
     if (acces === true) {
     } else {
       return;
-    }
-    var voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) {
-      const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | Join a channel and try again`)
-      message.say(errleaveEmbed);
-      return;
-    } else if (
+    } 
+    
+    if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
