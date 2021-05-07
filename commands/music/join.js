@@ -22,7 +22,7 @@ module.exports = class LeaveCommand extends Command {
   run(message) {
     if (!message.guild.me.hasPermission("EMBED_LINKS")) {
       return message.channel.send(`I don't have permission to send embed`);
-    } else if (!message.guild.me.hasPermission("CONNECT")) {
+    } else if (!message.guild.me.hasPermission("VOICE_JOIN_CHANNEL")) {
       return message.channel.send(`I don't have permission to connect \`${message.guild.member.voice.channel.name}\` channel`);
     }
 
