@@ -36,8 +36,8 @@ const permissions = {
 module.exports = {
     async userperm(message, userPermissionsmsg, userPermissionsvc) {
         const missing = []
-        const msgmissing
-        const voicemissing
+        let msgmissing = null
+        let voicemissing = null
         if (userPermissionsmsg.length > 0) {
             msgmissing = message.channel.permissionsFor(message.author).missing(userPermissionsmsg);
             msgmissing.map(element =>
@@ -64,8 +64,8 @@ module.exports = {
 
     async clientperm(message, clientPermissionsmsg, clientPermissionsvc) {
         const missing = []
-        const msgmissing
-        const voicemissing
+        let msgmissing = null
+        let voicemissing = null
         if (clientPermissionsmsg.length > 0) {
             msgmissing = message.channel.permissionsFor(message.guild.me).missing(clientPermissionsmsg);
             msgmissing.map(element =>
