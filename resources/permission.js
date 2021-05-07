@@ -62,5 +62,7 @@ module.exports = {
             `);
         }
         return true;
-    }
+    },
+    
+    permissions
 }
