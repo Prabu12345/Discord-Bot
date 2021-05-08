@@ -67,20 +67,20 @@ module.exports = class LoopCommand extends Command {
     .setColor(normalcolor)
 
     if (totypelooplower == 'track' || totypelooplower == 'one') {
-      totypelooplower = 'track' 
+      var newone = 'track' 
       loopEmbed.setDescription(`${cmoji} | Looped **track**, **loop off** if you want to stop looping!`)
       message.say(loopEmbed)
-      message.guild.musicData.loop = totypelooplower
+      message.guild.musicData.loop = newone
     } else if (totypelooplower == 'queue' || totypelooplower == 'all') {
-      totypelooplower = 'queue'
+      var newone = 'queue'
       loopEmbed.setDescription(`${cmoji} | Looped **Queue**, **loop off** if you want to stop looping!`)
       message.say(loopEmbed)
-      message.guild.musicData.loop = totypelooplower
+      message.guild.musicData.loop = newone
     } else if (totypelooplower == 'off' || totypelooplower == 'none') {
-      totypelooplower = 'off'
+      var newone = 'off'
       loopEmbed.setDescription(`${cmoji} | Loop **off**!`)
       message.say(loopEmbed)
-      message.guild.musicData.loop = totypelooplower
+      message.guild.musicData.loop = newone
     };
     return;
   }
