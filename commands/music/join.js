@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor, cmoji, xmoji } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
-const { playSong } = require('../music/play');
+const { playSong } = require('../../resources/music/play');
 const { clientperm } = require('../../resources/permission');
 
 module.exports = class LeaveCommand extends Command {

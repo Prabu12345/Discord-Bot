@@ -91,13 +91,17 @@ module.exports = class PlaylistCommand extends Command {
             urlsArray.map(element =>
                 message.guild.musicData.queue.push(element)
             );
-            if (message.guild.musicData.isPlaying) {
+            try {
+              if (message.guild.musicData.isPlaying) {
                 message.reply(`🎵 **${additional}** added ${urlsArray.length} songs to the queue!`);
             } else if (!message.guild.musicData.isPlaying) {
                 message.guild.musicData.isPlaying = true;
                 message.reply(`🎵 **${additional}** added ${urlsArray.length} songs to the queue!`);
                 playSong(message.guild.musicData.queue, message, 0);
             }   
+            } catch {
+              return message.reply(':x: | Something went wrong when joining channels');
+            }
         } else {
             message.reply(`You have no playlist named ${additional}`)
         }

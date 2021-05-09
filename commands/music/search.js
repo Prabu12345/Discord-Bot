@@ -97,7 +97,7 @@ module.exports = class searchCommand extends Command {
     message.channel
       .awaitMessages(
         function(msg) {
-          return (msg.content > 0 && msg.content < 6) || msg.content === 'exit';
+          return (msg.content > 0 && msg.content < 6 && msg.author.id === message.author.id) || msg.content === 'exit' && msg.author.id === message.author.id;
         },
         {
           max: 1,

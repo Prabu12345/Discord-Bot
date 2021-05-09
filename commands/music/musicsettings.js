@@ -60,7 +60,7 @@ module.exports = class LeaveCommand extends Command {
     message.channel
       .awaitMessages(
         function(msg) {
-          return (msg.content > 0 && msg.content < 5) || msg.content === 'exit';
+          return (msg.content > 0 && msg.content < 5 && msg.author.id === message.author.id) || msg.content === 'exit' && msg.author.id === message.author.id;
         },
         {
           max: 1,
@@ -93,7 +93,7 @@ module.exports = class LeaveCommand extends Command {
             )
             .then(async function(response) {
               const vIndex = parseInt(response.first().content);
-              if (vIndex > 99 && vIndex < 201) {
+              if (vIndex > 99 && vIndex < 201 && msg.author.id === message.author.id) {
                 if (vm) {
                   vm.delete();
                 }
@@ -126,7 +126,7 @@ module.exports = class LeaveCommand extends Command {
           message.channel
             .awaitMessages(
               async function(msg) {
-                return (msg.content < 51) || msg.content === 'cancel';
+                return (msg.content < 51 && msg.author.id === message.author.id) || msg.content === 'cancel';
               },
               {
                 max: 1,
@@ -186,7 +186,7 @@ module.exports = class LeaveCommand extends Command {
           message.channel
             .awaitMessages(
               async function(msg) {
-                return (msg.content > 0 && msg.content < 4) || msg.content === 'cancel';
+                return (msg.content > 0 && msg.content < 4 && msg.author.id === message.author.id) || msg.content === 'cancel' && msg.author.id === message.author.id;
               },
               {
                 max: 1,

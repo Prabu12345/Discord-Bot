@@ -89,10 +89,10 @@ client.registry
   })
   .registerCommandsIn(path.join(__dirname, 'commands'));
 
-client.once('ready', () => {
+client.on('ready', () => {
   console.log('Ready!');
   client.user.setActivity(`Just Smile | ${prefix}help`, {
-    type: 'LISTENING',
+    type: 'STREAMING',
     url: 'https://discord.gg/n5yFCYSkQn'
   });
 });
@@ -145,7 +145,6 @@ async function rrun(newState) {
   t = setTimeout(() => {
     newState.guild.musicData.loop = 'off';
     newState.guild.musicData.seek = 0;
-    newState.guild.musicData.queue.length = 0;
     newState.guild.musicData.pause = false
     newState.guild.musicData.songDispatcher.end();
     setTimeout(function onTimeOut() {
