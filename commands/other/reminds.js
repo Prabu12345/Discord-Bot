@@ -34,15 +34,19 @@ module.exports = class CatCommand extends Command {
     const reminds = []
     for (const check of res) {
       const { date, content } = check
-      const newdate = new Date(`${date}`);
+      const newdate = new Date(date);
       const d = new Date();
       reminds.push({
-        date: (newdate.getTime() - d.getTime()),
+        date: (d.getTime() - newdate.getTime()),
         content: content
       })
     }
 
-    if (reminds) {
+    if (reminds.length < 1) {
+      return message.channel.send("There are no reminders right now!");
+    }
+
+    try {
       var d = new Date();
       const savedSongsEmbed = new Pagination.FieldsEmbed()
       .setArray(reminds)
@@ -50,11 +54,11 @@ module.exports = class CatCommand extends Command {
       .setChannel(message.channel)
       .setElementsPerPage(10)
       .formatField('# - remind msg - Estimate time', function(e) {
-        return `**${reminds.indexOf(e) + 1} |** ${e.content} - ${msToTime(e.date - d.getTime())}`;
+        return `**${reminds.indexOf(e) + 1} |** ${e.content} - ${msToTime(e.date)}`;
       });
       savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`${reminds.length}/∞`);
       savedSongsEmbed.build();
-    } else {
+    } catch {
       message.channel.send("There are no reminders right now!");
     }
   }
