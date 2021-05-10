@@ -91,11 +91,17 @@ client.registry
   })
   .registerCommandsIn(path.join(__dirname, 'commands'));
 
-client.on('ready', () => {
+client.on('ready', async () => {
   console.log('Ready!');
   client.user.setActivity(`Just Smile | ${prefix}help`, {
     type: 'STREAMING',
     url: 'https://discord.gg/n5yFCYSkQn'
+  });
+  await mongoose.connect('mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
   });
   const dconvrt = new Date()
   const checkRemindForPost = async () => {
