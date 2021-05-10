@@ -9,7 +9,7 @@ const Topgg = require('@top-gg/sdk')
 const api = new Topgg.Api('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcyODQwOTk5NzQzNTk5NDE0MiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjE1MzMyMzA0fQ.Hcuy0VxREh38DaaGuuBeXa5PuCOCvupkFHRkX6fWX3Q')
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
-const remindSchema = require('../../resources/guild');
+const remindSchema = require('./resources/guild');
 const { clientperm } = require('./resources/permission');
 
 Structures.extend('Guild', function(Guild) {
@@ -97,10 +97,11 @@ client.on('ready', () => {
     type: 'STREAMING',
     url: 'https://discord.gg/n5yFCYSkQn'
   });
+  const dconvrt = new Date()
   const checkRemindForPost = async () => {
     const query = {
       date: {
-        $lte: Date.now()
+        $lte: dconvrt.getTime()
       }
     }
 
