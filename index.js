@@ -115,12 +115,9 @@ client.on('ready', async () => {
 
     for (const post of res) {
       const { clientid, content } = post
-
-      try {
-        client.users.cache.get(clientid).send(`Hey asked me to remind you, **Reminder:** ` + content)
-      } catch {
-        continue
-      }
+      const user = await client.users.fetch(clientid).catch(() => { continue })
+      if (!user) continue;
+      user.send(`Hey asked me to remind you, **Reminder:** ` + content);
     }
 
     await remindSchema.deleteMany(query)
