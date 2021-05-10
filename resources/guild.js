@@ -5,7 +5,7 @@ const rqString = {
     required: true
 }
 
-const remindSchema = new mongoose.schema({
+const remindSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true
