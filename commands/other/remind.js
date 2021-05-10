@@ -78,10 +78,9 @@ module.exports = class CatCommand extends Command {
 				message.channel.send(embed);
 				var d = new Date();
 				var newd = d.getTime + actualTime
-				var dconvrt = new Date(newd);
 
 				await new remindSchema({
-					date: dconvrt,
+					date: newd,
 					clientid: message.author.id,
 					content: outputMsg
 				}).save()
