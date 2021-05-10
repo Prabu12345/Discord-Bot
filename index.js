@@ -104,11 +104,10 @@ client.on('ready', async () => {
   useFindAndModify: false,
   useCreateIndex: true
   });
-  const dconvrt = new Date()
   const checkRemindForPost = async () => {
     const query = {
       date: {
-        $lte: dconvrt.getTime()
+        $lte: Date.now()
       }
     }
 

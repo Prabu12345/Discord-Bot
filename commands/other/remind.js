@@ -79,9 +79,9 @@ module.exports = class CatCommand extends Command {
 				var d = new Date();
 				var dss = d.getTime();
 				var newd = (dss + actualTime)
-
+				var dnew = new Date(newd);
 				await new remindSchema({
-					date: newd,
+					date: dnew,
 					clientid: message.author.id,
 					content: outputMsg
 				}).save()
