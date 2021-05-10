@@ -11,6 +11,7 @@ const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
 const remindSchema = require('./resources/guild');
 const { clientperm } = require('./resources/permission');
+const mongoose = require('mongoose');
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
