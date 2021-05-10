@@ -34,10 +34,10 @@ module.exports = class CatCommand extends Command {
     const reminds = []
     for (const check of res) {
       const { date, content } = check
-      const newdate = new Date(date);
+      const newdate = new Date(`${date}`);
       const d = new Date();
       reminds.push({
-        date: (newdate - d.getTime()),
+        date: (newdate.getTime() - d.getTime()),
         content: content
       })
     }
