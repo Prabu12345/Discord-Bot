@@ -117,7 +117,7 @@ client.on('ready', async () => {
       const { clientid, content } = post
 
       try {
-        client.users.get(clientid).send(`Hey asked me to remind you, **Reminder:** ` + content)
+        client.users.cache.get(clientid).send(`Hey asked me to remind you, **Reminder:** ` + content)
       } catch {
         continue
       }
