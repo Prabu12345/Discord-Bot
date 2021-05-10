@@ -84,7 +84,7 @@ module.exports = class CatCommand extends Command {
 					date: dconvrt,
 					clientid: message.author.id,
 					content: outputMsg
-				}).save
+				}).save()
 			} else {
 				message.reply('You formatted the time incorrectly it should only have numbers and the letters s, m, h and d and it should look like: \'4d20h30s\' or \'2h30m\' ');
 			}
