@@ -16,4 +16,4 @@ const remindSchema = new mongoose.Schema({
 
 const name = 'userRemind'
 
-module.exports = mongoose.module[name] || mongoose.module(name, remindSchema, name)
+module.exports = mongoose.model[name] || mongoose.model(name, remindSchema, name)
