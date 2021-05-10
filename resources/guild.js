@@ -6,10 +6,7 @@ const rqString = {
 }
 
 const remindSchema = new mongoose.Schema({
-    date: {
-        type: Date,
-        required: true
-    },
+    date: rqString,
     clientid: rqString,
     content: rqString
 })
