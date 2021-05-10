@@ -9,6 +9,8 @@ const Topgg = require('@top-gg/sdk')
 const api = new Topgg.Api('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcyODQwOTk5NzQzNTk5NDE0MiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjE1MzMyMzA0fQ.Hcuy0VxREh38DaaGuuBeXa5PuCOCvupkFHRkX6fWX3Q')
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
+const remindSchema = require('../../resources/guild');
+const { clientperm } = require('./resources/permission');
 
 Structures.extend('Guild', function(Guild) {
   class MusicGuild extends Guild {
@@ -95,6 +97,28 @@ client.on('ready', () => {
     type: 'STREAMING',
     url: 'https://discord.gg/n5yFCYSkQn'
   });
+  const checkRemindForPost = async () => {
+    const query = {
+      date: {
+        $lte: Date.now()
+      }
+    }
+
+    const res = await remindSchema.find(query)
+
+    for (const post of res) {
+      const { clientid, content } = post
+
+      try {
+        client.users.get(clientid).send(`Hey asked me to remind you, **Reminder:** ` + content)
+      } catch {
+        continue
+      }
+    }
+
+    setTimeout(checkRemindForPost, 1000 * 10) // looping 10 second
+  }
+  checkRemindForPost();
 });
 
 client.on('voiceStateUpdate', async (___, newState) => {

@@ -2,6 +2,7 @@ const { Command } = require('discord.js-commando');
 const { normalcolor, errorcolor } = require('../../config.json')
 const { MessageEmbed } = require('discord.js');
 const Pagination = require('discord-paginationembed');
+const remindSchema = require('../../resources/guild')
 
 module.exports = class CatCommand extends Command {
   constructor(client) {
@@ -21,30 +22,26 @@ module.exports = class CatCommand extends Command {
 
   async run(message) {
     const { clientperm } = require('../../resources/permission')
-    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
     if (acces === true) {
     } else {
       return;
     } 
-    var newremind = [];
-    let found = false;
-    for (let i = 0; i < message.guild.musicData.remind.length; i++) {
-      if (message.guild.musicData.remind[i].author == message.author) {
-          found = true;
-          newremind.push(message.guild.musicData.remind[i]);
-      }
+    const query = {
+      clientid: message.author.id 
     }
-    if (found == true) {
+    const res = await remindSchema.find(query)
+    if (res) {
       var d = new Date();
       const savedSongsEmbed = new Pagination.FieldsEmbed()
-      .setArray(newremind)
+      .setArray(res)
       .setAuthorizedUsers([message.member.id])
       .setChannel(message.channel)
       .setElementsPerPage(10)
       .formatField('# - remind msg - Estimate time', function(e) {
-        return `**${newremind.indexOf(e) + 1}**| ${e.remindermsg} - ${msToTime(e.starttime+e.timetowait - d.getTime())}`;
+        return `**${res.indexOf(e) + 1} |** ${e.content} - ${msToTime(e.date - d.getTime())}`;
       });
-      savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`${newremind.length}/∞`);
+      savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`${res.length}/∞`);
       savedSongsEmbed.build();
     } else {
       message.channel.send("There are no reminders right now!");

@@ -54,7 +54,8 @@ module.exports = class NowPlayingCommand extends Command {
       .setDescription(`\`${description}\``)
       .setURL(video.url)
       .setFooter(
-        `Requested by ${video.memberDisplayName}`
+        `Requested by ${video.memberDisplayName}`, 
+        video.memberAvatar
       );
     message.channel.send(videoEmbed);
     return;

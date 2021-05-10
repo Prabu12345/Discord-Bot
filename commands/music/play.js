@@ -546,7 +546,7 @@ module.exports = class PlayCommand extends Command {
       rawDuration: video.duration,
       duration,
       thumbnail: video.thumbnail.url,
-      memberDisplayName: user.username,
+      memberDisplayName: user.tag,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
   }
@@ -560,7 +560,7 @@ module.exports = class PlayCommand extends Command {
       rawDuration: this.durationrawed(video.duration),
       duration,
       thumbnail: video.thumbnails.high.url,
-      memberDisplayName: user.username,
+      memberDisplayName: user.tag,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
   }

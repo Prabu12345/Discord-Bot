@@ -31,7 +31,7 @@ module.exports = class LyricsCommand extends Command {
     });
   }
   async run(message, { songName }) {
-    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
     if (acces === true) {
     } else {
       return;

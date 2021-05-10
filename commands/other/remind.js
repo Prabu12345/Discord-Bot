@@ -1,6 +1,8 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
-const { normalcolor, errorcolor } = require('../../config.json')
+const { normalcolor, errorcolor } = require('../../config.json');
+
+const remindSchema = require('../../resources/guild')
 
 module.exports = class CatCommand extends Command {
   constructor(client) {
@@ -37,14 +39,14 @@ module.exports = class CatCommand extends Command {
 	let embed = new MessageEmbed()
 	var reminderMsg = whatrd
 		if (reminderMsg == "") {
-      	message.channel.send("Please Insert want remind to!");
+      	message.reply("Please Insert want remind to!");
 		} else if (reminderMsg.search(/[0-9]+(s|m|h|d){1}/) >= 0) {
 			var time = reminderMsg.substring(0,reminderMsg.search(" ")).toLowerCase();
 			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
 			var actualTime = 0;
 			if (!time) {
 				embed.setColor(errorcolor)
-				embed.setDescription('Please input why to want remind you')
+				embed.setDescription('Please Insert why to want remind you')
 				return message.channel.send(embed)
 			}
 
@@ -75,18 +77,14 @@ module.exports = class CatCommand extends Command {
 				embed.setDescription(`${message.author}, your reminder has been set for ` + msToTime(actualTime))
 				message.channel.send(embed);
 				var d = new Date();
-				var reminder = {author: message.author, remindermsg: outputMsg, starttime: d.getTime(), timetowait: actualTime};
-				
-				message.guild.musicData.remind.push(reminder);
-				message.guild.musicData.remind.sort(function(a, b){return (a.starttime+a.timetowait) - (b.starttime+b.timetowait)});
+				var newd = d.getTime + actualTime
+				var dconvrt = new Date(newd);
 
-				setTimeout(function() 
-					{
-						message.guild.musicData.remind.shift();
-					  	message.channel.send(`Hey ${message.author}, **Reminder:** ` + outputMsg, {
-						tts: true
-					  });
-					}, actualTime);
+				await new remindSchema({
+					date: dconvrt,
+					clientid: message.author.id,
+					content: outputMsg
+				}).save
 			} else {
 				message.reply('You formatted the time incorrectly it should only have numbers and the letters s, m, h and d and it should look like: \'4d20h30s\' or \'2h30m\' ');
 			}

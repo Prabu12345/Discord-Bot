@@ -85,7 +85,7 @@ module.exports = class searchCommand extends Command {
 
     const vidNameArr = [];
     for (let i = 0; i < videos.length; i++) {
-      vidNameArr.push(`${i + 1}| ${videos[i].title}`);
+      vidNameArr.push(`**${i + 1} |** ${videos[i].title}`);
     }
     vidNameArr.push('exit');
     const embed = new MessageEmbed()
@@ -197,7 +197,7 @@ module.exports = class searchCommand extends Command {
       rawDuration: video.duration,
       duration,
       thumbnail: video.thumbnail.url,
-      memberDisplayName: user.username,
+      memberDisplayName: user.tag,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
   }

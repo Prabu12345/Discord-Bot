@@ -188,7 +188,7 @@ module.exports = {
     
           const videoEmbed = new MessageEmbed()
           .setThumbnail(queue[0].thumbnail)
-          .setTitle(`🎵 Now Playing`)
+          .setAuthor(`Now Playing`, message.member.user.avatarURL('webp', false, 16))
           .setColor(normalcolor)
           .setDescription(`[${queue[0].title}](${queue[0].url})\n${queue[0].duration}`)
           .setFooter(

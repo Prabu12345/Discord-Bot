@@ -21,7 +21,7 @@ module.exports = class QueueCommand extends Command {
 
   async run(message) {
     const { clientperm } = require('../../resources/permission')
-    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
     if (acces === true) {
     } else {
       return;

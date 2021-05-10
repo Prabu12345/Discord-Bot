@@ -22,7 +22,7 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
-    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
     if (acces === true) {
     } else {
       return;
@@ -50,10 +50,10 @@ module.exports = class LeaveCommand extends Command {
       .setColor(normalcolor)
       .setAuthor('')
       .setTitle('Choose a music settings by commenting a number between 1 and 4')
-      .setDescription(`1. Update max volume - **${all.maxvolume}% (100 - 200)**\n
-      2. Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
-      3. Automatically show now playing - **${np}**\n
-      4. Music Filter`
+      .setDescription(`**1 |** Update max volume - **${all.maxvolume}% (100 - 200)**\n
+      **2 |** Automatically leave the channel if empty - **${all.timeout / 60000} minutes (0 - 50)**\n
+      **3 |** Automatically show now playing - **${np}**\n
+      **4 |** Music Filter`
       )
       .setFooter('Write "exit" to cancel or will cancel automaticly in 1 minute');
     var songEmbed = await message.channel.send({ embed });
@@ -177,9 +177,9 @@ module.exports = class LeaveCommand extends Command {
           .setColor(normalcolor)
           .setAuthor('')
           .setTitle('Choose a music settings by commenting a number between 1 and 3')
-          .setDescription(`1. Bassboost - **${fil.bassboost? `enable`:`disable`}**\n
-          2. Nightcore - **${fil.nightcore? `enable`:`disable`}**\n
-          3. Karaoke - **${fil.karaoke? `enable`:`disable`}**\n`
+          .setDescription(`**1 |** Bassboost - **${fil.bassboost? `enable`:`disable`}**\n
+          **2 |** Nightcore - **${fil.nightcore? `enable`:`disable`}**\n
+          **3 |** Karaoke - **${fil.karaoke? `enable`:`disable`}**\n`
           )
           .setFooter('Write "cancel" to cancel or will cancel automaticly in 1 minute');
           var tm = await message.channel.send({ embed });

@@ -48,7 +48,7 @@ module.exports = class PlaylistCommand extends Command {
   }
 
   async run(message, { type, additional }) {
-    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
     if (acces === true) {
     } else {
       return;
@@ -62,7 +62,15 @@ module.exports = class PlaylistCommand extends Command {
             .setDescription(`${xmoji} | Join a channel and try again`)
             message.say(errvideoEmbed);
             return;
-        } else if (message.guild.triviaData.isTriviaRunning == true) {
+        } 
+        
+        const acces = await clientperm(message, [], ['SPEAK', 'CONNECT'] )
+        if (acces === true) {
+        } else {
+          return;
+        } 
+        
+        if (message.guild.triviaData.isTriviaRunning == true) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)
             .setDescription(`${xmoji} | Please try after the trivia has ended`)
@@ -490,7 +498,7 @@ module.exports = class PlaylistCommand extends Command {
       rawDuration: totalDurationInMS,
       duration,
       thumbnail: video.thumbnails.high.url,
-      memberDisplayName: user.username,
+      memberDisplayName: user.tag,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
   }
@@ -501,7 +509,7 @@ module.exports = class PlaylistCommand extends Command {
       rawDuration: video.duration,
       duration: video.durationFormatted,
       thumbnail: video.thumbnail.url,
-      memberDisplayName: user.username,
+      memberDisplayName: user.tag,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
   }
