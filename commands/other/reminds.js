@@ -31,17 +31,28 @@ module.exports = class CatCommand extends Command {
       clientid: message.author.id 
     }
     const res = await remindSchema.find(query)
-    if (res) {
+    const reminds = []
+    for (const check of res) {
+      const { date, content } = check
+      const newdate = new Date(date);
+      const d = new Date();
+      reminds.push({
+        date: (newdate - d.getTime()),
+        content: content
+      })
+    }
+
+    if (reminds) {
       var d = new Date();
       const savedSongsEmbed = new Pagination.FieldsEmbed()
-      .setArray(res)
+      .setArray(reminds)
       .setAuthorizedUsers([message.member.id])
       .setChannel(message.channel)
       .setElementsPerPage(10)
       .formatField('# - remind msg - Estimate time', function(e) {
-        return `**${res.indexOf(e) + 1} |** ${e.content} - ${msToTime(e.date - d.getTime())}`;
+        return `**${reminds.indexOf(e) + 1} |** ${e.content} - ${msToTime(e.date - d.getTime())}`;
       });
-      savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`${res.length}/∞`);
+      savedSongsEmbed.embed.setColor(normalcolor).setTitle(`📣 ${message.member.user.username} Reminder`).setFooter(`${reminds.length}/∞`);
       savedSongsEmbed.build();
     } else {
       message.channel.send("There are no reminders right now!");
