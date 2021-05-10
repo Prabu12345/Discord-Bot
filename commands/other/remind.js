@@ -77,7 +77,8 @@ module.exports = class CatCommand extends Command {
 				embed.setDescription(`${message.author}, your reminder has been set for ` + msToTime(actualTime))
 				message.channel.send(embed);
 				var d = new Date();
-				var newd = d.getTime + actualTime
+				var dss = d.getTime();
+				var newd = (dss + actualTime)
 
 				await new remindSchema({
 					date: newd,
