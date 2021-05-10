@@ -37,7 +37,7 @@ module.exports = class CatCommand extends Command {
       const newdate = new Date(date);
       const d = new Date();
       reminds.push({
-        date: (d.getTime() - newdate.getTime()),
+        date: (newdate.getTime() - d.getTime()),
         content: content
       })
     }
