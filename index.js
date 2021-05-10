@@ -115,6 +115,7 @@ client.on('ready', async () => {
 
     for (const post of res) {
       const { clientid, content } = post
+      console.log(clientid + ' ' + content)
       const user = await client.users.fetch(clientid).catch(() => null);
       if (!user) continue;
       user.send(`Hey asked me to remind you, **Reminder:** ` + content);
