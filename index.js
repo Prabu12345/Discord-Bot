@@ -112,6 +112,7 @@ client.on('ready', async () => {
     }
 
     const res = await remindSchema.find(query)
+    console.log(res)
 
     for (const post of res) {
       const { clientid, content } = post
