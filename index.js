@@ -119,7 +119,7 @@ client.on('ready', async () => {
       if (!user) continue;
       user.send(`Hey asked me to remind you, **Reminder:** ` + content);
     }
-    if (res.length < 1) {
+    if (res.length > 1) {
       await remindSchema.deleteMany(query)
     }
 
