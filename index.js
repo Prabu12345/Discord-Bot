@@ -112,7 +112,6 @@ client.on('ready', async () => {
     }
 
     const res = await remindSchema.find(query)
-    console.log(res)
 
     for (const post of res) {
       const { clientid, content } = post
@@ -120,7 +119,7 @@ client.on('ready', async () => {
       if (!user) continue;
       user.send(`Hey asked me to remind you, **Reminder:** ` + content);
     }
-    if (res.length > 1) {
+    if (res.length > 0) {
       await remindSchema.deleteMany(query)
     }
 
