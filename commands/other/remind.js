@@ -31,12 +31,11 @@ module.exports = class CatCommand extends Command {
 
   async run(message, { whatrd }) {
 	const { clientperm } = require('../../resources/permission')
-    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
+    const acces = await clientperm(message, [], [] )
     if (acces === true) {
     } else {
       return;
     } 
-	let embed = new MessageEmbed()
 	var reminderMsg = whatrd
 		if (reminderMsg == "") {
       	message.reply("Please Insert want remind to!");
@@ -45,9 +44,8 @@ module.exports = class CatCommand extends Command {
 			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
 			var actualTime = 0;
 			if (!time) {
-				embed.setColor(errorcolor)
-				embed.setDescription('Please Insert why to want remind you')
-				return message.channel.send(embed)
+				message.reply('Please Insert why to want remind you');
+				return;
 			}
 
 			var magnitudes = time.split(/s|d|m|h/).filter(word => word != "");
@@ -72,10 +70,7 @@ module.exports = class CatCommand extends Command {
 						// nothing
 					}
 				}
-
-				embed.setColor(normalcolor)
-				embed.setDescription(`${message.author}, your reminder has been set for ` + msToTime(actualTime))
-				message.channel.send(embed);
+				message.channel.send(`${message.author}, your reminder has been set for ` + msToTime(actualTime));
 				var d = new Date();
 				var dss = d.getTime();
 				var newd = (dss + actualTime)

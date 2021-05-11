@@ -43,7 +43,7 @@ module.exports = class CatCommand extends Command {
     }
 
     if (reminds.length < 1) {
-      return message.channel.send("There are no reminders right now!");
+      return message.reply("There are no reminders right now!");
     }
 
     try {

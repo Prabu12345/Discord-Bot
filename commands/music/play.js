@@ -346,19 +346,18 @@ module.exports = class PlayCommand extends Command {
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
         } 
-        const video = await videosArr[i].fetch();
-        let endur = parseInt(PlayCommand.durationrawed(video.duration))
+        let endur = parseInt(PlayCommand.durationrawed(videosArr[i].duration))
         endur = (endur / (1000 * 60 * 60)) % 24
         if (endur > 5) {
           continue;
-        } if (video.raw.snippet.liveBroadcastContent === 'live') {
+        } if (videosArr[i].raw.snippet.liveBroadcastContent === 'live') {
           continue;
         } else {
           try {
             if (message.guild.musicData.queue.length < 1000) {
               message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj1(
-                  video,
+                  videosArr[i],
                   message.member.user
                 )
               );

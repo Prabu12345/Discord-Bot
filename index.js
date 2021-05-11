@@ -119,10 +119,11 @@ client.on('ready', async () => {
       if (!user) continue;
       user.send(`Hey asked me to remind you, **Reminder:** ` + content);
     }
+    if (res) {
+      await remindSchema.deleteMany(query)
+    }
 
-    await remindSchema.deleteMany(query)
-
-    setTimeout(checkRemindForPost, 1000 * 10) // looping 10 second
+    setTimeout(checkRemindForPost, 1000 * 10) // looping 5 second
   }
   checkRemindForPost();
 });
