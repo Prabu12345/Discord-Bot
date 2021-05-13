@@ -46,7 +46,7 @@ module.exports = class RemoveSongCommand extends Command {
       return;
     } 
     
-    if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.username) {
+    if (message.guild.musicData.queue[songNumber - 1].memberDisplayName !== message.member.user.tag) {
       if (!message.member.hasPermission("ADMINISTRATOR") || !message.member.hasPermission("MANAGE_GUILD") || !message.member.roles.cache.get(role.id)) {
         return message.reply(`${xmoji} | You cannot remove music request other people`);
       }
