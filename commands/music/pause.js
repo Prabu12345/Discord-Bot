@@ -20,13 +20,11 @@ module.exports = class PauseCommand extends Command {
   }
 
   async run(message) {
-    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
-  }
     const errpauseEmbed = new MessageEmbed()
     .setColor(errorcolor)
     var voiceChannel = message.member.voice.channel;

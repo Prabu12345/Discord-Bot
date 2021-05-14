@@ -34,13 +34,11 @@ module.exports = class MoveSongCommand extends Command {
   }
   async run(message, { oldPosition, newPosition }) {
     var voiceChannel = message.member.voice.channel;
-    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
-  }
     const errmoveEmbed = new MessageEmbed()
     .setColor(errorcolor)
     if (

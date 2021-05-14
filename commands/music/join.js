@@ -38,13 +38,11 @@ module.exports = class LeaveCommand extends Command {
       return message.channel.send(`${xmoji} | I already in voice channel, ${message.author}`);
     }
 
-    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS'], ['CONNECT'] )
     if (acces === true) {
     } else {
       return;
     } 
-  }
     
     try {
       if (message.guild.musicData.queue.length === 0){

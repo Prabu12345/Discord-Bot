@@ -25,43 +25,41 @@ module.exports = class LeaveCommand extends Command {
       message.reply(`${xmoji} | Join a channel and try again`);
       return;
     }
-    
-    if(msg.channel.type !== 'dm') {
-    const acces = await clientperm(message, ['EMBED_LINKS'], [] )
-    if (acces === true) {
-    } else {
-      return;
-    } 
-  }
+
+      const acces = await clientperm(message, ['EMBED_LINKS'], [])
+      if (acces === true) {
+      } else {
+        return;
+      }
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
     ) {
-      if(message.guild.me.voice.channel) {
+      if (message.guild.me.voice.channel) {
         message.guild.musicData.loop = 'off';
-      message.react('👌')
-      setTimeout(() => {
-        message.guild.me.voice.channel.leave();
-      }, 100);
-      return;
+        message.react('👌')
+        setTimeout(() => {
+          message.guild.me.voice.channel.leave();
+        }, 100);
+        return;
       } else {
-      const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | There is no song playing right now!`)
-      message.say(errleaveEmbed);
-      return;
+        const errleaveEmbed = new MessageEmbed()
+          .setColor(errorcolor)
+          .setDescription(`${xmoji} | There is no song playing right now!`)
+        message.say(errleaveEmbed);
+        return;
       }
     } else if (voiceChannel.id !== message.guild.me.voice.channel.id) {
       const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
+        .setColor(errorcolor)
+        .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       message.say(errleaveEmbed);
       return;
     } else if (!message.guild.musicData.queue) {
       const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | There are no songs in queue`)
+        .setColor(errorcolor)
+        .setDescription(`${xmoji} | There are no songs in queue`)
       message.say(errleaveEmbed);
       return;
     } else if (message.guild.musicData.songDispatcher.paused) {
@@ -77,7 +75,7 @@ module.exports = class LeaveCommand extends Command {
         message.guild.me.voice.channel.leave();
       }, 200);
       message.react('👌')
-      
+
       return;
     } else {
       message.guild.musicData.loop = 'off';

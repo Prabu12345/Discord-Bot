@@ -31,13 +31,11 @@ module.exports = class LyricsCommand extends Command {
     });
   }
   async run(message, { songName }) {
-    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
     if (acces === true) {
     } else {
       return;
-    } 
-  }
+    }
 
     const errlyricsEmbed = new MessageEmbed()
     .setColor(errorcolor)

@@ -23,7 +23,7 @@ module.exports = class BanCommand extends Command {
   }
 
   async run(message, { command }) {
-	if(msg.channel.type !== 'dm') {
+	if(message.channel.type !== 'dm') {
 	const { clientperm } = require('../../resources/permission')
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {

@@ -29,14 +29,12 @@ module.exports = class KickCommand extends Command {
   }
 
   async run(message, { userToKick, reason }) {
-    if(msg.channel.type !== 'dm') {
     const { clientperm } = require('../../resources/permission')
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
-    }
     const extractNumber = /\d+/g;
     const userToKickID = userToKick.match(extractNumber)[0];
     const user =

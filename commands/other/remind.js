@@ -31,7 +31,7 @@ module.exports = class CatCommand extends Command {
 
   async run(message, { whatrd }) {
 	const { clientperm } = require('../../resources/permission')
-	if(msg.channel.type !== 'dm') {
+	if(message.channel.type !== 'dm') {
     const acces = await clientperm(message, [], [] )
     if (acces === true) {
     } else {

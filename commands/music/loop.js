@@ -28,13 +28,11 @@ module.exports = class LoopCommand extends Command {
   }
 
   async run(message, { typeLoop }) {
-    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
-  }
     var totypeloop = typeLoop
     const totypelooplower = totypeloop.substring(totypeloop.search(" ") + 1, totypeloop.end).toLowerCase();
     if (!message.guild.musicData.isPlaying) {
