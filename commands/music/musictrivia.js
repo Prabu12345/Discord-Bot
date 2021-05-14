@@ -31,11 +31,13 @@ module.exports = class MusicTriviaCommand extends Command {
     });
   }
   async run(message, { numberOfSongs }) {
+    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
+  }
     // check if user is in a voice channel
     const errtrivaEmbed = new MessageEmbed()
     .setColor(errorcolor)

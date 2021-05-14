@@ -40,12 +40,14 @@ module.exports = class SkipCommand extends Command {
       message.reply(`${xmoji} | Join a channel and try again`);
       return;
     }
-    
+
+    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
+  }
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||

@@ -29,12 +29,14 @@ module.exports = class BanCommand extends Command {
   }
 
   async run(message, { userToBan, reason }) {
+    if(msg.channel.type !== 'dm') {
     const { clientperm } = require('../../resources/permission')
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
+  }
     const extractNumber = /\d+/g;
     const userToBanID = userToBan.match(extractNumber)[0];
     const user =

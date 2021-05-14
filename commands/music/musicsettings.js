@@ -22,11 +22,13 @@ module.exports = class LeaveCommand extends Command {
   }
 
   async run(message) {
+    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
     if (acces === true) {
     } else {
       return;
     } 
+  }
     let role = await message.guild.roles.cache.find(role => role.name === 'DJ' || role.name === 'dj' || role.name === 'Dj');
     if (!role) { 
       if (!message.member.hasPermission("MANAGE_GUILD")) {

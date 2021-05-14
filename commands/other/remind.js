@@ -12,7 +12,7 @@ module.exports = class CatCommand extends Command {
       group: 'other',
       memberName: 'remind',
 	  description: 'To Remind you.',
-	  guildOnly: true,
+	  guildOnly: false,
 	  examples: ['remind 1h30m Remindme to working', 'remind 1h30m Remindme to working'],
       throttling: {
         usages: 2,
@@ -31,11 +31,13 @@ module.exports = class CatCommand extends Command {
 
   async run(message, { whatrd }) {
 	const { clientperm } = require('../../resources/permission')
+	if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, [], [] )
     if (acces === true) {
     } else {
       return;
     } 
+}
 	var reminderMsg = whatrd
 		if (reminderMsg == "") {
       	message.reply("Please Insert want remind to!");

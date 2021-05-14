@@ -22,11 +22,13 @@ module.exports = class NowPlayingCommand extends Command {
   }
 
   async run(message) {
+    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
+  }
     const video = message.guild.musicData.nowPlaying;
     const errnpEmbed = new MessageEmbed()
     .setColor(errorcolor)

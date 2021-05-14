@@ -25,11 +25,13 @@ module.exports = class SkipAllCommand extends Command {
       return;
     };
 
+    if(msg.channel.type !== 'dm') {
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
+  }
 
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||

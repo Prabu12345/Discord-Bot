@@ -11,7 +11,7 @@ module.exports = class CatCommand extends Command {
       aliases: ['rm-list', 'rms'],
       group: 'other',
       memberName: 'reminds',
-      guildOnly: true,
+      guildOnly: false,
       description: 'See the remind list!',
       throttling: {
         usages: 2,
@@ -21,12 +21,14 @@ module.exports = class CatCommand extends Command {
   }
 
   async run(message) {
-    const { clientperm } = require('../../resources/permission')
-    const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
-    if (acces === true) {
-    } else {
-      return;
-    } 
+    if(msg.channel.type !== 'dm') {
+      const { clientperm } = require('../../resources/permission')
+      const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], [] )
+      if (acces === true) {
+      } else {
+        return;
+      } 
+    }
     const query = {
       clientid: message.author.id 
     }

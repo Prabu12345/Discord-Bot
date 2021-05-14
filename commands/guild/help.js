@@ -23,12 +23,14 @@ module.exports = class BanCommand extends Command {
   }
 
   async run(message, { command }) {
+	if(msg.channel.type !== 'dm') {
 	const { clientperm } = require('../../resources/permission')
     const acces = await clientperm(message, ['EMBED_LINKS'], [] )
     if (acces === true) {
     } else {
       return;
     } 
+}
     const groups = this.client.registry.groups;
 	const commands = this.client.registry.findCommands(command, false, message);
 	const showAll = command && command.toLowerCase() === 'all';
