@@ -1,6 +1,6 @@
 {
   "name": "msp-bot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "a discord music bot with guild , gifs and misc commands",
   "main": "index.js",
   "scripts": {
@@ -11,33 +11,33 @@
   "author": "PraboHD",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
+    "@discordjs/opus": "^0.5.0",
     "@top-gg/sdk": "^3.0.9",
     "cheerio": "^1.0.0-rc.5",
     "common-tags": "^1.8.0",
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.5.3",
     "discord.js-commando": "github:discordjs/Commando",
-    "ffmpeg-static": "^4.2.7",
-    "iso-639-1": "^2.1.5",
-    "youtube-sr": "^4.0.2",
+    "ffmpeg-static": "^4.3.0",
+    "iso-639-1": "^2.1.9",
+    "youtube-sr": "^4.0.7",
     "mongoose": "^5.11.12",
     "discord-paginationembed": "^2.1.0",
-    "mongodb": "^3.6.3",
-    "commando-provider-mongo": "^2.0.2",
-    "ytdl-core": "^4.7.0",
+    "mongodb": "^3.6.7",
+    "commando-provider-mongo": "^2.1.0",
+    "ytdl-core": "^4.8.0",
     "nekos.life": "^2.0.7",
     "fs": "^0.0.1-security",
     "discord-ytdl-core": "^5.0.3",
     "spotify-url-info": "^2.2.0",
     "spotify-info.js": "^1.0.4",
-    "quickmongo": "^3.0.0"
+    "quickmongo": "^3.0.2"
   },
   "devDependencies": {  
-    "@getify/eslint-plugin-proper-arrows": "^8.0.1",
-    "@getify/eslint-plugin-proper-ternary": "^3.0.1",
+    "@getify/eslint-plugin-proper-arrows": "^11.0.3",
+    "@getify/eslint-plugin-proper-ternary": "^3.1.1",
     "babel-eslint": "^10.1.0",
-    "eslint": "^5.16.0",
-    "nodemon": "^1.19.4",
-    "prettier": "^1.19.1"
+    "eslint": "^7.26.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.0"
   }
 }
