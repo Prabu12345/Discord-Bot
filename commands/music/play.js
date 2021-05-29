@@ -425,6 +425,7 @@ module.exports = class PlayCommand extends Command {
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj1(video, message.member.user)
       );
+      let i
       let sum = 0, i;
       let dur = ''
       for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
@@ -502,6 +503,7 @@ module.exports = class PlayCommand extends Command {
         message.member.user
       )
     );
+    let i
     let sum = 0, i;
     let dur = ''
     for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
