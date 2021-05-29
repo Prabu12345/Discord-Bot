@@ -43,35 +43,34 @@ module.exports = class PlayCommand extends Command {
 
   async run(message, { query }) {
     const voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) {
-      const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | Join a channel and try again`)
-      message.say(errvideoEmbed);
-      return;
-    } 
-    
     const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
     if (acces === true) {
     } else {
       return;
     } 
-
     if (message.guild.triviaData.isTriviaRunning == true) {
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | Please try after the trivia has ended`)
       message.say(errvideoEmbed);
       return;
-    } else if (!message.guild.me.voice.channel) {
+    } 
+    if (!message.guild.me.voice.channel) {
       return message.reply(`${xmoji} | **I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
-    } else if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
+    }
+    if (!voiceChannel) {
+      const errvideoEmbed = new MessageEmbed()
+      .setColor(errorcolor)
+      .setDescription(`${xmoji} | Join a channel and try again`)
+      message.say(errvideoEmbed);
+      return;
+    }  
+    if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
       const errleaveEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
       return message.say(errleaveEmbed);
     }
-
     if (message.guild.musicData.songDispatcher) {
       if (message.guild.musicData.songDispatcher.paused) {
         message.guild.musicData.songDispatcher.resume();
@@ -81,19 +80,15 @@ module.exports = class PlayCommand extends Command {
         message.say(resumeEmbed);
         return;
       } else {
-
       }
     }
-    
     if (query.length == 0){
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`**Usage:** ${prefix}play <YouTube or Spotify URL | Video Name>`)
       return message.say(errvideoEmbed);
     }
-
     const srch = await message.channel.send(`:mag_right: | **Searching** \`${query}\``);
-
     if (
       query.match(
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
@@ -178,7 +173,8 @@ module.exports = class PlayCommand extends Command {
       return;
       }
       const tracks = []
-      for (let i = 0; i < playlist.tracks.items.length; i++) {
+      var i = 0, len = playlist.tracks.items.length;
+      while (i < len) {
         const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
         const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
@@ -198,7 +194,7 @@ module.exports = class PlayCommand extends Command {
         } else {
           try {
             if (message.guild.musicData.queue.length < 1000) {
-              tracks.push(
+              message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj(
                   results[0],
                   message.member.user
@@ -215,10 +211,8 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
+        i++
       }
-      tracks.map(element => 
-        message.guild.musicData.queue.push(element)  
-      );
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
@@ -249,7 +243,8 @@ module.exports = class PlayCommand extends Command {
       return;
       }
       const tracks = []
-      for (let i = 0; i < album.tracks.items.length; i++) {
+      var i = 0, len = album.tracks.items.length;
+      while (i < len) {
         const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
         const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
@@ -269,13 +264,13 @@ module.exports = class PlayCommand extends Command {
         } else {
           try {
             if (message.guild.musicData.queue.length < 1000) {
-              tracks.push(
+              message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj(
                   results[0],
                   message.member.user
                 )
               )
-            } else {
+            } else { 
               // can be uncommented if you want to limit the queue
               const errvideoEmbed = new MessageEmbed()
               .setColor(errorcolor)
@@ -287,10 +282,8 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
+        i++
       }
-      tracks.map(element => 
-        message.guild.musicData.queue.push(element)  
-      );
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
@@ -341,8 +334,8 @@ module.exports = class PlayCommand extends Command {
         [videosArr[i], videosArr[j]] = [videosArr[j], videosArr[i]];
       }
       */
-
-      for (let i = 0; i < videosArr.length; i++) {
+      var i = 0, lem =videosArr.length;
+      while (i < lem) {
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
         } 
@@ -373,6 +366,7 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
+        i++
       }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;

@@ -39,7 +39,7 @@ module.exports = class searchCommand extends Command {
     } 
     
     const { clientperm } = require('../../resources/permission')
-    const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
+    const acces = await clientperm(message, ['EMBED_LINKS', 'MANAGE_MESSAGES'], ['SPEAK', 'CONNECT'] )
     if (acces === true) {
     } else {
       return;
@@ -108,18 +108,12 @@ module.exports = class searchCommand extends Command {
       .then(function(response) {
         const videoIndex = parseInt(response.first().content);
         if (response.first().content === 'exit') {
+          message.channel.bulkDelete(1)
           songEmbed.delete();
           return;
         }
-          // can be uncommented if you don't want the bot to play videos longer than 1 hour
+          message.channel.bulkDelete(1)
           let endur = (videos[videoIndex -1 ].duration / (1000 * 60 * 60)) % 24
-          /*if(videos[videoIndex -1 ].duration < 1 && message.guild.musicData.bassboost > 0) {
-            const errvideoEmbed = new MessageEmbed()
-            .setColor(errorcolor)
-            .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
-            srch.edit('', errvideoEmbed);
-            return;
-          }*/
           if ( endur > 5) {
             const errvideoEmbed = new MessageEmbed()
             .setColor(errorcolor)

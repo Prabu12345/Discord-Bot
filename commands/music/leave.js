@@ -24,14 +24,12 @@ module.exports = class LeaveCommand extends Command {
     if (!voiceChannel) {
       message.reply(`${xmoji} | Join a channel and try again`);
       return;
+    }    
+    const acces = await clientperm(message, ['EMBED_LINKS'], [])
+    if (acces === true) {
+    } else {
+      return;
     }
-
-      const acces = await clientperm(message, ['EMBED_LINKS'], [])
-      if (acces === true) {
-      } else {
-        return;
-      }
-
     if (
       typeof message.guild.musicData.songDispatcher == 'undefined' ||
       message.guild.musicData.songDispatcher == null
@@ -69,13 +67,9 @@ module.exports = class LeaveCommand extends Command {
       message.guild.musicData.isPlaying = false;
       message.guild.musicData.nowPlaying = null;
       setTimeout(() => {
-        message.guild.musicData.songDispatcher = null;
-      }, 200);
-      setTimeout(() => {
         message.guild.me.voice.channel.leave();
       }, 200);
       message.react('👌')
-
       return;
     } else {
       message.guild.musicData.loop = 'off';
