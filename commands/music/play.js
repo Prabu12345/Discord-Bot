@@ -334,8 +334,8 @@ module.exports = class PlayCommand extends Command {
         [videosArr[i], videosArr[j]] = [videosArr[j], videosArr[i]];
       }
       */
-      var i = 0, lem =videosArr.length;
-      while (i < lem) {
+      for(var i = 0, len = videosArr.length; i < len; i++) 
+      {
         if (videosArr[i].raw.status.privacyStatus == 'private') {
           continue;
         } 
@@ -366,7 +366,6 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
-        i++
       }
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
