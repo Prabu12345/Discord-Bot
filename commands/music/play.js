@@ -130,9 +130,9 @@ module.exports = class PlayCommand extends Command {
           message.member.user
         )
       );
-      let sum = 0, i;
+      let sum = 0, l;
       let dur = ''
-      for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
+      for (l = 0; l < message.guild.musicData.queue.length - 1; l +=1 ) {
         sum += (+message.guild.musicData.queue[i].rawDuration);
       }
       if (videos[0].duration > 0) {
@@ -425,10 +425,9 @@ module.exports = class PlayCommand extends Command {
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj1(video, message.member.user)
       );
-      let i
-      let sum = 0, i;
+      let sum = 0, u;
       let dur = ''
-      for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
+      for (u = 0; u < message.guild.musicData.queue.length - 1; u +=1 ) {
         sum += (+message.guild.musicData.queue[i].rawDuration);
       }
       if (PlayCommand.durationrawed(video.duration) > 0) {
@@ -503,10 +502,9 @@ module.exports = class PlayCommand extends Command {
         message.member.user
       )
     );
-    let i
-    let sum = 0, i;
+    let sum = 0, p;
     let dur = ''
-    for (i = 0; i < message.guild.musicData.queue.length - 1; i +=1 ) {
+    for (p = 0; p < message.guild.musicData.queue.length - 1; p +=1 ) {
       sum += (+message.guild.musicData.queue[i].rawDuration);
     }
     if (videos[0].duration > 0) {
