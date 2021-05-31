@@ -172,7 +172,7 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
       }
-      const tracks = []
+      var count = 0;
       var i = 0, len = playlist.tracks.items.length;
       while (i < len) {
         const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
@@ -184,10 +184,6 @@ module.exports = class PlayCommand extends Command {
           return;
         });
         if (results.length < 1) {
-          continue
-        } 
-        let endur = (results[0].duration / (1000 * 60 * 60)) % 24
-        if (endur > 5) {
           continue;
         } else if (results[0].duration < 1) {
           continue;
@@ -211,6 +207,7 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
+        count += 1;
         i++
       }
       if (message.guild.musicData.isPlaying == false) {
@@ -242,7 +239,7 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
       }
-      const tracks = []
+      var count = 0;
       var i = 0, len = album.tracks.items.length;
       while (i < len) {
         const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
@@ -255,10 +252,6 @@ module.exports = class PlayCommand extends Command {
         });
         if (results.length < 1) {
             continue
-        }
-        let endur = (results[0].duration / (1000 * 60 * 60)) % 24
-        if (endur > 5) {
-          continue;
         } else if (results[0].duration < 1) {
           continue;
         } else {
@@ -282,6 +275,7 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
+        count += 1;
         i++
       }
       if (message.guild.musicData.isPlaying == false) {
