@@ -82,13 +82,17 @@ module.exports = class PlayCommand extends Command {
       } else {
       }
     }
+
+    // Usage
     if (query.length == 0){
       const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`**Usage:** ${prefix}play <YouTube or Spotify URL | Video Name>`)
       return message.say(errvideoEmbed);
     }
+
     const srch = await message.channel.send(`:mag_right: | **Searching** \`${query}\``);
+
     if (
       query.match(
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
@@ -99,6 +103,8 @@ module.exports = class PlayCommand extends Command {
       if (spotifyData) {
         updatedQuery = `${spotifyData.artist} - ${spotifyData.title}`
       }
+
+      // Searching song from youtube
       const videos = await youtube.search(updatedQuery, { type: 'video', limit: 1 })
       if (videos.length < 1 || !videos) {
         const errvideoEmbed = new MessageEmbed()
@@ -107,7 +113,8 @@ module.exports = class PlayCommand extends Command {
         srch.edit('', errvideoEmbed);
         return;
       }
-      // can be uncommented if you don't want the bot to play videos longer than 1 hour
+
+      // limit play hour
       let endur = (videos[0].duration / (1000 * 60 * 60)) % 24
       if ( endur > 5) {
         const errvideoEmbed = new MessageEmbed()
@@ -116,7 +123,8 @@ module.exports = class PlayCommand extends Command {
         srch.edit('', errvideoEmbed);
         return;
       }
-      // can be uncommented if you want to limit the queue
+
+      // Limit the queue
       if (message.guild.musicData.queue.length >= 1000) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
@@ -124,12 +132,16 @@ module.exports = class PlayCommand extends Command {
         srch.edit('', errvideoEmbed);
         return;
       }
+
+      // Pushing a soong to queue
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj(
           videos[0],
           message.member.user
         )
       );
+
+      // Getting Video Duration
       let sum = 0, l;
       let dur = ''
       for (l = 0; l < message.guild.musicData.queue.length - 1; l +=1 ) {
@@ -140,6 +152,8 @@ module.exports = class PlayCommand extends Command {
       } else {
         dur = 'Live Stream'
       }
+
+      // Info and run
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true; 
         srch.delete();
@@ -164,6 +178,7 @@ module.exports = class PlayCommand extends Command {
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/
         )
     ) {
+      // Getting playlist by url
       const playlist = await spt.getPlaylistByURL(query)
       if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
@@ -172,7 +187,9 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
       }
-      var count = 0;
+
+      // Getting playlist song 1 by 1 ( need to repair to long sarching )
+      var skipcount = 0;
       var i = 0, len = playlist.tracks.items.length;
       while (i < len) {
         const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
@@ -184,12 +201,16 @@ module.exports = class PlayCommand extends Command {
           return;
         });
         if (results.length < 1) {
+          skipcount++;
           continue;
         } else if (results[0].duration < 1) {
+          skipcount++;
           continue;
         } else {
           try {
+            // limiting the queue
             if (message.guild.musicData.queue.length < 1000) {
+              // Push the song to queue
               message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj(
                   results[0],
@@ -207,20 +228,21 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
-        count += 1;
         i++
       }
+
+      // Info and run
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.name}** added ${tracks.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.name}** added ${playlist.tracks.items.length - skipcount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.name}** added ${tracks.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.name}** added ${playlist.tracks.items.length - skipcount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
@@ -231,6 +253,7 @@ module.exports = class PlayCommand extends Command {
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:album\/|\?uri=spotify:album:)((\w|-){22})/
         )
     ) {
+      // getting album by url
       const album = await spotify.getData(query)
       if (!album) {
         const errvideoEmbed = new MessageEmbed()
@@ -239,7 +262,9 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
       }
-      var count = 0;
+
+      // Getting album song 1 by 1 ( need to repair to long sarching )
+      var skipcount = 0;
       var i = 0, len = album.tracks.items.length;
       while (i < len) {
         const updatequery = `${album.tracks.items[i].artists[0].name} - ${album.tracks.items[i].name}`
@@ -251,12 +276,16 @@ module.exports = class PlayCommand extends Command {
           return;
         });
         if (results.length < 1) {
-            continue
+          skipcount++;
+          continue;
         } else if (results[0].duration < 1) {
+          skipcount++;
           continue;
         } else {
           try {
+            // limiting the queue
             if (message.guild.musicData.queue.length < 1000) {
+              // Push the song to queue
               message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj(
                   results[0],
@@ -275,32 +304,33 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
-        count += 1;
         i++
       }
+
+      // info and run
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${album.name}** added ${tracks.length} songs to the queue!`)
+        .setDescription(`🎵 | **${album.name}** added ${album.tracks.items.length - skipcount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${album.name}** added ${tracks.length} songs to the queue!`)
+        .setDescription(`🎵 | **${album.name}** added ${album.tracks.items.length - skipcount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
     }
 
     if (
-      // if the user entered a youtube playlist url
       query.match(
         /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.*\?.*\blist=.*$/
       )
     ) {
       let failedToGetVideo = false;
+      // getting playlist
       const playlist = await gch.getPlaylist(query).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
@@ -309,6 +339,7 @@ module.exports = class PlayCommand extends Command {
         failedToGetVideo = true;
         return;
       });
+
       if (failedToGetVideo) return;
       // add 10 as an argument in getVideos() if you choose to limit the queue
       const videosArr = await playlist.getVideos().catch(function() {
@@ -319,30 +350,30 @@ module.exports = class PlayCommand extends Command {
         failedToGetVideo = true;
         return;
       });
+
       if (failedToGetVideo) return;
-
-      // this for loop can be uncommented if you want to shuffle the playlist
-
-      /*for (let i = videosArr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [videosArr[i], videosArr[j]] = [videosArr[j], videosArr[i]];
-      }
-      */
+      var skipcount = 0;
       for(var i = 0, len = videosArr.length; i < len; i++) 
       {
         if (videosArr[i].raw.status.privacyStatus == 'private') {
+          skipcount++
           continue;
         } 
         const video = await videosArr[i].fetch();
         let endur = parseInt(PlayCommand.durationrawed(video.duration))
         endur = (endur / (1000 * 60 * 60)) % 24
         if (endur > 5) {
+          skipcount++
           continue;
         } if (video.raw.snippet.liveBroadcastContent === 'live') {
+          // Unsopported live song\
+          skipcount++
           continue;
         } else {
+          // limiting queue
           try {
             if (message.guild.musicData.queue.length < 1000) {
+              // Push the song to queue
               message.guild.musicData.queue.push(
                 PlayCommand.constructSongObj1(
                   video,
@@ -361,17 +392,19 @@ module.exports = class PlayCommand extends Command {
           }
         }
       }
+      
+      // info and run
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipcount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipcount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
@@ -389,14 +422,7 @@ module.exports = class PlayCommand extends Command {
         failedToGetVideo = true;
       });
       if (failedToGetVideo) return;
-      // can be uncommented if you don't want the bot to play live streams
-      /*if (video.raw.snippet.liveBroadcastContent === 'live' && message.guild.musicData.bassboost > 0) {
-        const errvideoEmbed = new MessageEmbed()
-        .setColor(errorcolor)
-        .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
-        srch.edit('', errvideoEmbed);
-        return;
-      }*/
+
       // can be uncommented if you don't want the bot to play videos longer than 1 hour
       let endur = parseInt(PlayCommand.durationrawed(video.duration))
       endur = (endur / (1000 * 60 * 60)) % 24
@@ -407,6 +433,7 @@ module.exports = class PlayCommand extends Command {
         srch.edit('', errvideoEmbed);
         return;
       }
+
       // can be uncommented if you want to limit the queue
       if (message.guild.musicData.queue.length >= 1000) {
         const errvideoEmbed = new MessageEmbed()
@@ -415,19 +442,27 @@ module.exports = class PlayCommand extends Command {
         srch.edit('', errvideoEmbed);
         return;
       }
+
+      // push song to queue
       message.guild.musicData.queue.push(
         PlayCommand.constructSongObj1(video, message.member.user)
       );
+
+      // generating duration
       let sum = 0, u;
       let dur = ''
       for (u = 0; u < message.guild.musicData.queue.length - 1; u +=1 ) {
         sum += (+message.guild.musicData.queue[i].rawDuration);
       }
+
+      // checking livestream or not 
       if (PlayCommand.durationrawed(video.duration) > 0) {
         dur = PlayCommand.msToTime(PlayCommand.durationrawed(video.duration))
       } else {
         dur = 'Live Stream'
       }
+
+      // info and run
       if (
         message.guild.musicData.isPlaying == false ||
         typeof message.guild.musicData.isPlaying == 'undefined'
@@ -465,13 +500,7 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
     }
-    /*if(videos[0].duration < 1 && message.guild.musicData.bassboost > 0) {
-      const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | I cannot play live stream, set Bassboost to 0% and try again!`)
-      srch.edit('', errvideoEmbed);
-      return;
-    }*/
+
     // can be uncommented if you don't want the bot to play videos longer than 1 hour
     let endur = (videos[0].duration / (1000 * 60 * 60)) % 24
     if ( endur > 5) {
@@ -481,6 +510,7 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
     }
+
     // can be uncommented if you want to limit the queue
     if (message.guild.musicData.queue.length >= 1000) {
       const errvideoEmbed = new MessageEmbed()
@@ -489,22 +519,30 @@ module.exports = class PlayCommand extends Command {
       srch.edit('', errvideoEmbed);
       return;
     }
+
+    // push song to queue
     message.guild.musicData.queue.push(
       PlayCommand.constructSongObj(
         videos[0],
         message.member.user
       )
     );
+
+    // generating duration
     let sum = 0, p;
     let dur = ''
     for (p = 0; p < message.guild.musicData.queue.length - 1; p +=1 ) {
       sum += (+message.guild.musicData.queue[i].rawDuration);
     }
+
+    // checking livestream or not
     if (videos[0].duration > 0) {
       dur = videos[0].durationFormatted
     } else {
       dur = 'Live Stream'
     }
+
+    // info and run
     if (message.guild.musicData.isPlaying == false) {
       message.guild.musicData.isPlaying = true;
       srch.delete();
@@ -524,6 +562,7 @@ module.exports = class PlayCommand extends Command {
     }
   }
 
+  // simple youtube api
   static constructSongObj(video, user) { 
     let duration = video.durationFormatted;
     if (duration == '0:00') duration = 'Live Stream';
@@ -538,6 +577,7 @@ module.exports = class PlayCommand extends Command {
     };
   }
 
+  // ytsr
   static constructSongObj1(video, user) {
     let duration = this.formatDuration(video.duration);
     if (duration == '0:00') duration = 'Live Stream';
@@ -552,6 +592,7 @@ module.exports = class PlayCommand extends Command {
     };
   }
 
+  // formating duration
   static formatDuration(durationObj) {
     const duration = `${durationObj.hours ? (durationObj.hours + ':') : ''}${
       durationObj.minutes ? durationObj.minutes : '0'
@@ -565,6 +606,7 @@ module.exports = class PlayCommand extends Command {
     return duration;
   }
 
+  // rawing duration
   static durationrawed(duration){
     const totalDurationObj = duration;
     let totalDurationInMS = 0;
@@ -580,6 +622,7 @@ module.exports = class PlayCommand extends Command {
     return totalDurationInMS
   }
 
+  // formating milliseacon to formated time
   static msToTime(duration) {
     var seconds = parseInt((duration / 1000) % 60),
       minutes = parseInt((duration / (1000 * 60)) % 60),
