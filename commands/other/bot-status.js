@@ -2,6 +2,7 @@ const { Command, version } = require('discord.js-commando');
 const Discord = require('discord.js');
 const os = require('os');
 const pkg = require('../../package.json');
+const { normalcolor, errorcolor } = require('../../config.json')
 
 module.exports = class BotStatusCommand extends Command {
   constructor(client) {
@@ -121,7 +122,7 @@ module.exports = class BotStatusCommand extends Command {
     const StatusEmbed = new Discord.MessageEmbed()
       .setThumbnail(this.client.user.displayAvatarURL())
       .setTitle(`Status of ${this.client.user.username}`)
-      .setColor('#ff0000');
+      .setColor(normalcolor);
 
     if (isOwner) {
       StatusEmbed.addField('CPU Load', (await getCPULoadAVG()) + '%', true)

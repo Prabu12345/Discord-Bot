@@ -45,34 +45,10 @@ module.exports = class BanCommand extends Command {
 	  	\`${message.guild.commandPrefix}help [command name | alias] Or @TaserM#3997 help [command name | alias]\`
 
 	  	**| Info [2] |** 
-		  \`help\`, \`whomademe\`.
+		  \`help\`, \`bot-status\`.
 
 		**| Music [22] |** 
-		\`clear\`, \`fskip\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
-
-	  	**| Anime [3] |** 
-		  \`animegif\`, \`gintama\`, \`jojo\`, \`neko\`, \`nekogif\`.
-
-	  	**| Fun [5] |** 
-		  \`cat\`, \`chucknorris\`, \`fortune\`, \`insult\`, \`random\`.
-
-	  	**| Guild [4] |** 
-		  \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
-
-	  	**| Other [7] |** 
-		  \`math\`, \`motivation\`, \`ping\`, \`remind\`, \`reminds\`.
-		`)
-		embed.setFooter(`${message.guild.me.displayName}`, this.client.user.displayAvatarURL())
-		} else {
-			embed.setDescription(stripIndents`
-		**For Help Related To A Particular Command Type -**
-	  	\`-help [command name | alias] Or @TaserM#3997 help [command name | alias]\`
-
-	  	**| Info [2] |** 
-		  \`help\`, \`whomademe\`.
-
-		**| Music [22] |** 
-		\`clear\`, \`fskip\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
+		  \`clear\`, \`fskip\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
 
 	  	**| Anime [3] |** 
 		  \`animegif\`, \`gintama\`, \`jojo\`.
@@ -83,7 +59,31 @@ module.exports = class BanCommand extends Command {
 	  	**| Guild [4] |** 
 		  \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
 
-	  	**| Other [7] |** 
+	  	**| Other [5] |** 
+		  \`math\`, \`motivation\`, \`ping\`, \`remind\`, \`reminds\`.
+		`)
+		embed.setFooter(`${message.guild.me.displayName}`, this.client.user.displayAvatarURL())
+		} else {
+			embed.setDescription(stripIndents`
+		**For Help Related To A Particular Command Type -**
+	  	\`-help [command name | alias] Or @TaserM#3997 help [command name | alias]\`
+
+	  	**| Info [2] |** 
+		  \`help\`, \`bot-status\`.
+
+		**| Music [22] |** 
+		  \`clear\`, \`fskip\`, \`join\`, \`leave\`, \`loop\`, \`lyrics\`, \`move\`, \`musicsettings\`, \`music-trivia\`, \`nowplaying:\`, \`pause\`, \`play\`, \`playlist\`, \`queue\`, \`remove\`, \`resume\`, \`search\`, \`seek\`, \`shuffle\`, \`skip\`, \`skipto\`, \`stop-trivia\`, \`volume\`.
+
+	  	**| Anime [3] |** 
+		  \`animegif\`, \`gintama\`, \`jojo\`.
+
+	  	**| Fun [5] |** 
+		  \`cat\`, \`chucknorris\`, \`fortune\`, \`insult\`, \`random\`.
+
+	  	**| Guild [4] |** 
+		  \`ban\`, \`kick\`, \`prefix\`, \`prune\`.
+
+	  	**| Other [5] |** 
 		  \`math\`, \`motivation\`, \`ping\`, \`remind\`, \`reminds\`.
 		`)
 		embed.setFooter(`${this.client.user.username}`, this.client.user.displayAvatarURL())
