@@ -610,7 +610,7 @@ module.exports = class PlayCommand extends Command {
       .addField(`Song Duration`,`${dur}`, true)
       .addField(`Estimated time`,`${PlayCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + (message.guild.musicData.seek * 1000))) + sum)}`, true)
       .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
-      .setThumbnail(videos[0].thumbnail.url)
+      .setThumbnail(videos[0].thumbnail.high.url)
       srch.edit('', addvideoEmbed);
       return;
     }
