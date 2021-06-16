@@ -430,22 +430,20 @@ module.exports = class PlayCommand extends Command {
       .filter(async (video) => video.title != "Private video" && video.title != "Deleted video")
       .map(async (video) => {
         try {
-          const song = [];
-          await video.fetch()
-          .then(function(video){
-            let duration = PlayCommand.formatDuration(video.duration);
+          const fetchedVideo = await gch.getVideoByID(video.id);
+          fetchedVideo.then(function(videosu){
+            let duration = PlayCommand.formatDuration(videosu.duration);
             if (duration == '0:00') duration = 'Live Stream';
-            song = {
-              url: `https://youtube.com/watch?v=${video.id}`,
-              title: video.title,
-              rawDuration: PlayCommand.durationrawed(video.duration),
+            return {
+              url: `https://youtube.com/watch?v=${videosu.id}`,
+              title: videosu.title,
+              rawDuration: PlayCommand.durationrawed(videosu.duration),
               duration,
-              thumbnail: video.thumbnails.high.url,
+              thumbnail: videosu.thumbnails.high.url,
               memberDisplayName: message.member.user.tag,
               memberAvatar: message.member.user.avatarURL('webp', false, 16)
             }
           })
-          return song
         } catch (err) {
           return console.error(err);
         }
