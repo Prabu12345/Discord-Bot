@@ -428,7 +428,7 @@ module.exports = class PlayCommand extends Command {
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        const duration = [];
+        const duration = null;
         gch.getVideoByID(video.id).then((videoes) => { duration = videoes.duration }).catch(console.error);
         duration = PlayCommand.formatDuration(duration);
         if (duration == '0:00') duration = 'Live Stream';
