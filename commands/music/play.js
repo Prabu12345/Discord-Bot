@@ -333,7 +333,7 @@ module.exports = class PlayCommand extends Command {
     ) {
       let failedToGetVideo = false;
       // getting playlist
-      const playlist = await gch.getPlaylist(query, { part: "snippet" });
+      const playlist = await gch.getPlaylist(query);
       if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
@@ -345,7 +345,7 @@ module.exports = class PlayCommand extends Command {
       if (failedToGetVideo) return;
 
       // add 10 as an argument in getVideos() if you choose to limit the queue
-      const videosArr = await playlist.getVideos( 500, { part: "snippet" });
+      const videosArr = await playlist.getVideos();
       if (!videosArr) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
