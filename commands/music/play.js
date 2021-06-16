@@ -398,7 +398,7 @@ module.exports = class PlayCommand extends Command {
       }*/
 
       // Master-bot playlist graber
-      var skipAmount = 0;
+      /*var skipAmount = 0;
       await videosArr.reduce(async (memo, video, key) => {
         await memo;
         // don't process private videos
@@ -421,13 +421,13 @@ module.exports = class PlayCommand extends Command {
         } catch (err) {
           return console.error(err);
         }
-      }, undefined);
+      }, undefined);*/
 
       // new checking and pushing song to queue
       let duration = 0
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
-      .map((video) => {
+      .map(async (video) => {
         const fetchedVideo = await video.fetch();
         duration = PlayCommand.formatDuration(fetchedVideo.duration);
         if (duration == '0:00') duration = 'Live Stream';
