@@ -448,13 +448,13 @@ module.exports = class PlayCommand extends Command {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipAmount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipAmount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
