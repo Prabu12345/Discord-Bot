@@ -431,19 +431,18 @@ module.exports = class PlayCommand extends Command {
       .map(async (video) => {
         try {
           const fetchedVideo = await gch.getVideoByID(video.id);
-          fetchedVideo.then(function(videosu){
-            let duration = PlayCommand.formatDuration(videosu.duration);
-            if (duration == '0:00') duration = 'Live Stream';
-            return {
-              url: `https://youtube.com/watch?v=${videosu.id}`,
-              title: videosu.title,
-              rawDuration: PlayCommand.durationrawed(videosu.duration),
-              duration,
-              thumbnail: videosu.thumbnails.high.url,
-              memberDisplayName: message.member.user.tag,
-              memberAvatar: message.member.user.avatarURL('webp', false, 16)
-            }
-          })
+          console.log(fetchedVideo);
+          let duration = PlayCommand.formatDuration(fetchedVideo.duration);
+          if (duration == '0:00') duration = 'Live Stream';
+          return {
+            url: `https://youtube.com/watch?v=${fetchedVideo.id}`,
+            title: fetchedVideo.title,
+            rawDuration: PlayCommand.durationrawed(fetchedVideo.duration),
+            duration,
+            thumbnail: fetchedVideo.thumbnails.high.url,
+            memberDisplayName: message.member.user.tag,
+            memberAvatar: message.member.user.avatarURL('webp', false, 16)
+          }
         } catch (err) {
           return console.error(err);
         }
