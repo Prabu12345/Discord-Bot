@@ -331,7 +331,7 @@ module.exports = class PlayCommand extends Command {
     ) {
       let failedToGetVideo = false;
       // getting playlist
-      const playlist = await gch.getPlaylist(query).catch(function() {
+      const playlist = await gch.getPlaylist(query, { part: "snippet" }).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | Playlist is either private or it does not exist!`)
@@ -342,7 +342,7 @@ module.exports = class PlayCommand extends Command {
       if (failedToGetVideo) return;
 
       // add 10 as an argument in getVideos() if you choose to limit the queue
-      const videosArr = await playlist.getVideos().catch(function() {
+      const videosArr = await playlist.getVideos(500, { part: "snippet" }).catch(function() {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | There was a problem getting one of the videos in the playlist!`)
@@ -394,6 +394,8 @@ module.exports = class PlayCommand extends Command {
           }
         }
       }*/
+
+      console.log(videosArr);
 
       // new checking and pushing song to queue
       const newSongs = videosArr
