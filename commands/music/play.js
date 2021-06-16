@@ -393,7 +393,7 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
-      }*/atob
+      }*/
 
       // new checking and pushing song to queue
       const newSongs = videosArr
