@@ -399,7 +399,7 @@ module.exports = class PlayCommand extends Command {
       }*/
 
       // Master-bot playlist graber
-      /*var skipAmount = 0;
+      var skipAmount = 0;
       await videosArr.reduce(async (memo, video, key) => {
         await memo;
         // don't process private videos
@@ -422,10 +422,10 @@ module.exports = class PlayCommand extends Command {
         } catch (err) {
           return console.error(err);
         }
-      }, undefined);*/
+      }, undefined);
 
       // new checking and pushing song to queue
-      const newSongs = videosArr
+      /*const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
         const ger = [];
@@ -445,20 +445,20 @@ module.exports = class PlayCommand extends Command {
         }
       });
       console.log(newSongs[5]);
-      message.guild.musicData.queue.push(...newSongs);
+      message.guild.musicData.queue.push(...newSongs);*/
       
       // info and run
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${playlist.length - skipAmount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${playlist.length - skipAmount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
