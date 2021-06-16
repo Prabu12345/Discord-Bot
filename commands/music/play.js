@@ -403,11 +403,11 @@ module.exports = class PlayCommand extends Command {
         let duration = PlayCommand.formatDuration(newVID.duration);
         if (duration == '0:00') duration = 'Live Stream';
         return {
-          url: `https://youtube.com/watch?v=${video.id}`,
-          title: video.title,
+          url: `https://youtube.com/watch?v=${newVID.id}`,
+          title: newVID.title,
           rawDuration: PlayCommand.durationrawed(newVID.duration),
           duration,
-          thumbnail: video.thumbnails.high.url,
+          thumbnail: newVID.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,       
           memberAvatar: message.member.user.avatarURL('webp', false, 16)
         }
