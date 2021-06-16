@@ -396,18 +396,28 @@ module.exports = class PlayCommand extends Command {
       }*/
 
       // new checking and pushing song to queue
+      let newVID = []
+      let duration = 0
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map(async (video) => {
-        let newVID = await gch.getVideoByID(video.id)
-        let duration = PlayCommand.formatDuration(newVID.duration);
+        newVID = await gch.getVideoByID(video.id).catch(function() {
+          const errvideoEmbed = new MessageEmbed()
+          .setColor(errorcolor)
+          .setDescription(`${xmoji} | Unable to get song info!`)
+          srch.edit('', errvideoEmbed);
+          failedToGetVideo = true;
+          return;
+        });
+        if (failedToGetVideo) return;
+        duration = PlayCommand.formatDuration(newVID.duration);
         if (duration == '0:00') duration = 'Live Stream';
         return {
-          url: `https://youtube.com/watch?v=${newVID.id}`,
-          title: newVID.title,
+          url: `https://youtube.com/watch?v=${video.id}`,
+          title: video.title,
           rawDuration: PlayCommand.durationrawed(newVID.duration),
           duration,
-          thumbnail: newVID.thumbnails.high.url,
+          thumbnail: video.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,       
           memberAvatar: message.member.user.avatarURL('webp', false, 16)
         }
