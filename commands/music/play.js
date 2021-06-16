@@ -339,8 +339,8 @@ module.exports = class PlayCommand extends Command {
         failedToGetVideo = true;
         return;
       });
-
       if (failedToGetVideo) return;
+
       // add 10 as an argument in getVideos() if you choose to limit the queue
       const videosArr = await playlist.getVideos().catch(function() {
         const errvideoEmbed = new MessageEmbed()
@@ -350,8 +350,10 @@ module.exports = class PlayCommand extends Command {
         failedToGetVideo = true;
         return;
       });
-
       if (failedToGetVideo) return;
+
+      // old checking and pushing song to queue
+      /*if (failedToGetVideo) return;
       var skipcount = 0;
       for(var i = 0, len = videosArr.length; i < len; i++) 
       {
@@ -391,20 +393,39 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
-      }
+      }*/
+
+      // new checking and pushing song to queue
+      const newSongs = videosArr
+      .filter((video) => video.title != "Private video" && video.title != "Deleted video")
+      .map((video) => {
+        let duration = video.durationFormatted;
+        if (duration == '0:00') duration = 'Live Stream';
+        return (song = {
+          url: video.url,
+          title: video.title,
+          rawDuration: video.duration,
+          duration,
+          thumbnail: video.thumbnail.url,
+          memberDisplayName: message.member.user.tag,
+          memberAvatar: message.member.user.avatarURL('webp', false, 16)
+        });
+      });
+
+      message.guild.musicData.queue.push(...newSongs);
       
       // info and run
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipcount} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipcount} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
