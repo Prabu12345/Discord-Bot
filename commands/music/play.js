@@ -331,7 +331,7 @@ module.exports = class PlayCommand extends Command {
     ) {
       let failedToGetVideo = false;
       // getting playlist
-      const playlist = await gch.getPlaylist(query);
+      const playlist = await gch.getPlaylist(query, { part: "snippet" });
       if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
@@ -343,7 +343,7 @@ module.exports = class PlayCommand extends Command {
       if (failedToGetVideo) return;
 
       // add 10 as an argument in getVideos() if you choose to limit the queue
-      const videosArr = await playlist.getVideos();
+      const videosArr = await playlist.getVideos( 500, { part: "snippet" });
       if (!videosArr) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
@@ -424,11 +424,10 @@ module.exports = class PlayCommand extends Command {
       }, undefined);*/
 
       // new checking and pushing song to queue
-      let duration = 0
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        duration = video.durationSeconds;
+        let duration = video.durationSeconds;
         if (duration == '0:00') duration = 'Live Stream';
         return {
           url: `https://youtube.com/watch?v=${video.id}`,
@@ -440,6 +439,7 @@ module.exports = class PlayCommand extends Command {
           memberAvatar: message.member.user.avatarURL('webp', false, 16)
         }
       });
+      console.log(newSongs[5]);
       message.guild.musicData.queue.push(...newSongs);
       
       // info and run
