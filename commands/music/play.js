@@ -428,14 +428,14 @@ module.exports = class PlayCommand extends Command {
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        const duration = null;
-        gch.getVideoByID(video.id).then((videoes) => { console.log(videoes) }).catch(console.error);
-        duration = PlayCommand.formatDuration(duration);
+        const ger = [];
+        gch.getVideoByID(video.id).then((videoes) => { duration.push(videoes.duration) }).catch(console.error);
+        let duration = PlayCommand.formatDuration(ger.duration);
         if (duration == '0:00') duration = 'Live Stream';
         return {
           url: `https://youtube.com/watch?v=${video.id}`,
           title: video.title,
-          rawDuration: PlayCommand.durationrawed(duration),
+          rawDuration: PlayCommand.durationrawed(ger.duration),
           duration,
           thumbnail: video.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,
