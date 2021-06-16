@@ -586,7 +586,7 @@ module.exports = class PlayCommand extends Command {
     let sum = 0, p;
     let dur = ''
     for (p = 0; p < message.guild.musicData.queue.length - 1; p +=1 ) {
-      sum += (+message.guild.musicData.queue[q].rawDuration);
+      sum += (+message.guild.musicData.queue[p].rawDuration);
     }
 
     // checking livestream or not
