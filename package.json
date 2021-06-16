@@ -25,7 +25,7 @@
     "mongodb": "^3.6.7",
     "commando-provider-mongo": "^2.1.0",
     "ytdl-core": "^4.8.2",
-    "simple-youtube-api": "^5.1.1",
+    "simple-youtube-api": "^5.2.1",
     "nekos.life": "^2.0.7",
     "fs": "^0.0.1-security",
     "discord-ytdl-core": "^5.0.3",
