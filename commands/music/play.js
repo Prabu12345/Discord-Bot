@@ -425,25 +425,21 @@ module.exports = class PlayCommand extends Command {
 
       // new checking and pushing song to queue
       let duration = 0
-      const newSongs = await videosArr
+      const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
-      .map(async (video) => {
-        const fetchedVideo = await video.fetch();
-        duration = PlayCommand.formatDuration(fetchedVideo.duration);
+      .map((video) => {
+        duration = video.durationSeconds;
         if (duration == '0:00') duration = 'Live Stream';
         return {
-          url: `https://youtube.com/watch?v=${fetchedVideo.raw.id}`,
-          title: fetchedVideo.title,
-          rawDuration: PlayCommand.durationrawed(fetchedVideo.duration),
+          url: `https://youtube.com/watch?v=${video.id}`,
+          title: video.title,
+          rawDuration: video.durationSeconds,
           duration,
-          thumbnail: fetchedVideo.thumbnails.high.url,
+          thumbnail: video.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,
           memberAvatar: message.member.user.avatarURL('webp', false, 16)
         }
       });
-
-      console.log(newSongs[0]);
-
       message.guild.musicData.queue.push(...newSongs);
       
       // info and run
