@@ -331,25 +331,27 @@ module.exports = class PlayCommand extends Command {
     ) {
       let failedToGetVideo = false;
       // getting playlist
-      const playlist = await gch.getPlaylist(query, { part: "snippet" }).catch(function() {
+      const playlist = await gch.getPlaylist(query);
+      if (!playlist) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | Playlist is either private or it does not exist!`)
         srch.edit('', errvideoEmbed);
         failedToGetVideo = true;
         return;
-      });
+      }
       if (failedToGetVideo) return;
 
       // add 10 as an argument in getVideos() if you choose to limit the queue
-      const videosArr = await playlist.getVideos(500, { part: "snippet" }).catch(function() {
+      const videosArr = await playlist.getVideos();
+      if (!videosArr) {
         const errvideoEmbed = new MessageEmbed()
         .setColor(errorcolor)
         .setDescription(`${xmoji} | There was a problem getting one of the videos in the playlist!`)
         srch.edit('', errvideoEmbed);
         failedToGetVideo = true;
         return;
-      });
+      }
       if (failedToGetVideo) return;
 
       // old checking and pushing song to queue
@@ -395,8 +397,34 @@ module.exports = class PlayCommand extends Command {
         }
       }*/
 
+      // Master-bot playlist graber
+      var skipAmount = 0;
+      await videosArr.reduce(async (memo, video, key) => {
+        await memo;
+        // don't process private videos
+        if (
+          video.raw.status.privacyStatus == 'private' ||
+          video.raw.status.privacyStatus == 'privacyStatusUnspecified'
+        ) {
+          skipAmount++;
+          return;
+        }
+
+        try {
+          const fetchedVideo = await video.fetch();
+          message.guild.musicData.queue.push(
+            PlayCommand.constructSongObj1(
+              fetchedVideo,
+              message.member.user
+            )
+          );
+        } catch (err) {
+          return console.error(err);
+        }
+      }, undefined);
+
       // new checking and pushing song to queue
-      let duration = 0
+      /*let duration = 0
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
@@ -413,7 +441,7 @@ module.exports = class PlayCommand extends Command {
         }
       });
 
-      message.guild.musicData.queue.push(...newSongs);
+      message.guild.musicData.queue.push(...newSongs);*/
       
       // info and run
       if (message.guild.musicData.isPlaying == false) {
