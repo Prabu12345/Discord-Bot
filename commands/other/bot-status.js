@@ -8,7 +8,7 @@ module.exports = class BotStatusCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'bot-status',
-      group: 'other',
+      group: 'info',
       memberName: 'bot-status',
       description: 'Shows the current system status',
       throttling: {

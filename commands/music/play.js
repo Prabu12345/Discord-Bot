@@ -402,7 +402,7 @@ module.exports = class PlayCommand extends Command {
         let duration = video.durationFormatted;
         if (duration == '0:00') duration = 'Live Stream';
         return (song = {
-          url: video.url,
+          url: `https://youtube.com/watch?v=${video.id}`,
           title: video.title,
           rawDuration: video.duration,
           duration,
