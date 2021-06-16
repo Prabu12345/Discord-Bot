@@ -395,7 +395,7 @@ module.exports = class PlayCommand extends Command {
         }
       }*/
 
-      console.log(videosArr);
+      console.log(videosArr[1]);
 
       // new checking and pushing song to queue
       const newSongs = videosArr
