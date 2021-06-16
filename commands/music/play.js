@@ -424,16 +424,17 @@ module.exports = class PlayCommand extends Command {
       }, undefined);
 
       // new checking and pushing song to queue
-      /*let duration = 0
+      let duration = 0
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        duration = 0;
+        const fetchedVideo = await video.fetch();
+        duration = PlayCommand.formatDuration(fetchedVideo.duration);
         if (duration == '0:00') duration = 'Live Stream';
         return {
           url: `https://youtube.com/watch?v=${video.id}`,
           title: video.title,
-          rawDuration: 0,
+          rawDuration: PlayCommand.durationrawed(fetchedVideo.duration),
           duration,
           thumbnail: video.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,       
@@ -441,7 +442,7 @@ module.exports = class PlayCommand extends Command {
         }
       });
 
-      message.guild.musicData.queue.push(...newSongs);*/
+      message.guild.musicData.queue.push(...newSongs);
       
       // info and run
       if (message.guild.musicData.isPlaying == false) {
