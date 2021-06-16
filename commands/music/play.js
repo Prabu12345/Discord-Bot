@@ -602,22 +602,22 @@ module.exports = class PlayCommand extends Command {
       srch.delete();
       playSong(message.guild.musicData.queue, message, 0);
     } else if (message.guild.musicData.isPlaying == true) {
-      let url = `https://youtube.com/watch?v=${videos[0].id}`;
+      let urlkah = `https://youtube.com/watch?v=${videos[0].id}`;
       const addvideoEmbed = new MessageEmbed()
       .setColor(normalcolor)
       .setAuthor(`added to queue`, message.member.user.avatarURL('webp', false, 16))
-      .setDescription(`**[${videos[0].title}](${url})**`)
+      .setDescription(`**[${videos[0].title}](${urlkah})**`)
       .addField(`Song Duration`,`${dur}`, true)
       .addField(`Estimated time`,`${PlayCommand.msToTime((message.guild.musicData.nowPlaying.rawDuration - (message.guild.musicData.songDispatcher.streamTime + (message.guild.musicData.seek * 1000))) + sum)}`, true)
       .addField(`Potition`,`**#**${message.guild.musicData.queue.length} in queue`, true)
-      .setThumbnail(videos[0].thumbnail.high.url)
+      .setThumbnail(videos[0].thumbnail.url)
       srch.edit('', addvideoEmbed);
       return;
     }
   }
 
   // simple youtube api
-  static constructSongObj(video, user) { 
+  static constructSongObj(video, user) {
     let duration = video.durationFormatted;
     if (duration == '0:00') duration = 'Live Stream';
     return {
@@ -625,7 +625,7 @@ module.exports = class PlayCommand extends Command {
       title: video.title,
       rawDuration: video.duration,
       duration,
-      thumbnail: video.thumbnail.high.url,
+      thumbnail: video.thumbnail.url,
       memberDisplayName: user.tag,
       memberAvatar: user.avatarURL('webp', false, 16)
     };
