@@ -422,7 +422,7 @@ module.exports = class PlayCommand extends Command {
           return console.error(err);
         }
       }, undefined);*/
-
+      console.log(videosArr[5]);
       // new checking and pushing song to queue
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
