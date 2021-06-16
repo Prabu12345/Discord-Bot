@@ -429,7 +429,7 @@ module.exports = class PlayCommand extends Command {
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
         const ger = [];
-        gch.getVideoByID(video.id).then((videoes) => { ger.push(videoes.duration) }).catch(console.error);
+        gch.getVideoByID(video.id).then(function(videoes) { ger.push(videoes.duration) }).catch(console.error);
         console.log(ger[0])
         let duration = PlayCommand.formatDuration(ger[0]);
         if (duration == '0:00') duration = 'Live Stream';
