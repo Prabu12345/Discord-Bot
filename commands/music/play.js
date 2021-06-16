@@ -398,7 +398,7 @@ module.exports = class PlayCommand extends Command {
       // new checking and pushing song to queue
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
-      .map((video) => {
+      .map(async (video) => {
         let newVID = await gch.getVideoByID(video.id)
         console.log(newVID.duration)
         let duration = Math.floor(video.durationSeconds * 1000);
