@@ -357,8 +357,7 @@ module.exports = class PlayCommand extends Command {
       if (failedToGetVideo) return;
 
       // old checking and pushing song to queue
-      if (failedToGetVideo) return;
-      var skipcount = 0;
+      /*var skipcount = 0;
       for(var i = 0, len = videosArr.length; i < len; i++) 
       {
         if (videosArr[i].raw.status.privacyStatus == 'private') {
@@ -397,7 +396,7 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
-      }
+      }*/
 
       // Master-bot playlist graber
       /*var skipAmount = 0;
@@ -426,42 +425,40 @@ module.exports = class PlayCommand extends Command {
       }, undefined);*/
 
       // new checking and pushing song to queue
-      /*const newSongs = videosArr
-      .filter(async (video) => video.title != "Private video" && video.title != "Deleted video")
-      .map(async (video) => {
-        try {
-          const fetchedVideo = await gch.getVideoByID(video.id);
-          console.log(fetchedVideo);
-          let duration = PlayCommand.formatDuration(fetchedVideo.duration);
+      const newSongs = videosArr
+      .filter((video) => video.title != "Private video" && video.title != "Deleted video")
+      .map((video) => {
+        gch.getVideoByID(video.id)
+        .then(videoes => {
+          let duration = PlayCommand.formatDuration(videoes.duration);
           if (duration == '0:00') duration = 'Live Stream';
           return {
-            url: `https://youtube.com/watch?v=${fetchedVideo.id}`,
-            title: fetchedVideo.title,
-            rawDuration: PlayCommand.durationrawed(fetchedVideo.duration),
+            url: `https://youtube.com/watch?v=${videoes.id}`,
+            title: videoes.title,
+            rawDuration: PlayCommand.durationrawed(videoes.duration),
             duration,
-            thumbnail: fetchedVideo.thumbnails.high.url,
+            thumbnail: videoes.thumbnails.high.url,
             memberDisplayName: message.member.user.tag,
             memberAvatar: message.member.user.avatarURL('webp', false, 16)
           }
-        } catch (err) {
-          return console.error(err);
-        }
+        })
+        .catch(console.error);
       });
       console.log(newSongs[5]);
-      message.guild.musicData.queue.push(...newSongs);*/
+      message.guild.musicData.queue.push(...newSongs);
       
       // info and run
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipcount} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipcount} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
