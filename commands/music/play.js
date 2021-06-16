@@ -428,7 +428,7 @@ module.exports = class PlayCommand extends Command {
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        let song
+        let song = null;
         gch.getVideoByID(video.id)
         .then(videoes => {
           let duration = PlayCommand.formatDuration(videoes.duration);
@@ -446,8 +446,8 @@ module.exports = class PlayCommand extends Command {
         .catch(console.error);
         return song;
       });
-      console.log(song[5]);
-      message.guild.musicData.queue.push(...song);
+      console.log(newSongs[5]);
+      message.guild.musicData.queue.push(...newSongs);
       
       // info and run
       if (message.guild.musicData.isPlaying == false) {
