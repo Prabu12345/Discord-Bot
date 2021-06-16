@@ -422,21 +422,38 @@ module.exports = class PlayCommand extends Command {
           return console.error(err);
         }
       }, undefined);*/
-      console.log(videosArr[5]);
+
+      try {
+        const fetchedVideo = await video.fetch();
+        message.guild.musicData.queue.push(
+          PlayCommand.constructSongObj1(
+            fetchedVideo,
+            message.member.user
+          )
+        );
+      } catch (err) {
+        return console.error(err);
+      }
+
       // new checking and pushing song to queue
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        let duration = video.durationSeconds;
-        if (duration == '0:00') duration = 'Live Stream';
-        return {
-          url: `https://youtube.com/watch?v=${video.id}`,
-          title: video.title,
-          rawDuration: video.durationSeconds,
-          duration,
-          thumbnail: video.thumbnails.high.url,
-          memberDisplayName: message.member.user.tag,
-          memberAvatar: message.member.user.avatarURL('webp', false, 16)
+        try {
+          const fetchedVideo = await video.fetch();
+          let duration = PlayCommand.formatDuration(fetchedVideo.duration);
+          if (duration == '0:00') duration = 'Live Stream';
+          return {
+            url: `https://youtube.com/watch?v=${video.id}`,
+            title: video.title,
+            rawDuration: PlayCommand.durationrawed(fetchedVideo.duration),
+            duration,
+            thumbnail: video.thumbnails.high.url,
+            memberDisplayName: message.member.user.tag,
+            memberAvatar: message.member.user.avatarURL('webp', false, 16)
+          }
+        } catch (err) {
+          return console.error(err);
         }
       });
       console.log(newSongs[5]);
