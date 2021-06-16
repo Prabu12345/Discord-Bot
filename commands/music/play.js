@@ -430,6 +430,7 @@ module.exports = class PlayCommand extends Command {
       .map((video) => {
         const ger = [];
         gch.getVideoByID(video.id).then((videoes) => { ger.push(videoes.duration) }).catch(console.error);
+        console.log(ger[0])
         let duration = PlayCommand.formatDuration(ger[0]);
         if (duration == '0:00') duration = 'Live Stream';
         return {
