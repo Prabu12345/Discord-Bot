@@ -395,6 +395,9 @@ module.exports = class PlayCommand extends Command {
         }
       }*/
 
+      console.log(videosArr[0])
+
+
       // new checking and pushing song to queue
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
