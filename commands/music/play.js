@@ -93,6 +93,7 @@ module.exports = class PlayCommand extends Command {
 
     const srch = await message.channel.send(`:mag_right: | **Searching** \`${query}\``);
 
+    // spotify track
     if (
       query.match(
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/
@@ -173,6 +174,7 @@ module.exports = class PlayCommand extends Command {
       }
     }
 
+    // Spotify Playlist
     if (
       query.match(
         /^https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/
@@ -423,22 +425,10 @@ module.exports = class PlayCommand extends Command {
         }
       }, undefined);*/
 
-      try {
-        const fetchedVideo = await video.fetch();
-        message.guild.musicData.queue.push(
-          PlayCommand.constructSongObj1(
-            fetchedVideo,
-            message.member.user
-          )
-        );
-      } catch (err) {
-        return console.error(err);
-      }
-
       // new checking and pushing song to queue
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
-      .map((video) => {
+      .map(async (video) => {
         try {
           const fetchedVideo = await video.fetch();
           let duration = PlayCommand.formatDuration(fetchedVideo.duration);
