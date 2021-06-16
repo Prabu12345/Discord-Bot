@@ -437,10 +437,12 @@ module.exports = class PlayCommand extends Command {
           rawDuration: PlayCommand.durationrawed(fetchedVideo.duration),
           duration,
           thumbnail: video.thumbnails.high.url,
-          memberDisplayName: message.member.user.tag,       
+          memberDisplayName: message.member.user.tag,
           memberAvatar: message.member.user.avatarURL('webp', false, 16)
         }
       });
+
+      console.log(newSongs[0]);
 
       message.guild.musicData.queue.push(...newSongs);
       
