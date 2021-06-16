@@ -393,10 +393,7 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
-      }*/
-
-      console.log(videosArr[0])
-
+      }*/atob
 
       // new checking and pushing song to queue
       const newSongs = videosArr
@@ -404,7 +401,7 @@ module.exports = class PlayCommand extends Command {
       .map((video) => {
         let duration = PlayCommand.msToTime(video.duration * 1000);
         if (duration == '0:00') duration = 'Live Stream';
-        return (song = {
+        return {
           url: `https://youtube.com/watch?v=${video.raw.id}`,
           title: video.title,
           rawDuration: video.duration * 1000,
@@ -412,7 +409,7 @@ module.exports = class PlayCommand extends Command {
           thumbnail: video.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,       
           memberAvatar: message.member.user.avatarURL('webp', false, 16)
-        });
+        }
       });
 
       message.guild.musicData.queue.push(...newSongs);
