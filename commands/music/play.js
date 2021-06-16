@@ -402,15 +402,15 @@ module.exports = class PlayCommand extends Command {
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        let duration = PlayCommand.formatDuration(video.duration);
+        let duration = PlayCommand.msToTime(video.duration * 1000);
         if (duration == '0:00') duration = 'Live Stream';
         return (song = {
           url: `https://youtube.com/watch?v=${video.raw.id}`,
           title: video.title,
-          rawDuration: PlayCommand.durationrawed(video.duration),
+          rawDuration: video.duration * 1000,
           duration,
           thumbnail: video.thumbnails.high.url,
-          memberDisplayName: message.member.user.tag,
+          memberDisplayName: message.member.user.tag,       
           memberAvatar: message.member.user.avatarURL('webp', false, 16)
         });
       });
