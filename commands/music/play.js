@@ -404,7 +404,7 @@ module.exports = class PlayCommand extends Command {
         let duration = PlayCommand.msToTime(video.durationSeconds * 1000);
         if (duration == '0:00') duration = 'Live Stream';
         return {
-          url: `https://youtube.com/watch?v=${video.raw.id}`,
+          url: `https://youtube.com/watch?v=${video.id}`,
           title: video.title,
           rawDuration: video.durationSeconds * 1000,
           duration,
