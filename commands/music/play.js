@@ -395,19 +395,17 @@ module.exports = class PlayCommand extends Command {
         }
       }*/
 
-      console.log(videosArr[1]);
-
       // new checking and pushing song to queue
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        console.log(video.duration)
-        let duration = PlayCommand.formatDuration(video.duration);
+        console.log(Math.floor(video.durationSeconds * 1000))
+        let duration = Math.floor(video.durationSeconds * 1000);
         if (duration == '0:00') duration = 'Live Stream';
         return {
           url: `https://youtube.com/watch?v=${video.id}`,
           title: video.title,
-          rawDuration: PlayCommand.durationrawed(video.duration),
+          rawDuration: Math.floor(video.durationSeconds * 1000),
           duration,
           thumbnail: video.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,       
