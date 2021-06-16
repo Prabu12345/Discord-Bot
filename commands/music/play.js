@@ -425,18 +425,18 @@ module.exports = class PlayCommand extends Command {
 
       // new checking and pushing song to queue
       let duration = 0
-      const newSongs = videosArr
+      const newSongs = await videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map(async (video) => {
         const fetchedVideo = await video.fetch();
         duration = PlayCommand.formatDuration(fetchedVideo.duration);
         if (duration == '0:00') duration = 'Live Stream';
         return {
-          url: `https://youtube.com/watch?v=${video.id}`,
-          title: video.title,
+          url: `https://youtube.com/watch?v=${fetchedVideo.raw.id}`,
+          title: fetchedVideo.title,
           rawDuration: PlayCommand.durationrawed(fetchedVideo.duration),
           duration,
-          thumbnail: video.thumbnails.high.url,
+          thumbnail: fetchedVideo.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,
           memberAvatar: message.member.user.avatarURL('webp', false, 16)
         }
