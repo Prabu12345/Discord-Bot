@@ -357,7 +357,7 @@ module.exports = class PlayCommand extends Command {
       if (failedToGetVideo) return;
 
       // old checking and pushing song to queue
-      /*if (failedToGetVideo) return;
+      if (failedToGetVideo) return;
       var skipcount = 0;
       for(var i = 0, len = videosArr.length; i < len; i++) 
       {
@@ -397,7 +397,7 @@ module.exports = class PlayCommand extends Command {
             return console.error(err);
           }
         }
-      }*/
+      }
 
       // Master-bot playlist graber
       /*var skipAmount = 0;
@@ -426,7 +426,7 @@ module.exports = class PlayCommand extends Command {
       }, undefined);*/
 
       // new checking and pushing song to queue
-      const newSongs = videosArr
+      /*const newSongs = videosArr
       .filter(async (video) => video.title != "Private video" && video.title != "Deleted video")
       .map(async (video) => {
         try {
@@ -448,20 +448,20 @@ module.exports = class PlayCommand extends Command {
         }
       });
       console.log(newSongs[5]);
-      message.guild.musicData.queue.push(...newSongs);
+      message.guild.musicData.queue.push(...newSongs);*/
       
       // info and run
       if (message.guild.musicData.isPlaying == false) {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipcount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${newSongs.length} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipcount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
