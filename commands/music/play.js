@@ -399,7 +399,8 @@ module.exports = class PlayCommand extends Command {
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        console.log(Math.floor(video.durationSeconds * 1000))
+        let newVID = await gch.getVideoByID(video.id)
+        console.log(newVID.duration)
         let duration = Math.floor(video.durationSeconds * 1000);
         if (duration == '0:00') duration = 'Live Stream';
         return {
