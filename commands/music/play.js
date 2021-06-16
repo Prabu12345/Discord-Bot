@@ -400,13 +400,12 @@ module.exports = class PlayCommand extends Command {
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map(async (video) => {
         let newVID = await gch.getVideoByID(video.id)
-        console.log(newVID.duration)
-        let duration = Math.floor(video.durationSeconds * 1000);
+        let duration = PlayCommand.formatDuration(newVID.duration);
         if (duration == '0:00') duration = 'Live Stream';
         return {
           url: `https://youtube.com/watch?v=${video.id}`,
           title: video.title,
-          rawDuration: Math.floor(video.durationSeconds * 1000),
+          rawDuration: PlayCommand.durationrawed(newVID.duration),
           duration,
           thumbnail: video.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,       
