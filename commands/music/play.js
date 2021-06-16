@@ -399,12 +399,12 @@ module.exports = class PlayCommand extends Command {
       const newSongs = videosArr
       .filter((video) => video.title != "Private video" && video.title != "Deleted video")
       .map((video) => {
-        let duration = PlayCommand.msToTime(video.duration * 1000);
+        let duration = PlayCommand.msToTime(video.durationSeconds * 1000);
         if (duration == '0:00') duration = 'Live Stream';
         return {
           url: `https://youtube.com/watch?v=${video.raw.id}`,
           title: video.title,
-          rawDuration: video.duration * 1000,
+          rawDuration: video.durationSeconds * 1000,
           duration,
           thumbnail: video.thumbnails.high.url,
           memberDisplayName: message.member.user.tag,       
