@@ -452,13 +452,13 @@ module.exports = class PlayCommand extends Command {
         message.guild.musicData.isPlaying = true;
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${playlist.length - skipAmount} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipAmount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return playSong(message.guild.musicData.queue, message, 0);
       } else if (message.guild.musicData.isPlaying == true) {
         const addvideoEmbed = new MessageEmbed()
         .setColor(normalcolor)
-        .setDescription(`🎵 | **${playlist.title}** added ${playlist.length - skipAmount} songs to the queue!`)
+        .setDescription(`🎵 | **${playlist.title}** added ${videosArr.length - skipAmount} songs to the queue!`)
         srch.edit('', addvideoEmbed);
         return;
       }
@@ -505,8 +505,8 @@ module.exports = class PlayCommand extends Command {
       // generating duration
       let sum = 0, u;
       let dur = ''
-      for (u = 0; u < message.guild.musicData.queue.length - 1; u +=1 ) {
-        sum += (+message.guild.musicData.queue[i].rawDuration);
+      for (u = 0; u < message.guild.musicData.queue.length - 1; u += 1 ) {
+        sum += (+message.guild.musicData.queue[u].rawDuration);
       }
 
       // checking livestream or not 
