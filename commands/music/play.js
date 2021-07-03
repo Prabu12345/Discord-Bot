@@ -48,29 +48,19 @@ module.exports = class PlayCommand extends Command {
     } else {
       return;
     } 
+
     if (message.guild.triviaData.isTriviaRunning == true) {
-      const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | Please try after the trivia has ended`)
-      message.say(errvideoEmbed);
+      message.say(`${xmoji} | Please try after the trivia has ended`);
       return;
     } 
-    if (!message.guild.me.voice.channel) {
-      return message.reply(`${xmoji} | **I am not connected to a voice channel.** Type ${Command.usage('join', message.guild ? message.guild.commandPrefix : null, this.client.user)} to get me in one`)
-    }
     if (!voiceChannel) {
-      const errvideoEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | Join a channel and try again`)
-      message.say(errvideoEmbed);
+      message.say(`${xmoji} | Join a channel and try again`);
       return;
     }  
     if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
-      const errleaveEmbed = new MessageEmbed()
-      .setColor(errorcolor)
-      .setDescription(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`)
-      return message.say(errleaveEmbed);
+      return message.say(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`);
     }
+
     if (message.guild.musicData.songDispatcher) {
       if (message.guild.musicData.songDispatcher.paused) {
         message.guild.musicData.songDispatcher.resume();
