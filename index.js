@@ -130,7 +130,7 @@ client.on('ready', async () => {
       await remindSchema.deleteMany(query)
     }
 
-    setTimeout(checkRemindForPost, 1000 * 10) // looping 5 second
+    setTimeout(checkRemindForPost, 1000 * 30) // looping 5 second
   }
   checkRemindForPost();
 });

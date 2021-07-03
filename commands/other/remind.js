@@ -8,7 +8,7 @@ module.exports = class CatCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'remind',
-      aliases: ['rm', 'rdme'],
+      aliases: ['reminder', 'rd'],
       group: 'other',
       memberName: 'remind',
 	  description: 'To Remind you.',
@@ -45,6 +45,8 @@ module.exports = class CatCommand extends Command {
 			var time = reminderMsg.substring(0,reminderMsg.search(" ")).toLowerCase();
 			var outputMsg = reminderMsg.substring(reminderMsg.search(" ") + 1, reminderMsg.end);
 			var actualTime = 0;
+
+			// check if no message on remind
 			if (!time) {
 				message.reply('Please Insert why to want remind you');
 				return;
@@ -71,6 +73,10 @@ module.exports = class CatCommand extends Command {
 						default:
 						// nothing
 					}
+				}
+				let limitTime = actualTime/60000;
+				if (limitTime < 2) {
+					message.channel.send(`Please specify a time greater than 2 minutes.`);
 				}
 				message.channel.send(`${message.author}, your reminder has been set for ` + msToTime(actualTime));
 				var d = new Date();
