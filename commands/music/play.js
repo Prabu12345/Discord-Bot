@@ -52,8 +52,10 @@ module.exports = class PlayCommand extends Command {
       message.say(`${xmoji} | Join a channel and try again`);
       return;
     }  
-    if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
-      return message.say(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`);
+    if (message.guild.me.voice.channel) {
+      if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
+        return message.say(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`);
+      }
     }
 
     const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
