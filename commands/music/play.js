@@ -43,11 +43,6 @@ module.exports = class PlayCommand extends Command {
 
   async run(message, { query }) {
     const voiceChannel = message.member.voice.channel;
-    const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
-    if (acces === true) {
-    } else {
-      return;
-    } 
 
     if (message.guild.triviaData.isTriviaRunning == true) {
       message.say(`${xmoji} | Please try after the trivia has ended`);
@@ -60,6 +55,12 @@ module.exports = class PlayCommand extends Command {
     if (message.member.voice.channel.id !== message.guild.me.voice.channel.id) {
       return message.say(`${xmoji} | You must be in the same voice channel as the bot's in order to use that!`);
     }
+
+    const acces = await clientperm(message, ['EMBED_LINKS'], ['SPEAK', 'CONNECT'] )
+    if (acces === true) {
+    } else {
+      return;
+    } 
 
     if (message.guild.musicData.songDispatcher) {
       if (message.guild.musicData.songDispatcher.paused) {

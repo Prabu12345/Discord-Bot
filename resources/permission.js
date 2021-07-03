@@ -73,7 +73,7 @@ module.exports = {
             );
         } 
         if (clientPermissionsvc.length > 0) {
-            voicemissing = message.guild.me.voice.channel.permissionsFor(message.guild.me).missing(clientPermissionsvc);
+            voicemissing = message.member.voice.channel.permissionsFor(message.guild.me).missing(clientPermissionsvc);
             voicemissing.map(element =>
                 missing.push(element)
             );
