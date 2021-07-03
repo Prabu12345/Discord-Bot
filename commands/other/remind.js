@@ -77,6 +77,7 @@ module.exports = class CatCommand extends Command {
 				let limitTime = actualTime/60000;
 				if (limitTime < 2) {
 					message.channel.send(`Please specify a time greater than 2 minutes.`);
+					return;
 				}
 				message.channel.send(`${message.author}, your reminder has been set for ` + msToTime(actualTime));
 				var d = new Date();
