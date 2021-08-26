@@ -106,8 +106,7 @@ module.exports = class PlayCommand extends Command {
         memberAvatar: message.member.user.avatarURL('webp', false, 16)
       }
       message.guild.musicData.queue.push(a)
-      spPlaySong(message.guild.musicData.queue, message)
-      return
+      return spPlaySong(message.guild.musicData.queue, message)
 
       // Searching song from youtube
       const videos = await youtube.search(updatedQuery, { type: 'video', limit: 1 })
