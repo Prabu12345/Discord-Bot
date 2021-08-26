@@ -251,7 +251,7 @@ module.exports = {
     .join()
     .then(function(connection) {
       const dispatcher = connection
-        .play(file, bbzero1)
+        .play(file)
         dispatcher.on('start', function() {
           message.guild.musicData.songDispatcher = dispatcher;
           message.guild.musicData.nowPlaying = queue[0];
