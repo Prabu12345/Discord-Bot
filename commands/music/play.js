@@ -104,7 +104,7 @@ module.exports = class PlayCommand extends Command {
         memberAvatar: message.member.user.avatarURL('webp', false, 16)
       }
       message.guild.musicData.queue.push(a)
-      spPlaySong(message.guild.musicData.queue, message, ayam)
+      spPlaySong(message.guild.musicData.queue, message)
       return
 
       // Searching song from youtube
