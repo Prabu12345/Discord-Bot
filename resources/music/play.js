@@ -330,19 +330,7 @@ module.exports = {
           };  
         })
         .on('error', function(e) {
-          if (message.guild.musicData.errorP < 3) {
-            message.say(`Cannot play ${queue[0].title} song`);
-            db.set(`${message.guild.id}.errorLogs`, `${e}`)
-            message.guild.musicData.errorP = message.guild.musicData.errorP + 1
-            if (queue) module.exports.playSong(queue, message, 0);
-          } else {
-            message.say(`Error playing music, resetting...`);
-            message.guild.musicData.errorP = 0;
-            message.guild.resetMusicDataOnError();
-            if (message.guild.me.voice.channel) {
-              message.guild.me.voice.channel.leave();
-            }
-          }
+          console.log(e)
           return;
         });
     })
