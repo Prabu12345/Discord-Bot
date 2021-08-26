@@ -30,7 +30,7 @@
     "fs": "^0.0.1-security",
     "discord-ytdl-core": "^5.0.3",
     "spotify-url-info": "^2.2.0",
-    "spotifydl-core": "^0.2.0",
+    "spdl-core": "^2.0.2",
     "spotify-info.js": "^1.0.4",
     "quickmongo": "^3.0.2"
   },
