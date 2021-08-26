@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const ytdl = require('discord-ytdl-core');
 const ytdl1 = require('ytdl-core');
-const spdl = require('spdl-core');
+const spdl = require('spdl-core').default;
 const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
