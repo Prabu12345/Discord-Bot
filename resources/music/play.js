@@ -250,7 +250,7 @@ module.exports = {
     .join()
     .then(function(connection) {
       const dispatcher = connection
-        .play(await spdl(queue[0].url), bbzero1)
+        .play(await spdl(queue[0].url))
         dispatcher.on('start', function() {
           message.guild.musicData.songDispatcher = dispatcher;
           message.guild.musicData.nowPlaying = queue[0];
