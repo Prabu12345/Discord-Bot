@@ -213,7 +213,7 @@ module.exports = {
     } 
  },
 
- async spPlaySong(queue, message, file) {
+ async spPlaySong(queue, message) {
   if (queue[0].voiceChannel == undefined) {
     // happens when loading a saved playlist
     queue[0].voiceChannel = message.member.voice.channel;
@@ -250,7 +250,7 @@ module.exports = {
     .join()
     .then(function(connection) {
       const dispatcher = connection
-        .play(await spdl(queue[0].url), bbzero1)
+        .play((await spdl(queue[0].url)), bbzero1)
         dispatcher.on('start', function() {
           message.guild.musicData.songDispatcher = dispatcher;
           message.guild.musicData.nowPlaying = queue[0];
