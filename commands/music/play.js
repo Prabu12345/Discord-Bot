@@ -11,7 +11,7 @@ const spt = new Spotify({
   clientSecret: "89c15cd0add944c6bef3be863b964d9f",
   });
 const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
-const { playSong, spPlaySong } = require('../../resources/music/play')
+const { playSong } = require('../../resources/music/play')
 const { clientperm } = require('../../resources/permission')
 
 module.exports = class PlayCommand extends Command {
@@ -97,16 +97,6 @@ module.exports = class PlayCommand extends Command {
       if (spotifyData) {
         updatedQuery = `${spotifyData.artist} - ${spotifyData.title}`
       }
-      let a = {
-        url: query,
-        title: spotifyData.title,
-        rawDuration: 60000,
-        duration: '01:00',
-        memberDisplayName: message.member.user.tag,
-        memberAvatar: message.member.user.avatarURL('webp', false, 16)
-      }
-      message.guild.musicData.queue.push(a)
-      return spPlaySong(message.guild.musicData.queue, message)
 
       // Searching song from youtube
       const videos = await youtube.search(updatedQuery, { type: 'video', limit: 1 })
