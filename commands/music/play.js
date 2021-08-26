@@ -100,6 +100,8 @@ module.exports = class PlayCommand extends Command {
       let a = {
         url: query,
         title: spotifyData.title,
+        rawDuration: 60000,
+        duration: '01:00',
         memberDisplayName: message.member.user.tag,
         memberAvatar: message.member.user.avatarURL('webp', false, 16)
       }
