@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const ytdl = require('discord-ytdl-core');
 const ytdl1 = require('ytdl-core');
+const spdl = require('spdl-core');
 const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
 const { Database } = require("quickmongo");
 const db = new Database("mongodb+srv://admin:lakilaki@cluster0.yvw90.mongodb.net/guaa?retryWrites=true&w=majority", "musicsettings");
@@ -249,7 +250,7 @@ module.exports = {
     .join()
     .then(function(connection) {
       const dispatcher = connection
-        .play(file, bbzero1)
+        .play(await spdl(queue[0].url), bbzero1)
         dispatcher.on('start', function() {
           message.guild.musicData.songDispatcher = dispatcher;
           message.guild.musicData.nowPlaying = queue[0];

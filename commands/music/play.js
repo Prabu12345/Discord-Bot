@@ -6,16 +6,10 @@ const spotify = require('spotify-url-info')
 const { youtubeAPI } = require('../../config.json');
 const gch = new syoutube(youtubeAPI);
 const { Spotify } = require('spotify-info.js');
-const spotifyDl = require('spotifydl-core').default
-const credentials = {
-  clientId: '540def33c9bb4c94b7d3b5bb51615624',
-  clientSecret: '89c15cd0add944c6bef3be863b964d9f'
-}
 const spt = new Spotify({
   clientID: "540def33c9bb4c94b7d3b5bb51615624",
   clientSecret: "89c15cd0add944c6bef3be863b964d9f",
   });
-const spdl = new spotifyDl(credentials)
 const { normalcolor, errorcolor, prefix, cmoji, xmoji } = require('../../config.json');
 const { playSong, spPlaySong } = require('../../resources/music/play')
 const { clientperm } = require('../../resources/permission')
@@ -110,7 +104,6 @@ module.exports = class PlayCommand extends Command {
         memberAvatar: message.member.user.avatarURL('webp', false, 16)
       }
       message.guild.musicData.queue.push(a)
-      let ayam = await spdl.downloadTrack(query)
       spPlaySong(message.guild.musicData.queue, message, ayam)
       return
 
