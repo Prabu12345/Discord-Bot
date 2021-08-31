@@ -78,15 +78,14 @@ module.exports = class LyricsCommand extends Command {
 
       let firstbutton = new MessageButton().setStyle("green").setID("1").setLabel("<")
       let secondbutton = new MessageButton().setStyle("green").setID("2").setLabel(">")
-      //let thirdbutton = new MessageButton().setStyle("red").setID("3").setLabel("JUMP TO OVERVIEW")
-      //let linkingbutton = new MessageButton().setStyle("url").setLabel("JUMP TO OVERVIEW").setURL("http://milrato.eu")
+      let linkingbutton = new MessageButton().setStyle("url").setLabel("View On Website").setURL()
         
-      var buttonarray = [firstbutton, secondbutton]
-      const embeds = generateLyricsEmbed(message, lyricsArray)
+      var buttonarray = [firstbutton, secondbutton, linkingbutton]
+      const embeds = await generateLyricsEmbed(message, lyricsArray)
 
       var currentPage = 0;
       sentMessage.delete();
-      let mybuttonsmsg = await message.channel.send(embeds[currentPage], { buttons: buttonarray })
+      let mybuttonsmsg = await message.channel.send(``, { embed: embeds[currentPage], buttons: buttonarray })
       var embedsarray = embeds
 
       const collector = mybuttonsmsg.createButtonCollector((button)=> button.clicker.user.id === message.author.id, {time: 60e3});
@@ -125,7 +124,7 @@ module.exports = class LyricsCommand extends Command {
   };
 }
 
-function generateLyricsEmbed(lyrics) {
+async function generateLyricsEmbed(lyrics) {
   let embeds = [];
   let k = 1;
 
