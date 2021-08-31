@@ -129,7 +129,7 @@ module.exports = class LyricsCommand extends Command {
       let linkingbutton = new MessageButton().setStyle("url").setLabel("View On Website").setURL()
         
       var buttonarray = [firstbutton, secondbutton, linkingbutton]
-      const embeds = generateLyricsEmbed(zenbu)
+      const embeds = generateLyricsEmbed(lyricsArray)
 
       var currentPage = 0;
       sentMessage.delete();
