@@ -76,7 +76,7 @@ module.exports = class LyricsCommand extends Command {
         }
       }
 
-      /*let currentPage = 0;
+      let currentPage = 0;
       const embeds = generateLyricsEmbed(lyricsArray, songName);
 
       const queueEmbed = await message.channel.send(
@@ -122,9 +122,9 @@ module.exports = class LyricsCommand extends Command {
       collector.on("end", (reaction, user) => { 
         queueEmbed.reactions.removeAll();
       });
-      return;*/
+      return;
 
-      let firstbutton = new MessageButton().setStyle("green").setID("1").setLabel("<")
+      /*let firstbutton = new MessageButton().setStyle("green").setID("1").setLabel("<")
       let secondbutton = new MessageButton().setStyle("green").setID("2").setLabel(">")
       let linkingbutton = new MessageButton().setStyle("url").setLabel("View On Website").setURL()
         
@@ -162,7 +162,7 @@ module.exports = class LyricsCommand extends Command {
 
       collector.on("end", async b  => { 
         mybuttonsmsg.edit(``, { embed: embedsarray[currentPage], buttons: null })
-      });
+      });*/
     } catch (error) {
       console.error(error);
       return message.channel.send(
