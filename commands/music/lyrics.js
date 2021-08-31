@@ -66,25 +66,65 @@ module.exports = class LyricsCommand extends Command {
       const songPageURL = await getSongPageURL(url);
       const lyrics = await getLyrics(songPageURL);
 
-      let zenbu = []
+      const lyricsIndex = Math.round(lyrics.length / 4096) + 1;
+      const lyricsArray = [];
 
-      if (lyrics.length > 4096) {
-        let pg1 = lyrics.slice(0, 2048)
-        let pg2 = lyrics.slice(2049, 4096) 
-        let pg3 = lyrics.slice(4096, lyrics.length) 
-        zenbu.push(pg1)
-        zenbu.push(pg2)
-        zenbu.push(pg3)
-      } else if (lyrics.length > 2048 && lyrics.length < 4096) {
-        let pg1 = lyrics.slice(0, 2048)
-        let pg2 = lyrics.slice(2049, 4096) 
-        zenbu.push(pg1)
-        zenbu.push(pg2)
-      } else {
-        zenbu.push(lyrics)
+      for (let i = 1; i <= lyricsIndex; ++i) {
+        let b = i - 1;
+        if (lyrics.trim().slice(b * 4096, i * 4096).length !== 0) {
+          lyricsArray.push(lyrics.slice(b * 4096, i * 4096));
+        }
       }
 
-      let firstbutton = new MessageButton().setStyle("green").setID("1").setLabel("<")
+      let currentPage = 0;
+      const embeds = generateQueueEmbed(message, lyricsArray);
+
+      const queueEmbed = await message.channel.send(
+        embeds[currentPage]
+      );
+
+      try {
+        await queueEmbed.react("⬅️");
+        await queueEmbed.react("🗑️");
+        await queueEmbed.react("➡️");
+      } catch (error) {
+        console.error(error);
+        message.channel.send(error.message).catch(console.error);
+      }
+
+      const filter = (reaction, user) =>
+        ["⬅️", "🗑️", "➡️"].includes(reaction.emoji.name) && message.author.id === user.id;
+      const collector = queueEmbed.createReactionCollector(filter, { time: 300000 });
+
+      collector.on("collect", async (reaction, user) => {
+        try {
+          if (reaction.emoji.name === "➡️") {
+            if (currentPage < embeds.length - 1) {
+              currentPage++;
+              queueEmbed.edit(embeds[currentPage]);
+            }
+          } else if (reaction.emoji.name === "⬅️") {
+            if (currentPage !== 0) {
+              --currentPage;
+              queueEmbed.edit(embeds[currentPage]);
+            }
+          } else {
+            reaction.message.reactions.removeAll();
+            reaction.message.delete({ timeout: 1000 }).catch(console.error);
+          }
+          await reaction.users.remove(message.author.id);
+        } catch (error) {
+          console.error(error);
+          return message.channel.send(error.message + ', Please give me permission to **MANAGE_MESSAGES** to delete a reaction').catch(console.error);
+        }
+      });
+
+      collector.on("end", (reaction, user) => { 
+        queueEmbed.reactions.removeAll();
+      });
+      return;
+
+      /*let firstbutton = new MessageButton().setStyle("green").setID("1").setLabel("<")
       let secondbutton = new MessageButton().setStyle("green").setID("2").setLabel(">")
       let linkingbutton = new MessageButton().setStyle("url").setLabel("View On Website").setURL()
         
@@ -122,7 +162,7 @@ module.exports = class LyricsCommand extends Command {
 
       collector.on("end", async b  => { 
         mybuttonsmsg.edit(``, { embed: embedsarray[currentPage], buttons: null })
-      });
+      });*/
     } catch (error) {
       console.error(error);
       return message.channel.send(
