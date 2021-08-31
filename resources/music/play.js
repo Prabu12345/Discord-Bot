@@ -202,9 +202,16 @@ module.exports = {
           }
         
           const filter = (user) => user.id !== message.client.user.id;
-          var collector = playingMessage.createReactionCollector(filter, {
-            time: queue[0].rawDuration > 0 ? queue[0].rawDuration : 600000
-          });
+          var collector
+          if (queue[0].rawDuration) {
+            collector = playingMessage.createReactionCollector(filter, {
+              time: queue[0].rawDuration > 0 ? queue[0].rawDuration : 600000
+            });
+          } else {
+            collector = playingMessage.createReactionCollector(filter, {
+              time: 600000
+            });
+          }
     
           collector.on("end", () => { 
             playingMessage.delete({ timeout: 1000 }).catch(console.error);

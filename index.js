@@ -136,6 +136,24 @@ client.on('ready', async () => {
 });
 
 client.on('voiceStateUpdate', async (___, newState) => {
+  var t;
+  async function rrun(newState) { 
+    let timeout = await db.get(`${newState.guild.id}.settings`)
+    t = setTimeout(() => {
+      newState.guild.musicData.loop = 'off';
+      newState.guild.musicData.seek = 0;
+      newState.guild.musicData.pause = false
+      newState.guild.musicData.songDispatcher.end();
+      setTimeout(function onTimeOut() {
+        newState.guild.me.voice.channel.leave();
+      }, 500);
+    }, timeout.timeout); 
+  } 
+
+  function stop() { 
+    if (t) clearTimeout(t); 
+  } 
+  
   if (
     newState.member.user.bot &&
     !newState.channelID &&
@@ -144,9 +162,10 @@ client.on('voiceStateUpdate', async (___, newState) => {
   ) {
     newState.guild.musicData.loop = 'off';
     newState.guild.musicData.seek = 0;
-    newState.guild.musicData.queue.length = 0;
-    message.guild.musicData.pause = false
-    newState.guild.musicData.songDispatcher.end();
+    newState.guild.musicData.pause = false
+    if (newState.guild.musicData.songDispatcher) {
+      newState.guild.musicData.songDispatcher.end();
+    }
     return;
   }
   if (
@@ -165,7 +184,7 @@ client.on('voiceStateUpdate', async (___, newState) => {
     !newState.guild.musicData.songDispatcher
   ) {
     if (newState.guild.me.voice.channel.members.array().length == 1) {
-      rrun(newState)
+      await rrun(newState)
     }
     if ( 
       newState.guild.me.voice.channel.members.array().length > 1
@@ -176,21 +195,3 @@ client.on('voiceStateUpdate', async (___, newState) => {
 })
 
 client.login(process.env.token);
-
-var t;
-async function rrun(newState) { 
-  let timeout = await db.get(`${newState.guild.id}.settings`)
-  t = setTimeout(() => {
-    newState.guild.musicData.loop = 'off';
-    newState.guild.musicData.seek = 0;
-    newState.guild.musicData.pause = false
-    newState.guild.musicData.songDispatcher.end();
-    setTimeout(function onTimeOut() {
-      newState.guild.me.voice.channel.leave();
-    }, 500);
-  }, timeout.timeout); 
-} 
-
-function stop() { 
-  if (t) clearTimeout(t); 
-} 
