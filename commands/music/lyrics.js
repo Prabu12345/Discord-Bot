@@ -77,7 +77,7 @@ module.exports = class LyricsCommand extends Command {
       }
 
       /*let currentPage = 0;
-      const embeds = generateQueueEmbed(generateLyricsEmbed);
+      const embeds = generateLyricsEmbed(lyricsArray, songName);
 
       const queueEmbed = await message.channel.send(
         embeds[currentPage]
@@ -129,7 +129,7 @@ module.exports = class LyricsCommand extends Command {
       let linkingbutton = new MessageButton().setStyle("url").setLabel("View On Website").setURL()
         
       var buttonarray = [firstbutton, secondbutton, linkingbutton]
-      const embeds = generateLyricsEmbed(lyricsArray)
+      const embeds = generateLyricsEmbed(lyricsArray, songName)
 
       var currentPage = 0;
       sentMessage.delete();
@@ -172,7 +172,7 @@ module.exports = class LyricsCommand extends Command {
   };
 }
 
-function generateLyricsEmbed(lyrics) {
+function generateLyricsEmbed(lyrics, args) {
   let embeds = [];
   let k = 1;
 
@@ -183,7 +183,7 @@ function generateLyricsEmbed(lyrics) {
 
     const info = current.map((e) => `${e}`);
     const embed = new MessageEmbed()
-    .setTitle(`🎶 Lyrics for ${songName} ${++j/lyrics.length}`)
+    .setTitle(`🎶 Lyrics for ${args} ${++j/lyrics.length}`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
     .setFooter(`Provided by genius.com`)
