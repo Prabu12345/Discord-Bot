@@ -82,7 +82,7 @@ module.exports = class LyricsCommand extends Command {
       //let linkingbutton = new MessageButton().setStyle("url").setLabel("JUMP TO OVERVIEW").setURL("http://milrato.eu")
         
       var buttonarray = [firstbutton, secondbutton]
-      const embeds = generateLyricsEmbed(message, invData[0].inventory)
+      const embeds = generateLyricsEmbed(message, lyricsArray)
 
       var currentPage = 0;
       sentMessage.delete();
@@ -118,8 +118,8 @@ module.exports = class LyricsCommand extends Command {
       });
     } catch (error) {
       console.error(error);
-      return interaction.followUp(
-        'Something went wrong! Please try again later'
+      return message.channel.send(
+        ':x: Something went wrong! Please try again later'
       );
     }
   };
