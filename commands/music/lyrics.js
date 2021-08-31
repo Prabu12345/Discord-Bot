@@ -66,14 +66,22 @@ module.exports = class LyricsCommand extends Command {
       const songPageURL = await getSongPageURL(url);
       const lyrics = await getLyrics(songPageURL);
 
-      const lyricsIndex = Math.round(lyrics.length / 4096) + 1;
-      const lyricsArray = [];
+      let zenbu = []
 
-      for (let i = 1; i <= lyricsIndex; ++i) {
-        let b = i - 1;
-        if (lyrics.trim().slice(b * 4096, i * 4096).length !== 0) {
-          lyricsArray.push(lyrics.slice(b * 4096, i * 4096));
-        }
+      if (lyrics.length > 4096) {
+        let pg1 = lyrics.slice(0, 2048)
+        let pg2 = lyrics.slice(2049, 4096) 
+        let pg3 = lyrics.slice(4096, lyrics.length) 
+        zenbu.push(pg1)
+        zenbu.push(pg2)
+        zenbu.push(pg3)
+      } else if (lyrics.length > 2048 && lyrics.length < 4096) {
+        let pg1 = lyrics.slice(0, 2048)
+        let pg2 = lyrics.slice(2049, 4096) 
+        zenbu.push(pg1)
+        zenbu.push(pg2)
+      } else {
+        zenbu.push(lyrics)
       }
 
       let firstbutton = new MessageButton().setStyle("green").setID("1").setLabel("<")
@@ -81,7 +89,7 @@ module.exports = class LyricsCommand extends Command {
       let linkingbutton = new MessageButton().setStyle("url").setLabel("View On Website").setURL()
         
       var buttonarray = [firstbutton, secondbutton, linkingbutton]
-      const embeds = await generateLyricsEmbed(message, lyricsArray)
+      const embeds = await generateLyricsEmbed(message, zenbu)
 
       var currentPage = 0;
       sentMessage.delete();
