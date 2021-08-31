@@ -76,8 +76,8 @@ module.exports = class LyricsCommand extends Command {
         }
       }
 
-      let currentPage = 0;
-      const embeds = generateQueueEmbed(message, lyricsArray);
+      /*let currentPage = 0;
+      const embeds = generateQueueEmbed(generateLyricsEmbed);
 
       const queueEmbed = await message.channel.send(
         embeds[currentPage]
@@ -122,18 +122,18 @@ module.exports = class LyricsCommand extends Command {
       collector.on("end", (reaction, user) => { 
         queueEmbed.reactions.removeAll();
       });
-      return;
+      return;*/
 
-      /*let firstbutton = new MessageButton().setStyle("green").setID("1").setLabel("<")
+      let firstbutton = new MessageButton().setStyle("green").setID("1").setLabel("<")
       let secondbutton = new MessageButton().setStyle("green").setID("2").setLabel(">")
       let linkingbutton = new MessageButton().setStyle("url").setLabel("View On Website").setURL()
         
       var buttonarray = [firstbutton, secondbutton, linkingbutton]
-      const embeds = await generateLyricsEmbed(message, zenbu)
+      const embeds = generateLyricsEmbed(zenbu)
 
       var currentPage = 0;
       sentMessage.delete();
-      let mybuttonsmsg = await message.channel.send(`asdas`, { embed: embeds[currentPage], buttons: buttonarray })
+      let mybuttonsmsg = await message.channel.send(``, { embed: embeds[currentPage], buttons: buttonarray })
       var embedsarray = embeds
 
       const collector = mybuttonsmsg.createButtonCollector((button)=> button.clicker.user.id === message.author.id, {time: 60e3});
@@ -162,7 +162,7 @@ module.exports = class LyricsCommand extends Command {
 
       collector.on("end", async b  => { 
         mybuttonsmsg.edit(``, { embed: embedsarray[currentPage], buttons: null })
-      });*/
+      });
     } catch (error) {
       console.error(error);
       return message.channel.send(
@@ -172,7 +172,7 @@ module.exports = class LyricsCommand extends Command {
   };
 }
 
-async function generateLyricsEmbed(lyrics) {
+function generateLyricsEmbed(lyrics) {
   let embeds = [];
   let k = 1;
 
