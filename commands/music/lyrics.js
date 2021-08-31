@@ -93,7 +93,7 @@ module.exports = class LyricsCommand extends Command {
 
       var currentPage = 0;
       sentMessage.delete();
-      let mybuttonsmsg = await message.channel.send(``, { embed: embeds[currentPage], buttons: buttonarray })
+      let mybuttonsmsg = await message.channel.send(`asdas`, { embed: embeds[currentPage], buttons: buttonarray })
       var embedsarray = embeds
 
       const collector = mybuttonsmsg.createButtonCollector((button)=> button.clicker.user.id === message.author.id, {time: 60e3});
