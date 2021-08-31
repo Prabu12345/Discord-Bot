@@ -183,7 +183,7 @@ function generateLyricsEmbed(lyrics, args) {
 
     const info = current.map((e) => `${e}`);
     const embed = new MessageEmbed()
-    .setTitle(`🎶 Lyrics for ${args} ${++j/lyrics.length}`)
+    .setTitle(`🎶 Lyrics for ${args} ${++j}/${lyrics.length}`)
     .setColor(normalcolor)
     .setDescription(`${info}`)
     .setFooter(`Provided by genius.com`)
