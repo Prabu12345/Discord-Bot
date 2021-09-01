@@ -76,6 +76,8 @@ module.exports = class LyricsCommand extends Command {
         }
       }
 
+      sentMessage.delete();
+
       let currentPage = 0;
       const embeds = generateLyricsEmbed(lyricsArray, songName);
 
@@ -165,9 +167,7 @@ module.exports = class LyricsCommand extends Command {
       });*/
     } catch (error) {
       console.error(error);
-      return message.channel.send(
-        ':x: Something went wrong! Please try again later'
-      );
+      return message.channel.send(error);
     }
   };
 }
