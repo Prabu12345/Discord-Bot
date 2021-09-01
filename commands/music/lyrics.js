@@ -167,6 +167,7 @@ module.exports = class LyricsCommand extends Command {
       });*/
     } catch (error) {
       console.error(error);
+      sentMessage.delete();
       return message.channel.send(error);
     }
   };
