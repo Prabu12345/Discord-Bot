@@ -19,7 +19,7 @@ module.exports = class AnimegifCommand extends Command {
     });
   }
 
-  run(message) {
+  async run(message) {
     const neko = new nekos();
     let randomHentaiGif = await neko.nsfw.randomHentaiGif();
     if (!message.channel.nsfw) { 
