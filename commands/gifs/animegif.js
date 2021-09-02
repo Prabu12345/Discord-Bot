@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const { tenorAPI } = require('../../config.json');
+const { normalcolor, errorcolor } = require('../../config.json')
 const { Command } = require('discord.js-commando');
 const nekos = require('nekos.life');
 const { MessageEmbed } = require('discord.js');
