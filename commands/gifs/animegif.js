@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const { tenorAPI } = require('../../config.json');
 const { Command } = require('discord.js-commando');
+const nekos = require('nekos.life');
 
 module.exports = class AnimegifCommand extends Command {
   constructor(client) {
@@ -19,7 +20,10 @@ module.exports = class AnimegifCommand extends Command {
   }
 
   run(message) {
-    fetch(`https://api.tenor.com/v1/random?key=${tenorAPI}&q=anime&limit=1`)
+    const neko = new nekos();
+    let randomHentaiGif = await neko.nsfw.randomHentaiGif();
+    if (!message.channel.nsfw) { 
+      fetch(`https://api.tenor.com/v1/random?key=${tenorAPI}&q=anime&limit=1`)
       .then(res => res.json())
       .then(json => message.say(json.results[0].url))
       .catch(e => {
@@ -27,5 +31,24 @@ module.exports = class AnimegifCommand extends Command {
         // console.error(e);
         return;
       });
+    } else {
+      let total = Math.floor(Math.random() * (150 - 1 + 1)) + 1
+      if (total > 15) {
+        fetch(`https://api.tenor.com/v1/random?key=${tenorAPI}&q=anime&limit=1`)
+        .then(res => res.json())
+        .then(json => message.say(json.results[0].url))
+        .catch(e => {
+          message.say('Failed to find a gif :slight_frown:');
+          // console.error(e);
+          return;
+        });
+      } else {
+        let embed = new MessageEmbed()
+        .setTitle('Animegif')
+        .setImage(randomHentaiGif.url)
+        .setColor(normalcolor);
+        message.channel.send(embed);
+      }
+    }
   }
 };
