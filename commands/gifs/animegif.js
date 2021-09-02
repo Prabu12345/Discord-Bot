@@ -35,7 +35,7 @@ module.exports = class AnimegifCommand extends Command {
       });
     } else {
       let total = Math.floor(Math.random() * (150 - 1 + 1)) + 1
-      if (total > 5) {
+      if (total > 10) {
         fetch(`https://api.tenor.com/v1/random?key=${tenorAPI}&q=anime&limit=1`)
         .then(res => res.json())
         .then(json => message.say(json.results[0].url))
