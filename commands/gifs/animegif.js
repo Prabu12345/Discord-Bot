@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const { tenorAPI } = require('../../config.json');
 const { Command } = require('discord.js-commando');
 const nekos = require('nekos.life');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class AnimegifCommand extends Command {
   constructor(client) {
