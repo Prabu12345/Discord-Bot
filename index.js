@@ -141,9 +141,12 @@ client.on('voiceStateUpdate', async (___, newState) => {
     let timeout = await db.get(`${newState.guild.id}.settings`)
     t = setTimeout(() => {
       newState.guild.musicData.loop = 'off';
+      newState.guild.musicData.isPlaying = false;
+      newState.guild.musicData.nowPlaying = null;
+      newState.guild.musicData.songDispatcher = null;
       newState.guild.musicData.seek = 0;
       newState.guild.musicData.pause = false
-      newState.guild.musicData.songDispatcher.end();
+      newState.guild.musicData.songDispatcher.destroy();
       setTimeout(function onTimeOut() {
         newState.guild.me.voice.channel.leave();
       }, 500);
@@ -161,10 +164,13 @@ client.on('voiceStateUpdate', async (___, newState) => {
     newState.member.user.id == client.user.id
   ) {
     newState.guild.musicData.loop = 'off';
+    newState.guild.musicData.isPlaying = false;
+    newState.guild.musicData.nowPlaying = null;
+    newState.guild.musicData.songDispatcher = null;
     newState.guild.musicData.seek = 0;
     newState.guild.musicData.pause = false
     if (newState.guild.musicData.songDispatcher) {
-      newState.guild.musicData.songDispatcher.end();
+      newState.guild.musicData.songDispatcher.destroy();
     }
     return;
   }

@@ -175,7 +175,7 @@ module.exports = class PlayCommand extends Command {
     ) {
       // Getting playlist by url
       const playlist = await spt.getPlaylistByURL(query)
-      if (!playlist) {
+      if (!playlist || playlist.tracks.items.length < 1) {
         const errvideoEmbed = new MessageEmbed()
       .setColor(errorcolor)
       .setDescription(`playlist not found`)
@@ -187,6 +187,9 @@ module.exports = class PlayCommand extends Command {
       var skipcount = 0;
       var i = 0, len = playlist.tracks.items.length;
       while (i < len) {
+        if (!playlist.tracks.items[i].track.artists) {
+          continue;
+        }
         const updatequery = `${playlist.tracks.items[i].track.artists[0].name} - ${playlist.tracks.items[i].track.name}`
         const results = await youtube.search(updatequery, { type: 'video', limit: 1, safeSearch: true }).catch(async function() {
           const errvideoEmbed = new MessageEmbed()
